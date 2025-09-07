@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../models/trip.dart';
 import '../../models/booking.dart';
 import '../../models/attachment.dart';
@@ -362,7 +363,7 @@ class _BookingsTabState extends State<BookingsTab> {
                   child: Icon(
                     _getTypeIcon(booking.type),
                     color: _getTypeColor(booking.type),
-                    size: 20,
+                    size: 24,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -698,7 +699,7 @@ class _BookingsTabState extends State<BookingsTab> {
                                 attachment.isImage ? Iconsax.image :
                                 Iconsax.document,
                                 color: AppTheme.primaryColor,
-                                size: 20,
+                                size: 24,
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -728,7 +729,7 @@ class _BookingsTabState extends State<BookingsTab> {
                                 icon: Icon(
                                   Iconsax.eye,
                                   color: AppTheme.primaryColor,
-                                  size: 18,
+                                  size: 26,
                                 ),
                                 tooltip: AppLocalizations.of(context)!.view,
                               ),
@@ -737,7 +738,7 @@ class _BookingsTabState extends State<BookingsTab> {
                                 icon: Icon(
                                   Iconsax.document_download,
                                   color: AppTheme.secondaryColor,
-                                  size: 18,
+                                  size: 24,
                                 ),
                                 tooltip: AppLocalizations.of(context)!.download,
                               ),
@@ -746,7 +747,7 @@ class _BookingsTabState extends State<BookingsTab> {
                                 icon: Icon(
                                   Iconsax.share,
                                   color: AppTheme.accentColor,
-                                  size: 18,
+                                  size: 24,
                                 ),
                                 tooltip: AppLocalizations.of(context)!.share,
                               ),
@@ -854,23 +855,34 @@ class _BookingsTabState extends State<BookingsTab> {
   Future<void> _downloadAttachment(BookingAttachment attachment) async {
     try {
       final file = File(attachment.filePath);
-      if (await file.exists()) {
-        await Share.shareXFiles(
-          [XFile(attachment.filePath)],
-          subject: 'Download ${attachment.fileName}',
-        );
-      } else {
+      if (!await file.exists()) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('File not found'),
             backgroundColor: AppTheme.error,
           ),
         );
+        return;
       }
+
+      // Use Share.shareXFiles which will allow user to save to Downloads or other apps
+      await Share.shareXFiles(
+        [XFile(attachment.filePath)],
+        subject: 'Save ${attachment.fileName}',
+        text: 'Save this document to your device',
+      );
+
+      // Show confirmation that download/share was initiated
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('File ready to download - choose where to save it'),
+          backgroundColor: AppTheme.success,
+        ),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error downloading file: $e'),
+          content: Text('Error preparing download: $e'),
           backgroundColor: AppTheme.error,
         ),
       );

@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
 import '../models/attachment.dart';
 import '../themes/app_theme.dart';
 import '../l10n/app_localizations.dart';
@@ -53,7 +56,7 @@ class DocumentViewer extends StatelessWidget {
                   attachment.isImage ? Iconsax.image :
                   Iconsax.document,
                   color: AppTheme.primaryColor,
-                  size: 24,
+                  size: 32,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -82,10 +85,20 @@ class DocumentViewer extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
+                      onPressed: () => _downloadAttachment(context),
+                      icon: Icon(
+                        Iconsax.document_download,
+                        color: AppTheme.secondaryColor,
+                        size: 28,
+                      ),
+                      tooltip: AppLocalizations.of(context)!.download,
+                    ),
+                    IconButton(
                       onPressed: () => _shareAttachment(context),
                       icon: Icon(
                         Iconsax.share,
                         color: AppTheme.primaryColor,
+                        size: 28,
                       ),
                       tooltip: AppLocalizations.of(context)!.share,
                     ),
@@ -94,6 +107,7 @@ class DocumentViewer extends StatelessWidget {
                       icon: Icon(
                         Iconsax.close_circle,
                         color: AppTheme.textSecondary,
+                        size: 28,
                       ),
                       tooltip: AppLocalizations.of(context)!.close,
                     ),
@@ -132,7 +146,7 @@ class DocumentViewer extends StatelessWidget {
               children: [
                 Icon(
                   Iconsax.document,
-                  size: 64,
+                  size: 80,
                   color: AppTheme.textSecondary,
                 ),
                 const SizedBox(height: 16),
@@ -157,6 +171,8 @@ class DocumentViewer extends StatelessWidget {
 
         if (attachment.isImage) {
           return _buildImageViewer();
+        } else if (attachment.isPdf) {
+          return _buildPdfViewer();
         } else {
           return _buildDocumentPlaceholder(context);
         }
@@ -179,7 +195,7 @@ class DocumentViewer extends StatelessWidget {
                 children: [
                   Icon(
                     Iconsax.image,
-                    size: 64,
+                    size: 80,
                     color: AppTheme.textSecondary,
                   ),
                   const SizedBox(height: 16),
@@ -199,6 +215,26 @@ class DocumentViewer extends StatelessWidget {
     );
   }
 
+  Widget _buildPdfViewer() {
+    return PDFView(
+      filePath: attachment.filePath,
+      enableSwipe: true,
+      swipeHorizontal: false,
+      autoSpacing: false,
+      pageFling: true,
+      pageSnap: true,
+      defaultPage: 0,
+      fitPolicy: FitPolicy.BOTH,
+      preventLinkNavigation: false,
+      onError: (error) {
+        print('PDF Error: $error');
+      },
+      onPageError: (page, error) {
+        print('PDF Page Error: $page - $error');
+      },
+    );
+  }
+
   Widget _buildDocumentPlaceholder(BuildContext context) {
     return Center(
       child: Padding(
@@ -214,7 +250,7 @@ class DocumentViewer extends StatelessWidget {
               ),
               child: Icon(
                 attachment.isPdf ? Iconsax.document_text : Iconsax.document,
-                size: 48,
+                size: 60,
                 color: AppTheme.primaryColor,
               ),
             ),
@@ -246,24 +282,77 @@ class DocumentViewer extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
-            Container(
-              decoration: AppTheme.glowingButtonDecoration,
-              child: ElevatedButton.icon(
-                onPressed: () => _shareAttachment(context),
-                icon: const Icon(Iconsax.export),
-                label: Text(AppLocalizations.of(context)!.openExternally),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  elevation: 0,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: AppTheme.glowingButtonDecoration,
+                  child: ElevatedButton.icon(
+                    onPressed: () => _openExternally(context),
+                    icon: const Icon(Iconsax.export),
+                    label: Text(AppLocalizations.of(context)!.openExternally),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      elevation: 0,
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(width: 12),
+                ElevatedButton.icon(
+                  onPressed: () => _downloadAttachment(context),
+                  icon: const Icon(Iconsax.document_download),
+                  label: Text(AppLocalizations.of(context)!.download),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.secondaryColor,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _downloadAttachment(BuildContext context) async {
+    try {
+      final file = File(attachment.filePath);
+      if (!await file.exists()) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.fileNotFound),
+            backgroundColor: AppTheme.error,
+          ),
+        );
+        return;
+      }
+
+      // Use Share.shareXFiles which will allow user to save to Downloads or other apps
+      await Share.shareXFiles(
+        [XFile(attachment.filePath)],
+        subject: 'Save ${attachment.fileName}',
+        text: 'Save this document to your device',
+      );
+
+      // Show confirmation that download/share was initiated
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('File ready to download - choose where to save it'),
+          backgroundColor: AppTheme.success,
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error preparing download: $e'),
+          backgroundColor: AppTheme.error,
+        ),
+      );
+    }
   }
 
   Future<void> _shareAttachment(BuildContext context) async {
@@ -289,6 +378,29 @@ class DocumentViewer extends StatelessWidget {
           backgroundColor: AppTheme.error,
         ),
       );
+    }
+  }
+
+  Future<void> _openExternally([BuildContext? ctx]) async {
+    try {
+      final file = File(attachment.filePath);
+      if (await file.exists()) {
+        await _openFile(attachment.filePath);
+      }
+    } catch (e) {
+      // Fallback to sharing if opening externally fails
+      if (ctx != null) {
+        _shareAttachment(ctx);
+      }
+    }
+  }
+
+  Future<void> _openFile(String filePath) async {
+    final uri = Uri.file(filePath);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw Exception('Cannot open file');
     }
   }
 }
