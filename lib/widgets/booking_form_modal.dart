@@ -92,10 +92,23 @@ class _BookingFormModalState extends State<BookingFormModal> {
         allowMultiple: false,
         type: FileType.custom,
         allowedExtensions: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'gif'],
+        withData: true,
+        withReadStream: false,
       );
 
       if (result != null && result.files.isNotEmpty) {
         final file = result.files.first;
+        
+        // Check if file has data
+        if (file.bytes == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Failed to read file data'),
+              backgroundColor: AppTheme.error,
+            ),
+          );
+          return;
+        }
         
         // Check file size (5MB limit)
         if (file.size > 5 * 1024 * 1024) {
@@ -140,9 +153,10 @@ class _BookingFormModalState extends State<BookingFormModal> {
         );
       }
     } catch (e) {
+      print('File picker error: $e'); // Debug print
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to pick file: $e'),
+          content: Text('Failed to pick file: ${e.toString()}'),
           backgroundColor: AppTheme.error,
         ),
       );
