@@ -1,0 +1,446 @@
+{
+  "@@locale": "en",
+  "appTitle": "Tripease",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  
+  "trips": "Trips",
+  "@trips": {
+    "description": "Trips tab title"
+  },
+  
+  "documents": "Documents",
+  "@documents": {
+    "description": "Documents tab title"
+  },
+  
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings tab title"
+  },
+  
+  "quickStats": "Quick Stats",
+  "@quickStats": {
+    "description": "Quick stats card title"
+  },
+  
+  "activeTrips": "Active Trips",
+  "@activeTrips": {
+    "description": "Active trips label"
+  },
+  
+  "pendingTasks": "Pending Tasks",
+  "@pendingTasks": {
+    "description": "Pending tasks label"
+  },
+  
+  "totalBudget": "Total Budget",
+  "@totalBudget": {
+    "description": "Total budget label"
+  },
+  
+  "nextTripStartsIn": "Next trip starts in {days} days",
+  "@nextTripStartsIn": {
+    "description": "Next trip countdown message",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  
+  "yourTrips": "Your Trips",
+  "@yourTrips": {
+    "description": "Your trips section title"
+  },
+  
+  "searchTrips": "Search trips...",
+  "@searchTrips": {
+    "description": "Search trips placeholder"
+  },
+  
+  "daysUntilStart": "Days Until Start",
+  "@daysUntilStart": {
+    "description": "Sort by days until start"
+  },
+  
+  "dateCreated": "Date Created",
+  "@dateCreated": {
+    "description": "Sort by date created"
+  },
+  
+  "alphabetical": "Alphabetical",
+  "@alphabetical": {
+    "description": "Sort alphabetically"
+  },
+  
+  "budget": "Budget",
+  "@budget": {
+    "description": "Budget label"
+  },
+  
+  "tasks": "Tasks",
+  "@tasks": {
+    "description": "Tasks label"
+  },
+  
+  "tripInProgress": "Trip in Progress",
+  "@tripInProgress": {
+    "description": "Trip in progress status"
+  },
+  
+  "startingToday": "Starting Today!",
+  "@startingToday": {
+    "description": "Trip starting today message"
+  },
+  
+  "daysToGo": "{days} days to go",
+  "@daysToGo": {
+    "description": "Days to go message",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  
+  "active": "{count} Active",
+  "@active": {
+    "description": "Active count label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  
+  "searchDocuments": "Search documents...",
+  "@searchDocuments": {
+    "description": "Search documents placeholder"
+  },
+  
+  "personal": "Personal",
+  "@personal": {
+    "description": "Personal documents tab"
+  },
+  
+  "tripRelated": "Trip Related",
+  "@tripRelated": {
+    "description": "Trip related documents tab"
+  },
+  
+  "uploadDocument": "Upload Document",
+  "@uploadDocument": {
+    "description": "Upload document title"
+  },
+  
+  "takePhoto": "Take Photo",
+  "@takePhoto": {
+    "description": "Take photo option"
+  },
+  
+  "captureDocumentWithCamera": "Capture document with camera",
+  "@captureDocumentWithCamera": {
+    "description": "Take photo description"
+  },
+  
+  "chooseFromGallery": "Choose from Gallery",
+  "@chooseFromGallery": {
+    "description": "Choose from gallery option"
+  },
+  
+  "selectFromPhotoLibrary": "Select from photo library",
+  "@selectFromPhotoLibrary": {
+    "description": "Choose from gallery description"
+  },
+  
+  "chooseFile": "Choose File",
+  "@chooseFile": {
+    "description": "Choose file option"
+  },
+  
+  "selectPdfOrOtherFiles": "Select PDF or other files",
+  "@selectPdfOrOtherFiles": {
+    "description": "Choose file description"
+  },
+  
+  "expires": "Expires: {date}",
+  "@expires": {
+    "description": "Document expiry date",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "2024-12-31"
+      }
+    }
+  },
+  
+  "view": "View",
+  "@view": {
+    "description": "View action"
+  },
+  
+  "share": "Share",
+  "@share": {
+    "description": "Share action"
+  },
+  
+  "download": "Download",
+  "@download": {
+    "description": "Download action"
+  },
+  
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete action"
+  },
+  
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile section title"
+  },
+  
+  "preferences": "Preferences",
+  "@preferences": {
+    "description": "Preferences section title"
+  },
+  
+  "darkMode": "Dark Mode",
+  "@darkMode": {
+    "description": "Dark mode setting"
+  },
+  
+  "switchBetweenLightAndDarkTheme": "Switch between light and dark theme",
+  "@switchBetweenLightAndDarkTheme": {
+    "description": "Dark mode description"
+  },
+  
+  "language": "Language",
+  "@language": {
+    "description": "Language setting"
+  },
+  
+  "selectYourPreferredLanguage": "Select your preferred language",
+  "@selectYourPreferredLanguage": {
+    "description": "Language description"
+  },
+  
+  "defaultCurrency": "Default Currency",
+  "@defaultCurrency": {
+    "description": "Default currency setting"
+  },
+  
+  "currencyUsedForNewTrips": "Currency used for new trips",
+  "@currencyUsedForNewTrips": {
+    "description": "Default currency description"
+  },
+  
+  "dateFormat": "Date Format",
+  "@dateFormat": {
+    "description": "Date format setting"
+  },
+  
+  "howDatesAreDisplayed": "How dates are displayed",
+  "@howDatesAreDisplayed": {
+    "description": "Date format description"
+  },
+  
+  "temperatureUnit": "Temperature Unit",
+  "@temperatureUnit": {
+    "description": "Temperature unit setting"
+  },
+  
+  "temperatureScalePreference": "Temperature scale preference",
+  "@temperatureScalePreference": {
+    "description": "Temperature unit description"
+  },
+  
+  "appSettings": "App Settings",
+  "@appSettings": {
+    "description": "App settings section title"
+  },
+  
+  "pushNotifications": "Push Notifications",
+  "@pushNotifications": {
+    "description": "Push notifications setting"
+  },
+  
+  "getRemindersAndUpdates": "Get reminders and updates",
+  "@getRemindersAndUpdates": {
+    "description": "Push notifications description"
+  },
+  
+  "locationServices": "Location Services",
+  "@locationServices": {
+    "description": "Location services setting"
+  },
+  
+  "allowLocationBasedFeatures": "Allow location-based features",
+  "@allowLocationBasedFeatures": {
+    "description": "Location services description"
+  },
+  
+  "backupAndSync": "Backup & Sync",
+  "@backupAndSync": {
+    "description": "Backup and sync setting"
+  },
+  
+  "manageYourDataBackup": "Manage your data backup",
+  "@manageYourDataBackup": {
+    "description": "Backup and sync description"
+  },
+  
+  "importData": "Import Data",
+  "@importData": {
+    "description": "Import data setting"
+  },
+  
+  "importTripsFromOtherApps": "Import trips from other apps",
+  "@importTripsFromOtherApps": {
+    "description": "Import data description"
+  },
+  
+  "exportData": "Export Data",
+  "@exportData": {
+    "description": "Export data setting"
+  },
+  
+  "exportYourTripData": "Export your trip data",
+  "@exportYourTripData": {
+    "description": "Export data description"
+  },
+  
+  "about": "About",
+  "@about": {
+    "description": "About section title"
+  },
+  
+  "appVersion": "App Version",
+  "@appVersion": {
+    "description": "App version setting"
+  },
+  
+  "rateApp": "Rate App",
+  "@rateApp": {
+    "description": "Rate app setting"
+  },
+  
+  "leaveAReviewOnTheAppStore": "Leave a review on the app store",
+  "@leaveAReviewOnTheAppStore": {
+    "description": "Rate app description"
+  },
+  
+  "helpAndSupport": "Help & Support",
+  "@helpAndSupport": {
+    "description": "Help and support setting"
+  },
+  
+  "faqsAndContactInformation": "FAQs and contact information",
+  "@faqsAndContactInformation": {
+    "description": "Help and support description"
+  },
+  
+  "privacyPolicy": "Privacy Policy",
+  "@privacyPolicy": {
+    "description": "Privacy policy setting"
+  },
+  
+  "readOurPrivacyPolicy": "Read our privacy policy",
+  "@readOurPrivacyPolicy": {
+    "description": "Privacy policy description"
+  },
+  
+  "termsOfService": "Terms of Service",
+  "@termsOfService": {
+    "description": "Terms of service setting"
+  },
+  
+  "readOurTermsAndConditions": "Read our terms and conditions",
+  "@readOurTermsAndConditions": {
+    "description": "Terms of service description"
+  },
+  
+  "dangerZone": "Danger Zone",
+  "@dangerZone": {
+    "description": "Danger zone section title"
+  },
+  
+  "clearAllData": "Clear All Data",
+  "@clearAllData": {
+    "description": "Clear all data setting"
+  },
+  
+  "removeAllTripsAndDocuments": "Remove all trips and documents",
+  "@removeAllTripsAndDocuments": {
+    "description": "Clear all data description"
+  },
+  
+  "clearAllDataConfirmation": "This action cannot be undone. All your trips, documents, and settings will be permanently deleted.",
+  "@clearAllDataConfirmation": {
+    "description": "Clear all data confirmation dialog"
+  },
+  
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  
+  "clearAll": "Clear All",
+  "@clearAll": {
+    "description": "Clear all button"
+  },
+  
+  "celsius": "Celsius",
+  "@celsius": {
+    "description": "Celsius temperature unit"
+  },
+  
+  "fahrenheit": "Fahrenheit",
+  "@fahrenheit": {
+    "description": "Fahrenheit temperature unit"
+  },
+  
+  "english": "English",
+  "@english": {
+    "description": "English language"
+  },
+  
+  "mandarin": "中文",
+  "@mandarin": {
+    "description": "Mandarin Chinese language"
+  },
+  
+  "japanese": "日本語",
+  "@japanese": {
+    "description": "Japanese language"
+  },
+  
+  "korean": "한국어",
+  "@korean": {
+    "description": "Korean language"
+  },
+  
+  "spanish": "Español",
+  "@spanish": {
+    "description": "Spanish language"
+  },
+  
+  "french": "Français",
+  "@french": {
+    "description": "French language"
+  },
+  
+  "german": "Deutsch",
+  "@german": {
+    "description": "German language"
+  },
+  
+  "italian": "Italiano",
+  "@italian": {
+    "description": "Italian language"
+  }
+}
