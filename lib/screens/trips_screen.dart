@@ -10,6 +10,7 @@ import '../providers/trip_provider.dart';
 import '../models/trip.dart';
 import '../l10n/app_localizations.dart';
 import 'edit_trip_screen.dart';
+import 'create_trip_screen.dart';
 
 class TripsScreen extends StatefulWidget {
   const TripsScreen({super.key});
@@ -33,6 +34,29 @@ class _TripsScreenState extends State<TripsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Container(
+        decoration: AppTheme.glowingButtonDecoration,
+        child: FloatingActionButton.extended(
+          heroTag: "create_trip_fab",
+          onPressed: () {
+            CreateTripScreen.show(context);
+          },
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          icon: const Icon(
+            Iconsax.add,
+            color: Colors.white,
+          ),
+          label: Text(
+            AppLocalizations.of(context)!.createTrip,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -67,7 +91,7 @@ class _TripsScreenState extends State<TripsScreen> {
               ),
               _buildTripsList(),
               const SliverToBoxAdapter(
-                child: SizedBox(height: 120),
+                child: SizedBox(height: 100),
               ),
             ],
           ),
@@ -242,13 +266,6 @@ class _TripsScreenState extends State<TripsScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/create-trip');
-                    },
-                    icon: const Icon(Iconsax.add),
-                    label: Text(AppLocalizations.of(context)!.createTrip),
-                  ),
                 ],
               ),
             ),

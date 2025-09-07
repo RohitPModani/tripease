@@ -200,7 +200,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       color: Colors.transparent,
       child: Container(
         constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.8,
+          maxHeight: MediaQuery.of(context).size.height * 0.9,
         ),
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.dark

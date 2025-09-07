@@ -16,7 +16,6 @@ import 'providers/expense_provider.dart';
 import 'providers/document_provider.dart';
 import 'themes/app_theme.dart';
 import 'screens/main_screen.dart';
-import 'screens/create_trip_screen.dart';
 import 'screens/trip_detail_screen.dart';
 import 'screens/edit_trip_screen.dart';
 import 'providers/localization_provider.dart';
@@ -90,8 +89,6 @@ class TripeaseApp extends StatelessWidget {
             switch (settings.name) {
               case '/main':
                 return MaterialPageRoute(builder: (_) => const MainScreen());
-              case '/create-trip':
-                return MaterialPageRoute(builder: (_) => const CreateTripScreen());
               case '/trip-detail':
                 final tripId = settings.arguments as String;
                 return MaterialPageRoute(

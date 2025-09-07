@@ -236,12 +236,7 @@ class _TripDetailScreenState extends State<TripDetailScreen>
               onSelected: (value) async {
                 switch (value) {
                   case 'edit':
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditTripScreen(trip: trip),
-                      ),
-                    );
+                    EditTripScreen.show(context, trip);
                     break;
                   case 'delete':
                     _showDeleteConfirmationDialog(trip);

@@ -17,7 +17,6 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   int _currentIndex = 0;
   late AnimationController _animationController;
   late Animation<double> _animation;
-  late AnimationController _fabAnimationController;
 
   final List<IconData> _icons = [
     Iconsax.map_1,
@@ -46,19 +45,13 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
       curve: Curves.easeInOut,
     );
 
-    _fabAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
 
     _animationController.forward();
-    _fabAnimationController.forward();
   }
 
   @override
   void dispose() {
     _animationController.dispose();
-    _fabAnimationController.dispose();
     super.dispose();
   }
 
@@ -94,29 +87,6 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
               );
             },
           ),
-          if (_currentIndex == 0)
-            Positioned(
-              right: 20,
-              bottom: 100,
-              child: ScaleTransition(
-                scale: _fabAnimationController,
-                child: Container(
-                  decoration: AppTheme.glowingButtonDecoration,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/create-trip');
-                    },
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    child: const Icon(
-                      Iconsax.add,
-                      size: 28,
-                      color: AppTheme.textLight,
-                    ),
-                  ),
-                ),
-              ),
-            ),
         ],
       ),
       bottomNavigationBar: Container(
