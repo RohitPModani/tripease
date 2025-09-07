@@ -1086,5 +1086,15 @@
   "unknown": "Unknown",
   "@unknown": {
     "description": "Unknown value placeholder"
+  },
+
+  "biometricAuthentication": "Biometric Authentication",
+  "@biometricAuthentication": {
+    "description": "Biometric authentication setting title"
+  },
+
+  "biometricAuthenticationDescription": "Use fingerprint or face recognition to secure your app",
+  "@biometricAuthenticationDescription": {
+    "description": "Biometric authentication setting description"
   }
 }

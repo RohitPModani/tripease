@@ -1279,6 +1279,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown'**
   String get unknown;
+
+  /// Biometric authentication setting title
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Authentication'**
+  String get biometricAuthentication;
+
+  /// Biometric authentication setting description
+  ///
+  /// In en, this message translates to:
+  /// **'Use fingerprint or face recognition to secure your app'**
+  String get biometricAuthenticationDescription;
 }
 
 class _AppLocalizationsDelegate

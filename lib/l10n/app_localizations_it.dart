@@ -631,4 +631,11 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get unknown => 'Sconosciuto';
+
+  @override
+  String get biometricAuthentication => 'Autenticazione Biometrica';
+
+  @override
+  String get biometricAuthenticationDescription =>
+      'Usa l\'impronta digitale o il riconoscimento facciale per proteggere la tua app';
 }

@@ -16,8 +16,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _isDarkMode = false;
   bool _enableNotifications = true;
   bool _enableLocationServices = true;
-  String _defaultCurrency = 'USD';
-  String _dateFormat = 'MM/DD/YYYY';
+  bool _enableBiometrics = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +45,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 padding: const EdgeInsets.all(16),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    _buildProfileSection(),
-                    const SizedBox(height: 24),
                     _buildPreferencesSection(),
                     const SizedBox(height: 24),
                     _buildAppSection(),
@@ -88,14 +85,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildProfileSection() {
-    return _buildSection(
-      title: AppLocalizations.of(context)!.profile,
-      children: [
-        _buildProfileTile(),
-      ],
-    );
-  }
 
   Widget _buildPreferencesSection() {
     final l10n = AppLocalizations.of(context)!;
@@ -123,27 +112,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _showLanguageSelector(context);
           },
         ),
-        _buildDropdownTile(
-          icon: Iconsax.dollar_circle,
-          title: l10n.defaultCurrency,
-          subtitle: l10n.currencyUsedForNewTrips,
-          value: _defaultCurrency,
-          items: const ['USD', 'EUR', 'GBP', 'JPY', 'INR'],
+        _buildSwitchTile(
+          icon: Iconsax.finger_scan,
+          title: l10n.biometricAuthentication,
+          subtitle: l10n.biometricAuthenticationDescription,
+          value: _enableBiometrics,
           onChanged: (value) {
             setState(() {
-              _defaultCurrency = value!;
-            });
-          },
-        ),
-        _buildDropdownTile(
-          icon: Iconsax.calendar_1,
-          title: l10n.dateFormat,
-          subtitle: l10n.howDatesAreDisplayed,
-          value: _dateFormat,
-          items: const ['MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD'],
-          onChanged: (value) {
-            setState(() {
-              _dateFormat = value!;
+              _enableBiometrics = value;
             });
           },
         ),
@@ -311,30 +287,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildProfileTile() {
-    return ListTile(
-      contentPadding: const EdgeInsets.all(16),
-      leading: CircleAvatar(
-        radius: 24,
-        backgroundColor: AppTheme.primaryColor.withOpacity(0.1),
-        child: const Icon(
-          Iconsax.user,
-          color: AppTheme.primaryColor,
-          size: 24,
-        ),
-      ),
-      title: Text(AppLocalizations.of(context)!.defaultUserName),
-      subtitle: Text(AppLocalizations.of(context)!.defaultUserEmail),
-      trailing: const Icon(
-        Iconsax.edit_2,
-        color: AppTheme.textSecondary,
-        size: 20,
-      ),
-      onTap: () {
-        // TODO: Edit profile
-      },
-    );
-  }
 
   Widget _buildSwitchTile({
     required IconData icon,
@@ -368,42 +320,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildDropdownTile({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required String value,
-    required List<String> items,
-    required ValueChanged<String?> onChanged,
-  }) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      leading: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: AppTheme.primaryColor.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Icon(
-          icon,
-          color: AppTheme.primaryColor,
-          size: 20,
-        ),
-      ),
-      title: Text(title),
-      subtitle: Text(subtitle),
-      trailing: DropdownButton<String>(
-        value: value,
-        onChanged: onChanged,
-        underline: const SizedBox(),
-        items: items.map((item) => DropdownMenuItem(
-          value: item,
-          child: Text(item),
-        )).toList(),
-      ),
-    );
-  }
 
   Widget _buildActionTile({
     required IconData icon,

@@ -639,4 +639,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get unknown => 'Inconnu';
+
+  @override
+  String get biometricAuthentication => 'Authentification Biométrique';
+
+  @override
+  String get biometricAuthenticationDescription =>
+      'Utilisez l\'empreinte digitale ou la reconnaissance faciale pour sécuriser votre application';
 }

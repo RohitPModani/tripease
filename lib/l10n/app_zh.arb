@@ -197,5 +197,7 @@
   "fileSizeMustBeLess": "文件大小必须小于5MB",
   "failedToPickFile": "文件选择失败：{error}",
   "errorSharingFile": "文件分享错误：{error}",
-  "unknown": "未知"
+  "unknown": "未知",
+  "biometricAuthentication": "生物识别认证",
+  "biometricAuthenticationDescription": "使用指纹或面部识别来保护您的应用"
 }

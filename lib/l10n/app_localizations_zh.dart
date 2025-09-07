@@ -621,4 +621,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get unknown => '未知';
+
+  @override
+  String get biometricAuthentication => '生物识别认证';
+
+  @override
+  String get biometricAuthenticationDescription => '使用指纹或面部识别来保护您的应用';
 }

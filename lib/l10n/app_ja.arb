@@ -197,5 +197,7 @@
   "fileSizeMustBeLess": "ファイルサイズは5MB未満である必要があります",
   "failedToPickFile": "ファイルの選択に失敗しました：{error}",
   "errorSharingFile": "ファイルの共有エラー：{error}",
-  "unknown": "不明"
+  "unknown": "不明",
+  "biometricAuthentication": "生体認証",
+  "biometricAuthenticationDescription": "指紋または顔認識を使用してアプリのセキュリティを強化"
 }

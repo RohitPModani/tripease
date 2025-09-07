@@ -197,5 +197,7 @@
   "fileSizeMustBeLess": "파일 크기는 5MB 미만이어야 합니다",
   "failedToPickFile": "파일 선택 실패: {error}",
   "errorSharingFile": "파일 공유 오류: {error}",
-  "unknown": "알 수 없음"
+  "unknown": "알 수 없음",
+  "biometricAuthentication": "생체 인증",
+  "biometricAuthenticationDescription": "지문이나 얼굴 인식을 사용하여 앱을 보호하세요"
 }

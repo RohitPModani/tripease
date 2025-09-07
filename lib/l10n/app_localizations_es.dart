@@ -635,4 +635,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get unknown => 'Desconocido';
+
+  @override
+  String get biometricAuthentication => 'Autenticación Biométrica';
+
+  @override
+  String get biometricAuthenticationDescription =>
+      'Usa huella dactilar o reconocimiento facial para proteger tu aplicación';
 }

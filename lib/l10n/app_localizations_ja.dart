@@ -622,4 +622,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get unknown => '不明';
+
+  @override
+  String get biometricAuthentication => '生体認証';
+
+  @override
+  String get biometricAuthenticationDescription => '指紋または顔認識を使用してアプリのセキュリティを強化';
 }

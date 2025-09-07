@@ -623,4 +623,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get unknown => '알 수 없음';
+
+  @override
+  String get biometricAuthentication => '생체 인증';
+
+  @override
+  String get biometricAuthenticationDescription => '지문이나 얼굴 인식을 사용하여 앱을 보호하세요';
 }

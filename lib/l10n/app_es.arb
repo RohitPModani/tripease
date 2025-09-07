@@ -196,5 +196,7 @@
   "fileSizeMustBeLess": "El tamaño del archivo debe ser menor a 5MB",
   "failedToPickFile": "Error al seleccionar archivo: {error}",
   "errorSharingFile": "Error al compartir archivo: {error}",
-  "unknown": "Desconocido"
+  "unknown": "Desconocido",
+  "biometricAuthentication": "Autenticación Biométrica",
+  "biometricAuthenticationDescription": "Usa huella dactilar o reconocimiento facial para proteger tu aplicación"
 }

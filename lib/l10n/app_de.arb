@@ -196,5 +196,7 @@
   "fileSizeMustBeLess": "Dateigröße muss weniger als 5MB sein",
   "failedToPickFile": "Fehler beim Datei auswählen: {error}",
   "errorSharingFile": "Fehler beim Teilen der Datei: {error}",
-  "unknown": "Unbekannt"
+  "unknown": "Unbekannt",
+  "biometricAuthentication": "Biometrische Authentifizierung",
+  "biometricAuthenticationDescription": "Verwenden Sie Fingerabdruck oder Gesichtserkennung, um Ihre App zu sichern"
 }
