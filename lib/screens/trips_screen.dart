@@ -101,11 +101,12 @@ class _TripsScreenState extends State<TripsScreen> {
   }
 
   Widget _buildAppBar(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SliverAppBar(
       expandedHeight: 80,
       floating: true,
-      pinned: false,
-      backgroundColor: Colors.transparent,
+      pinned: true,
+      backgroundColor: isDark ? AppTheme.backgroundDark : AppTheme.backgroundLight,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
         title: Text(
@@ -119,24 +120,6 @@ class _TripsScreenState extends State<TripsScreen> {
           ),
         ),
       ),
-      actions: [
-        Container(
-          margin: const EdgeInsets.only(right: 16),
-          decoration: BoxDecoration(
-            color: AppTheme.primaryColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: IconButton(
-            onPressed: () {
-              // TODO: Implement notifications
-            },
-            icon: const Icon(
-              Iconsax.notification,
-              color: AppTheme.primaryColor,
-            ),
-          ),
-        ),
-      ],
     );
   }
 

@@ -11,7 +11,8 @@ class DocumentsScreen extends StatefulWidget {
   State<DocumentsScreen> createState() => _DocumentsScreenState();
 }
 
-class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderStateMixin {
+class _DocumentsScreenState extends State<DocumentsScreen>
+    with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -45,18 +46,23 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
           ),
         ),
         child: SafeArea(
-          child: Column(
-            children: [
+          child: CustomScrollView(
+            slivers: [
               _buildAppBar(),
-              _buildSearchBar(),
-              _buildTabBar(),
-              Expanded(
+              SliverPadding(
+                padding: const EdgeInsets.all(16),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    _buildSearchBar(),
+                    const SizedBox(height: 16),
+                    _buildTabBar(),
+                  ]),
+                ),
+              ),
+              SliverFillRemaining(
                 child: TabBarView(
                   controller: _tabController,
-                  children: [
-                    _buildPersonalDocuments(),
-                    _buildTripDocuments(),
-                  ],
+                  children: [_buildPersonalDocuments(), _buildTripDocuments()],
                 ),
               ),
             ],
@@ -82,69 +88,70 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
   }
 
   Widget _buildAppBar() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          Text(
-            'Documents',
-            style: Theme.of(context).textTheme.displayMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-              foreground: Paint()
-                ..shader = AppTheme.primaryGradient.createShader(
-                  const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
-                ),
-            ),
-          ),
-          const Spacer(),
-          Container(
-            decoration: BoxDecoration(
-              color: AppTheme.primaryColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: IconButton(
-              onPressed: () {
-                // TODO: Implement document scanner
-              },
-              icon: const Icon(
-                Iconsax.scan,
-                color: AppTheme.primaryColor,
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return SliverAppBar(
+      expandedHeight: 80,
+      floating: true,
+      pinned: true,
+      backgroundColor: isDark
+          ? AppTheme.backgroundDark
+          : AppTheme.backgroundLight,
+      flexibleSpace: FlexibleSpaceBar(
+        titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
+        title: Text(
+          'Documents',
+          style: Theme.of(context).textTheme.displayMedium?.copyWith(
+            fontWeight: FontWeight.w700,
+            foreground: Paint()
+              ..shader = AppTheme.primaryGradient.createShader(
+                const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
               ),
-            ),
           ),
-        ],
+        ),
       ),
+      actions: [
+        Container(
+          margin: const EdgeInsets.only(right: 16),
+          decoration: BoxDecoration(
+            color: AppTheme.primaryColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: IconButton(
+            onPressed: () {
+              // TODO: Implement document scanner
+            },
+            icon: const Icon(Iconsax.scan, color: AppTheme.primaryColor),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildSearchBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? AppTheme.surfaceDark
-              : AppTheme.surfaceLight,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: AppTheme.primaryColor.withOpacity(0.1),
-              offset: const Offset(0, 4),
-              blurRadius: 12,
-              spreadRadius: 0,
-            ),
-          ],
-        ),
-        child: TextField(
-          onChanged: (value) {
-            // TODO: Implement search filtering
-          },
-          decoration: InputDecoration(
-            hintText: AppLocalizations.of(context)!.searchDocuments,
-            prefixIcon: const Icon(Iconsax.search_normal_1),
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.all(16),
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.surfaceDark
+            : AppTheme.surfaceLight,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.primaryColor.withOpacity(0.1),
+            offset: const Offset(0, 4),
+            blurRadius: 12,
+            spreadRadius: 0,
           ),
+        ],
+      ),
+      child: TextField(
+        onChanged: (value) {
+          // TODO: Implement search filtering
+        },
+        decoration: InputDecoration(
+          hintText: AppLocalizations.of(context)!.searchDocuments,
+          prefixIcon: const Icon(Iconsax.search_normal_1),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.all(16),
         ),
       ),
     );
@@ -152,7 +159,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
 
   Widget _buildTabBar() {
     return Container(
-      margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark
             ? AppTheme.surfaceDark
@@ -168,9 +174,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
         dividerColor: Colors.transparent,
         labelColor: AppTheme.textLight,
         unselectedLabelColor: AppTheme.textSecondary,
-        labelStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
-          fontWeight: FontWeight.w600,
-        ),
+        labelStyle: Theme.of(
+          context,
+        ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
         tabs: [
           Tab(text: AppLocalizations.of(context)!.personal),
           Tab(text: AppLocalizations.of(context)!.tripRelated),
@@ -224,7 +230,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
   Widget _buildDocumentCard(Map<String, dynamic> document) {
     final isExpiring = document['isExpiring'] ?? false;
     final isExpired = document['isExpired'] ?? false;
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: Theme.of(context).brightness == Brightness.dark
@@ -245,7 +251,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: _getDocumentTypeColor(document['type']).withOpacity(0.1),
+                    color: _getDocumentTypeColor(
+                      document['type'],
+                    ).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
@@ -295,16 +303,23 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
                             Icon(
                               Iconsax.calendar,
                               size: 12,
-                              color: isExpired ? AppTheme.error : 
-                                     isExpiring ? AppTheme.warning : AppTheme.textSecondary,
+                              color: isExpired
+                                  ? AppTheme.error
+                                  : isExpiring
+                                  ? AppTheme.warning
+                                  : AppTheme.textSecondary,
                             ),
                             const SizedBox(width: 4),
                             Text(
                               'Expires: ${document['expiryDate']}',
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: isExpired ? AppTheme.error : 
-                                       isExpiring ? AppTheme.warning : AppTheme.textSecondary,
-                              ),
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    color: isExpired
+                                        ? AppTheme.error
+                                        : isExpiring
+                                        ? AppTheme.warning
+                                        : AppTheme.textSecondary,
+                                  ),
                             ),
                           ],
                         ),
@@ -313,10 +328,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
                   ),
                 ),
                 PopupMenuButton<String>(
-                  icon: Icon(
-                    Iconsax.more,
-                    color: AppTheme.textSecondary,
-                  ),
+                  icon: Icon(Iconsax.more, color: AppTheme.textSecondary),
                   onSelected: (value) {
                     switch (value) {
                       case 'view':
@@ -336,7 +348,10 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
                   itemBuilder: (context) => [
                     const PopupMenuItem(value: 'view', child: Text('View')),
                     const PopupMenuItem(value: 'share', child: Text('Share')),
-                    const PopupMenuItem(value: 'download', child: Text('Download')),
+                    const PopupMenuItem(
+                      value: 'download',
+                      child: Text('Download'),
+                    ),
                     const PopupMenuItem(value: 'delete', child: Text('Delete')),
                   ],
                 ),
@@ -443,11 +458,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
                     color: AppTheme.primaryColor.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(
-                    icon,
-                    color: AppTheme.primaryColor,
-                    size: 24,
-                  ),
+                  child: Icon(icon, color: AppTheme.primaryColor, size: 24),
                 ),
                 const SizedBox(width: 16),
                 Expanded(

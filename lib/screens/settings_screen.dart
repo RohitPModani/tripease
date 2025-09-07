@@ -64,11 +64,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildAppBar() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SliverAppBar(
       expandedHeight: 80,
       floating: true,
-      pinned: false,
-      backgroundColor: Colors.transparent,
+      pinned: true,
+      backgroundColor: isDark ? AppTheme.backgroundDark : AppTheme.backgroundLight,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
         title: Text(
