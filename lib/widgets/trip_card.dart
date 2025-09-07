@@ -24,9 +24,24 @@ class TripCard extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
     return Container(
-      decoration: isDark
-          ? AppTheme.pixieCardDecorationDark
-          : AppTheme.pixieCardDecoration,
+      decoration: BoxDecoration(
+        gradient: isDark ? AppTheme.darkCardGradient : AppTheme.cardGradient,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: _getBorderColor(isDark),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: isDark 
+                ? Colors.black.withOpacity(0.3)
+                : AppTheme.primaryColor.withOpacity(0.1),
+            offset: const Offset(0, 8),
+            blurRadius: 24,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -42,7 +57,7 @@ class TripCard extends StatelessWidget {
                 _buildDestinations(context),
                 const SizedBox(height: 16),
                 _buildDateRange(context),
-                if (trip.isActive || trip.daysUntilStart <= 7) ...[
+                if (trip.isActive || trip.daysUntilStart > 0 || trip.isCompleted) ...[
                   const SizedBox(height: 12),
                   _buildStatusBadge(context),
                 ],
@@ -268,7 +283,33 @@ class TripCard extends StatelessWidget {
           ],
         ),
       );
-    } else if (trip.daysUntilStart <= 7) {
+    } else if (trip.isCompleted) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: AppTheme.textSecondary.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Iconsax.tick_circle,
+              color: AppTheme.textSecondary,
+              size: 12,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              'Completed',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: AppTheme.textSecondary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else if (trip.daysUntilStart > 0) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
@@ -299,6 +340,22 @@ class TripCard extends StatelessWidget {
     }
     
     return const SizedBox.shrink();
+  }
+
+  Color _getBorderColor(bool isDark) {
+    if (trip.isActive) {
+      // Active trips - green border
+      return AppTheme.success.withOpacity(isDark ? 0.6 : 0.4);
+    } else if (trip.isCompleted) {
+      // Completed trips - gray border
+      return AppTheme.textSecondary.withOpacity(isDark ? 0.4 : 0.3);
+    } else if (trip.daysUntilStart <= 7) {
+      // Upcoming trips (within 7 days) - accent color border
+      return AppTheme.accentColor.withOpacity(isDark ? 0.6 : 0.4);
+    } else {
+      // Other upcoming trips - primary color border
+      return AppTheme.primaryColor.withOpacity(isDark ? 0.4 : 0.3);
+    }
   }
 
   String getCurrencySymbol(String currency) {

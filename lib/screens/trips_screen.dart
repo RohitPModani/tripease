@@ -3,8 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import '../themes/app_theme.dart';
-import '../widgets/quick_stats_card.dart';
-import '../widgets/search_filter_bar.dart';
+import '../widgets/search_bar.dart';
 import '../widgets/trip_card.dart';
 import '../providers/trip_provider.dart';
 import '../models/trip.dart';
@@ -19,9 +18,11 @@ class TripsScreen extends StatefulWidget {
   State<TripsScreen> createState() => _TripsScreenState();
 }
 
+enum TripFilter { all, upcoming, active, completed }
+
 class _TripsScreenState extends State<TripsScreen> {
   String _searchQuery = '';
-  String _sortBy = 'daysUntilStart';
+  TripFilter _selectedFilter = TripFilter.all;
 
   @override
   void initState() {
@@ -73,27 +74,32 @@ class _TripsScreenState extends State<TripsScreen> {
           ),
         ),
         child: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              _buildAppBar(context),
-              SliverPadding(
-                padding: const EdgeInsets.all(16),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate([
-                    _buildQuickStats(),
-                    const SizedBox(height: 24),
-                    _buildSearchAndFilter(),
-                    const SizedBox(height: 24),
-                    _buildYourTripsHeader(),
-                    const SizedBox(height: 16),
-                  ]),
+          child: GestureDetector(
+            onTap: () {
+              // Unfocus search bar when tapping outside
+              FocusScope.of(context).unfocus();
+            },
+            child: CustomScrollView(
+              slivers: [
+                _buildAppBar(context),
+                SliverPadding(
+                  padding: const EdgeInsets.all(16),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate([
+                      _buildSearchBar(),
+                      const SizedBox(height: 16),
+                      _buildFilterChips(),
+                      const SizedBox(height: 24),
+                      _buildYourTripsHeader(),
+                    ]),
+                  ),
                 ),
-              ),
-              _buildTripsList(),
-              const SliverToBoxAdapter(
-                child: SizedBox(height: 100),
-              ),
-            ],
+                _buildTripsList(),
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: 100),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -123,23 +129,96 @@ class _TripsScreenState extends State<TripsScreen> {
     );
   }
 
-  Widget _buildQuickStats() {
-    return const QuickStatsCard();
-  }
 
-  Widget _buildSearchAndFilter() {
-    return SearchFilterBar(
+  Widget _buildSearchBar() {
+    return CustomSearchBar(
       searchQuery: _searchQuery,
-      sortBy: _sortBy,
       onSearchChanged: (query) {
         setState(() {
           _searchQuery = query;
         });
       },
-      onSortChanged: (sort) {
-        setState(() {
-          _sortBy = sort;
-        });
+    );
+  }
+
+  Widget _buildFilterChips() {
+    return Consumer<TripProvider>(
+      builder: (context, tripProvider, child) {
+        final trips = tripProvider.trips;
+        final upcomingTrips = trips.where((trip) => trip.daysUntilStart > 0).length;
+        final activeTrips = trips.where((trip) => trip.isActive).length;
+        final completedTrips = trips.where((trip) => trip.isCompleted).length;
+
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+              children: [
+                FilterChip(
+                  label: Text('All (${trips.length})'),
+                  selected: _selectedFilter == TripFilter.all,
+                  onSelected: (selected) {
+                    setState(() {
+                      _selectedFilter = TripFilter.all;
+                    });
+                  },
+                  selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                  checkmarkColor: AppTheme.primaryColor,
+                  labelStyle: TextStyle(
+                    color: _selectedFilter == TripFilter.all ? AppTheme.primaryColor : null,
+                    fontWeight: _selectedFilter == TripFilter.all ? FontWeight.w600 : FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                FilterChip(
+                  label: Text('Upcoming ($upcomingTrips)'),
+                  selected: _selectedFilter == TripFilter.upcoming,
+                  onSelected: (selected) {
+                    setState(() {
+                      _selectedFilter = TripFilter.upcoming;
+                    });
+                  },
+                  selectedColor: AppTheme.accentColor.withOpacity(0.2),
+                  checkmarkColor: AppTheme.accentColor,
+                  labelStyle: TextStyle(
+                    color: _selectedFilter == TripFilter.upcoming ? AppTheme.accentColor : null,
+                    fontWeight: _selectedFilter == TripFilter.upcoming ? FontWeight.w600 : FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                FilterChip(
+                  label: Text('Active ($activeTrips)'),
+                  selected: _selectedFilter == TripFilter.active,
+                  onSelected: (selected) {
+                    setState(() {
+                      _selectedFilter = TripFilter.active;
+                    });
+                  },
+                  selectedColor: AppTheme.success.withOpacity(0.2),
+                  checkmarkColor: AppTheme.success,
+                  labelStyle: TextStyle(
+                    color: _selectedFilter == TripFilter.active ? AppTheme.success : null,
+                    fontWeight: _selectedFilter == TripFilter.active ? FontWeight.w600 : FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                FilterChip(
+                  label: Text('Completed ($completedTrips)'),
+                  selected: _selectedFilter == TripFilter.completed,
+                  onSelected: (selected) {
+                    setState(() {
+                      _selectedFilter = TripFilter.completed;
+                    });
+                  },
+                  selectedColor: AppTheme.textSecondary.withOpacity(0.2),
+                  checkmarkColor: AppTheme.textSecondary,
+                  labelStyle: TextStyle(
+                    color: _selectedFilter == TripFilter.completed ? AppTheme.textSecondary : null,
+                    fontWeight: _selectedFilter == TripFilter.completed ? FontWeight.w600 : FontWeight.w400,
+                  ),
+                ),
+              ],
+          ),
+        );
       },
     );
   }
@@ -301,6 +380,22 @@ class _TripsScreenState extends State<TripsScreen> {
   List<Trip> _getFilteredTrips(List<Trip> trips) {
     List<Trip> filteredTrips = trips;
 
+    // Filter by trip status
+    switch (_selectedFilter) {
+      case TripFilter.all:
+        // Show all trips
+        break;
+      case TripFilter.upcoming:
+        filteredTrips = filteredTrips.where((trip) => trip.daysUntilStart > 0).toList();
+        break;
+      case TripFilter.active:
+        filteredTrips = filteredTrips.where((trip) => trip.isActive).toList();
+        break;
+      case TripFilter.completed:
+        filteredTrips = filteredTrips.where((trip) => trip.isCompleted).toList();
+        break;
+    }
+
     // Filter by search query
     if (_searchQuery.isNotEmpty) {
       filteredTrips = filteredTrips.where((trip) {
@@ -309,18 +404,29 @@ class _TripsScreenState extends State<TripsScreen> {
       }).toList();
     }
 
-    // Sort trips
-    switch (_sortBy) {
-      case 'daysUntilStart':
-        filteredTrips.sort((a, b) => a.daysUntilStart.compareTo(b.daysUntilStart));
-        break;
-      case 'title':
-        filteredTrips.sort((a, b) => a.title.compareTo(b.title));
-        break;
-      case 'startDate':
-        filteredTrips.sort((a, b) => a.startDate.compareTo(b.startDate));
-        break;
-    }
+    // Sort trips: Active first, then upcoming by days remaining, then completed last
+    filteredTrips.sort((a, b) {
+      // Active trips first
+      if (a.isActive && !b.isActive) return -1;
+      if (!a.isActive && b.isActive) return 1;
+      
+      // If both are active, sort by days until start
+      if (a.isActive && b.isActive) {
+        return a.daysUntilStart.compareTo(b.daysUntilStart);
+      }
+      
+      // Completed trips last
+      if (a.isCompleted && !b.isCompleted) return 1;
+      if (!a.isCompleted && b.isCompleted) return -1;
+      
+      // If both are completed, sort by end date (most recent first)
+      if (a.isCompleted && b.isCompleted) {
+        return b.endDate.compareTo(a.endDate);
+      }
+      
+      // For upcoming trips, sort by days until start (soonest first)
+      return a.daysUntilStart.compareTo(b.daysUntilStart);
+    });
 
     return filteredTrips;
   }
