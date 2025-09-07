@@ -2,41 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-import '../models/todo_item.dart';
+import '../models/expense.dart';
 import '../themes/app_theme.dart';
-import '../providers/todo_provider.dart';
+import '../providers/expense_provider.dart';
 
-class TodoFormModal extends StatelessWidget {
+class ExpenseFormModal extends StatelessWidget {
   final String tripId;
-  final TodoItem? todo;
+  final String defaultCurrency;
+  final Expense? expense;
 
-  const TodoFormModal({
+  const ExpenseFormModal({
     super.key,
     required this.tripId,
-    this.todo,
+    required this.defaultCurrency,
+    this.expense,
   });
 
-  static void show(BuildContext context, String tripId, {TodoItem? todo}) {
+  static void show(
+    BuildContext context,
+    String tripId,
+    String defaultCurrency, {
+    Expense? expense,
+  }) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => TodoFormModal(
+      builder: (context) => ExpenseFormModal(
         tripId: tripId,
-        todo: todo,
+        defaultCurrency: defaultCurrency,
+        expense: expense,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final isEdit = todo != null;
-    final titleController = TextEditingController(text: todo?.title ?? '');
-    final descriptionController = TextEditingController(text: todo?.description ?? '');
-    Priority selectedPriority = todo?.priority ?? Priority.medium;
-    DateTime? selectedDueDate = todo?.dueDate;
+    final isEdit = expense != null;
+    final titleController = TextEditingController(text: expense?.title ?? '');
+    final descriptionController = TextEditingController(text: expense?.description ?? '');
+    final amountController = TextEditingController(
+      text: expense?.amount.toString() ?? '',
+    );
+    final paidByController = TextEditingController(text: expense?.paidBy ?? '');
+    
+    ExpenseCategory selectedCategory = expense?.category ?? ExpenseCategory.other;
+    DateTime selectedDate = expense?.date ?? DateTime.now();
 
     return StatefulBuilder(
       builder: (context, setModalState) => Container(
@@ -72,18 +85,18 @@ class TodoFormModal extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: AppTheme.primaryColor.withOpacity(0.1),
+                            color: AppTheme.accentColor.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Icon(
-                            Iconsax.task_square,
-                            color: AppTheme.primaryColor,
+                            Iconsax.dollar_circle,
+                            color: AppTheme.accentColor,
                             size: 20,
                           ),
                         ),
                         const SizedBox(width: 12),
                         Text(
-                          isEdit ? 'Edit Task' : 'Add New Task',
+                          isEdit ? 'Edit Expense' : 'Add New Expense',
                           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -94,7 +107,7 @@ class TodoFormModal extends StatelessWidget {
                     TextFormField(
                       controller: titleController,
                       decoration: InputDecoration(
-                        labelText: 'Task Title',
+                        labelText: 'Expense Title',
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -102,11 +115,65 @@ class TodoFormModal extends StatelessWidget {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
+                          borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
                         ),
                         contentPadding: const EdgeInsets.all(16),
                       ),
                       autofocus: true,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: amountController,
+                      decoration: InputDecoration(
+                        labelText: 'Amount ($defaultCurrency)',
+                        labelStyle: TextStyle(color: AppTheme.textSecondary),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.all(16),
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<ExpenseCategory>(
+                      value: selectedCategory,
+                      decoration: InputDecoration(
+                        labelText: 'Category',
+                        labelStyle: TextStyle(color: AppTheme.textSecondary),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.all(16),
+                      ),
+                      items: ExpenseCategory.values
+                          .map((category) => DropdownMenuItem(
+                                value: category,
+                                child: Row(
+                                  children: [
+                                    Icon(_getCategoryIcon(category), size: 16),
+                                    const SizedBox(width: 8),
+                                    Text(_getCategoryDisplayName(category)),
+                                  ],
+                                ),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        if (value != null) {
+                          setModalState(() {
+                            selectedCategory = value;
+                          });
+                        }
+                      },
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -120,17 +187,17 @@ class TodoFormModal extends StatelessWidget {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
+                          borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
                         ),
                         contentPadding: const EdgeInsets.all(16),
                       ),
-                      maxLines: 3,
+                      maxLines: 2,
                     ),
                     const SizedBox(height: 16),
-                    DropdownButtonFormField<Priority>(
-                      value: selectedPriority,
+                    TextFormField(
+                      controller: paidByController,
                       decoration: InputDecoration(
-                        labelText: 'Priority',
+                        labelText: 'Paid By (Optional)',
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -138,50 +205,24 @@ class TodoFormModal extends StatelessWidget {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
+                          borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
                         ),
                         contentPadding: const EdgeInsets.all(16),
                       ),
-                      items: Priority.values
-                          .map((priority) => DropdownMenuItem(
-                                value: priority,
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 12,
-                                      height: 12,
-                                      decoration: BoxDecoration(
-                                        color: _getPriorityColor(priority),
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(_getPriorityDisplayName(priority)),
-                                  ],
-                                ),
-                              ))
-                          .toList(),
-                      onChanged: (value) {
-                        if (value != null) {
-                          setModalState(() {
-                            selectedPriority = value;
-                          });
-                        }
-                      },
                     ),
                     const SizedBox(height: 16),
                     InkWell(
                       onTap: () async {
                         final date = await showDatePicker(
                           context: context,
-                          initialDate: selectedDueDate ?? DateTime.now(),
+                          initialDate: selectedDate,
                           firstDate: DateTime.now().subtract(const Duration(days: 365)),
-                          lastDate: DateTime.now().add(const Duration(days: 365)),
+                          lastDate: DateTime.now().add(const Duration(days: 30)),
                           builder: (context, child) {
                             return Theme(
                               data: Theme.of(context).copyWith(
                                 colorScheme: Theme.of(context).colorScheme.copyWith(
-                                  primary: AppTheme.primaryColor,
+                                  primary: AppTheme.accentColor,
                                 ),
                               ),
                               child: child!,
@@ -190,7 +231,7 @@ class TodoFormModal extends StatelessWidget {
                         );
                         if (date != null) {
                           setModalState(() {
-                            selectedDueDate = date;
+                            selectedDate = date;
                           });
                         }
                       },
@@ -205,32 +246,15 @@ class TodoFormModal extends StatelessWidget {
                           children: [
                             Icon(
                               Iconsax.calendar_1,
-                              color: AppTheme.primaryColor,
+                              color: AppTheme.accentColor,
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              selectedDueDate == null
-                                  ? 'Set Due Date (Optional)'
-                                  : 'Due: ${selectedDueDate!.day}/${selectedDueDate!.month}/${selectedDueDate!.year}',
+                              'Date: ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
                               style: TextStyle(
-                                color: selectedDueDate == null 
-                                  ? AppTheme.textSecondary 
-                                  : Theme.of(context).textTheme.bodyMedium?.color,
+                                color: Theme.of(context).textTheme.bodyMedium?.color,
                               ),
                             ),
-                            const Spacer(),
-                            if (selectedDueDate != null)
-                              IconButton(
-                                icon: Icon(
-                                  Iconsax.close_circle,
-                                  color: AppTheme.textSecondary,
-                                ),
-                                onPressed: () {
-                                  setModalState(() {
-                                    selectedDueDate = null;
-                                  });
-                                },
-                              ),
                           ],
                         ),
                       ),
@@ -260,35 +284,35 @@ class TodoFormModal extends StatelessWidget {
                             decoration: AppTheme.glowingButtonDecoration,
                             child: ElevatedButton(
                               onPressed: () async {
-                                if (titleController.text.trim().isEmpty) return;
+                                if (titleController.text.trim().isEmpty || 
+                                    amountController.text.trim().isEmpty) return;
 
-                                final todoItem = TodoItem(
-                                  id: todo?.id ?? const Uuid().v4(),
+                                final expenseItem = Expense(
+                                  id: expense?.id ?? const Uuid().v4(),
                                   tripId: tripId,
                                   title: titleController.text.trim(),
+                                  amount: double.tryParse(amountController.text) ?? 0.0,
+                                  category: selectedCategory,
                                   description: descriptionController.text.trim(),
-                                  isCompleted: todo?.isCompleted ?? false,
-                                  priority: selectedPriority,
-                                  dueDate: selectedDueDate,
-                                  assignedTo: todo?.assignedTo ?? '',
-                                  tags: todo?.tags ?? [],
-                                  createdAt: todo?.createdAt ?? DateTime.now(),
+                                  paidBy: paidByController.text.trim(),
+                                  date: selectedDate,
+                                  createdAt: expense?.createdAt ?? DateTime.now(),
                                   updatedAt: DateTime.now(),
                                 );
 
                                 try {
                                   if (isEdit) {
-                                    await Provider.of<TodoProvider>(context, listen: false)
-                                        .updateTodo(todoItem);
+                                    await Provider.of<ExpenseProvider>(context, listen: false)
+                                        .updateExpense(expenseItem);
                                   } else {
-                                    await Provider.of<TodoProvider>(context, listen: false)
-                                        .createTodo(todoItem);
+                                    await Provider.of<ExpenseProvider>(context, listen: false)
+                                        .createExpense(expenseItem);
                                   }
                                   Navigator.pop(context);
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Failed to ${isEdit ? 'update' : 'add'} task: $e'),
+                                      content: Text('Failed to ${isEdit ? 'update' : 'add'} expense: $e'),
                                       backgroundColor: AppTheme.error,
                                     ),
                                   );
@@ -303,7 +327,7 @@ class TodoFormModal extends StatelessWidget {
                                 ),
                               ),
                               child: Text(
-                                isEdit ? 'Update Task' : 'Add Task',
+                                isEdit ? 'Update Expense' : 'Add Expense',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -325,29 +349,37 @@ class TodoFormModal extends StatelessWidget {
     );
   }
 
-  Color _getPriorityColor(Priority priority) {
-    switch (priority) {
-      case Priority.urgent:
-        return AppTheme.error;
-      case Priority.high:
-        return AppTheme.warning;
-      case Priority.medium:
-        return AppTheme.accentColor;
-      case Priority.low:
-        return AppTheme.success;
+  IconData _getCategoryIcon(ExpenseCategory category) {
+    switch (category) {
+      case ExpenseCategory.food:
+        return Iconsax.cup;
+      case ExpenseCategory.transport:
+        return Iconsax.car;
+      case ExpenseCategory.accommodation:
+        return Iconsax.home_2;
+      case ExpenseCategory.activities:
+        return Iconsax.music;
+      case ExpenseCategory.shopping:
+        return Iconsax.shopping_bag;
+      case ExpenseCategory.other:
+        return Iconsax.document;
     }
   }
 
-  String _getPriorityDisplayName(Priority priority) {
-    switch (priority) {
-      case Priority.urgent:
-        return 'Urgent';
-      case Priority.high:
-        return 'High';
-      case Priority.medium:
-        return 'Medium';
-      case Priority.low:
-        return 'Low';
+  String _getCategoryDisplayName(ExpenseCategory category) {
+    switch (category) {
+      case ExpenseCategory.food:
+        return 'Food';
+      case ExpenseCategory.transport:
+        return 'Transport';
+      case ExpenseCategory.accommodation:
+        return 'Accommodation';
+      case ExpenseCategory.activities:
+        return 'Entertainment';
+      case ExpenseCategory.shopping:
+        return 'Shopping';
+      case ExpenseCategory.other:
+        return 'Other';
     }
   }
 }

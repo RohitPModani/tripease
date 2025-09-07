@@ -151,36 +151,45 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                     onTap: () => _onTabTapped(index),
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: isActive
-                                ? BoxDecoration(
-                                    color: AppTheme.primaryColor.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(12),
-                                  )
-                                : null,
-                            child: Icon(
-                              _icons[index],
-                              size: 24,
-                              color: color,
+                      child: isActive
+                          ? Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              decoration: BoxDecoration(
+                                color: AppTheme.primaryColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    _icons[index],
+                                    size: 18,
+                                    color: color,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Flexible(
+                                    child: Text(
+                                      tabTitles[index],
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
+                                        color: color,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(
+                              padding: const EdgeInsets.all(8),
+                              child: Icon(
+                                _icons[index],
+                                size: 24,
+                                color: color,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            tabTitles[index],
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-                              color: color,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
                     ),
                   ),
                 );

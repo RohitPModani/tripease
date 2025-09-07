@@ -16,6 +16,7 @@ class BookingsTable extends Table {
   TextColumn get confirmationNumber => text().withDefault(const Constant(''))();
   RealColumn get amount => real().withDefault(const Constant(0.0))();
   IntColumn get status => integer()(); // 0=confirmed, 1=pending, 2=cancelled
+  TextColumn get attachments => text().nullable()(); // JSON string of attachment file paths
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
 

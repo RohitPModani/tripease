@@ -1443,6 +1443,17 @@ class $BookingsTableTable extends BookingsTable
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _attachmentsMeta = const VerificationMeta(
+    'attachments',
+  );
+  @override
+  late final GeneratedColumn<String> attachments = GeneratedColumn<String>(
+    'attachments',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -1477,6 +1488,7 @@ class $BookingsTableTable extends BookingsTable
     confirmationNumber,
     amount,
     status,
+    attachments,
     createdAt,
     updatedAt,
   ];
@@ -1568,6 +1580,15 @@ class $BookingsTableTable extends BookingsTable
     } else if (isInserting) {
       context.missing(_statusMeta);
     }
+    if (data.containsKey('attachments')) {
+      context.handle(
+        _attachmentsMeta,
+        attachments.isAcceptableOrUnknown(
+          data['attachments']!,
+          _attachmentsMeta,
+        ),
+      );
+    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -1633,6 +1654,10 @@ class $BookingsTableTable extends BookingsTable
         DriftSqlType.int,
         data['${effectivePrefix}status'],
       )!,
+      attachments: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}attachments'],
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -1661,6 +1686,7 @@ class BookingEntity extends DataClass implements Insertable<BookingEntity> {
   final String confirmationNumber;
   final double amount;
   final int status;
+  final String? attachments;
   final DateTime createdAt;
   final DateTime updatedAt;
   const BookingEntity({
@@ -1674,6 +1700,7 @@ class BookingEntity extends DataClass implements Insertable<BookingEntity> {
     required this.confirmationNumber,
     required this.amount,
     required this.status,
+    this.attachments,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -1692,6 +1719,9 @@ class BookingEntity extends DataClass implements Insertable<BookingEntity> {
     map['confirmation_number'] = Variable<String>(confirmationNumber);
     map['amount'] = Variable<double>(amount);
     map['status'] = Variable<int>(status);
+    if (!nullToAbsent || attachments != null) {
+      map['attachments'] = Variable<String>(attachments);
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
     return map;
@@ -1711,6 +1741,9 @@ class BookingEntity extends DataClass implements Insertable<BookingEntity> {
       confirmationNumber: Value(confirmationNumber),
       amount: Value(amount),
       status: Value(status),
+      attachments: attachments == null && nullToAbsent
+          ? const Value.absent()
+          : Value(attachments),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
     );
@@ -1734,6 +1767,7 @@ class BookingEntity extends DataClass implements Insertable<BookingEntity> {
       ),
       amount: serializer.fromJson<double>(json['amount']),
       status: serializer.fromJson<int>(json['status']),
+      attachments: serializer.fromJson<String?>(json['attachments']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
     );
@@ -1752,6 +1786,7 @@ class BookingEntity extends DataClass implements Insertable<BookingEntity> {
       'confirmationNumber': serializer.toJson<String>(confirmationNumber),
       'amount': serializer.toJson<double>(amount),
       'status': serializer.toJson<int>(status),
+      'attachments': serializer.toJson<String?>(attachments),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
     };
@@ -1768,6 +1803,7 @@ class BookingEntity extends DataClass implements Insertable<BookingEntity> {
     String? confirmationNumber,
     double? amount,
     int? status,
+    Value<String?> attachments = const Value.absent(),
     DateTime? createdAt,
     DateTime? updatedAt,
   }) => BookingEntity(
@@ -1781,6 +1817,7 @@ class BookingEntity extends DataClass implements Insertable<BookingEntity> {
     confirmationNumber: confirmationNumber ?? this.confirmationNumber,
     amount: amount ?? this.amount,
     status: status ?? this.status,
+    attachments: attachments.present ? attachments.value : this.attachments,
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
   );
@@ -1802,6 +1839,9 @@ class BookingEntity extends DataClass implements Insertable<BookingEntity> {
           : this.confirmationNumber,
       amount: data.amount.present ? data.amount.value : this.amount,
       status: data.status.present ? data.status.value : this.status,
+      attachments: data.attachments.present
+          ? data.attachments.value
+          : this.attachments,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -1820,6 +1860,7 @@ class BookingEntity extends DataClass implements Insertable<BookingEntity> {
           ..write('confirmationNumber: $confirmationNumber, ')
           ..write('amount: $amount, ')
           ..write('status: $status, ')
+          ..write('attachments: $attachments, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -1838,6 +1879,7 @@ class BookingEntity extends DataClass implements Insertable<BookingEntity> {
     confirmationNumber,
     amount,
     status,
+    attachments,
     createdAt,
     updatedAt,
   );
@@ -1855,6 +1897,7 @@ class BookingEntity extends DataClass implements Insertable<BookingEntity> {
           other.confirmationNumber == this.confirmationNumber &&
           other.amount == this.amount &&
           other.status == this.status &&
+          other.attachments == this.attachments &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -1870,6 +1913,7 @@ class BookingsTableCompanion extends UpdateCompanion<BookingEntity> {
   final Value<String> confirmationNumber;
   final Value<double> amount;
   final Value<int> status;
+  final Value<String?> attachments;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<int> rowid;
@@ -1884,6 +1928,7 @@ class BookingsTableCompanion extends UpdateCompanion<BookingEntity> {
     this.confirmationNumber = const Value.absent(),
     this.amount = const Value.absent(),
     this.status = const Value.absent(),
+    this.attachments = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -1899,6 +1944,7 @@ class BookingsTableCompanion extends UpdateCompanion<BookingEntity> {
     this.confirmationNumber = const Value.absent(),
     this.amount = const Value.absent(),
     required int status,
+    this.attachments = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
     this.rowid = const Value.absent(),
@@ -1920,6 +1966,7 @@ class BookingsTableCompanion extends UpdateCompanion<BookingEntity> {
     Expression<String>? confirmationNumber,
     Expression<double>? amount,
     Expression<int>? status,
+    Expression<String>? attachments,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<int>? rowid,
@@ -1935,6 +1982,7 @@ class BookingsTableCompanion extends UpdateCompanion<BookingEntity> {
       if (confirmationNumber != null) 'confirmation_number': confirmationNumber,
       if (amount != null) 'amount': amount,
       if (status != null) 'status': status,
+      if (attachments != null) 'attachments': attachments,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (rowid != null) 'rowid': rowid,
@@ -1952,6 +2000,7 @@ class BookingsTableCompanion extends UpdateCompanion<BookingEntity> {
     Value<String>? confirmationNumber,
     Value<double>? amount,
     Value<int>? status,
+    Value<String?>? attachments,
     Value<DateTime>? createdAt,
     Value<DateTime>? updatedAt,
     Value<int>? rowid,
@@ -1967,6 +2016,7 @@ class BookingsTableCompanion extends UpdateCompanion<BookingEntity> {
       confirmationNumber: confirmationNumber ?? this.confirmationNumber,
       amount: amount ?? this.amount,
       status: status ?? this.status,
+      attachments: attachments ?? this.attachments,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       rowid: rowid ?? this.rowid,
@@ -2006,6 +2056,9 @@ class BookingsTableCompanion extends UpdateCompanion<BookingEntity> {
     if (status.present) {
       map['status'] = Variable<int>(status.value);
     }
+    if (attachments.present) {
+      map['attachments'] = Variable<String>(attachments.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -2031,6 +2084,7 @@ class BookingsTableCompanion extends UpdateCompanion<BookingEntity> {
           ..write('confirmationNumber: $confirmationNumber, ')
           ..write('amount: $amount, ')
           ..write('status: $status, ')
+          ..write('attachments: $attachments, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('rowid: $rowid')
@@ -4904,6 +4958,7 @@ typedef $$BookingsTableTableCreateCompanionBuilder =
       Value<String> confirmationNumber,
       Value<double> amount,
       required int status,
+      Value<String?> attachments,
       required DateTime createdAt,
       required DateTime updatedAt,
       Value<int> rowid,
@@ -4920,6 +4975,7 @@ typedef $$BookingsTableTableUpdateCompanionBuilder =
       Value<String> confirmationNumber,
       Value<double> amount,
       Value<int> status,
+      Value<String?> attachments,
       Value<DateTime> createdAt,
       Value<DateTime> updatedAt,
       Value<int> rowid,
@@ -5004,6 +5060,11 @@ class $$BookingsTableTableFilterComposer
 
   ColumnFilters<int> get status => $composableBuilder(
     column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get attachments => $composableBuilder(
+    column: $table.attachments,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -5095,6 +5156,11 @@ class $$BookingsTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get attachments => $composableBuilder(
+    column: $table.attachments,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -5171,6 +5237,11 @@ class $$BookingsTableTableAnnotationComposer
   GeneratedColumn<int> get status =>
       $composableBuilder(column: $table.status, builder: (column) => column);
 
+  GeneratedColumn<String> get attachments => $composableBuilder(
+    column: $table.attachments,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
@@ -5239,6 +5310,7 @@ class $$BookingsTableTableTableManager
                 Value<String> confirmationNumber = const Value.absent(),
                 Value<double> amount = const Value.absent(),
                 Value<int> status = const Value.absent(),
+                Value<String?> attachments = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> updatedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -5253,6 +5325,7 @@ class $$BookingsTableTableTableManager
                 confirmationNumber: confirmationNumber,
                 amount: amount,
                 status: status,
+                attachments: attachments,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rowid: rowid,
@@ -5269,6 +5342,7 @@ class $$BookingsTableTableTableManager
                 Value<String> confirmationNumber = const Value.absent(),
                 Value<double> amount = const Value.absent(),
                 required int status,
+                Value<String?> attachments = const Value.absent(),
                 required DateTime createdAt,
                 required DateTime updatedAt,
                 Value<int> rowid = const Value.absent(),
@@ -5283,6 +5357,7 @@ class $$BookingsTableTableTableManager
                 confirmationNumber: confirmationNumber,
                 amount: amount,
                 status: status,
+                attachments: attachments,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rowid: rowid,

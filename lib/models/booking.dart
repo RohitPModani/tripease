@@ -1,4 +1,6 @@
+import 'dart:convert';
 import '../database/database.dart';
+import 'attachment.dart';
 
 enum BookingType { flight, hotel, activity, transport, restaurant, other }
 enum BookingStatus { confirmed, pending, cancelled }
@@ -14,6 +16,7 @@ class Booking {
   final String confirmationNumber;
   final double amount;
   final BookingStatus status;
+  final List<BookingAttachment> attachments;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -28,12 +31,24 @@ class Booking {
     this.confirmationNumber = '',
     this.amount = 0.0,
     this.status = BookingStatus.pending,
+    this.attachments = const [],
     required this.createdAt,
     required this.updatedAt,
   });
 
   // Convert from Drift entity
   factory Booking.fromEntity(BookingEntity entity) {
+    List<BookingAttachment> attachmentList = [];
+    if (entity.attachments != null && entity.attachments!.isNotEmpty) {
+      try {
+        final List<dynamic> jsonList = jsonDecode(entity.attachments!);
+        attachmentList = jsonList.map((json) => BookingAttachment.fromJson(json)).toList();
+      } catch (e) {
+        // If JSON parsing fails, leave attachments empty
+        attachmentList = [];
+      }
+    }
+
     return Booking(
       id: entity.id,
       tripId: entity.tripId,
@@ -45,6 +60,7 @@ class Booking {
       confirmationNumber: entity.confirmationNumber,
       amount: entity.amount,
       status: BookingStatus.values[entity.status],
+      attachments: attachmentList,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
     );
@@ -52,6 +68,11 @@ class Booking {
 
   // Convert to Drift entity
   BookingEntity toEntity() {
+    String? attachmentsJson;
+    if (attachments.isNotEmpty) {
+      attachmentsJson = jsonEncode(attachments.map((a) => a.toJson()).toList());
+    }
+
     return BookingEntity(
       id: id,
       tripId: tripId,
@@ -63,6 +84,7 @@ class Booking {
       confirmationNumber: confirmationNumber,
       amount: amount,
       status: status.index,
+      attachments: attachmentsJson,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );
@@ -79,6 +101,7 @@ class Booking {
     String? confirmationNumber,
     double? amount,
     BookingStatus? status,
+    List<BookingAttachment>? attachments,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -93,6 +116,7 @@ class Booking {
       confirmationNumber: confirmationNumber ?? this.confirmationNumber,
       amount: amount ?? this.amount,
       status: status ?? this.status,
+      attachments: attachments ?? this.attachments,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

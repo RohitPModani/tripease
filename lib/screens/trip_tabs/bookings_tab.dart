@@ -1,10 +1,15 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../models/trip.dart';
 import '../../models/booking.dart';
+import '../../models/attachment.dart';
 import '../../themes/app_theme.dart';
 import '../../providers/booking_provider.dart';
+import '../../widgets/booking_form_modal.dart';
+import '../../widgets/document_viewer.dart';
 import 'package:uuid/uuid.dart';
 
 class BookingsTab extends StatefulWidget {
@@ -326,23 +331,46 @@ class _BookingsTabState extends State<BookingsTab> {
                   ],
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: _getStatusColor(booking.status).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: _getStatusColor(booking.status).withOpacity(0.3),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (booking.attachments.isNotEmpty) ...[
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: AppTheme.primaryColor.withOpacity(0.3),
+                        ),
+                      ),
+                      child: Icon(
+                        Iconsax.attach_circle,
+                        color: AppTheme.primaryColor,
+                        size: 14,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: _getStatusColor(booking.status).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: _getStatusColor(booking.status).withOpacity(0.3),
+                      ),
+                    ),
+                    child: Text(
+                      booking.status.displayName,
+                      style: TextStyle(
+                        color: _getStatusColor(booking.status),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
-                ),
-                child: Text(
-                  booking.status.displayName,
-                  style: TextStyle(
-                    color: _getStatusColor(booking.status),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                ],
               ),
             ],
           ),
@@ -562,6 +590,91 @@ class _BookingsTabState extends State<BookingsTab> {
                         ),
                       ],
                     ],
+                    // Attachments Section
+                    if (booking.attachments.isNotEmpty) ...[
+                      const SizedBox(height: 20),
+                      Text(
+                        'Attachments',
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      ...booking.attachments.map((attachment) {
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: AppTheme.primaryColor.withOpacity(0.05),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: AppTheme.primaryColor.withOpacity(0.2),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                attachment.isPdf ? Iconsax.document_text :
+                                attachment.isImage ? Iconsax.image :
+                                Iconsax.document,
+                                color: AppTheme.primaryColor,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      attachment.fileName,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      attachment.displaySize,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: AppTheme.textSecondary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () => _viewAttachment(attachment),
+                                icon: Icon(
+                                  Iconsax.eye,
+                                  color: AppTheme.primaryColor,
+                                  size: 18,
+                                ),
+                                tooltip: 'View',
+                              ),
+                              IconButton(
+                                onPressed: () => _downloadAttachment(attachment),
+                                icon: Icon(
+                                  Iconsax.document_download,
+                                  color: AppTheme.secondaryColor,
+                                  size: 18,
+                                ),
+                                tooltip: 'Download',
+                              ),
+                              IconButton(
+                                onPressed: () => _shareAttachment(attachment),
+                                icon: Icon(
+                                  Iconsax.share,
+                                  color: AppTheme.accentColor,
+                                  size: 18,
+                                ),
+                                tooltip: 'Share',
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ],
                     const SizedBox(height: 24),
                     Row(
                       children: [
@@ -674,401 +787,75 @@ class _BookingsTabState extends State<BookingsTab> {
     }
   }
 
+  Future<void> _viewAttachment(BookingAttachment attachment) async {
+    DocumentViewer.show(context, attachment);
+  }
+
+  Future<void> _downloadAttachment(BookingAttachment attachment) async {
+    try {
+      final file = File(attachment.filePath);
+      if (await file.exists()) {
+        await Share.shareXFiles(
+          [XFile(attachment.filePath)],
+          subject: 'Download ${attachment.fileName}',
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('File not found'),
+            backgroundColor: AppTheme.error,
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error downloading file: $e'),
+          backgroundColor: AppTheme.error,
+        ),
+      );
+    }
+  }
+
+  Future<void> _shareAttachment(BookingAttachment attachment) async {
+    try {
+      final file = File(attachment.filePath);
+      if (await file.exists()) {
+        await Share.shareXFiles(
+          [XFile(attachment.filePath)],
+          subject: attachment.fileName,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('File not found'),
+            backgroundColor: AppTheme.error,
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error sharing file: $e'),
+          backgroundColor: AppTheme.error,
+        ),
+      );
+    }
+  }
+
   void _showAddBookingDialog(BookingProvider bookingProvider) {
-    _showBookingDialog(bookingProvider: bookingProvider);
+    BookingFormModal.show(context, widget.trip.id, widget.trip.defaultCurrency);
   }
 
   void _showEditBookingDialog(Booking booking, BookingProvider bookingProvider) {
-    _showBookingDialog(booking: booking, bookingProvider: bookingProvider);
-  }
-
-  void _showBookingDialog({Booking? booking, BookingProvider? bookingProvider}) {
-    final isEdit = booking != null;
-    final titleController = TextEditingController(text: booking?.title ?? '');
-    final descriptionController = TextEditingController(text: booking?.description ?? '');
-    final vendorController = TextEditingController(text: booking?.vendor ?? '');
-    final confirmationController = TextEditingController(text: booking?.confirmationNumber ?? '');
-    final amountController = TextEditingController(
-      text: booking?.amount.toString() ?? '',
-    );
-    
-    BookingType selectedType = booking?.type ?? BookingType.flight;
-    BookingStatus selectedStatus = booking?.status ?? BookingStatus.pending;
-    DateTime? selectedDate = booking?.bookingDate;
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => StatefulBuilder(
-        builder: (context, setModalState) => Container(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.75,
-          ),
-          decoration: BoxDecoration(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.surfaceDark
-                : AppTheme.surfaceLight,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 8),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppTheme.textSecondary.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              Flexible(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: AppTheme.secondaryColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Icon(
-                              Iconsax.airplane,
-                              color: AppTheme.secondaryColor,
-                              size: 20,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Text(
-                            isEdit ? 'Edit Booking' : 'Add New Booking',
-                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                      TextFormField(
-                        controller: titleController,
-                        decoration: InputDecoration(
-                          labelText: 'Booking Title',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                        autofocus: true,
-                      ),
-                      const SizedBox(height: 16),
-                      DropdownButtonFormField<BookingType>(
-                        value: selectedType,
-                        decoration: InputDecoration(
-                          labelText: 'Booking Type',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                        items: BookingType.values
-                            .map((type) => DropdownMenuItem(
-                                  value: type,
-                                  child: Row(
-                                    children: [
-                                      Icon(_getTypeIcon(type), size: 16),
-                                      const SizedBox(width: 8),
-                                      Text(type.displayName),
-                                    ],
-                                  ),
-                                ))
-                            .toList(),
-                        onChanged: (value) {
-                          if (value != null) {
-                            setModalState(() {
-                              selectedType = value;
-                            });
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: descriptionController,
-                        decoration: InputDecoration(
-                          labelText: 'Description (Optional)',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                        maxLines: 3,
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: vendorController,
-                        decoration: InputDecoration(
-                          labelText: 'Vendor/Company (Optional)',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: confirmationController,
-                        decoration: InputDecoration(
-                          labelText: 'Confirmation Number (Optional)',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: amountController,
-                        decoration: InputDecoration(
-                          labelText: 'Amount (${widget.trip.defaultCurrency})',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                        keyboardType: TextInputType.number,
-                      ),
-                      const SizedBox(height: 16),
-                      DropdownButtonFormField<BookingStatus>(
-                        value: selectedStatus,
-                        decoration: InputDecoration(
-                          labelText: 'Status',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                        items: BookingStatus.values
-                            .map((status) => DropdownMenuItem(
-                                  value: status,
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 12,
-                                        height: 12,
-                                        decoration: BoxDecoration(
-                                          color: _getStatusColor(status),
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(status.displayName),
-                                    ],
-                                  ),
-                                ))
-                            .toList(),
-                        onChanged: (value) {
-                          if (value != null) {
-                            setModalState(() {
-                              selectedStatus = value;
-                            });
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      InkWell(
-                        onTap: () async {
-                          final date = await showDatePicker(
-                            context: context,
-                            initialDate: selectedDate ?? DateTime.now(),
-                            firstDate: DateTime.now().subtract(const Duration(days: 365)),
-                            lastDate: DateTime.now().add(const Duration(days: 365)),
-                            builder: (context, child) {
-                              return Theme(
-                                data: Theme.of(context).copyWith(
-                                  colorScheme: Theme.of(context).colorScheme.copyWith(
-                                    primary: AppTheme.primaryColor,
-                                  ),
-                                ),
-                                child: child!,
-                              );
-                            },
-                          );
-                          if (date != null) {
-                            setModalState(() {
-                              selectedDate = date;
-                            });
-                          }
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Iconsax.calendar_1,
-                                color: AppTheme.primaryColor,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                selectedDate == null
-                                    ? 'Set Booking Date (Optional)'
-                                    : 'Date: ${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}',
-                                style: TextStyle(
-                                  color: selectedDate == null 
-                                    ? AppTheme.textSecondary 
-                                    : Theme.of(context).textTheme.bodyMedium?.color,
-                                ),
-                              ),
-                              const Spacer(),
-                              if (selectedDate != null)
-                                IconButton(
-                                  icon: Icon(
-                                    Iconsax.close_circle,
-                                    color: AppTheme.textSecondary,
-                                  ),
-                                  onPressed: () {
-                                    setModalState(() {
-                                      selectedDate = null;
-                                    });
-                                  },
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton(
-                              onPressed: () => Navigator.pop(context),
-                              style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
-                                side: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: Text(
-                                'Cancel',
-                                style: TextStyle(color: AppTheme.textSecondary),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Container(
-                              decoration: AppTheme.glowingButtonDecoration,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  if (titleController.text.trim().isEmpty) return;
-
-                                  final bookingItem = Booking(
-                                    id: booking?.id ?? const Uuid().v4(),
-                                    tripId: widget.trip.id,
-                                    title: titleController.text.trim(),
-                                    type: selectedType,
-                                    description: descriptionController.text.trim(),
-                                    bookingDate: selectedDate,
-                                    vendor: vendorController.text.trim(),
-                                    confirmationNumber: confirmationController.text.trim(),
-                                    amount: double.tryParse(amountController.text.trim()) ?? 0.0,
-                                    status: selectedStatus,
-                                    createdAt: booking?.createdAt ?? DateTime.now(),
-                                    updatedAt: DateTime.now(),
-                                  );
-
-                                  final provider = bookingProvider ?? Provider.of<BookingProvider>(context, listen: false);
-                                  if (booking != null) {
-                                    await provider.updateBooking(bookingItem);
-                                  } else {
-                                    await provider.createBooking(bookingItem);
-                                  }
-                                  
-                                  if (mounted) {
-                                    Navigator.pop(context);
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  elevation: 0,
-                                ),
-                                child: Text(
-                                  isEdit ? 'Update Booking' : 'Add Booking',
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+    BookingFormModal.show(
+      context, 
+      widget.trip.id, 
+      widget.trip.defaultCurrency,
+      booking: booking,
     );
   }
+
 }
 
 extension BookingTypeExtension on BookingType {

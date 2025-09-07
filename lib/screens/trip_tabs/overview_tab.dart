@@ -9,6 +9,10 @@ import '../../themes/app_theme.dart';
 import '../../providers/todo_provider.dart';
 import '../../providers/booking_provider.dart';
 import '../../providers/expense_provider.dart';
+import '../../widgets/todo_form_modal.dart';
+import '../../widgets/booking_form_modal.dart';
+import '../../widgets/expense_form_modal.dart';
+import '../../widgets/itinerary_form_modal.dart';
 
 class OverviewTab extends StatefulWidget {
   final Trip trip;
@@ -59,16 +63,15 @@ class _OverviewTabState extends State<OverviewTab> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildTripInfoCard(),
+                _buildQuickActionsCard(),
                 const SizedBox(height: 16),
                 _buildStatsGrid(
                   todoProvider.todos,
-                  bookingProvider.bookings,
                   expenseProvider.expenses,
                 ),
-                const SizedBox(height: 24),
-                _buildQuickActionsCard(),
-                const SizedBox(height: 32),
+                const SizedBox(height: 16),
+                _buildTripInfoCard(),
+                const SizedBox(height: 16),
               ],
             ),
           ),
@@ -83,124 +86,51 @@ class _OverviewTabState extends State<OverviewTab> {
 
     return Container(
       decoration: BoxDecoration(
-        gradient: Theme.of(context).brightness == Brightness.dark
-            ? AppTheme.darkCardGradient
-            : AppTheme.cardGradient,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          width: 1,
-          color: AppTheme.primaryColor.withOpacity(0.3),
+          width: 1.5,
+          color: AppTheme.primaryColor.withOpacity(0.2),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: AppTheme.primaryColor.withOpacity(0.1),
-            offset: const Offset(0, 8),
-            blurRadius: 24,
-            spreadRadius: 0,
-          ),
-        ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: AppTheme.primaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Iconsax.calendar_1,
-                    color: AppTheme.primaryColor,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Trip Timeline',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        daysLeft > 0
-                            ? '$daysLeft days until departure'
-                            : widget.trip.isActive
-                                ? 'Trip is active now!'
-                                : 'Trip completed',
-                        style: TextStyle(
-                          color: daysLeft > 0
-                              ? AppTheme.primaryColor
-                              : widget.trip.isActive
-                                  ? Colors.green
-                                  : AppTheme.textSecondary,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: _buildInfoItem(
-                    'Duration',
-                    '$duration days',
-                    Iconsax.clock,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _buildInfoItem(
-                    'Destinations',
-                    '${widget.trip.destinations.length}',
-                    Iconsax.location,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Trip Dates',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.white.withOpacity(0.1),
+              Colors.white.withOpacity(0.03),
+            ],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildInfoItem(
+                'Duration',
+                '$duration days',
+                Iconsax.clock,
+                AppTheme.primaryColor,
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '${widget.trip.startDate.day}/${widget.trip.startDate.month}/${widget.trip.startDate.year} - ${widget.trip.endDate.day}/${widget.trip.endDate.month}/${widget.trip.endDate.year}',
-              style: TextStyle(
-                color: AppTheme.textSecondary,
-                height: 1.4,
+              const SizedBox(height: 20),
+              _buildInfoItemWithBadge(
+                'Trip Dates',
+                _formatDateRange(widget.trip.startDate, widget.trip.endDate),
+                Iconsax.calendar_1,
+                AppTheme.primaryColor,
+                daysLeft,
+                widget.trip.isActive,
               ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Destinations',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
+              const SizedBox(height: 16),
+              _buildInfoItem(
+                'Destinations',
+                widget.trip.destinations.join(' • '),
+                Iconsax.location,
+                AppTheme.primaryColor,
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              widget.trip.destinations.join(' • '),
-              style: TextStyle(
-                color: AppTheme.textSecondary,
-                height: 1.4,
-              ),
-            ),
             if (widget.trip.description.isNotEmpty) ...[
               const SizedBox(height: 20),
               Text(
@@ -221,41 +151,73 @@ class _OverviewTabState extends State<OverviewTab> {
           ],
         ),
       ),
+      ),
     );
   }
 
-  Widget _buildInfoItem(String label, String value, IconData icon) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          size: 16,
-          color: AppTheme.primaryColor,
-        ),
-        const SizedBox(width: 8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 12,
-                color: AppTheme.textSecondary,
-              ),
-            ),
-            Text(
-              value,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+  Widget _buildInfoItem(String label, String value, IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            color.withOpacity(0.08),
+            color.withOpacity(0.03),
           ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-      ],
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: color.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(
+              icon,
+              size: 18,
+              color: color,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppTheme.textSecondary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: color,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildStatsGrid(List<TodoItem> todos, List<Booking> bookings, List<Expense> expenses) {
+  Widget _buildStatsGrid(List<TodoItem> todos, List<Expense> expenses) {
     final completedTodos = todos.where((todo) => todo.isCompleted).length;
     final totalExpenses = expenses.fold<double>(
       0,
@@ -377,56 +339,69 @@ class _OverviewTabState extends State<OverviewTab> {
         gradient: Theme.of(context).brightness == Brightness.dark
             ? AppTheme.darkCardGradient
             : AppTheme.cardGradient,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
           width: 1,
-          color: AppTheme.primaryColor.withOpacity(0.3),
+          color: AppTheme.primaryColor.withOpacity(0.2),
         ),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryColor.withOpacity(0.1),
-            offset: const Offset(0, 8),
-            blurRadius: 24,
+            color: AppTheme.primaryColor.withOpacity(0.08),
+            offset: const Offset(0, 12),
+            blurRadius: 32,
             spreadRadius: 0,
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: AppTheme.primaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    gradient: LinearGradient(
+                      colors: [
+                        AppTheme.primaryColor.withOpacity(0.15),
+                        AppTheme.primaryColor.withOpacity(0.05),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: AppTheme.primaryColor.withOpacity(0.2),
+                      width: 1,
+                    ),
                   ),
                   child: const Icon(
                     Iconsax.add_circle,
                     color: AppTheme.primaryColor,
-                    size: 24,
+                    size: 26,
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 18),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Quick Actions',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: AppTheme.primaryColor,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 6),
                       Text(
-                        'Add items to your trip',
-                        style: const TextStyle(
+                        'Add new items to your trip',
+                        style: TextStyle(
                           color: AppTheme.textSecondary,
                           fontWeight: FontWeight.w500,
+                          fontSize: 14,
                         ),
                       ),
                     ],
@@ -434,43 +409,63 @@ class _OverviewTabState extends State<OverviewTab> {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 3,
+          ),
+          const SizedBox(height: 16),
+          Container(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: Row(
               children: [
-                _buildQuickActionButton(
-                  'Task',
-                  Iconsax.task_square,
-                  AppTheme.primaryColor,
-                  () => {}, // Will implement
+                Expanded(
+                  child: _buildQuickActionButton(
+                    'Task',
+                    Iconsax.task_square,
+                    AppTheme.primaryColor,
+                    () => TodoFormModal.show(context, widget.trip.id),
+                  ),
                 ),
-                _buildQuickActionButton(
-                  'Booking',
-                  Iconsax.airplane,
-                  AppTheme.accentColor,
-                  () => {}, // Will implement
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _buildQuickActionButton(
+                    'Booking',
+                    Iconsax.airplane,
+                    AppTheme.accentColor,
+                    () => BookingFormModal.show(context, widget.trip.id, widget.trip.defaultCurrency),
+                  ),
                 ),
-                _buildQuickActionButton(
-                  'Expense',
-                  Iconsax.dollar_circle,
-                  AppTheme.secondaryColor,
-                  () => {}, // Will implement
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _buildQuickActionButton(
+                    'Expense',
+                    Iconsax.dollar_circle,
+                    AppTheme.secondaryColor,
+                    () => ExpenseFormModal.show(context, widget.trip.id, widget.trip.defaultCurrency),
+                  ),
                 ),
-                _buildQuickActionButton(
-                  'Itinerary',
-                  Iconsax.location,
-                  AppTheme.warning,
-                  () => {}, // Will implement
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _buildQuickActionButton(
+                    'Itinerary',
+                    Iconsax.location,
+                    AppTheme.warning,
+                    () => ItineraryFormModal.show(
+                      context,
+                      widget.trip.id,
+                      (activity, date) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Activity "${activity.title}" added for ${date.day}/${date.month}/${date.year}'),
+                            backgroundColor: AppTheme.success,
+                          ),
+                        );
+                      },
+                      selectedDate: DateTime.now(),
+                    ),
+                  ),
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -482,30 +477,56 @@ class _OverviewTabState extends State<OverviewTab> {
     VoidCallback onTap,
   ) {
     return Container(
-      decoration: AppTheme.glowingButtonDecoration,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            color.withOpacity(0.1),
+            color.withOpacity(0.05),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: color.withOpacity(0.3),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: color.withOpacity(0.15),
+            offset: const Offset(0, 4),
+            blurRadius: 12,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           onTap: onTap,
+          splashColor: color.withOpacity(0.1),
+          highlightColor: color.withOpacity(0.05),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Row(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   icon,
                   color: color,
-                  size: 16,
+                  size: 18,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(height: 4),
                 Text(
                   title,
                   style: TextStyle(
                     color: color,
                     fontWeight: FontWeight.w600,
-                    fontSize: 13,
+                    fontSize: 12,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),
@@ -515,6 +536,158 @@ class _OverviewTabState extends State<OverviewTab> {
     );
   }
 
+  Widget _buildInfoItemWithBadge(String label, String value, IconData icon, Color color, int daysLeft, bool isActive) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            color.withOpacity(0.08),
+            color.withOpacity(0.03),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: color.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(
+              icon,
+              size: 18,
+              color: color,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      label,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: AppTheme.textSecondary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: daysLeft > 0
+                              ? [
+                                  AppTheme.accentColor.withOpacity(0.2),
+                                  AppTheme.accentColor.withOpacity(0.1),
+                                ]
+                              : isActive
+                                  ? [
+                                      AppTheme.success.withOpacity(0.2),
+                                      AppTheme.success.withOpacity(0.1),
+                                    ]
+                                  : [
+                                      AppTheme.textSecondary.withOpacity(0.2),
+                                      AppTheme.textSecondary.withOpacity(0.1),
+                                    ],
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: daysLeft > 0
+                              ? AppTheme.accentColor.withOpacity(0.3)
+                              : isActive
+                                  ? AppTheme.success.withOpacity(0.3)
+                                  : AppTheme.textSecondary.withOpacity(0.3),
+                          width: 1,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            daysLeft > 0
+                                ? Iconsax.clock
+                                : isActive
+                                    ? Iconsax.play_circle
+                                    : Iconsax.tick_circle,
+                            size: 12,
+                            color: daysLeft > 0
+                                ? AppTheme.accentColor
+                                : isActive
+                                    ? AppTheme.success
+                                    : AppTheme.textSecondary,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            _getTripStatusText(daysLeft, isActive, widget.trip.endDate),
+                            style: TextStyle(
+                              color: daysLeft > 0
+                                  ? AppTheme.accentColor
+                                  : isActive
+                                      ? AppTheme.success
+                                      : AppTheme.textSecondary,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: color,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getTripStatusText(int daysLeft, bool isActive, DateTime endDate) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final tripEndDate = DateTime(endDate.year, endDate.month, endDate.day);
+    
+    if (today.isAfter(tripEndDate)) {
+      return 'Completed';
+    } else if (isActive) {
+      return 'Active';
+    } else {
+      return '$daysLeft days to go';
+    }
+  }
+
+  String _formatDateRange(DateTime startDate, DateTime endDate) {
+    final months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    String formatDate(DateTime date) {
+      return '${date.day.toString().padLeft(2, '0')} ${months[date.month - 1]} ${date.year}';
+    }
+    
+    return '${formatDate(startDate)} - ${formatDate(endDate)}';
+  }
 }
 
 extension StringExtension on String {

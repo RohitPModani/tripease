@@ -1,0 +1,526 @@
+import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
+import '../themes/app_theme.dart';
+
+enum ActivityType {
+  sightseeing,
+  meal,
+  transport,
+  accommodation,
+  shopping,
+  entertainment,
+  other,
+}
+
+class ItineraryActivity {
+  final String title;
+  final ActivityType type;
+  final String description;
+  final String location;
+  final TimeOfDay? startTime;
+  final TimeOfDay? endTime;
+  
+  ItineraryActivity({
+    required this.title,
+    required this.type,
+    this.description = '',
+    this.location = '',
+    this.startTime,
+    this.endTime,
+  });
+}
+
+class ItineraryFormModal extends StatelessWidget {
+  final String tripId;
+  final DateTime? selectedDate;
+  final ItineraryActivity? activity;
+  final Function(ItineraryActivity, DateTime) onActivityAdded;
+
+  const ItineraryFormModal({
+    super.key,
+    required this.tripId,
+    required this.onActivityAdded,
+    this.selectedDate,
+    this.activity,
+  });
+
+  static void show(
+    BuildContext context,
+    String tripId,
+    Function(ItineraryActivity, DateTime) onActivityAdded, {
+    DateTime? selectedDate,
+    ItineraryActivity? activity,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => ItineraryFormModal(
+        tripId: tripId,
+        onActivityAdded: onActivityAdded,
+        selectedDate: selectedDate,
+        activity: activity,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isEdit = activity != null;
+    final titleController = TextEditingController(text: activity?.title ?? '');
+    final descriptionController = TextEditingController(text: activity?.description ?? '');
+    final locationController = TextEditingController(text: activity?.location ?? '');
+    
+    ActivityType selectedType = activity?.type ?? ActivityType.sightseeing;
+    DateTime selectedActivityDate = selectedDate ?? DateTime.now();
+    TimeOfDay? selectedStartTime = activity?.startTime;
+    TimeOfDay? selectedEndTime = activity?.endTime;
+
+    return StatefulBuilder(
+      builder: (context, setModalState) => Container(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.75,
+        ),
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppTheme.surfaceDark
+              : AppTheme.surfaceLight,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 8),
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppTheme.textSecondary.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            Flexible(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: AppTheme.warning.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Icon(
+                            Iconsax.location,
+                            color: AppTheme.warning,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          isEdit ? 'Edit Activity' : 'Add New Activity',
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    TextFormField(
+                      controller: titleController,
+                      decoration: InputDecoration(
+                        labelText: 'Activity Title',
+                        labelStyle: TextStyle(color: AppTheme.textSecondary),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: AppTheme.warning, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.all(16),
+                      ),
+                      autofocus: true,
+                    ),
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<ActivityType>(
+                      value: selectedType,
+                      decoration: InputDecoration(
+                        labelText: 'Activity Type',
+                        labelStyle: TextStyle(color: AppTheme.textSecondary),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: AppTheme.warning, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.all(16),
+                      ),
+                      items: ActivityType.values
+                          .map((type) => DropdownMenuItem(
+                                value: type,
+                                child: Row(
+                                  children: [
+                                    Icon(_getActivityTypeIcon(type), size: 16),
+                                    const SizedBox(width: 8),
+                                    Text(_getActivityTypeDisplayName(type)),
+                                  ],
+                                ),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        if (value != null) {
+                          setModalState(() {
+                            selectedType = value;
+                          });
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: locationController,
+                      decoration: InputDecoration(
+                        labelText: 'Location (Optional)',
+                        labelStyle: TextStyle(color: AppTheme.textSecondary),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: AppTheme.warning, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.all(16),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    InkWell(
+                      onTap: () async {
+                        final date = await showDatePicker(
+                          context: context,
+                          initialDate: selectedActivityDate,
+                          firstDate: DateTime.now().subtract(const Duration(days: 30)),
+                          lastDate: DateTime.now().add(const Duration(days: 365)),
+                          builder: (context, child) {
+                            return Theme(
+                              data: Theme.of(context).copyWith(
+                                colorScheme: Theme.of(context).colorScheme.copyWith(
+                                  primary: AppTheme.warning,
+                                ),
+                              ),
+                              child: child!,
+                            );
+                          },
+                        );
+                        if (date != null) {
+                          setModalState(() {
+                            selectedActivityDate = date;
+                          });
+                        }
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Iconsax.calendar_1,
+                              color: AppTheme.warning,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Date: ${selectedActivityDate.day}/${selectedActivityDate.month}/${selectedActivityDate.year}',
+                              style: TextStyle(
+                                color: Theme.of(context).textTheme.bodyMedium?.color,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () async {
+                              final time = await showTimePicker(
+                                context: context,
+                                initialTime: selectedStartTime ?? TimeOfDay.now(),
+                                builder: (context, child) {
+                                  return Theme(
+                                    data: Theme.of(context).copyWith(
+                                      colorScheme: Theme.of(context).colorScheme.copyWith(
+                                        primary: AppTheme.warning,
+                                      ),
+                                    ),
+                                    child: child!,
+                                  );
+                                },
+                              );
+                              if (time != null) {
+                                setModalState(() {
+                                  selectedStartTime = time;
+                                });
+                              }
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Iconsax.clock,
+                                    color: AppTheme.warning,
+                                    size: 16,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      selectedStartTime == null
+                                          ? 'Start Time'
+                                          : _formatTime(selectedStartTime!),
+                                      style: TextStyle(
+                                        color: selectedStartTime == null
+                                            ? AppTheme.textSecondary
+                                            : Theme.of(context).textTheme.bodyMedium?.color,
+                                      ),
+                                    ),
+                                  ),
+                                  if (selectedStartTime != null)
+                                    IconButton(
+                                      icon: Icon(
+                                        Iconsax.close_circle,
+                                        color: AppTheme.textSecondary,
+                                        size: 16,
+                                      ),
+                                      onPressed: () {
+                                        setModalState(() {
+                                          selectedStartTime = null;
+                                        });
+                                      },
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () async {
+                              final time = await showTimePicker(
+                                context: context,
+                                initialTime: selectedEndTime ?? 
+                                    (selectedStartTime?.replacing(hour: selectedStartTime!.hour + 1) ?? TimeOfDay.now()),
+                                builder: (context, child) {
+                                  return Theme(
+                                    data: Theme.of(context).copyWith(
+                                      colorScheme: Theme.of(context).colorScheme.copyWith(
+                                        primary: AppTheme.warning,
+                                      ),
+                                    ),
+                                    child: child!,
+                                  );
+                                },
+                              );
+                              if (time != null) {
+                                setModalState(() {
+                                  selectedEndTime = time;
+                                });
+                              }
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Iconsax.clock,
+                                    color: AppTheme.warning,
+                                    size: 16,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      selectedEndTime == null
+                                          ? 'End Time'
+                                          : _formatTime(selectedEndTime!),
+                                      style: TextStyle(
+                                        color: selectedEndTime == null
+                                            ? AppTheme.textSecondary
+                                            : Theme.of(context).textTheme.bodyMedium?.color,
+                                      ),
+                                    ),
+                                  ),
+                                  if (selectedEndTime != null)
+                                    IconButton(
+                                      icon: Icon(
+                                        Iconsax.close_circle,
+                                        color: AppTheme.textSecondary,
+                                        size: 16,
+                                      ),
+                                      onPressed: () {
+                                        setModalState(() {
+                                          selectedEndTime = null;
+                                        });
+                                      },
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: descriptionController,
+                      decoration: InputDecoration(
+                        labelText: 'Description (Optional)',
+                        labelStyle: TextStyle(color: AppTheme.textSecondary),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: AppTheme.warning, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.all(16),
+                      ),
+                      maxLines: 3,
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: () => Navigator.pop(context),
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              side: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(color: AppTheme.textSecondary),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Container(
+                            decoration: AppTheme.glowingButtonDecoration,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (titleController.text.trim().isEmpty) return;
+
+                                final newActivity = ItineraryActivity(
+                                  title: titleController.text.trim(),
+                                  type: selectedType,
+                                  description: descriptionController.text.trim(),
+                                  location: locationController.text.trim(),
+                                  startTime: selectedStartTime,
+                                  endTime: selectedEndTime,
+                                );
+
+                                onActivityAdded(newActivity, selectedActivityDate);
+                                Navigator.pop(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: Text(
+                                isEdit ? 'Update Activity' : 'Add Activity',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  IconData _getActivityTypeIcon(ActivityType type) {
+    switch (type) {
+      case ActivityType.sightseeing:
+        return Iconsax.camera;
+      case ActivityType.meal:
+        return Iconsax.cup;
+      case ActivityType.transport:
+        return Iconsax.car;
+      case ActivityType.accommodation:
+        return Iconsax.building_4;
+      case ActivityType.shopping:
+        return Iconsax.bag_2;
+      case ActivityType.entertainment:
+        return Iconsax.music_play;
+      case ActivityType.other:
+        return Iconsax.note_1;
+    }
+  }
+
+  String _getActivityTypeDisplayName(ActivityType type) {
+    switch (type) {
+      case ActivityType.sightseeing:
+        return 'Sightseeing';
+      case ActivityType.meal:
+        return 'Meal';
+      case ActivityType.transport:
+        return 'Transport';
+      case ActivityType.accommodation:
+        return 'Accommodation';
+      case ActivityType.shopping:
+        return 'Shopping';
+      case ActivityType.entertainment:
+        return 'Entertainment';
+      case ActivityType.other:
+        return 'Other';
+    }
+  }
+
+  String _formatTime(TimeOfDay time) {
+    final hour = time.hour == 0 ? 12 : (time.hour > 12 ? time.hour - 12 : time.hour);
+    final minute = time.minute.toString().padLeft(2, '0');
+    final period = time.hour < 12 ? 'AM' : 'PM';
+    return '$hour:$minute $period';
+  }
+}
