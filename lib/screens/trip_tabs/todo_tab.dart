@@ -6,6 +6,7 @@ import '../../models/todo_item.dart';
 import '../../themes/app_theme.dart';
 import '../../providers/todo_provider.dart';
 import '../../l10n/app_localizations.dart';
+import '../../utils/form_validators.dart';
 import 'package:uuid/uuid.dart';
 
 class TodoTab extends StatefulWidget {
@@ -811,6 +812,14 @@ class _TodoTabState extends State<TodoTab> {
     final descriptionController = TextEditingController(text: todo?.description ?? '');
     Priority selectedPriority = todo?.priority ?? Priority.medium;
     DateTime? selectedDueDate = todo?.dueDate;
+    
+    // Form validation state
+    String? titleError;
+    String? descriptionError;
+    
+    // Character count state
+    int titleCharCount = (todo?.title ?? '').length;
+    int descriptionCharCount = (todo?.description ?? '').length;
 
     showModalBottomSheet(
       context: context,
@@ -873,6 +882,14 @@ class _TodoTabState extends State<TodoTab> {
                       const SizedBox(height: 24),
                       TextFormField(
                         controller: titleController,
+                        maxLength: FormValidators.titleLimit,
+                        onChanged: (value) {
+                          setModalState(() {
+                            titleCharCount = value.length;
+                            titleError = FormValidators.validateTitle(value);
+                          });
+                        },
+                        validator: FormValidators.validateTitle,
                         decoration: InputDecoration(
                           labelText: 'Task Title',
                           labelStyle: TextStyle(color: AppTheme.textSecondary),
@@ -884,13 +901,38 @@ class _TodoTabState extends State<TodoTab> {
                             borderRadius: BorderRadius.circular(12),
                             borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                          ),
                           contentPadding: const EdgeInsets.all(16),
+                          counterText: '',
+                          suffixText: '$titleCharCount/${FormValidators.titleLimit}',
+                          suffixStyle: TextStyle(
+                            fontSize: 12,
+                            color: titleCharCount > FormValidators.titleLimit 
+                                ? AppTheme.error 
+                                : AppTheme.textSecondary,
+                          ),
+                          errorText: titleError,
                         ),
                         autofocus: true,
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: descriptionController,
+                        maxLength: FormValidators.descriptionLimit,
+                        onChanged: (value) {
+                          setModalState(() {
+                            descriptionCharCount = value.length;
+                            descriptionError = FormValidators.validateDescription(value);
+                          });
+                        },
+                        validator: FormValidators.validateDescription,
                         decoration: InputDecoration(
                           labelText: 'Description (Optional)',
                           labelStyle: TextStyle(color: AppTheme.textSecondary),
@@ -902,7 +944,24 @@ class _TodoTabState extends State<TodoTab> {
                             borderRadius: BorderRadius.circular(12),
                             borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                          ),
                           contentPadding: const EdgeInsets.all(16),
+                          counterText: '',
+                          suffixText: '$descriptionCharCount/${FormValidators.descriptionLimit}',
+                          suffixStyle: TextStyle(
+                            fontSize: 12,
+                            color: descriptionCharCount > FormValidators.descriptionLimit 
+                                ? AppTheme.error 
+                                : AppTheme.textSecondary,
+                          ),
+                          errorText: descriptionError,
                         ),
                         maxLines: 3,
                       ),
@@ -1040,7 +1099,18 @@ class _TodoTabState extends State<TodoTab> {
                               decoration: AppTheme.glowingButtonDecoration,
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  if (titleController.text.trim().isEmpty) return;
+                                  // Validate fields before saving
+                                  final titleValidation = FormValidators.validateTitle(titleController.text);
+                                  final descriptionValidation = FormValidators.validateDescription(descriptionController.text);
+                                  
+                                  setModalState(() {
+                                    titleError = titleValidation;
+                                    descriptionError = descriptionValidation;
+                                  });
+                                  
+                                  if (titleValidation != null || descriptionValidation != null) {
+                                    return; // Don't save if there are validation errors
+                                  }
 
                                   final todoItem = TodoItem(
                                     id: todo?.id ?? const Uuid().v4(),

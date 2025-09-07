@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import '../themes/app_theme.dart';
+import '../utils/form_validators.dart';
 
 enum ActivityType {
   sightseeing,
@@ -30,7 +31,7 @@ class ItineraryActivity {
   });
 }
 
-class ItineraryFormModal extends StatelessWidget {
+class ItineraryFormModal extends StatefulWidget {
   final String tripId;
   final DateTime? selectedDate;
   final ItineraryActivity? activity;
@@ -48,6 +49,7 @@ class ItineraryFormModal extends StatelessWidget {
     this.tripEndDate,
   });
 
+  // Helper to present the modal from anywhere
   static void show(
     BuildContext context,
     String tripId,
@@ -75,41 +77,84 @@ class ItineraryFormModal extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final isEdit = activity != null;
-    final titleController = TextEditingController(text: activity?.title ?? '');
-    final descriptionController = TextEditingController(text: activity?.description ?? '');
-    final locationController = TextEditingController(text: activity?.location ?? '');
+  State<ItineraryFormModal> createState() => _ItineraryFormModalState();
+}
+
+class _ItineraryFormModalState extends State<ItineraryFormModal> {
+  late final TextEditingController titleController;
+  late final TextEditingController descriptionController;
+  late final TextEditingController locationController;
+  
+  late ActivityType selectedType;
+  late DateTime selectedActivityDate;
+  TimeOfDay? selectedStartTime;
+  TimeOfDay? selectedEndTime;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  
+  // Character count state
+  int titleCharCount = 0;
+  int locationCharCount = 0;
+  int descriptionCharCount = 0;
+  
+  // Validation error state
+  String? titleError;
+  String? locationError;
+  String? descriptionError;
+
+  @override
+  void initState() {
+    super.initState();
+    titleController = TextEditingController(text: widget.activity?.title ?? '');
+    descriptionController = TextEditingController(text: widget.activity?.description ?? '');
+    locationController = TextEditingController(text: widget.activity?.location ?? '');
     
-    ActivityType selectedType = activity?.type ?? ActivityType.sightseeing;
+    selectedType = widget.activity?.type ?? ActivityType.sightseeing;
     
     // Initialize selectedActivityDate - prioritize trip start date as default
-    DateTime selectedActivityDate;
-    if (selectedDate != null) {
-      selectedActivityDate = selectedDate!;
-    } else if (tripStartDate != null) {
+    if (widget.selectedDate != null) {
+      selectedActivityDate = widget.selectedDate!;
+    } else if (widget.tripStartDate != null) {
       // Always use trip start date as default when available
-      selectedActivityDate = tripStartDate!;
+      selectedActivityDate = widget.tripStartDate!;
     } else {
       // Fallback to current date only if no trip start date
       selectedActivityDate = DateTime.now();
     }
     
-    TimeOfDay? selectedStartTime = activity?.startTime;
-    TimeOfDay? selectedEndTime = activity?.endTime;
+    selectedStartTime = widget.activity?.startTime;
+    selectedEndTime = widget.activity?.endTime;
+    
+    // Initialize character counts
+    titleCharCount = titleController.text.length;
+    locationCharCount = locationController.text.length;
+    descriptionCharCount = descriptionController.text.length;
+  }
 
-    return StatefulBuilder(
-      builder: (context, setModalState) => Container(
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.75,
-        ),
-        decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? AppTheme.surfaceDark
-              : AppTheme.surfaceLight,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Column(
+  @override
+  void dispose() {
+    titleController.dispose();
+    descriptionController.dispose();
+    locationController.dispose();
+    super.dispose();
+  }
+
+  
+
+  @override
+  Widget build(BuildContext context) {
+    final isEdit = widget.activity != null;
+
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.75,
+      ),
+      decoration: BoxDecoration(
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.surfaceDark
+            : AppTheme.surfaceLight,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
@@ -124,9 +169,11 @@ class ItineraryFormModal extends StatelessWidget {
             Flexible(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                     Row(
                       children: [
                         Container(
@@ -153,8 +200,17 @@ class ItineraryFormModal extends StatelessWidget {
                     const SizedBox(height: 24),
                     TextFormField(
                       controller: titleController,
-                      decoration: InputDecoration(
+                      maxLength: FormValidators.titleLimit,
+                      onChanged: (value) {
+                        setState(() {
+                          titleCharCount = value.length;
+                          titleError = FormValidators.validateTitle(value);
+                        });
+                      },
+                      decoration: FormValidators.createRequiredInputDecoration(
                         labelText: 'Activity Title',
+                        maxLength: FormValidators.titleLimit,
+                      ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -164,8 +220,26 @@ class ItineraryFormModal extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(color: AppTheme.warning, width: 2),
                         ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                        ),
                         contentPadding: const EdgeInsets.all(16),
+                        counterText: '',
+                        suffixText: '$titleCharCount/${FormValidators.titleLimit}',
+                        suffixStyle: TextStyle(
+                          fontSize: 12,
+                          color: titleCharCount > FormValidators.titleLimit 
+                              ? AppTheme.error 
+                              : AppTheme.textSecondary,
+                        ),
+                        errorText: titleError,
                       ),
+                      validator: FormValidators.validateTitle,
                       autofocus: true,
                     ),
                     const SizedBox(height: 16),
@@ -198,7 +272,7 @@ class ItineraryFormModal extends StatelessWidget {
                           .toList(),
                       onChanged: (value) {
                         if (value != null) {
-                          setModalState(() {
+                          setState(() {
                             selectedType = value;
                           });
                         }
@@ -207,8 +281,17 @@ class ItineraryFormModal extends StatelessWidget {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: locationController,
-                      decoration: InputDecoration(
-                        labelText: 'Location (Optional)',
+                      maxLength: FormValidators.locationLimit,
+                      onChanged: (value) {
+                        setState(() {
+                          locationCharCount = value.length;
+                          locationError = FormValidators.validateLocation(value);
+                        });
+                      },
+                      decoration: FormValidators.createOptionalInputDecoration(
+                        labelText: 'Location',
+                        maxLength: FormValidators.locationLimit,
+                      ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -218,15 +301,33 @@ class ItineraryFormModal extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(color: AppTheme.warning, width: 2),
                         ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                        ),
                         contentPadding: const EdgeInsets.all(16),
+                        counterText: '',
+                        suffixText: '$locationCharCount/${FormValidators.locationLimit}',
+                        suffixStyle: TextStyle(
+                          fontSize: 12,
+                          color: locationCharCount > FormValidators.locationLimit 
+                              ? AppTheme.error 
+                              : AppTheme.textSecondary,
+                        ),
+                        errorText: locationError,
                       ),
+                      validator: FormValidators.validateLocation,
                     ),
                     const SizedBox(height: 16),
                     InkWell(
                       onTap: () async {
                         // Ensure we have valid date range
-                        final firstDate = tripStartDate ?? DateTime.now();
-                        final lastDate = tripEndDate ?? DateTime.now().add(const Duration(days: 30));
+                        final firstDate = widget.tripStartDate ?? DateTime.now();
+                        final lastDate = widget.tripEndDate ?? DateTime.now().add(const Duration(days: 30));
                         
                         // Make sure firstDate is not after lastDate
                         final validFirstDate = firstDate.isAfter(lastDate) ? lastDate : firstDate;
@@ -257,7 +358,7 @@ class ItineraryFormModal extends StatelessWidget {
                           },
                         );
                         if (date != null) {
-                          setModalState(() {
+                          setState(() {
                             selectedActivityDate = date;
                           });
                         }
@@ -307,7 +408,7 @@ class ItineraryFormModal extends StatelessWidget {
                                 },
                               );
                               if (time != null) {
-                                setModalState(() {
+                                setState(() {
                                   selectedStartTime = time;
                                 });
                               }
@@ -346,7 +447,7 @@ class ItineraryFormModal extends StatelessWidget {
                                         size: 16,
                                       ),
                                       onPressed: () {
-                                        setModalState(() {
+                                        setState(() {
                                           selectedStartTime = null;
                                         });
                                       },
@@ -376,7 +477,7 @@ class ItineraryFormModal extends StatelessWidget {
                                 },
                               );
                               if (time != null) {
-                                setModalState(() {
+                                setState(() {
                                   selectedEndTime = time;
                                 });
                               }
@@ -415,7 +516,7 @@ class ItineraryFormModal extends StatelessWidget {
                                         size: 16,
                                       ),
                                       onPressed: () {
-                                        setModalState(() {
+                                        setState(() {
                                           selectedEndTime = null;
                                         });
                                       },
@@ -430,8 +531,17 @@ class ItineraryFormModal extends StatelessWidget {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: descriptionController,
-                      decoration: InputDecoration(
-                        labelText: 'Description (Optional)',
+                      maxLength: FormValidators.itineraryDescriptionLimit,
+                      onChanged: (value) {
+                        setState(() {
+                          descriptionCharCount = value.length;
+                          descriptionError = FormValidators.validateItineraryDescription(value);
+                        });
+                      },
+                      decoration: FormValidators.createOptionalInputDecoration(
+                        labelText: 'Description',
+                        maxLength: FormValidators.itineraryDescriptionLimit,
+                      ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -441,8 +551,26 @@ class ItineraryFormModal extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(color: AppTheme.warning, width: 2),
                         ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                        ),
                         contentPadding: const EdgeInsets.all(16),
+                        counterText: '',
+                        suffixText: '$descriptionCharCount/${FormValidators.itineraryDescriptionLimit}',
+                        suffixStyle: TextStyle(
+                          fontSize: 12,
+                          color: descriptionCharCount > FormValidators.itineraryDescriptionLimit 
+                              ? AppTheme.error 
+                              : AppTheme.textSecondary,
+                        ),
+                        errorText: descriptionError,
                       ),
+                      validator: FormValidators.validateItineraryDescription,
                       maxLines: 3,
                     ),
                     const SizedBox(height: 24),
@@ -470,7 +598,7 @@ class ItineraryFormModal extends StatelessWidget {
                             decoration: AppTheme.glowingButtonDecoration,
                             child: ElevatedButton(
                               onPressed: () {
-                                if (titleController.text.trim().isEmpty) return;
+                                if (!_formKey.currentState!.validate()) return;
 
                                 final newActivity = ItineraryActivity(
                                   title: titleController.text.trim(),
@@ -481,7 +609,7 @@ class ItineraryFormModal extends StatelessWidget {
                                   endTime: selectedEndTime,
                                 );
 
-                                onActivityAdded(newActivity, selectedActivityDate);
+                                widget.onActivityAdded(newActivity, selectedActivityDate);
                                 Navigator.pop(context);
                               },
                               style: ElevatedButton.styleFrom(
@@ -509,10 +637,10 @@ class ItineraryFormModal extends StatelessWidget {
                 ),
               ),
             ),
+            ),
           ],
         ),
-      ),
-    );
+      );
   }
 
   IconData _getActivityTypeIcon(ActivityType type) {

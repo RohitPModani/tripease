@@ -6,6 +6,7 @@ import '../models/trip.dart';
 import '../providers/trip_provider.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/currency_formatter.dart';
+import '../utils/form_validators.dart';
 
 class EditTripScreen extends StatefulWidget {
   final Trip trip;
@@ -37,6 +38,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
   DateTime? _endDate;
   String _selectedCurrency = 'USD';
   bool _isLoading = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final List<String> _currencies = CurrencyFormatter.getAllSupportedCurrencies();
 
@@ -69,6 +71,16 @@ class _EditTripScreenState extends State<EditTripScreen> {
   void _addDestination() {
     final destination = _destinationController.text.trim();
     if (destination.isNotEmpty && !_destinations.contains(destination)) {
+      // Validate destination length
+      if (destination.length > FormValidators.locationLimit) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Destination must be ${FormValidators.locationLimit} characters or less'),
+            backgroundColor: AppTheme.error,
+          ),
+        );
+        return;
+      }
       setState(() {
         _destinations.add(destination);
         _destinationController.clear();
@@ -147,7 +159,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
   }
 
   void _saveTrip() async {
-    if (_titleController.text.trim().isEmpty) return;
+    if (!_formKey.currentState!.validate()) return;
     if (_destinations.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -226,12 +238,14 @@ class _EditTripScreenState extends State<EditTripScreen> {
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          Flexible(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+            Flexible(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                   _buildHeader(),
                   const SizedBox(height: 24),
                   _buildTitleField(),
@@ -246,8 +260,9 @@ class _EditTripScreenState extends State<EditTripScreen> {
                   const SizedBox(height: 24),
                   _buildButtons(),
                 ],
+                  ),
+                ),
               ),
-            ),
           ),
         ],
       ),
@@ -284,8 +299,10 @@ class _EditTripScreenState extends State<EditTripScreen> {
   Widget _buildTitleField() {
     return TextFormField(
       controller: _titleController,
-      decoration: InputDecoration(
+      decoration: FormValidators.createRequiredInputDecoration(
         labelText: AppLocalizations.of(context)!.title,
+        maxLength: FormValidators.titleLimit,
+      ).copyWith(
         labelStyle: TextStyle(color: AppTheme.textSecondary),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -297,6 +314,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
         ),
         contentPadding: const EdgeInsets.all(16),
       ),
+      validator: FormValidators.validateTitle,
       autofocus: true,
     );
   }
@@ -310,8 +328,10 @@ class _EditTripScreenState extends State<EditTripScreen> {
             Expanded(
               child: TextFormField(
                 controller: _destinationController,
-                decoration: InputDecoration(
+                decoration: FormValidators.createOptionalInputDecoration(
                   labelText: 'Destinations',
+                  maxLength: FormValidators.locationLimit,
+                ).copyWith(
                   labelStyle: TextStyle(color: AppTheme.textSecondary),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -323,6 +343,12 @@ class _EditTripScreenState extends State<EditTripScreen> {
                   ),
                   contentPadding: const EdgeInsets.all(16),
                 ),
+                validator: (value) {
+                  if (value != null && value.trim().isNotEmpty) {
+                    return FormValidators.validateDestination(value);
+                  }
+                  return null;
+                },
                 onFieldSubmitted: (_) => _addDestination(),
               ),
             ),
@@ -523,8 +549,10 @@ class _EditTripScreenState extends State<EditTripScreen> {
   Widget _buildDescriptionField() {
     return TextFormField(
       controller: _descriptionController,
-      decoration: InputDecoration(
+      decoration: FormValidators.createOptionalInputDecoration(
         labelText: AppLocalizations.of(context)!.descriptionOptional,
+        maxLength: FormValidators.descriptionLimit,
+      ).copyWith(
         labelStyle: TextStyle(color: AppTheme.textSecondary),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -536,6 +564,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
         ),
         contentPadding: const EdgeInsets.all(16),
       ),
+      validator: FormValidators.validateDescription,
       maxLines: 3,
     );
   }

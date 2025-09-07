@@ -3,6 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../models/trip.dart';
 import '../../themes/app_theme.dart';
 import '../../l10n/app_localizations.dart';
+import '../../utils/form_validators.dart';
 
 class ItineraryTab extends StatefulWidget {
   final Trip trip;
@@ -603,6 +604,16 @@ class _ItineraryTabState extends State<ItineraryTab> {
     ActivityType selectedType = activity?.type ?? ActivityType.sightseeing;
     TimeOfDay? selectedStartTime = activity?.startTime;
     TimeOfDay? selectedEndTime = activity?.endTime;
+    
+    // Character count state
+    int titleCharCount = (activity?.title ?? '').length;
+    int descriptionCharCount = (activity?.description ?? '').length;
+    int locationCharCount = (activity?.location ?? '').length;
+    
+    // Validation error state
+    String? titleError;
+    String? descriptionError;
+    String? locationError;
 
     showModalBottomSheet(
       context: context,
@@ -665,6 +676,14 @@ class _ItineraryTabState extends State<ItineraryTab> {
                       const SizedBox(height: 24),
                       TextFormField(
                         controller: titleController,
+                        maxLength: FormValidators.titleLimit,
+                        onChanged: (value) {
+                          setModalState(() {
+                            titleCharCount = value.length;
+                            titleError = FormValidators.validateTitle(value);
+                          });
+                        },
+                        validator: FormValidators.validateTitle,
                         decoration: InputDecoration(
                           labelText: 'Activity Title',
                           labelStyle: TextStyle(color: AppTheme.textSecondary),
@@ -676,7 +695,24 @@ class _ItineraryTabState extends State<ItineraryTab> {
                             borderRadius: BorderRadius.circular(12),
                             borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                          ),
                           contentPadding: const EdgeInsets.all(16),
+                          counterText: '',
+                          suffixText: '$titleCharCount/${FormValidators.titleLimit}',
+                          suffixStyle: TextStyle(
+                            fontSize: 12,
+                            color: titleCharCount > FormValidators.titleLimit 
+                                ? AppTheme.error 
+                                : AppTheme.textSecondary,
+                          ),
+                          errorText: titleError,
                         ),
                         autofocus: true,
                       ),
@@ -730,6 +766,14 @@ class _ItineraryTabState extends State<ItineraryTab> {
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: descriptionController,
+                        maxLength: FormValidators.itineraryDescriptionLimit,
+                        onChanged: (value) {
+                          setModalState(() {
+                            descriptionCharCount = value.length;
+                            descriptionError = FormValidators.validateItineraryDescription(value);
+                          });
+                        },
+                        validator: FormValidators.validateItineraryDescription,
                         decoration: InputDecoration(
                           labelText: 'Description (Optional)',
                           labelStyle: TextStyle(color: AppTheme.textSecondary),
@@ -741,13 +785,38 @@ class _ItineraryTabState extends State<ItineraryTab> {
                             borderRadius: BorderRadius.circular(12),
                             borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                          ),
                           contentPadding: const EdgeInsets.all(16),
+                          counterText: '',
+                          suffixText: '$descriptionCharCount/${FormValidators.itineraryDescriptionLimit}',
+                          suffixStyle: TextStyle(
+                            fontSize: 12,
+                            color: descriptionCharCount > FormValidators.itineraryDescriptionLimit 
+                                ? AppTheme.error 
+                                : AppTheme.textSecondary,
+                          ),
+                          errorText: descriptionError,
                         ),
                         maxLines: 3,
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: locationController,
+                        maxLength: FormValidators.locationLimit,
+                        onChanged: (value) {
+                          setModalState(() {
+                            locationCharCount = value.length;
+                            locationError = FormValidators.validateLocation(value);
+                          });
+                        },
+                        validator: FormValidators.validateLocation,
                         decoration: InputDecoration(
                           labelText: 'Location (Optional)',
                           labelStyle: TextStyle(color: AppTheme.textSecondary),
@@ -759,7 +828,24 @@ class _ItineraryTabState extends State<ItineraryTab> {
                             borderRadius: BorderRadius.circular(12),
                             borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
+                          ),
                           contentPadding: const EdgeInsets.all(16),
+                          counterText: '',
+                          suffixText: '$locationCharCount/${FormValidators.locationLimit}',
+                          suffixStyle: TextStyle(
+                            fontSize: 12,
+                            color: locationCharCount > FormValidators.locationLimit 
+                                ? AppTheme.error 
+                                : AppTheme.textSecondary,
+                          ),
+                          errorText: locationError,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -891,7 +977,20 @@ class _ItineraryTabState extends State<ItineraryTab> {
                               decoration: AppTheme.glowingButtonDecoration,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  if (titleController.text.trim().isEmpty) return;
+                                  // Validate fields before saving
+                                  final titleValidation = FormValidators.validateTitle(titleController.text);
+                                  final descriptionValidation = FormValidators.validateItineraryDescription(descriptionController.text);
+                                  final locationValidation = FormValidators.validateLocation(locationController.text);
+                                  
+                                  setModalState(() {
+                                    titleError = titleValidation;
+                                    descriptionError = descriptionValidation;
+                                    locationError = locationValidation;
+                                  });
+                                  
+                                  if (titleValidation != null || descriptionValidation != null || locationValidation != null) {
+                                    return; // Don't save if there are validation errors
+                                  }
 
                                   final newActivity = ItineraryActivity(
                                     title: titleController.text.trim(),

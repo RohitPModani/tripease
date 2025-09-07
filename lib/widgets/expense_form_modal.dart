@@ -5,8 +5,9 @@ import 'package:uuid/uuid.dart';
 import '../models/expense.dart';
 import '../themes/app_theme.dart';
 import '../providers/expense_provider.dart';
+import '../utils/form_validators.dart';
 
-class ExpenseFormModal extends StatelessWidget {
+class ExpenseFormModal extends StatefulWidget {
   final String tripId;
   final String defaultCurrency;
   final Expense? expense;
@@ -18,6 +19,7 @@ class ExpenseFormModal extends StatelessWidget {
     this.expense,
   });
 
+  // Helper to present the modal from anywhere
   static void show(
     BuildContext context,
     String tripId,
@@ -39,44 +41,94 @@ class ExpenseFormModal extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final isEdit = expense != null;
-    final titleController = TextEditingController(text: expense?.title ?? '');
-    final descriptionController = TextEditingController(text: expense?.description ?? '');
-    final amountController = TextEditingController(
-      text: expense?.amount.toString() ?? '',
-    );
-    final paidByController = TextEditingController(text: expense?.paidBy ?? '');
-    
-    ExpenseCategory selectedCategory = expense?.category ?? ExpenseCategory.other;
-    DateTime selectedDate = expense?.date ?? DateTime.now();
+  State<ExpenseFormModal> createState() => _ExpenseFormModalState();
+}
 
-    return StatefulBuilder(
-      builder: (context, setModalState) => Container(
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.75,
-        ),
-        decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? AppTheme.surfaceDark
-              : AppTheme.surfaceLight,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 8),
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppTheme.textSecondary.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(2),
-              ),
+class _ExpenseFormModalState extends State<ExpenseFormModal> {
+  late final TextEditingController titleController;
+  late final TextEditingController descriptionController;
+  late final TextEditingController amountController;
+  late final TextEditingController paidByController;
+
+  late ExpenseCategory selectedCategory;
+  late DateTime selectedDate;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  
+  // Character count state
+  int titleCharCount = 0;
+  int descriptionCharCount = 0;
+  int paidByCharCount = 0;
+  
+  // Validation error state
+  String? titleError;
+  String? descriptionError;
+  String? paidByError;
+
+  @override
+  void initState() {
+    super.initState();
+    titleController = TextEditingController(text: widget.expense?.title ?? '');
+    descriptionController = TextEditingController(
+      text: widget.expense?.description ?? '',
+    );
+    amountController = TextEditingController(
+      text: widget.expense?.amount.toString() ?? '',
+    );
+    paidByController = TextEditingController(
+      text: widget.expense?.paidBy ?? '',
+    );
+
+    selectedCategory = widget.expense?.category ?? ExpenseCategory.other;
+    selectedDate = widget.expense?.date ?? DateTime.now();
+    
+    // Initialize character counts
+    titleCharCount = titleController.text.length;
+    descriptionCharCount = descriptionController.text.length;
+    paidByCharCount = paidByController.text.length;
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    descriptionController.dispose();
+    amountController.dispose();
+    paidByController.dispose();
+    super.dispose();
+  }
+
+  
+
+  @override
+  Widget build(BuildContext context) {
+    final isEdit = widget.expense != null;
+
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.75,
+      ),
+      decoration: BoxDecoration(
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.surfaceDark
+            : AppTheme.surfaceLight,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 8),
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: AppTheme.textSecondary.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(2),
             ),
-            Flexible(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
+          ),
+          Flexible(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Form(
+                key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -97,46 +149,92 @@ class ExpenseFormModal extends StatelessWidget {
                         const SizedBox(width: 12),
                         Text(
                           isEdit ? 'Edit Expense' : 'Add New Expense',
-                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
                     const SizedBox(height: 24),
                     TextFormField(
                       controller: titleController,
-                      decoration: InputDecoration(
-                        labelText: 'Expense Title',
-                        labelStyle: TextStyle(color: AppTheme.textSecondary),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
-                        ),
-                        contentPadding: const EdgeInsets.all(16),
-                      ),
+                      maxLength: FormValidators.titleLimit,
+                      onChanged: (value) {
+                        setState(() {
+                          titleCharCount = value.length;
+                          titleError = FormValidators.validateTitle(value);
+                        });
+                      },
+                      decoration:
+                          FormValidators.createRequiredInputDecoration(
+                            labelText: 'Expense Title',
+                            maxLength: FormValidators.titleLimit,
+                          ).copyWith(
+                            labelStyle: TextStyle(
+                              color: AppTheme.textSecondary,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                color: AppTheme.textSecondary.withOpacity(0.3),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: AppTheme.accentColor,
+                                width: 2,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: AppTheme.error,
+                                width: 2,
+                              ),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: AppTheme.error,
+                                width: 2,
+                              ),
+                            ),
+                            contentPadding: const EdgeInsets.all(16),
+                            counterText: '',
+                            suffixText: '$titleCharCount/${FormValidators.titleLimit}',
+                            suffixStyle: TextStyle(
+                              fontSize: 12,
+                              color: titleCharCount > FormValidators.titleLimit 
+                                  ? AppTheme.error 
+                                  : AppTheme.textSecondary,
+                            ),
+                            errorText: titleError,
+                          ),
+                      validator: FormValidators.validateTitle,
                       autofocus: true,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: amountController,
                       decoration: InputDecoration(
-                        labelText: 'Amount ($defaultCurrency)',
+                        labelText: 'Amount (${widget.defaultCurrency})',
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderSide: BorderSide(
+                            color: AppTheme.textSecondary.withOpacity(0.3),
+                          ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
+                          borderSide: const BorderSide(
+                            color: AppTheme.accentColor,
+                            width: 2,
+                          ),
                         ),
                         contentPadding: const EdgeInsets.all(16),
                       ),
+                      validator: FormValidators.validateAmount,
                       keyboardType: TextInputType.number,
                     ),
                     const SizedBox(height: 16),
@@ -147,29 +245,36 @@ class ExpenseFormModal extends StatelessWidget {
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderSide: BorderSide(
+                            color: AppTheme.textSecondary.withOpacity(0.3),
+                          ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
+                          borderSide: const BorderSide(
+                            color: AppTheme.accentColor,
+                            width: 2,
+                          ),
                         ),
                         contentPadding: const EdgeInsets.all(16),
                       ),
                       items: ExpenseCategory.values
-                          .map((category) => DropdownMenuItem(
-                                value: category,
-                                child: Row(
-                                  children: [
-                                    Icon(_getCategoryIcon(category), size: 16),
-                                    const SizedBox(width: 8),
-                                    Text(_getCategoryDisplayName(category)),
-                                  ],
-                                ),
-                              ))
+                          .map(
+                            (category) => DropdownMenuItem(
+                              value: category,
+                              child: Row(
+                                children: [
+                                  Icon(_getCategoryIcon(category), size: 16),
+                                  const SizedBox(width: 8),
+                                  Text(_getCategoryDisplayName(category)),
+                                ],
+                              ),
+                            ),
+                          )
                           .toList(),
                       onChanged: (value) {
                         if (value != null) {
-                          setModalState(() {
+                          setState(() {
                             selectedCategory = value;
                           });
                         }
@@ -178,37 +283,119 @@ class ExpenseFormModal extends StatelessWidget {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: descriptionController,
-                      decoration: InputDecoration(
-                        labelText: 'Description (Optional)',
-                        labelStyle: TextStyle(color: AppTheme.textSecondary),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
-                        ),
-                        contentPadding: const EdgeInsets.all(16),
-                      ),
+                      maxLength: FormValidators.descriptionLimit,
+                      onChanged: (value) {
+                        setState(() {
+                          descriptionCharCount = value.length;
+                          descriptionError = FormValidators.validateDescription(value);
+                        });
+                      },
+                      decoration:
+                          FormValidators.createOptionalInputDecoration(
+                            labelText: 'Description',
+                            maxLength: FormValidators.descriptionLimit,
+                          ).copyWith(
+                            labelStyle: TextStyle(
+                              color: AppTheme.textSecondary,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                color: AppTheme.textSecondary.withOpacity(0.3),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: AppTheme.accentColor,
+                                width: 2,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: AppTheme.error,
+                                width: 2,
+                              ),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: AppTheme.error,
+                                width: 2,
+                              ),
+                            ),
+                            contentPadding: const EdgeInsets.all(16),
+                            counterText: '',
+                            suffixText: '$descriptionCharCount/${FormValidators.descriptionLimit}',
+                            suffixStyle: TextStyle(
+                              fontSize: 12,
+                              color: descriptionCharCount > FormValidators.descriptionLimit 
+                                  ? AppTheme.error 
+                                  : AppTheme.textSecondary,
+                            ),
+                            errorText: descriptionError,
+                          ),
+                      validator: FormValidators.validateDescription,
                       maxLines: 2,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: paidByController,
-                      decoration: InputDecoration(
-                        labelText: 'Paid By (Optional)',
-                        labelStyle: TextStyle(color: AppTheme.textSecondary),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
-                        ),
-                        contentPadding: const EdgeInsets.all(16),
-                      ),
+                      maxLength: FormValidators.paidByLimit,
+                      onChanged: (value) {
+                        setState(() {
+                          paidByCharCount = value.length;
+                          paidByError = FormValidators.validatePaidBy(value);
+                        });
+                      },
+                      decoration:
+                          FormValidators.createOptionalInputDecoration(
+                            labelText: 'Paid By',
+                            maxLength: FormValidators.paidByLimit,
+                          ).copyWith(
+                            labelStyle: TextStyle(
+                              color: AppTheme.textSecondary,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                color: AppTheme.textSecondary.withOpacity(0.3),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: AppTheme.accentColor,
+                                width: 2,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: AppTheme.error,
+                                width: 2,
+                              ),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: AppTheme.error,
+                                width: 2,
+                              ),
+                            ),
+                            contentPadding: const EdgeInsets.all(16),
+                            counterText: '',
+                            suffixText: '$paidByCharCount/${FormValidators.paidByLimit}',
+                            suffixStyle: TextStyle(
+                              fontSize: 12,
+                              color: paidByCharCount > FormValidators.paidByLimit 
+                                  ? AppTheme.error 
+                                  : AppTheme.textSecondary,
+                            ),
+                            errorText: paidByError,
+                          ),
+                      validator: FormValidators.validatePaidBy,
                     ),
                     const SizedBox(height: 16),
                     InkWell(
@@ -216,21 +403,24 @@ class ExpenseFormModal extends StatelessWidget {
                         final date = await showDatePicker(
                           context: context,
                           initialDate: selectedDate,
-                          firstDate: DateTime.now().subtract(const Duration(days: 365)),
-                          lastDate: DateTime.now().add(const Duration(days: 30)),
+                          firstDate: DateTime.now().subtract(
+                            const Duration(days: 365),
+                          ),
+                          lastDate: DateTime.now().add(
+                            const Duration(days: 30),
+                          ),
                           builder: (context, child) {
                             return Theme(
                               data: Theme.of(context).copyWith(
-                                colorScheme: Theme.of(context).colorScheme.copyWith(
-                                  primary: AppTheme.accentColor,
-                                ),
+                                colorScheme: Theme.of(context).colorScheme
+                                    .copyWith(primary: AppTheme.accentColor),
                               ),
                               child: child!,
                             );
                           },
                         );
                         if (date != null) {
-                          setModalState(() {
+                          setState(() {
                             selectedDate = date;
                           });
                         }
@@ -239,7 +429,9 @@ class ExpenseFormModal extends StatelessWidget {
                         width: double.infinity,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          border: Border.all(
+                            color: AppTheme.textSecondary.withOpacity(0.3),
+                          ),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(
@@ -252,7 +444,9 @@ class ExpenseFormModal extends StatelessWidget {
                             Text(
                               'Date: ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
                               style: TextStyle(
-                                color: Theme.of(context).textTheme.bodyMedium?.color,
+                                color: Theme.of(
+                                  context,
+                                ).textTheme.bodyMedium?.color,
                               ),
                             ),
                           ],
@@ -267,7 +461,9 @@ class ExpenseFormModal extends StatelessWidget {
                             onPressed: () => Navigator.pop(context),
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              side: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                              side: BorderSide(
+                                color: AppTheme.textSecondary.withOpacity(0.3),
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -284,35 +480,45 @@ class ExpenseFormModal extends StatelessWidget {
                             decoration: AppTheme.glowingButtonDecoration,
                             child: ElevatedButton(
                               onPressed: () async {
-                                if (titleController.text.trim().isEmpty || 
-                                    amountController.text.trim().isEmpty) return;
+                                if (!_formKey.currentState!.validate()) return;
 
                                 final expenseItem = Expense(
-                                  id: expense?.id ?? const Uuid().v4(),
-                                  tripId: tripId,
+                                  id: widget.expense?.id ?? const Uuid().v4(),
+                                  tripId: widget.tripId,
                                   title: titleController.text.trim(),
-                                  amount: double.tryParse(amountController.text) ?? 0.0,
+                                  amount:
+                                      double.tryParse(amountController.text) ??
+                                      0.0,
                                   category: selectedCategory,
-                                  description: descriptionController.text.trim(),
+                                  description: descriptionController.text
+                                      .trim(),
                                   paidBy: paidByController.text.trim(),
                                   date: selectedDate,
-                                  createdAt: expense?.createdAt ?? DateTime.now(),
+                                  createdAt:
+                                      widget.expense?.createdAt ??
+                                      DateTime.now(),
                                   updatedAt: DateTime.now(),
                                 );
 
                                 try {
                                   if (isEdit) {
-                                    await Provider.of<ExpenseProvider>(context, listen: false)
-                                        .updateExpense(expenseItem);
+                                    await Provider.of<ExpenseProvider>(
+                                      context,
+                                      listen: false,
+                                    ).updateExpense(expenseItem);
                                   } else {
-                                    await Provider.of<ExpenseProvider>(context, listen: false)
-                                        .createExpense(expenseItem);
+                                    await Provider.of<ExpenseProvider>(
+                                      context,
+                                      listen: false,
+                                    ).createExpense(expenseItem);
                                   }
                                   Navigator.pop(context);
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Failed to ${isEdit ? 'update' : 'add'} expense: $e'),
+                                      content: Text(
+                                        'Failed to ${isEdit ? 'update' : 'add'} expense: $e',
+                                      ),
                                       backgroundColor: AppTheme.error,
                                     ),
                                   );
@@ -321,7 +527,9 @@ class ExpenseFormModal extends StatelessWidget {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
                                 shadowColor: Colors.transparent,
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -343,8 +551,8 @@ class ExpenseFormModal extends StatelessWidget {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
