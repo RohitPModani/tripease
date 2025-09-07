@@ -35,6 +35,8 @@ class ItineraryFormModal extends StatelessWidget {
   final DateTime? selectedDate;
   final ItineraryActivity? activity;
   final Function(ItineraryActivity, DateTime) onActivityAdded;
+  final DateTime? tripStartDate;
+  final DateTime? tripEndDate;
 
   const ItineraryFormModal({
     super.key,
@@ -42,6 +44,8 @@ class ItineraryFormModal extends StatelessWidget {
     required this.onActivityAdded,
     this.selectedDate,
     this.activity,
+    this.tripStartDate,
+    this.tripEndDate,
   });
 
   static void show(
@@ -50,6 +54,8 @@ class ItineraryFormModal extends StatelessWidget {
     Function(ItineraryActivity, DateTime) onActivityAdded, {
     DateTime? selectedDate,
     ItineraryActivity? activity,
+    DateTime? tripStartDate,
+    DateTime? tripEndDate,
   }) {
     showModalBottomSheet(
       context: context,
@@ -62,6 +68,8 @@ class ItineraryFormModal extends StatelessWidget {
         onActivityAdded: onActivityAdded,
         selectedDate: selectedDate,
         activity: activity,
+        tripStartDate: tripStartDate,
+        tripEndDate: tripEndDate,
       ),
     );
   }
@@ -74,7 +82,19 @@ class ItineraryFormModal extends StatelessWidget {
     final locationController = TextEditingController(text: activity?.location ?? '');
     
     ActivityType selectedType = activity?.type ?? ActivityType.sightseeing;
-    DateTime selectedActivityDate = selectedDate ?? DateTime.now();
+    
+    // Initialize selectedActivityDate - prioritize trip start date as default
+    DateTime selectedActivityDate;
+    if (selectedDate != null) {
+      selectedActivityDate = selectedDate!;
+    } else if (tripStartDate != null) {
+      // Always use trip start date as default when available
+      selectedActivityDate = tripStartDate!;
+    } else {
+      // Fallback to current date only if no trip start date
+      selectedActivityDate = DateTime.now();
+    }
+    
     TimeOfDay? selectedStartTime = activity?.startTime;
     TimeOfDay? selectedEndTime = activity?.endTime;
 
@@ -204,11 +224,27 @@ class ItineraryFormModal extends StatelessWidget {
                     const SizedBox(height: 16),
                     InkWell(
                       onTap: () async {
+                        // Ensure we have valid date range
+                        final firstDate = tripStartDate ?? DateTime.now();
+                        final lastDate = tripEndDate ?? DateTime.now().add(const Duration(days: 30));
+                        
+                        // Make sure firstDate is not after lastDate
+                        final validFirstDate = firstDate.isAfter(lastDate) ? lastDate : firstDate;
+                        final validLastDate = lastDate.isBefore(firstDate) ? firstDate : lastDate;
+                        
+                        // Ensure initial date is within valid range
+                        DateTime initialDate = selectedActivityDate;
+                        if (initialDate.isBefore(validFirstDate)) {
+                          initialDate = validFirstDate;
+                        } else if (initialDate.isAfter(validLastDate)) {
+                          initialDate = validLastDate;
+                        }
+                        
                         final date = await showDatePicker(
                           context: context,
-                          initialDate: selectedActivityDate,
-                          firstDate: DateTime.now().subtract(const Duration(days: 30)),
-                          lastDate: DateTime.now().add(const Duration(days: 365)),
+                          initialDate: initialDate,
+                          firstDate: validFirstDate,
+                          lastDate: validLastDate,
                           builder: (context, child) {
                             return Theme(
                               data: Theme.of(context).copyWith(

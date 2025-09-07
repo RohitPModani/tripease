@@ -3,7 +3,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import '../../models/trip.dart';
 import '../../models/todo_item.dart';
-import '../../models/booking.dart';
 import '../../models/expense.dart';
 import '../../themes/app_theme.dart';
 import '../../providers/todo_provider.dart';
@@ -14,6 +13,7 @@ import '../../widgets/booking_form_modal.dart';
 import '../../widgets/expense_form_modal.dart';
 import '../../widgets/itinerary_form_modal.dart';
 import '../../l10n/app_localizations.dart';
+import '../../utils/currency_formatter.dart';
 
 class OverviewTab extends StatefulWidget {
   final Trip trip;
@@ -240,7 +240,7 @@ class _OverviewTabState extends State<OverviewTab> {
         Expanded(
           child: _buildStatCard(
             AppLocalizations.of(context)!.totalExpenses,
-            '${widget.trip.defaultCurrency} ${totalExpenses.toStringAsFixed(0)}',
+            CurrencyFormatter.formatAmount(totalExpenses, widget.trip.defaultCurrency),
             Iconsax.dollar_circle,
             AppTheme.accentColor,
             null,
@@ -358,7 +358,7 @@ class _OverviewTabState extends State<OverviewTab> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(16),
             child: Row(
               children: [
                 Container(
@@ -429,7 +429,7 @@ class _OverviewTabState extends State<OverviewTab> {
                   child: _buildQuickActionButton(
                     'Booking',
                     Iconsax.airplane,
-                    AppTheme.accentColor,
+                    AppTheme.secondaryColor,
                     () => BookingFormModal.show(context, widget.trip.id, widget.trip.defaultCurrency),
                   ),
                 ),
@@ -438,7 +438,7 @@ class _OverviewTabState extends State<OverviewTab> {
                   child: _buildQuickActionButton(
                     'Expense',
                     Iconsax.dollar_circle,
-                    AppTheme.secondaryColor,
+                    AppTheme.accentColor,
                     () => ExpenseFormModal.show(context, widget.trip.id, widget.trip.defaultCurrency),
                   ),
                 ),
@@ -459,7 +459,9 @@ class _OverviewTabState extends State<OverviewTab> {
                           ),
                         );
                       },
-                      selectedDate: DateTime.now(),
+                      selectedDate: null, // Let the modal use trip start date as default
+                      tripStartDate: widget.trip.startDate,
+                      tripEndDate: widget.trip.endDate,
                     ),
                   ),
                 ),

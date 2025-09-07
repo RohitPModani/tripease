@@ -250,14 +250,21 @@ class _ItineraryTabState extends State<ItineraryTab> {
               ),
             ),
             const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: () => _showAddActivityDialog(days[selectedDayIndex]),
-              icon: const Icon(Iconsax.add),
-              label: Text(AppLocalizations.of(context)!.addActivity),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.primaryColor,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            Container(
+              decoration: AppTheme.glowingButtonDecoration,
+              child: ElevatedButton.icon(
+                onPressed: () => _showAddActivityDialog(days[selectedDayIndex]),
+                icon: const Icon(Iconsax.add),
+                label: Text(
+                  AppLocalizations.of(context)!.addActivity,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  elevation: 0,
+                ),
               ),
             ),
           ],

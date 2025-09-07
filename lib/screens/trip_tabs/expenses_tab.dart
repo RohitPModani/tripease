@@ -6,6 +6,7 @@ import '../../models/expense.dart';
 import '../../themes/app_theme.dart';
 import '../../providers/expense_provider.dart';
 import '../../l10n/app_localizations.dart';
+import '../../utils/currency_formatter.dart';
 import 'package:uuid/uuid.dart';
 
 class ExpensesTab extends StatefulWidget {
@@ -295,7 +296,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${widget.trip.defaultCurrency} ${_getTotalExpenses(expenses).toStringAsFixed(2)}',
+                        CurrencyFormatter.formatAmount(_getTotalExpenses(expenses), widget.trip.defaultCurrency),
                         style: const TextStyle(
                           color: AppTheme.accentColor,
                           fontWeight: FontWeight.w700,
@@ -338,7 +339,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                         ),
                       ),
                       Text(
-                        '${widget.trip.defaultCurrency} ${entry.value.toStringAsFixed(2)}',
+                        CurrencyFormatter.formatAmount(entry.value, widget.trip.defaultCurrency),
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
@@ -401,14 +402,21 @@ class _ExpensesTabState extends State<ExpensesTab> {
               ),
             ),
             const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: () => _showAddExpenseDialog(expenseProvider),
-              icon: const Icon(Iconsax.add),
-              label: Text(AppLocalizations.of(context)!.addExpense),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.accentColor,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            Container(
+              decoration: AppTheme.glowingButtonDecoration,
+              child: ElevatedButton.icon(
+                onPressed: () => _showAddExpenseDialog(expenseProvider),
+                icon: const Icon(Iconsax.add),
+                label: Text(
+                  AppLocalizations.of(context)!.addExpense,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  elevation: 0,
+                ),
               ),
             ),
           ],
@@ -591,7 +599,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '${widget.trip.defaultCurrency} ${expense.amount.toStringAsFixed(2)}',
+                CurrencyFormatter.formatAmount(expense.amount, widget.trip.defaultCurrency),
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
@@ -731,7 +739,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                '${widget.trip.defaultCurrency} ${expense.amount.toStringAsFixed(2)}',
+                                CurrencyFormatter.formatAmount(expense.amount, widget.trip.defaultCurrency),
                                 style: const TextStyle(
                                   color: AppTheme.accentColor,
                                   fontWeight: FontWeight.w700,
@@ -1317,7 +1325,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Total: ${widget.trip.defaultCurrency} ${_getTotalExpenses(expenses).toStringAsFixed(2)}',
+                'Total: ${CurrencyFormatter.formatAmount(_getTotalExpenses(expenses), widget.trip.defaultCurrency)}',
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 18,
@@ -1340,7 +1348,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                       children: [
                         Text(entry.key),
                         Text(
-                          '${widget.trip.defaultCurrency} ${entry.value.toStringAsFixed(2)}',
+                          CurrencyFormatter.formatAmount(entry.value, widget.trip.defaultCurrency),
                           style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ],

@@ -6,6 +6,7 @@ import '../themes/app_theme.dart';
 import '../models/trip.dart';
 import '../providers/trip_provider.dart';
 import '../l10n/app_localizations.dart';
+import '../utils/currency_formatter.dart';
 
 class CreateTripScreen extends StatefulWidget {
   const CreateTripScreen({super.key});
@@ -36,9 +37,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   String _selectedCurrency = 'USD';
   bool _isLoading = false;
 
-  final List<String> _currencies = [
-    'USD', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD', 'CHF', 'CNY', 'INR', 'KRW'
-  ];
+  final List<String> _currencies = CurrencyFormatter.getAllSupportedCurrencies();
 
   @override
   void initState() {
@@ -461,7 +460,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       items: _currencies.map((currency) {
         return DropdownMenuItem(
           value: currency,
-          child: Text(currency),
+          child: Text(CurrencyFormatter.getCurrencyDisplayName(currency)),
         );
       }).toList(),
       onChanged: (value) {

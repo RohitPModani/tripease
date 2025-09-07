@@ -11,6 +11,7 @@ import '../../providers/booking_provider.dart';
 import '../../widgets/booking_form_modal.dart';
 import '../../widgets/document_viewer.dart';
 import '../../l10n/app_localizations.dart';
+import '../../utils/currency_formatter.dart';
 
 class BookingsTab extends StatefulWidget {
   final Trip trip;
@@ -661,7 +662,7 @@ class _BookingsTabState extends State<BookingsTab> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          '${widget.trip.defaultCurrency} ${booking.amount.toStringAsFixed(2)}',
+                          CurrencyFormatter.formatAmount(booking.amount, widget.trip.defaultCurrency),
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 16,
