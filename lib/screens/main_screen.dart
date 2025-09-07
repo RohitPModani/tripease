@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 import '../themes/app_theme.dart';
 import 'trips_screen.dart';
 import 'documents_screen.dart';
@@ -69,18 +69,17 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   }
 
   List<String> _getTabTitles(BuildContext context) {
-    // final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
     return [
-      'Trips', // l10n.trips,
-      'Documents', // l10n.documents,
-      'Settings', // l10n.settings,
+      l10n.trips,
+      l10n.documents,
+      l10n.settings,
     ];
   }
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    // final l10n = AppLocalizations.of(context)!;
     final tabTitles = _getTabTitles(context);
     
     return Scaffold(

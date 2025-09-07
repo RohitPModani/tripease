@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'database/database.dart';
 import 'repositories/trip_repository.dart';
@@ -18,7 +18,7 @@ import 'screens/main_screen.dart';
 import 'screens/create_trip_screen.dart';
 import 'screens/trip_detail_screen.dart';
 import 'providers/localization_provider.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,19 +62,19 @@ class TripeaseApp extends StatelessWidget {
     return Consumer<LocalizationProvider>(
       builder: (context, localizationProvider, child) {
         return MaterialApp(
-          title: 'Tripease',
+          title: 'Tripease', // App title - not localized as it's the app name
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: ThemeMode.system,
           locale: localizationProvider.currentLocale,
-          // localizationsDelegates: const [
-          //   AppLocalizations.delegate,
-          //   GlobalMaterialLocalizations.delegate,
-          //   GlobalWidgetsLocalizations.delegate,
-          //   GlobalCupertinoLocalizations.delegate,
-          // ],
-          // supportedLocales: localizationProvider.supportedLocales,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
           home: const MainScreen(),
           onGenerateRoute: (settings) {
             switch (settings.name) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import '../themes/app_theme.dart';
+import '../l10n/app_localizations.dart';
 
 class DocumentsScreen extends StatefulWidget {
   const DocumentsScreen({super.key});
@@ -138,11 +139,11 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
           onChanged: (value) {
             // TODO: Implement search filtering
           },
-          decoration: const InputDecoration(
-            hintText: 'Search documents...',
-            prefixIcon: Icon(Iconsax.search_normal_1),
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)!.searchDocuments,
+            prefixIcon: const Icon(Iconsax.search_normal_1),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.all(16),
+            contentPadding: const EdgeInsets.all(16),
           ),
         ),
       ),
@@ -170,9 +171,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
         labelStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.w600,
         ),
-        tabs: const [
-          Tab(text: 'Personal'),
-          Tab(text: 'Trip Related'),
+        tabs: [
+          Tab(text: AppLocalizations.of(context)!.personal),
+          Tab(text: AppLocalizations.of(context)!.tripRelated),
         ],
       ),
     );
@@ -382,8 +383,8 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
             const SizedBox(height: 24),
             _buildUploadOption(
               icon: Iconsax.camera,
-              title: 'Take Photo',
-              subtitle: 'Capture document with camera',
+              title: AppLocalizations.of(context)!.takePhoto,
+              subtitle: AppLocalizations.of(context)!.captureDocumentWithCamera,
               onTap: () {
                 Navigator.pop(context);
                 // TODO: Implement camera capture
@@ -392,8 +393,8 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
             const SizedBox(height: 16),
             _buildUploadOption(
               icon: Iconsax.gallery,
-              title: 'Choose from Gallery',
-              subtitle: 'Select from photo library',
+              title: AppLocalizations.of(context)!.chooseFromGallery,
+              subtitle: AppLocalizations.of(context)!.selectFromPhotoLibrary,
               onTap: () {
                 Navigator.pop(context);
                 // TODO: Implement gallery selection
@@ -402,8 +403,8 @@ class _DocumentsScreenState extends State<DocumentsScreen> with TickerProviderSt
             const SizedBox(height: 16),
             _buildUploadOption(
               icon: Iconsax.document,
-              title: 'Choose File',
-              subtitle: 'Select PDF or other files',
+              title: AppLocalizations.of(context)!.chooseFile,
+              subtitle: AppLocalizations.of(context)!.selectPdfOrOtherFiles,
               onTap: () {
                 Navigator.pop(context);
                 // TODO: Implement file selection

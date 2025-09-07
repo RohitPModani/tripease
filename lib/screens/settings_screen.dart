@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 import '../themes/app_theme.dart';
 import '../providers/localization_provider.dart';
 
@@ -18,7 +18,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _enableLocationServices = true;
   String _defaultCurrency = 'USD';
   String _dateFormat = 'MM/DD/YYYY';
-  String _temperatureUnit = 'Celsius';
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
         title: Text(
-          'Settings', // l10n.settings,
+          AppLocalizations.of(context)!.settings,
           style: Theme.of(context).textTheme.displayMedium?.copyWith(
             fontWeight: FontWeight.w700,
             foreground: Paint()
@@ -91,7 +90,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildProfileSection() {
     return _buildSection(
-      title: 'Profile',
+      title: AppLocalizations.of(context)!.profile,
       children: [
         _buildProfileTile(),
       ],
@@ -99,16 +98,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildPreferencesSection() {
-    // final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
     final localizationProvider = Provider.of<LocalizationProvider>(context);
     
     return _buildSection(
-      title: 'Preferences', // l10n.preferences,
+      title: l10n.preferences,
       children: [
         _buildSwitchTile(
           icon: Iconsax.moon,
-          title: 'Dark Mode', // l10n.darkMode,
-          subtitle: 'Switch between light and dark theme', // l10n.switchBetweenLightAndDarkTheme,
+          title: l10n.darkMode,
+          subtitle: l10n.switchBetweenLightAndDarkTheme,
           value: _isDarkMode,
           onChanged: (value) {
             setState(() {
@@ -118,7 +117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         _buildActionTile(
           icon: Iconsax.language_square,
-          title: 'Language', // l10n.language,
+          title: l10n.language,
           subtitle: localizationProvider.getLanguageNativeName(localizationProvider.currentLocale),
           onTap: () {
             _showLanguageSelector(context);
@@ -126,8 +125,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         _buildDropdownTile(
           icon: Iconsax.dollar_circle,
-          title: 'Default Currency',
-          subtitle: 'Currency used for new trips',
+          title: l10n.defaultCurrency,
+          subtitle: l10n.currencyUsedForNewTrips,
           value: _defaultCurrency,
           items: const ['USD', 'EUR', 'GBP', 'JPY', 'INR'],
           onChanged: (value) {
@@ -138,8 +137,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         _buildDropdownTile(
           icon: Iconsax.calendar_1,
-          title: 'Date Format',
-          subtitle: 'How dates are displayed',
+          title: l10n.dateFormat,
+          subtitle: l10n.howDatesAreDisplayed,
           value: _dateFormat,
           items: const ['MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD'],
           onChanged: (value) {
@@ -153,13 +152,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildAppSection() {
+    final l10n = AppLocalizations.of(context)!;
     return _buildSection(
-      title: 'App Settings',
+      title: l10n.appSettings,
       children: [
         _buildSwitchTile(
           icon: Iconsax.notification,
-          title: 'Push Notifications',
-          subtitle: 'Get reminders and updates',
+          title: l10n.pushNotifications,
+          subtitle: l10n.getRemindersAndUpdates,
           value: _enableNotifications,
           onChanged: (value) {
             setState(() {
@@ -169,8 +169,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         _buildSwitchTile(
           icon: Iconsax.location,
-          title: 'Location Services',
-          subtitle: 'Allow location-based features',
+          title: l10n.locationServices,
+          subtitle: l10n.allowLocationBasedFeatures,
           value: _enableLocationServices,
           onChanged: (value) {
             setState(() {
@@ -180,24 +180,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         _buildActionTile(
           icon: Iconsax.cloud,
-          title: 'Backup & Sync',
-          subtitle: 'Manage your data backup',
+          title: l10n.backupAndSync,
+          subtitle: l10n.manageYourDataBackup,
           onTap: () {
             // TODO: Implement backup settings
           },
         ),
         _buildActionTile(
           icon: Iconsax.import,
-          title: 'Import Data',
-          subtitle: 'Import trips from other apps',
+          title: l10n.importData,
+          subtitle: l10n.importTripsFromOtherApps,
           onTap: () {
             // TODO: Implement data import
           },
         ),
         _buildActionTile(
           icon: Iconsax.export,
-          title: 'Export Data',
-          subtitle: 'Export your trip data',
+          title: l10n.exportData,
+          subtitle: l10n.exportYourTripData,
           onTap: () {
             // TODO: Implement data export
           },
@@ -207,43 +207,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildAboutSection() {
+    final l10n = AppLocalizations.of(context)!;
     return _buildSection(
-      title: 'About',
+      title: l10n.about,
       children: [
         _buildActionTile(
           icon: Iconsax.info_circle,
-          title: 'App Version',
-          subtitle: '1.0.0 (Beta)',
+          title: l10n.appVersion,
+          subtitle: AppLocalizations.of(context)!.appVersionBeta,
           onTap: null,
         ),
         _buildActionTile(
           icon: Iconsax.heart,
-          title: 'Rate App',
-          subtitle: 'Leave a review on the app store',
+          title: l10n.rateApp,
+          subtitle: l10n.leaveAReviewOnTheAppStore,
           onTap: () {
             // TODO: Open app store for rating
           },
         ),
         _buildActionTile(
           icon: Iconsax.message_question,
-          title: 'Help & Support',
-          subtitle: 'FAQs and contact information',
+          title: l10n.helpAndSupport,
+          subtitle: l10n.faqsAndContactInformation,
           onTap: () {
             // TODO: Open help section
           },
         ),
         _buildActionTile(
           icon: Iconsax.document_text,
-          title: 'Privacy Policy',
-          subtitle: 'Read our privacy policy',
+          title: l10n.privacyPolicy,
+          subtitle: l10n.readOurPrivacyPolicy,
           onTap: () {
             // TODO: Open privacy policy
           },
         ),
         _buildActionTile(
           icon: Iconsax.shield_tick,
-          title: 'Terms of Service',
-          subtitle: 'Read our terms and conditions',
+          title: l10n.termsOfService,
+          subtitle: l10n.readOurTermsAndConditions,
           onTap: () {
             // TODO: Open terms of service
           },
@@ -253,13 +254,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildDangerZoneSection() {
+    final l10n = AppLocalizations.of(context)!;
     return _buildSection(
-      title: 'Danger Zone',
+      title: l10n.dangerZone,
       children: [
         _buildActionTile(
           icon: Iconsax.trash,
-          title: 'Clear All Data',
-          subtitle: 'Remove all trips and documents',
+          title: l10n.clearAllData,
+          subtitle: l10n.removeAllTripsAndDocuments,
           onTap: () {
             _showClearDataDialog();
           },
@@ -321,8 +323,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           size: 24,
         ),
       ),
-      title: const Text('John Doe'),
-      subtitle: const Text('john.doe@email.com'),
+      title: Text(AppLocalizations.of(context)!.defaultUserName),
+      subtitle: Text(AppLocalizations.of(context)!.defaultUserEmail),
       trailing: const Icon(
         Iconsax.edit_2,
         color: AppTheme.textSecondary,
@@ -475,7 +477,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             const SizedBox(height: 24),
             Text(
-              'Language', // l10n.language,
+              AppLocalizations.of(context)!.language,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 24),
@@ -558,16 +560,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _showClearDataDialog() {
-    // final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Clear All Data'), // l10n.clearAllData),
-        content: Text('This action cannot be undone. All your trips, documents, and settings will be permanently deleted.'), // l10n.clearAllDataConfirmation),
+        title: Text(l10n.clearAllData),
+        content: Text(l10n.clearAllDataConfirmation),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cancel'), // l10n.cancel),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () {
@@ -577,7 +579,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             style: TextButton.styleFrom(
               foregroundColor: AppTheme.error,
             ),
-            child: Text('Clear All'), // l10n.clearAll),
+            child: Text(l10n.clearAll),
           ),
         ],
       ),

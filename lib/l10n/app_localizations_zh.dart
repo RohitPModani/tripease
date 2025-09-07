@@ -267,4 +267,358 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get italian => 'Italiano';
+
+  @override
+  String get title => '标题';
+
+  @override
+  String get description => '描述';
+
+  @override
+  String get amount => '金额';
+
+  @override
+  String get date => '日期';
+
+  @override
+  String get edit => '编辑';
+
+  @override
+  String get retry => '重试';
+
+  @override
+  String get add => '添加';
+
+  @override
+  String get update => '更新';
+
+  @override
+  String get close => '关闭';
+
+  @override
+  String get failedToLoad => '加载失败';
+
+  @override
+  String get noDataYet => '暂无数据';
+
+  @override
+  String get startPlanning => '开始规划您的下一次冒险！';
+
+  @override
+  String get createTrip => '创建旅行';
+
+  @override
+  String get addExpense => '添加支出';
+
+  @override
+  String get addActivity => '添加活动';
+
+  @override
+  String get addBooking => '添加预订';
+
+  @override
+  String get totalExpenses => '总支出';
+
+  @override
+  String get toDoItems => '待办事项';
+
+  @override
+  String get expenseDetails => '支出详情';
+
+  @override
+  String get expenseTitle => '支出标题';
+
+  @override
+  String get category => '类别';
+
+  @override
+  String get paidBy => '付款人';
+
+  @override
+  String get you => '您';
+
+  @override
+  String get allDay => '全天';
+
+  @override
+  String get startTime => '开始时间';
+
+  @override
+  String get endTime => '结束时间';
+
+  @override
+  String get activityTitle => '活动标题';
+
+  @override
+  String get activityType => '活动类型';
+
+  @override
+  String get bookingTitle => '预订标题';
+
+  @override
+  String get bookingType => '预订类型';
+
+  @override
+  String get status => '状态';
+
+  @override
+  String get addFile => '添加文件';
+
+  @override
+  String get fileNotFound => '文件未找到';
+
+  @override
+  String get fileMovedOrDeleted => '文件可能已被移动或删除';
+
+  @override
+  String get cannotDisplayImage => '无法显示图像';
+
+  @override
+  String get openExternally => '外部打开';
+
+  @override
+  String get failedToReadFile => '读取文件数据失败';
+
+  @override
+  String get deleteExpense => '删除支出';
+
+  @override
+  String get deleteExpenseConfirmation => '您确定要删除此支出吗？';
+
+  @override
+  String get expenseBreakdown => '支出明细';
+
+  @override
+  String get breakdown => '明细';
+
+  @override
+  String get noExpensesYet => '暂无支出';
+
+  @override
+  String get noActivitiesPlanned => '暂无计划的活动';
+
+  @override
+  String get splitDetails => '分摊详情';
+
+  @override
+  String get editExpense => '编辑支出';
+
+  @override
+  String get addNewExpense => '添加新支出';
+
+  @override
+  String get editActivity => '编辑活动';
+
+  @override
+  String get addNewActivity => '添加新活动';
+
+  @override
+  String get editBooking => '编辑预订';
+
+  @override
+  String get addNewBooking => '添加新预订';
+
+  @override
+  String get updateExpense => '更新支出';
+
+  @override
+  String get updateActivity => '更新活动';
+
+  @override
+  String get updateBooking => '更新预订';
+
+  @override
+  String get transport => '交通';
+
+  @override
+  String get accommodation => '住宿';
+
+  @override
+  String get activities => '活动';
+
+  @override
+  String get shopping => '购物';
+
+  @override
+  String get sightseeing => '观光';
+
+  @override
+  String get meal => '餐饮';
+
+  @override
+  String get entertainment => '娱乐';
+
+  @override
+  String get other => '其他';
+
+  @override
+  String get noBookingsYet => '暂无预订';
+
+  @override
+  String get addFirstBooking => '添加第一个预订';
+
+  @override
+  String get bookingDetails => '预订详情';
+
+  @override
+  String get vendor => '供应商';
+
+  @override
+  String get confirmationNumber => '确认号';
+
+  @override
+  String get attachments => '附件';
+
+  @override
+  String get failedToLoadTodos => '加载待办事项失败';
+
+  @override
+  String get task => '任务';
+
+  @override
+  String allWithCount(int count) {
+    return '全部 ($count)';
+  }
+
+  @override
+  String get noToDoItems => '暂无待办事项';
+
+  @override
+  String get stayOrganizedMessage => '通过为旅行规划添加任务来保持井然有序！';
+
+  @override
+  String get addFirstTask => '添加第一个任务';
+
+  @override
+  String get taskDetails => '任务详情';
+
+  @override
+  String get completed => '已完成';
+
+  @override
+  String get pending => '待处理';
+
+  @override
+  String get priority => '优先级';
+
+  @override
+  String get dueDate => '截止日期';
+
+  @override
+  String get editTask => '编辑任务';
+
+  @override
+  String get addNewTask => '添加新任务';
+
+  @override
+  String get updateTask => '更新任务';
+
+  @override
+  String get addTask => '添加任务';
+
+  @override
+  String get deleteTask => '删除任务';
+
+  @override
+  String deleteTaskConfirmation(String title) {
+    return '您确定要删除\"$title\"吗？此操作无法撤销。';
+  }
+
+  @override
+  String get keepTrackMessage => '跟踪您的航班、酒店和活动！';
+
+  @override
+  String get previewNotAvailable => '此文件类型不支持预览。\n点击\"外部打开\"以使用其他应用查看。';
+
+  @override
+  String get appVersionBeta => '1.0.0 (测试版)';
+
+  @override
+  String get defaultUserName => '张三';
+
+  @override
+  String get defaultUserEmail => 'zhang.san@email.com';
+
+  @override
+  String get taskTitle => '任务标题';
+
+  @override
+  String get descriptionOptional => '描述（可选）';
+
+  @override
+  String get setDueDateOptional => '设置截止日期（可选）';
+
+  @override
+  String dueWithDate(int day, int month, int year) {
+    return '截止日期：$year/$month/$day';
+  }
+
+  @override
+  String get urgent => '紧急';
+
+  @override
+  String get high => '高';
+
+  @override
+  String get medium => '中等';
+
+  @override
+  String get low => '低';
+
+  @override
+  String failedToAddUpdateTask(String action, String error) {
+    return '任务$action失败：$error';
+  }
+
+  @override
+  String get vendorCompanyOptional => '供应商/公司（可选）';
+
+  @override
+  String get confirmationNumberOptional => '确认号码（可选）';
+
+  @override
+  String amountCurrency(String currency) {
+    return '金额（$currency）';
+  }
+
+  @override
+  String get setBookingDateOptional => '设置预订日期（可选）';
+
+  @override
+  String dateWithDate(int day, int month, int year) {
+    return '日期：$year/$month/$day';
+  }
+
+  @override
+  String get attachmentsOptional => '附件（可选）';
+
+  @override
+  String get maxFileSizeSupported =>
+      '最大文件大小：5MB\n支持格式：PDF、DOC、DOCX、JPG、PNG、GIF';
+
+  @override
+  String failedToAddUpdateBooking(String action, String error) {
+    return '预订$action失败：$error';
+  }
+
+  @override
+  String fileAttachedSuccessfully(String filename) {
+    return '$filename 附加成功';
+  }
+
+  @override
+  String get fileSizeMustBeLess => '文件大小必须小于5MB';
+
+  @override
+  String failedToPickFile(String error) {
+    return '文件选择失败：$error';
+  }
+
+  @override
+  String errorSharingFile(String error) {
+    return '文件分享错误：$error';
+  }
+
+  @override
+  String get unknown => '未知';
 }

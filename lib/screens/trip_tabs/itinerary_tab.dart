@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../models/trip.dart';
 import '../../themes/app_theme.dart';
+import '../../l10n/app_localizations.dart';
 
 class ItineraryTab extends StatefulWidget {
   final Trip trip;
@@ -234,7 +235,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
             ),
             const SizedBox(height: 24),
             Text(
-              'No activities planned',
+              AppLocalizations.of(context)!.noActivitiesPlanned,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -252,7 +253,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
             ElevatedButton.icon(
               onPressed: () => _showAddActivityDialog(days[selectedDayIndex]),
               icon: const Icon(Iconsax.add),
-              label: const Text('Add Activity'),
+              label: Text(AppLocalizations.of(context)!.addActivity),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryColor,
                 foregroundColor: Colors.white,
@@ -286,10 +287,10 @@ class _ItineraryTabState extends State<ItineraryTab> {
           color: AppTheme.primaryColor,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Align(
+        child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 20),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -298,10 +299,10 @@ class _ItineraryTabState extends State<ItineraryTab> {
                   color: Colors.white,
                   size: 24,
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Text(
-                  'Edit',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.edit,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -318,22 +319,22 @@ class _ItineraryTabState extends State<ItineraryTab> {
           color: AppTheme.error,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Align(
+        child: Align(
           alignment: Alignment.centerRight,
           child: Padding(
-            padding: EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.only(right: 20),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Delete',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.delete,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Icon(
                   Iconsax.trash,
                   color: Colors.white,
@@ -395,7 +396,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
                       ),
                     if (activity.startTime == null)
                       Text(
-                        'All Day',
+                        AppLocalizations.of(context)!.allDay,
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 10,

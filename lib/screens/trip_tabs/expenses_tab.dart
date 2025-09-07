@@ -5,6 +5,7 @@ import '../../models/trip.dart';
 import '../../models/expense.dart';
 import '../../themes/app_theme.dart';
 import '../../providers/expense_provider.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:uuid/uuid.dart';
 
 class ExpensesTab extends StatefulWidget {
@@ -48,7 +49,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
     final Map<String, double> personTotals = {};
     
     for (final expense in _getFilteredExpenses(expenses)) {
-      final paidBy = expense.paidBy.isNotEmpty ? expense.paidBy : 'You';
+      final paidBy = expense.paidBy.isNotEmpty ? expense.paidBy : AppLocalizations.of(context)!.you;
       personTotals[paidBy] = (personTotals[paidBy] ?? 0) + expense.amount;
     }
     
@@ -79,7 +80,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Failed to load expenses',
+                  AppLocalizations.of(context)!.failedToLoad + ' expenses',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
@@ -93,7 +94,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () => expenseProvider.loadExpenses(widget.trip.id),
-                  child: const Text('Retry'),
+                  child: Text(AppLocalizations.of(context)!.retry),
                 ),
               ],
             ),
@@ -144,9 +145,9 @@ class _ExpensesTabState extends State<ExpensesTab> {
             child: FloatingActionButton.extended(
               onPressed: () => _showAddExpenseDialog(expenseProvider),
               icon: const Icon(Iconsax.add),
-              label: const Text(
-                'Expense',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              label: Text(
+                AppLocalizations.of(context)!.addExpense,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.white,
@@ -287,7 +288,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Total Expenses',
+                        AppLocalizations.of(context)!.totalExpenses,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -306,7 +307,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                 ),
                 TextButton(
                   onPressed: () => _showExpenseBreakdown(expenses),
-                  child: const Text('Breakdown'),
+                  child: Text(AppLocalizations.of(context)!.breakdown),
                 ),
               ],
             ),
@@ -385,7 +386,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
             ),
             const SizedBox(height: 24),
             Text(
-              'No Expenses Yet',
+              AppLocalizations.of(context)!.noExpensesYet,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -403,7 +404,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
             ElevatedButton.icon(
               onPressed: () => _showAddExpenseDialog(expenseProvider),
               icon: const Icon(Iconsax.add),
-              label: const Text('Add Expense'),
+              label: Text(AppLocalizations.of(context)!.addExpense),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.accentColor,
                 foregroundColor: Colors.white,
@@ -437,10 +438,10 @@ class _ExpensesTabState extends State<ExpensesTab> {
           color: AppTheme.primaryColor,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Align(
+        child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 20),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -449,10 +450,10 @@ class _ExpensesTabState extends State<ExpensesTab> {
                   color: Colors.white,
                   size: 24,
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Text(
-                  'Edit',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.edit,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -469,22 +470,22 @@ class _ExpensesTabState extends State<ExpensesTab> {
           color: AppTheme.error,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Align(
+        child: Align(
           alignment: Alignment.centerRight,
           child: Padding(
-            padding: EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.only(right: 20),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Delete',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.delete,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Icon(
                   Iconsax.trash,
                   color: Colors.white,
@@ -1309,7 +1310,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Expense Breakdown'),
+        title: Text(AppLocalizations.of(context)!.expenseBreakdown),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,

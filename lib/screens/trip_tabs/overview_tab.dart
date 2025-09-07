@@ -13,6 +13,7 @@ import '../../widgets/todo_form_modal.dart';
 import '../../widgets/booking_form_modal.dart';
 import '../../widgets/expense_form_modal.dart';
 import '../../widgets/itinerary_form_modal.dart';
+import '../../l10n/app_localizations.dart';
 
 class OverviewTab extends StatefulWidget {
   final Trip trip;
@@ -228,7 +229,7 @@ class _OverviewTabState extends State<OverviewTab> {
       children: [
         Expanded(
           child: _buildStatCard(
-            'To-Do Items',
+            AppLocalizations.of(context)!.toDoItems,
             '$completedTodos/${todos.length}',
             Iconsax.task_square,
             AppTheme.primaryColor,
@@ -238,7 +239,7 @@ class _OverviewTabState extends State<OverviewTab> {
         const SizedBox(width: 12),
         Expanded(
           child: _buildStatCard(
-            'Total Expenses',
+            AppLocalizations.of(context)!.totalExpenses,
             '${widget.trip.defaultCurrency} ${totalExpenses.toStringAsFixed(0)}',
             Iconsax.dollar_circle,
             AppTheme.accentColor,

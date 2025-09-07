@@ -10,6 +10,7 @@ import '../../themes/app_theme.dart';
 import '../../providers/booking_provider.dart';
 import '../../widgets/booking_form_modal.dart';
 import '../../widgets/document_viewer.dart';
+import '../../l10n/app_localizations.dart';
 
 class BookingsTab extends StatefulWidget {
   final Trip trip;
@@ -103,9 +104,9 @@ class _BookingsTabState extends State<BookingsTab> {
             child: FloatingActionButton.extended(
               onPressed: () => _showAddBookingDialog(bookingProvider),
               icon: const Icon(Iconsax.add),
-              label: const Text(
-                'Booking',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              label: Text(
+                AppLocalizations.of(context)!.addBooking,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.white,
@@ -140,7 +141,7 @@ class _BookingsTabState extends State<BookingsTab> {
               child: Row(
                 children: [
                   FilterChip(
-                    label: Text('All (${bookings.length})'),
+                    label: Text(AppLocalizations.of(context)!.allWithCount(bookings.length)),
                     selected: _selectedType == null,
                     onSelected: (selected) {
                       setState(() {
@@ -207,16 +208,16 @@ class _BookingsTabState extends State<BookingsTab> {
             ),
             const SizedBox(height: 24),
             Text(
-              'No Bookings Yet',
+              AppLocalizations.of(context)!.noBookingsYet,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Keep track of your flights, hotels, and activities!',
+            Text(
+              AppLocalizations.of(context)!.keepTrackMessage,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppTheme.textSecondary,
                 height: 1.4,
               ),
@@ -227,9 +228,9 @@ class _BookingsTabState extends State<BookingsTab> {
               child: ElevatedButton.icon(
                 onPressed: () => _showAddBookingDialog(bookingProvider),
                 icon: const Icon(Iconsax.add),
-                label: const Text(
-                  'Add First Booking',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                label: Text(
+                  AppLocalizations.of(context)!.addFirstBooking,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
@@ -266,10 +267,10 @@ class _BookingsTabState extends State<BookingsTab> {
           color: AppTheme.primaryColor,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Align(
+        child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 20),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -278,10 +279,10 @@ class _BookingsTabState extends State<BookingsTab> {
                   color: Colors.white,
                   size: 24,
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Text(
-                  'Edit',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.edit,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -298,22 +299,22 @@ class _BookingsTabState extends State<BookingsTab> {
           color: AppTheme.error,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Align(
+        child: Align(
           alignment: Alignment.centerRight,
           child: Padding(
-            padding: EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.only(right: 20),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Delete',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.delete,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Icon(
                   Iconsax.trash,
                   color: Colors.white,
@@ -512,7 +513,7 @@ class _BookingsTabState extends State<BookingsTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Booking Details',
+                                AppLocalizations.of(context)!.bookingDetails,
                                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -531,7 +532,7 @@ class _BookingsTabState extends State<BookingsTab> {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'Title',
+                      AppLocalizations.of(context)!.title,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -544,7 +545,7 @@ class _BookingsTabState extends State<BookingsTab> {
                     if (booking.description.isNotEmpty) ...[
                       const SizedBox(height: 20),
                       Text(
-                        'Description',
+                        AppLocalizations.of(context)!.description,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -566,7 +567,7 @@ class _BookingsTabState extends State<BookingsTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Status',
+                                AppLocalizations.of(context)!.status,
                                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -599,7 +600,7 @@ class _BookingsTabState extends State<BookingsTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Date',
+                                  AppLocalizations.of(context)!.date,
                                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -631,7 +632,7 @@ class _BookingsTabState extends State<BookingsTab> {
                       const SizedBox(height: 20),
                       if (booking.vendor.isNotEmpty) ...[
                         Text(
-                          'Vendor',
+                          AppLocalizations.of(context)!.vendor,
                           style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -642,7 +643,7 @@ class _BookingsTabState extends State<BookingsTab> {
                       ],
                       if (booking.confirmationNumber.isNotEmpty) ...[
                         Text(
-                          'Confirmation Number',
+                          AppLocalizations.of(context)!.confirmationNumber,
                           style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -653,7 +654,7 @@ class _BookingsTabState extends State<BookingsTab> {
                       ],
                       if (booking.amount > 0) ...[
                         Text(
-                          'Amount',
+                          AppLocalizations.of(context)!.amount,
                           style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -672,7 +673,7 @@ class _BookingsTabState extends State<BookingsTab> {
                     if (booking.attachments.isNotEmpty) ...[
                       const SizedBox(height: 20),
                       Text(
-                        'Attachments',
+                        AppLocalizations.of(context)!.attachments,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -728,7 +729,7 @@ class _BookingsTabState extends State<BookingsTab> {
                                   color: AppTheme.primaryColor,
                                   size: 18,
                                 ),
-                                tooltip: 'View',
+                                tooltip: AppLocalizations.of(context)!.view,
                               ),
                               IconButton(
                                 onPressed: () => _downloadAttachment(attachment),
@@ -737,7 +738,7 @@ class _BookingsTabState extends State<BookingsTab> {
                                   color: AppTheme.secondaryColor,
                                   size: 18,
                                 ),
-                                tooltip: 'Download',
+                                tooltip: AppLocalizations.of(context)!.download,
                               ),
                               IconButton(
                                 onPressed: () => _shareAttachment(attachment),
@@ -746,7 +747,7 @@ class _BookingsTabState extends State<BookingsTab> {
                                   color: AppTheme.accentColor,
                                   size: 18,
                                 ),
-                                tooltip: 'Share',
+                                tooltip: AppLocalizations.of(context)!.share,
                               ),
                             ],
                           ),
@@ -763,7 +764,7 @@ class _BookingsTabState extends State<BookingsTab> {
                               _showEditBookingDialog(booking, bookingProvider);
                             },
                             icon: const Icon(Iconsax.edit_2),
-                            label: const Text('Edit'),
+                            label: Text(AppLocalizations.of(context)!.edit),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.primaryColor,
                               foregroundColor: Colors.white,
@@ -779,7 +780,7 @@ class _BookingsTabState extends State<BookingsTab> {
                               await bookingProvider.deleteBooking(booking.id);
                             },
                             icon: const Icon(Iconsax.trash),
-                            label: const Text('Delete'),
+                            label: Text(AppLocalizations.of(context)!.delete),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.error,
                               foregroundColor: Colors.white,

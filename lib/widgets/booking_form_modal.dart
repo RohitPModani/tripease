@@ -10,6 +10,7 @@ import '../models/booking.dart';
 import '../models/attachment.dart';
 import '../themes/app_theme.dart';
 import '../providers/booking_provider.dart';
+import '../l10n/app_localizations.dart';
 
 class BookingFormModal extends StatefulWidget {
   final String tripId;
@@ -102,8 +103,8 @@ class _BookingFormModalState extends State<BookingFormModal> {
         // Check if file has data
         if (file.bytes == null) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to read file data'),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.failedToReadFile),
               backgroundColor: AppTheme.error,
             ),
           );
@@ -113,8 +114,8 @@ class _BookingFormModalState extends State<BookingFormModal> {
         // Check file size (5MB limit)
         if (file.size > 5 * 1024 * 1024) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('File size must be less than 5MB'),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.fileSizeMustBeLess),
               backgroundColor: AppTheme.error,
             ),
           );
@@ -147,7 +148,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${file.name} attached successfully'),
+            content: Text(AppLocalizations.of(context)!.fileAttachedSuccessfully(file.name)),
             backgroundColor: AppTheme.success,
           ),
         );
@@ -156,7 +157,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
       print('File picker error: $e'); // Debug print
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to pick file: ${e.toString()}'),
+          content: Text(AppLocalizations.of(context)!.failedToPickFile(e.toString())),
           backgroundColor: AppTheme.error,
         ),
       );
@@ -237,7 +238,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         ),
                         const SizedBox(width: 12),
                         Text(
-                          isEdit ? 'Edit Booking' : 'Add New Booking',
+                          isEdit ? AppLocalizations.of(context)!.editBooking : AppLocalizations.of(context)!.addNewBooking,
                           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -248,7 +249,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                     TextFormField(
                       controller: titleController,
                       decoration: InputDecoration(
-                        labelText: 'Booking Title',
+                        labelText: AppLocalizations.of(context)!.bookingTitle,
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -266,7 +267,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                     DropdownButtonFormField<BookingType>(
                       value: selectedType,
                       decoration: InputDecoration(
-                        labelText: 'Booking Type',
+                        labelText: AppLocalizations.of(context)!.bookingType,
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -302,7 +303,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                     TextFormField(
                       controller: descriptionController,
                       decoration: InputDecoration(
-                        labelText: 'Description (Optional)',
+                        labelText: AppLocalizations.of(context)!.descriptionOptional,
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -320,7 +321,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                     TextFormField(
                       controller: vendorController,
                       decoration: InputDecoration(
-                        labelText: 'Vendor/Company (Optional)',
+                        labelText: AppLocalizations.of(context)!.vendorCompanyOptional,
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -337,7 +338,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                     TextFormField(
                       controller: confirmationController,
                       decoration: InputDecoration(
-                        labelText: 'Confirmation Number (Optional)',
+                        labelText: AppLocalizations.of(context)!.confirmationNumberOptional,
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -354,7 +355,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                     TextFormField(
                       controller: amountController,
                       decoration: InputDecoration(
-                        labelText: 'Amount (${widget.defaultCurrency})',
+                        labelText: AppLocalizations.of(context)!.amountCurrency(widget.defaultCurrency),
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -372,7 +373,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                     DropdownButtonFormField<BookingStatus>(
                       value: selectedStatus,
                       decoration: InputDecoration(
-                        labelText: 'Status',
+                        labelText: AppLocalizations.of(context)!.status,
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -452,8 +453,8 @@ class _BookingFormModalState extends State<BookingFormModal> {
                             const SizedBox(width: 8),
                             Text(
                               selectedDate == null
-                                  ? 'Set Booking Date (Optional)'
-                                  : 'Date: ${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}',
+                                  ? AppLocalizations.of(context)!.setBookingDateOptional
+                                  : AppLocalizations.of(context)!.dateWithDate(selectedDate!.day, selectedDate!.month, selectedDate!.year),
                               style: TextStyle(
                                 color: selectedDate == null 
                                   ? AppTheme.textSecondary 
@@ -497,7 +498,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                'Attachments (Optional)',
+                                AppLocalizations.of(context)!.attachmentsOptional,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: AppTheme.primaryColor,
@@ -507,7 +508,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                               TextButton.icon(
                                 onPressed: _pickFile,
                                 icon: const Icon(Iconsax.add_circle, size: 18),
-                                label: const Text('Add File'),
+                                label: Text(AppLocalizations.of(context)!.addFile),
                                 style: TextButton.styleFrom(
                                   foregroundColor: AppTheme.primaryColor,
                                 ),
@@ -577,7 +578,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8),
                               child: Text(
-                                'Max file size: 5MB\nSupported formats: PDF, DOC, DOCX, JPG, PNG, GIF',
+                                AppLocalizations.of(context)!.maxFileSizeSupported,
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: AppTheme.textSecondary,
@@ -601,7 +602,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                               ),
                             ),
                             child: Text(
-                              'Cancel',
+                              AppLocalizations.of(context)!.cancel,
                               style: TextStyle(color: AppTheme.textSecondary),
                             ),
                           ),
@@ -642,7 +643,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Failed to ${isEdit ? 'update' : 'add'} booking: $e'),
+                                      content: Text(AppLocalizations.of(context)!.failedToAddUpdateBooking(isEdit ? 'update' : 'add', e.toString())),
                                       backgroundColor: AppTheme.error,
                                     ),
                                   );
@@ -657,7 +658,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                                 ),
                               ),
                               child: Text(
-                                isEdit ? 'Update Booking' : 'Add Booking',
+                                isEdit ? AppLocalizations.of(context)!.updateBooking : AppLocalizations.of(context)!.addBooking,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,

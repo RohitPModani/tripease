@@ -273,4 +273,364 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get italian => 'Italiano';
+
+  @override
+  String get title => 'Titel';
+
+  @override
+  String get description => 'Beschreibung';
+
+  @override
+  String get amount => 'Betrag';
+
+  @override
+  String get date => 'Datum';
+
+  @override
+  String get edit => 'Bearbeiten';
+
+  @override
+  String get retry => 'Wiederholen';
+
+  @override
+  String get add => 'Hinzufügen';
+
+  @override
+  String get update => 'Aktualisieren';
+
+  @override
+  String get close => 'Schließen';
+
+  @override
+  String get failedToLoad => 'Laden fehlgeschlagen';
+
+  @override
+  String get noDataYet => 'Noch keine Daten';
+
+  @override
+  String get startPlanning =>
+      'Beginnen Sie mit der Planung Ihres nächsten Abenteuers!';
+
+  @override
+  String get createTrip => 'Reise erstellen';
+
+  @override
+  String get addExpense => 'Ausgabe hinzufügen';
+
+  @override
+  String get addActivity => 'Aktivität hinzufügen';
+
+  @override
+  String get addBooking => 'Buchung hinzufügen';
+
+  @override
+  String get totalExpenses => 'Gesamtausgaben';
+
+  @override
+  String get toDoItems => 'Aufgaben';
+
+  @override
+  String get expenseDetails => 'Ausgabendetails';
+
+  @override
+  String get expenseTitle => 'Ausgabentitel';
+
+  @override
+  String get category => 'Kategorie';
+
+  @override
+  String get paidBy => 'Bezahlt von';
+
+  @override
+  String get you => 'Sie';
+
+  @override
+  String get allDay => 'Ganztägig';
+
+  @override
+  String get startTime => 'Startzeit';
+
+  @override
+  String get endTime => 'Endzeit';
+
+  @override
+  String get activityTitle => 'Aktivitätstitel';
+
+  @override
+  String get activityType => 'Aktivitätstyp';
+
+  @override
+  String get bookingTitle => 'Buchungstitel';
+
+  @override
+  String get bookingType => 'Buchungstyp';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get addFile => 'Datei hinzufügen';
+
+  @override
+  String get fileNotFound => 'Datei nicht gefunden';
+
+  @override
+  String get fileMovedOrDeleted =>
+      'Die Datei wurde möglicherweise verschoben oder gelöscht';
+
+  @override
+  String get cannotDisplayImage => 'Bild kann nicht angezeigt werden';
+
+  @override
+  String get openExternally => 'Extern öffnen';
+
+  @override
+  String get failedToReadFile => 'Dateidaten konnten nicht gelesen werden';
+
+  @override
+  String get deleteExpense => 'Ausgabe löschen';
+
+  @override
+  String get deleteExpenseConfirmation =>
+      'Sind Sie sicher, dass Sie diese Ausgabe löschen möchten?';
+
+  @override
+  String get expenseBreakdown => 'Ausgabenaufschlüsselung';
+
+  @override
+  String get breakdown => 'Aufschlüsselung';
+
+  @override
+  String get noExpensesYet => 'Noch keine Ausgaben';
+
+  @override
+  String get noActivitiesPlanned => 'Keine Aktivitäten geplant';
+
+  @override
+  String get splitDetails => 'Aufteilungsdetails';
+
+  @override
+  String get editExpense => 'Ausgabe bearbeiten';
+
+  @override
+  String get addNewExpense => 'Neue Ausgabe hinzufügen';
+
+  @override
+  String get editActivity => 'Aktivität bearbeiten';
+
+  @override
+  String get addNewActivity => 'Neue Aktivität hinzufügen';
+
+  @override
+  String get editBooking => 'Buchung bearbeiten';
+
+  @override
+  String get addNewBooking => 'Neue Buchung hinzufügen';
+
+  @override
+  String get updateExpense => 'Ausgabe aktualisieren';
+
+  @override
+  String get updateActivity => 'Aktivität aktualisieren';
+
+  @override
+  String get updateBooking => 'Buchung aktualisieren';
+
+  @override
+  String get transport => 'Transport';
+
+  @override
+  String get accommodation => 'Unterkunft';
+
+  @override
+  String get activities => 'Aktivitäten';
+
+  @override
+  String get shopping => 'Einkaufen';
+
+  @override
+  String get sightseeing => 'Sightseeing';
+
+  @override
+  String get meal => 'Mahlzeit';
+
+  @override
+  String get entertainment => 'Unterhaltung';
+
+  @override
+  String get other => 'Andere';
+
+  @override
+  String get noBookingsYet => 'Noch keine Buchungen';
+
+  @override
+  String get addFirstBooking => 'Erste Buchung hinzufügen';
+
+  @override
+  String get bookingDetails => 'Buchungsdetails';
+
+  @override
+  String get vendor => 'Anbieter';
+
+  @override
+  String get confirmationNumber => 'Bestätigungsnummer';
+
+  @override
+  String get attachments => 'Anhänge';
+
+  @override
+  String get failedToLoadTodos => 'Fehler beim Laden der Aufgaben';
+
+  @override
+  String get task => 'Aufgabe';
+
+  @override
+  String allWithCount(int count) {
+    return 'Alle ($count)';
+  }
+
+  @override
+  String get noToDoItems => 'Keine Aufgaben';
+
+  @override
+  String get stayOrganizedMessage =>
+      'Bleiben Sie organisiert, indem Sie Aufgaben für Ihre Reiseplanung hinzufügen!';
+
+  @override
+  String get addFirstTask => 'Erste Aufgabe hinzufügen';
+
+  @override
+  String get taskDetails => 'Aufgabendetails';
+
+  @override
+  String get completed => 'Abgeschlossen';
+
+  @override
+  String get pending => 'Ausstehend';
+
+  @override
+  String get priority => 'Priorität';
+
+  @override
+  String get dueDate => 'Fälligkeitsdatum';
+
+  @override
+  String get editTask => 'Aufgabe bearbeiten';
+
+  @override
+  String get addNewTask => 'Neue Aufgabe hinzufügen';
+
+  @override
+  String get updateTask => 'Aufgabe aktualisieren';
+
+  @override
+  String get addTask => 'Aufgabe hinzufügen';
+
+  @override
+  String get deleteTask => 'Aufgabe löschen';
+
+  @override
+  String deleteTaskConfirmation(String title) {
+    return 'Sind Sie sicher, dass Sie \"$title\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.';
+  }
+
+  @override
+  String get keepTrackMessage =>
+      'Behalten Sie den Überblick über Ihre Flüge, Hotels und Aktivitäten!';
+
+  @override
+  String get previewNotAvailable =>
+      'Vorschau für diesen Dateityp nicht verfügbar.\nTippen Sie auf \"Extern öffnen\", um mit einer anderen App anzuzeigen.';
+
+  @override
+  String get appVersionBeta => '1.0.0 (Beta)';
+
+  @override
+  String get defaultUserName => 'Max Mustermann';
+
+  @override
+  String get defaultUserEmail => 'max.mustermann@email.com';
+
+  @override
+  String get taskTitle => 'Aufgabentitel';
+
+  @override
+  String get descriptionOptional => 'Beschreibung (Optional)';
+
+  @override
+  String get setDueDateOptional => 'Fälligkeitsdatum setzen (Optional)';
+
+  @override
+  String dueWithDate(int day, int month, int year) {
+    return 'Fällig: $day/$month/$year';
+  }
+
+  @override
+  String get urgent => 'Dringend';
+
+  @override
+  String get high => 'Hoch';
+
+  @override
+  String get medium => 'Mittel';
+
+  @override
+  String get low => 'Niedrig';
+
+  @override
+  String failedToAddUpdateTask(String action, String error) {
+    return 'Fehler beim $action der Aufgabe: $error';
+  }
+
+  @override
+  String get vendorCompanyOptional => 'Anbieter/Firma (Optional)';
+
+  @override
+  String get confirmationNumberOptional => 'Bestätigungsnummer (Optional)';
+
+  @override
+  String amountCurrency(String currency) {
+    return 'Betrag ($currency)';
+  }
+
+  @override
+  String get setBookingDateOptional => 'Buchungsdatum setzen (Optional)';
+
+  @override
+  String dateWithDate(int day, int month, int year) {
+    return 'Datum: $day/$month/$year';
+  }
+
+  @override
+  String get attachmentsOptional => 'Anhänge (Optional)';
+
+  @override
+  String get maxFileSizeSupported =>
+      'Max. Dateigröße: 5MB\nUnterstützte Formate: PDF, DOC, DOCX, JPG, PNG, GIF';
+
+  @override
+  String failedToAddUpdateBooking(String action, String error) {
+    return 'Fehler beim $action der Buchung: $error';
+  }
+
+  @override
+  String fileAttachedSuccessfully(String filename) {
+    return '$filename erfolgreich angehängt';
+  }
+
+  @override
+  String get fileSizeMustBeLess => 'Dateigröße muss weniger als 5MB sein';
+
+  @override
+  String failedToPickFile(String error) {
+    return 'Fehler beim Datei auswählen: $error';
+  }
+
+  @override
+  String errorSharingFile(String error) {
+    return 'Fehler beim Teilen der Datei: $error';
+  }
+
+  @override
+  String get unknown => 'Unbekannt';
 }

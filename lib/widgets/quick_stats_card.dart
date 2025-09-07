@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import '../themes/app_theme.dart';
+import '../l10n/app_localizations.dart';
 
 class QuickStatsCard extends StatelessWidget {
   const QuickStatsCard({super.key});
@@ -32,7 +33,7 @@ class QuickStatsCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'Quick Stats',
+                  AppLocalizations.of(context)!.quickStats,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -46,7 +47,7 @@ class QuickStatsCard extends StatelessWidget {
                   child: _buildStatItem(
                     context,
                     icon: Iconsax.map,
-                    label: 'Active Trips',
+                    label: AppLocalizations.of(context)!.activeTrips,
                     value: '3',
                     color: AppTheme.primaryColor,
                   ),
@@ -60,7 +61,7 @@ class QuickStatsCard extends StatelessWidget {
                   child: _buildStatItem(
                     context,
                     icon: Iconsax.task_square,
-                    label: 'Pending Tasks',
+                    label: AppLocalizations.of(context)!.pendingTasks,
                     value: '12',
                     color: AppTheme.warning,
                   ),
@@ -74,7 +75,7 @@ class QuickStatsCard extends StatelessWidget {
                   child: _buildStatItem(
                     context,
                     icon: Iconsax.dollar_circle,
-                    label: 'Total Budget',
+                    label: AppLocalizations.of(context)!.totalBudget,
                     value: '\$7,500',
                     color: AppTheme.success,
                   ),
@@ -97,7 +98,7 @@ class QuickStatsCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    'Next trip starts in 5 days',
+                    AppLocalizations.of(context)!.nextTripStartsIn(5),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: AppTheme.accentColor,
                       fontWeight: FontWeight.w500,

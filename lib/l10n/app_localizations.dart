@@ -613,6 +613,672 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Italiano'**
   String get italian;
+
+  /// Title label
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get title;
+
+  /// Description label
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// Amount label
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get amount;
+
+  /// Date label
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// Edit action
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// Retry button
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// Add action
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// Update action
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// Close action
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// Failed to load error message
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load'**
+  String get failedToLoad;
+
+  /// No data available message
+  ///
+  /// In en, this message translates to:
+  /// **'No data yet'**
+  String get noDataYet;
+
+  /// Empty state message for planning
+  ///
+  /// In en, this message translates to:
+  /// **'Start planning your next adventure!'**
+  String get startPlanning;
+
+  /// Create trip button
+  ///
+  /// In en, this message translates to:
+  /// **'Create Trip'**
+  String get createTrip;
+
+  /// Add expense button
+  ///
+  /// In en, this message translates to:
+  /// **'Add Expense'**
+  String get addExpense;
+
+  /// Add activity button
+  ///
+  /// In en, this message translates to:
+  /// **'Add Activity'**
+  String get addActivity;
+
+  /// Add booking button
+  ///
+  /// In en, this message translates to:
+  /// **'Add Booking'**
+  String get addBooking;
+
+  /// Total expenses label
+  ///
+  /// In en, this message translates to:
+  /// **'Total Expenses'**
+  String get totalExpenses;
+
+  /// To-do items label
+  ///
+  /// In en, this message translates to:
+  /// **'To-Do Items'**
+  String get toDoItems;
+
+  /// Expense details title
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Details'**
+  String get expenseDetails;
+
+  /// Expense title field
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Title'**
+  String get expenseTitle;
+
+  /// Category field
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get category;
+
+  /// Paid by field
+  ///
+  /// In en, this message translates to:
+  /// **'Paid By'**
+  String get paidBy;
+
+  /// You pronoun
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get you;
+
+  /// All day option
+  ///
+  /// In en, this message translates to:
+  /// **'All Day'**
+  String get allDay;
+
+  /// Start time field
+  ///
+  /// In en, this message translates to:
+  /// **'Start Time'**
+  String get startTime;
+
+  /// End time field
+  ///
+  /// In en, this message translates to:
+  /// **'End Time'**
+  String get endTime;
+
+  /// Activity title field
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Title'**
+  String get activityTitle;
+
+  /// Activity type field
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Type'**
+  String get activityType;
+
+  /// Booking title field
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Title'**
+  String get bookingTitle;
+
+  /// Booking type field
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Type'**
+  String get bookingType;
+
+  /// Status field
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// Add file button
+  ///
+  /// In en, this message translates to:
+  /// **'Add File'**
+  String get addFile;
+
+  /// File not found error
+  ///
+  /// In en, this message translates to:
+  /// **'File not found'**
+  String get fileNotFound;
+
+  /// File moved or deleted message
+  ///
+  /// In en, this message translates to:
+  /// **'The file may have been moved or deleted'**
+  String get fileMovedOrDeleted;
+
+  /// Cannot display image error
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot display image'**
+  String get cannotDisplayImage;
+
+  /// Open externally button
+  ///
+  /// In en, this message translates to:
+  /// **'Open Externally'**
+  String get openExternally;
+
+  /// Failed to read file error
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to read file data'**
+  String get failedToReadFile;
+
+  /// Delete expense title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Expense'**
+  String get deleteExpense;
+
+  /// Delete expense confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this expense?'**
+  String get deleteExpenseConfirmation;
+
+  /// Expense breakdown title
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Breakdown'**
+  String get expenseBreakdown;
+
+  /// Breakdown button
+  ///
+  /// In en, this message translates to:
+  /// **'Breakdown'**
+  String get breakdown;
+
+  /// No expenses message
+  ///
+  /// In en, this message translates to:
+  /// **'No Expenses Yet'**
+  String get noExpensesYet;
+
+  /// No activities message
+  ///
+  /// In en, this message translates to:
+  /// **'No activities planned'**
+  String get noActivitiesPlanned;
+
+  /// Split details label
+  ///
+  /// In en, this message translates to:
+  /// **'Split Details'**
+  String get splitDetails;
+
+  /// Edit expense title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Expense'**
+  String get editExpense;
+
+  /// Add new expense title
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Expense'**
+  String get addNewExpense;
+
+  /// Edit activity title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Activity'**
+  String get editActivity;
+
+  /// Add new activity title
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Activity'**
+  String get addNewActivity;
+
+  /// Edit booking title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Booking'**
+  String get editBooking;
+
+  /// Add new booking title
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Booking'**
+  String get addNewBooking;
+
+  /// Update expense button
+  ///
+  /// In en, this message translates to:
+  /// **'Update Expense'**
+  String get updateExpense;
+
+  /// Update activity button
+  ///
+  /// In en, this message translates to:
+  /// **'Update Activity'**
+  String get updateActivity;
+
+  /// Update booking button
+  ///
+  /// In en, this message translates to:
+  /// **'Update Booking'**
+  String get updateBooking;
+
+  /// Transport category
+  ///
+  /// In en, this message translates to:
+  /// **'Transport'**
+  String get transport;
+
+  /// Accommodation category
+  ///
+  /// In en, this message translates to:
+  /// **'Accommodation'**
+  String get accommodation;
+
+  /// Activities category
+  ///
+  /// In en, this message translates to:
+  /// **'Activities'**
+  String get activities;
+
+  /// Shopping category
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping'**
+  String get shopping;
+
+  /// Sightseeing category
+  ///
+  /// In en, this message translates to:
+  /// **'Sightseeing'**
+  String get sightseeing;
+
+  /// Meal category
+  ///
+  /// In en, this message translates to:
+  /// **'Meal'**
+  String get meal;
+
+  /// Entertainment category
+  ///
+  /// In en, this message translates to:
+  /// **'Entertainment'**
+  String get entertainment;
+
+  /// Other category
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get other;
+
+  /// No bookings message
+  ///
+  /// In en, this message translates to:
+  /// **'No Bookings Yet'**
+  String get noBookingsYet;
+
+  /// Add first booking button
+  ///
+  /// In en, this message translates to:
+  /// **'Add First Booking'**
+  String get addFirstBooking;
+
+  /// Booking details title
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Details'**
+  String get bookingDetails;
+
+  /// Vendor label
+  ///
+  /// In en, this message translates to:
+  /// **'Vendor'**
+  String get vendor;
+
+  /// Confirmation number label
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation Number'**
+  String get confirmationNumber;
+
+  /// Attachments label
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get attachments;
+
+  /// Error message when todos fail to load
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load todos'**
+  String get failedToLoadTodos;
+
+  /// Task label
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get task;
+
+  /// All items with count
+  ///
+  /// In en, this message translates to:
+  /// **'All ({count})'**
+  String allWithCount(int count);
+
+  /// No to-do items message
+  ///
+  /// In en, this message translates to:
+  /// **'No To-Do Items'**
+  String get noToDoItems;
+
+  /// Message encouraging users to add tasks
+  ///
+  /// In en, this message translates to:
+  /// **'Stay organized by adding tasks for your trip planning!'**
+  String get stayOrganizedMessage;
+
+  /// Add first task button
+  ///
+  /// In en, this message translates to:
+  /// **'Add First Task'**
+  String get addFirstTask;
+
+  /// Task details title
+  ///
+  /// In en, this message translates to:
+  /// **'Task Details'**
+  String get taskDetails;
+
+  /// Completed status
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
+  /// Pending status
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pending;
+
+  /// Priority label
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get priority;
+
+  /// Due date label
+  ///
+  /// In en, this message translates to:
+  /// **'Due Date'**
+  String get dueDate;
+
+  /// Edit task title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Task'**
+  String get editTask;
+
+  /// Add new task title
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Task'**
+  String get addNewTask;
+
+  /// Update task button
+  ///
+  /// In en, this message translates to:
+  /// **'Update Task'**
+  String get updateTask;
+
+  /// Add task button
+  ///
+  /// In en, this message translates to:
+  /// **'Add Task'**
+  String get addTask;
+
+  /// Delete task button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Task'**
+  String get deleteTask;
+
+  /// Delete task confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{title}\"? This action cannot be undone.'**
+  String deleteTaskConfirmation(String title);
+
+  /// Message encouraging users to add bookings
+  ///
+  /// In en, this message translates to:
+  /// **'Keep track of your flights, hotels, and activities!'**
+  String get keepTrackMessage;
+
+  /// Preview not available message
+  ///
+  /// In en, this message translates to:
+  /// **'Preview not available for this file type.\nTap \"Open Externally\" to view with another app.'**
+  String get previewNotAvailable;
+
+  /// App version with beta label
+  ///
+  /// In en, this message translates to:
+  /// **'1.0.0 (Beta)'**
+  String get appVersionBeta;
+
+  /// Default user name
+  ///
+  /// In en, this message translates to:
+  /// **'John Doe'**
+  String get defaultUserName;
+
+  /// Default user email
+  ///
+  /// In en, this message translates to:
+  /// **'john.doe@email.com'**
+  String get defaultUserEmail;
+
+  /// Task title field label
+  ///
+  /// In en, this message translates to:
+  /// **'Task Title'**
+  String get taskTitle;
+
+  /// Optional description field label
+  ///
+  /// In en, this message translates to:
+  /// **'Description (Optional)'**
+  String get descriptionOptional;
+
+  /// Set due date field label
+  ///
+  /// In en, this message translates to:
+  /// **'Set Due Date (Optional)'**
+  String get setDueDateOptional;
+
+  /// Due date with specific date format
+  ///
+  /// In en, this message translates to:
+  /// **'Due: {day}/{month}/{year}'**
+  String dueWithDate(int day, int month, int year);
+
+  /// Urgent priority level
+  ///
+  /// In en, this message translates to:
+  /// **'Urgent'**
+  String get urgent;
+
+  /// High priority level
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get high;
+
+  /// Medium priority level
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get medium;
+
+  /// Low priority level
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get low;
+
+  /// Error message for task operations
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to {action} task: {error}'**
+  String failedToAddUpdateTask(String action, String error);
+
+  /// Vendor/Company field label
+  ///
+  /// In en, this message translates to:
+  /// **'Vendor/Company (Optional)'**
+  String get vendorCompanyOptional;
+
+  /// Confirmation number field label
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation Number (Optional)'**
+  String get confirmationNumberOptional;
+
+  /// Amount field with currency
+  ///
+  /// In en, this message translates to:
+  /// **'Amount ({currency})'**
+  String amountCurrency(String currency);
+
+  /// Set booking date field label
+  ///
+  /// In en, this message translates to:
+  /// **'Set Booking Date (Optional)'**
+  String get setBookingDateOptional;
+
+  /// Date with specific date format
+  ///
+  /// In en, this message translates to:
+  /// **'Date: {day}/{month}/{year}'**
+  String dateWithDate(int day, int month, int year);
+
+  /// Attachments section label
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments (Optional)'**
+  String get attachmentsOptional;
+
+  /// File upload constraints message
+  ///
+  /// In en, this message translates to:
+  /// **'Max file size: 5MB\nSupported formats: PDF, DOC, DOCX, JPG, PNG, GIF'**
+  String get maxFileSizeSupported;
+
+  /// Error message for booking operations
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to {action} booking: {error}'**
+  String failedToAddUpdateBooking(String action, String error);
+
+  /// File attachment success message
+  ///
+  /// In en, this message translates to:
+  /// **'{filename} attached successfully'**
+  String fileAttachedSuccessfully(String filename);
+
+  /// File size error message
+  ///
+  /// In en, this message translates to:
+  /// **'File size must be less than 5MB'**
+  String get fileSizeMustBeLess;
+
+  /// File picker error message
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to pick file: {error}'**
+  String failedToPickFile(String error);
+
+  /// File sharing error message
+  ///
+  /// In en, this message translates to:
+  /// **'Error sharing file: {error}'**
+  String errorSharingFile(String error);
+
+  /// Unknown value placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknown;
 }
 
 class _AppLocalizationsDelegate

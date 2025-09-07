@@ -5,6 +5,7 @@ import '../../models/trip.dart';
 import '../../models/todo_item.dart';
 import '../../themes/app_theme.dart';
 import '../../providers/todo_provider.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:uuid/uuid.dart';
 
 class TodoTab extends StatefulWidget {
@@ -89,7 +90,7 @@ class _TodoTabState extends State<TodoTab> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Failed to load todos',
+                  AppLocalizations.of(context)!.failedToLoadTodos,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
@@ -103,7 +104,7 @@ class _TodoTabState extends State<TodoTab> {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () => todoProvider.loadTodos(widget.trip.id),
-                  child: const Text('Retry'),
+                  child: Text(AppLocalizations.of(context)!.retry),
                 ),
               ],
             ),
@@ -138,9 +139,9 @@ class _TodoTabState extends State<TodoTab> {
             child: FloatingActionButton.extended(
               onPressed: _showAddTodoDialog,
               icon: const Icon(Iconsax.add),
-              label: const Text(
-                'Task',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              label: Text(
+                AppLocalizations.of(context)!.task,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.white,
@@ -178,7 +179,7 @@ class _TodoTabState extends State<TodoTab> {
                   Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: FilterChip(
-                      label: Text('All (${todos.length})'),
+                      label: Text(AppLocalizations.of(context)!.allWithCount(todos.length)),
                       selected: _selectedPriority == null,
                       onSelected: (selected) {
                         setState(() {
@@ -248,16 +249,16 @@ class _TodoTabState extends State<TodoTab> {
             ),
             const SizedBox(height: 24),
             Text(
-              'No To-Do Items',
+              AppLocalizations.of(context)!.noToDoItems,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Stay organized by adding tasks for your trip planning!',
+            Text(
+              AppLocalizations.of(context)!.stayOrganizedMessage,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppTheme.textSecondary,
                 height: 1.4,
               ),
@@ -268,9 +269,9 @@ class _TodoTabState extends State<TodoTab> {
               child: ElevatedButton.icon(
                 onPressed: _showAddTodoDialog,
                 icon: const Icon(Iconsax.add),
-                label: const Text(
-                  'Add First Task',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                label: Text(
+                  AppLocalizations.of(context)!.addFirstTask,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
@@ -307,10 +308,10 @@ class _TodoTabState extends State<TodoTab> {
           color: AppTheme.primaryColor,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Align(
+        child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 20),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -319,10 +320,10 @@ class _TodoTabState extends State<TodoTab> {
                   color: Colors.white,
                   size: 24,
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Text(
-                  'Edit',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.edit,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -339,22 +340,22 @@ class _TodoTabState extends State<TodoTab> {
           color: AppTheme.error,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Align(
+        child: Align(
           alignment: Alignment.centerRight,
           child: Padding(
-            padding: EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.only(right: 20),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Delete',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.delete,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Icon(
                   Iconsax.trash,
                   color: Colors.white,
@@ -512,13 +513,13 @@ class _TodoTabState extends State<TodoTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Task Details',
+                                  AppLocalizations.of(context)!.taskDetails,
                                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 Text(
-                                  todo.isCompleted ? 'Completed' : 'Pending',
+                                  todo.isCompleted ? AppLocalizations.of(context)!.completed : AppLocalizations.of(context)!.pending,
                                   style: TextStyle(
                                     color: todo.isCompleted ? Colors.green : AppTheme.primaryColor,
                                     fontWeight: FontWeight.w500,
@@ -531,7 +532,7 @@ class _TodoTabState extends State<TodoTab> {
                       ),
                       const SizedBox(height: 24),
                       Text(
-                        'Title',
+                        AppLocalizations.of(context)!.title,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -544,7 +545,7 @@ class _TodoTabState extends State<TodoTab> {
                       if (todo.description.isNotEmpty) ...[
                         const SizedBox(height: 20),
                         Text(
-                          'Description',
+                          AppLocalizations.of(context)!.description,
                           style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -566,7 +567,7 @@ class _TodoTabState extends State<TodoTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Priority',
+                                  AppLocalizations.of(context)!.priority,
                                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -599,7 +600,7 @@ class _TodoTabState extends State<TodoTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Due Date',
+                                    AppLocalizations.of(context)!.dueDate,
                                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -647,7 +648,7 @@ class _TodoTabState extends State<TodoTab> {
                                 _showEditTodoDialog(todo);
                               },
                               icon: const Icon(Iconsax.edit_2),
-                              label: const Text('Edit'),
+                              label: Text(AppLocalizations.of(context)!.edit),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppTheme.primaryColor,
                                 foregroundColor: Colors.white,
@@ -663,7 +664,7 @@ class _TodoTabState extends State<TodoTab> {
                                 await Provider.of<TodoProvider>(context, listen: false).deleteTodo(todo.id);
                               },
                               icon: const Icon(Iconsax.trash),
-                              label: const Text('Delete'),
+                              label: Text(AppLocalizations.of(context)!.delete),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppTheme.error,
                                 foregroundColor: Colors.white,
@@ -769,18 +770,18 @@ class _TodoTabState extends State<TodoTab> {
                 ),
               ),
               const SizedBox(width: 12),
-              const Text('Delete Task'),
+              Text(AppLocalizations.of(context)!.deleteTask),
             ],
           ),
           content: Text(
-            'Are you sure you want to delete "${todo.title}"? This action cannot be undone.',
+            AppLocalizations.of(context)!.deleteTaskConfirmation(todo.title),
             style: const TextStyle(height: 1.4),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
               child: Text(
-                'Cancel',
+                AppLocalizations.of(context)!.cancel,
                 style: TextStyle(color: AppTheme.textSecondary),
               ),
             ),
@@ -796,7 +797,7 @@ class _TodoTabState extends State<TodoTab> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text('Delete'),
+              child: Text(AppLocalizations.of(context)!.delete),
             ),
           ],
         );
@@ -862,7 +863,7 @@ class _TodoTabState extends State<TodoTab> {
                           ),
                           const SizedBox(width: 12),
                           Text(
-                            isEdit ? 'Edit Task' : 'Add New Task',
+                            isEdit ? AppLocalizations.of(context)!.editTask : AppLocalizations.of(context)!.addNewTask,
                             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
@@ -1028,7 +1029,7 @@ class _TodoTabState extends State<TodoTab> {
                                 ),
                               ),
                               child: Text(
-                                'Cancel',
+                                AppLocalizations.of(context)!.cancel,
                                 style: TextStyle(color: AppTheme.textSecondary),
                               ),
                             ),
@@ -1075,7 +1076,7 @@ class _TodoTabState extends State<TodoTab> {
                                   elevation: 0,
                                 ),
                                 child: Text(
-                                  isEdit ? 'Update Task' : 'Add Task',
+                                  isEdit ? AppLocalizations.of(context)!.updateTask : AppLocalizations.of(context)!.addTask,
                                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                                 ),
                               ),

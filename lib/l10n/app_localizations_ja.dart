@@ -267,4 +267,359 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get italian => 'Italiano';
+
+  @override
+  String get title => 'タイトル';
+
+  @override
+  String get description => '説明';
+
+  @override
+  String get amount => '金額';
+
+  @override
+  String get date => '日付';
+
+  @override
+  String get edit => '編集';
+
+  @override
+  String get retry => '再試行';
+
+  @override
+  String get add => '追加';
+
+  @override
+  String get update => '更新';
+
+  @override
+  String get close => '閉じる';
+
+  @override
+  String get failedToLoad => '読み込みに失敗しました';
+
+  @override
+  String get noDataYet => 'まだデータがありません';
+
+  @override
+  String get startPlanning => '次の冒険の計画を始めましょう！';
+
+  @override
+  String get createTrip => '旅行を作成';
+
+  @override
+  String get addExpense => '支出を追加';
+
+  @override
+  String get addActivity => 'アクティビティを追加';
+
+  @override
+  String get addBooking => '予約を追加';
+
+  @override
+  String get totalExpenses => '総支出';
+
+  @override
+  String get toDoItems => 'やることリスト';
+
+  @override
+  String get expenseDetails => '支出詳細';
+
+  @override
+  String get expenseTitle => '支出タイトル';
+
+  @override
+  String get category => 'カテゴリ';
+
+  @override
+  String get paidBy => '支払者';
+
+  @override
+  String get you => 'あなた';
+
+  @override
+  String get allDay => '終日';
+
+  @override
+  String get startTime => '開始時間';
+
+  @override
+  String get endTime => '終了時間';
+
+  @override
+  String get activityTitle => 'アクティビティタイトル';
+
+  @override
+  String get activityType => 'アクティビティタイプ';
+
+  @override
+  String get bookingTitle => '予約タイトル';
+
+  @override
+  String get bookingType => '予約タイプ';
+
+  @override
+  String get status => 'ステータス';
+
+  @override
+  String get addFile => 'ファイルを追加';
+
+  @override
+  String get fileNotFound => 'ファイルが見つかりません';
+
+  @override
+  String get fileMovedOrDeleted => 'ファイルが移動または削除された可能性があります';
+
+  @override
+  String get cannotDisplayImage => '画像を表示できません';
+
+  @override
+  String get openExternally => '外部で開く';
+
+  @override
+  String get failedToReadFile => 'ファイルデータの読み込みに失敗しました';
+
+  @override
+  String get deleteExpense => '支出を削除';
+
+  @override
+  String get deleteExpenseConfirmation => 'この支出を削除してもよろしいですか？';
+
+  @override
+  String get expenseBreakdown => '支出内訳';
+
+  @override
+  String get breakdown => '内訳';
+
+  @override
+  String get noExpensesYet => 'まだ支出がありません';
+
+  @override
+  String get noActivitiesPlanned => '計画されたアクティビティがありません';
+
+  @override
+  String get splitDetails => '分割詳細';
+
+  @override
+  String get editExpense => '支出を編集';
+
+  @override
+  String get addNewExpense => '新しい支出を追加';
+
+  @override
+  String get editActivity => 'アクティビティを編集';
+
+  @override
+  String get addNewActivity => '新しいアクティビティを追加';
+
+  @override
+  String get editBooking => '予約を編集';
+
+  @override
+  String get addNewBooking => '新しい予約を追加';
+
+  @override
+  String get updateExpense => '支出を更新';
+
+  @override
+  String get updateActivity => 'アクティビティを更新';
+
+  @override
+  String get updateBooking => '予約を更新';
+
+  @override
+  String get transport => '交通';
+
+  @override
+  String get accommodation => '宿泊';
+
+  @override
+  String get activities => 'アクティビティ';
+
+  @override
+  String get shopping => 'ショッピング';
+
+  @override
+  String get sightseeing => '観光';
+
+  @override
+  String get meal => '食事';
+
+  @override
+  String get entertainment => 'エンターテイメント';
+
+  @override
+  String get other => 'その他';
+
+  @override
+  String get noBookingsYet => 'まだ予約がありません';
+
+  @override
+  String get addFirstBooking => '最初の予約を追加';
+
+  @override
+  String get bookingDetails => '予約詳細';
+
+  @override
+  String get vendor => 'ベンダー';
+
+  @override
+  String get confirmationNumber => '確認番号';
+
+  @override
+  String get attachments => '添付ファイル';
+
+  @override
+  String get failedToLoadTodos => 'タスクの読み込みに失敗しました';
+
+  @override
+  String get task => 'タスク';
+
+  @override
+  String allWithCount(int count) {
+    return 'すべて ($count)';
+  }
+
+  @override
+  String get noToDoItems => 'タスクがありません';
+
+  @override
+  String get stayOrganizedMessage => '旅行計画のタスクを追加して整理整頓を保ちましょう！';
+
+  @override
+  String get addFirstTask => '最初のタスクを追加';
+
+  @override
+  String get taskDetails => 'タスク詳細';
+
+  @override
+  String get completed => '完了';
+
+  @override
+  String get pending => '保留中';
+
+  @override
+  String get priority => '優先度';
+
+  @override
+  String get dueDate => '期限';
+
+  @override
+  String get editTask => 'タスクを編集';
+
+  @override
+  String get addNewTask => '新しいタスクを追加';
+
+  @override
+  String get updateTask => 'タスクを更新';
+
+  @override
+  String get addTask => 'タスクを追加';
+
+  @override
+  String get deleteTask => 'タスクを削除';
+
+  @override
+  String deleteTaskConfirmation(String title) {
+    return '\"$title\"を削除してもよろしいですか？この操作は元に戻せません。';
+  }
+
+  @override
+  String get keepTrackMessage => 'フライト、ホテル、アクティビティを追跡しましょう！';
+
+  @override
+  String get previewNotAvailable =>
+      'このファイルタイプのプレビューは利用できません。\n「外部で開く」をタップして他のアプリで表示してください。';
+
+  @override
+  String get appVersionBeta => '1.0.0 (ベータ)';
+
+  @override
+  String get defaultUserName => '田中太郎';
+
+  @override
+  String get defaultUserEmail => 'tanaka.taro@email.com';
+
+  @override
+  String get taskTitle => 'タスクタイトル';
+
+  @override
+  String get descriptionOptional => '説明（任意）';
+
+  @override
+  String get setDueDateOptional => '期限を設定（任意）';
+
+  @override
+  String dueWithDate(int day, int month, int year) {
+    return '期限：$year/$month/$day';
+  }
+
+  @override
+  String get urgent => '至急';
+
+  @override
+  String get high => '高';
+
+  @override
+  String get medium => '中';
+
+  @override
+  String get low => '低';
+
+  @override
+  String failedToAddUpdateTask(String action, String error) {
+    return 'タスクの$actionに失敗しました：$error';
+  }
+
+  @override
+  String get vendorCompanyOptional => 'ベンダー/会社（任意）';
+
+  @override
+  String get confirmationNumberOptional => '確認番号（任意）';
+
+  @override
+  String amountCurrency(String currency) {
+    return '金額（$currency）';
+  }
+
+  @override
+  String get setBookingDateOptional => '予約日を設定（任意）';
+
+  @override
+  String dateWithDate(int day, int month, int year) {
+    return '日付：$year/$month/$day';
+  }
+
+  @override
+  String get attachmentsOptional => '添付ファイル（任意）';
+
+  @override
+  String get maxFileSizeSupported =>
+      '最大ファイルサイズ：5MB\nサポート形式：PDF、DOC、DOCX、JPG、PNG、GIF';
+
+  @override
+  String failedToAddUpdateBooking(String action, String error) {
+    return '予約の$actionに失敗しました：$error';
+  }
+
+  @override
+  String fileAttachedSuccessfully(String filename) {
+    return '$filenameが正常に添付されました';
+  }
+
+  @override
+  String get fileSizeMustBeLess => 'ファイルサイズは5MB未満である必要があります';
+
+  @override
+  String failedToPickFile(String error) {
+    return 'ファイルの選択に失敗しました：$error';
+  }
+
+  @override
+  String errorSharingFile(String error) {
+    return 'ファイルの共有エラー：$error';
+  }
+
+  @override
+  String get unknown => '不明';
 }

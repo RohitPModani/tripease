@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 import '../models/todo_item.dart';
 import '../themes/app_theme.dart';
 import '../providers/todo_provider.dart';
+import '../l10n/app_localizations.dart';
 
 class TodoFormModal extends StatelessWidget {
   final String tripId;
@@ -83,7 +84,7 @@ class TodoFormModal extends StatelessWidget {
                         ),
                         const SizedBox(width: 12),
                         Text(
-                          isEdit ? 'Edit Task' : 'Add New Task',
+                          isEdit ? AppLocalizations.of(context)!.editTask : AppLocalizations.of(context)!.addNewTask,
                           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -94,7 +95,7 @@ class TodoFormModal extends StatelessWidget {
                     TextFormField(
                       controller: titleController,
                       decoration: InputDecoration(
-                        labelText: 'Task Title',
+                        labelText: AppLocalizations.of(context)!.taskTitle,
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -112,7 +113,7 @@ class TodoFormModal extends StatelessWidget {
                     TextFormField(
                       controller: descriptionController,
                       decoration: InputDecoration(
-                        labelText: 'Description (Optional)',
+                        labelText: AppLocalizations.of(context)!.descriptionOptional,
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -130,7 +131,7 @@ class TodoFormModal extends StatelessWidget {
                     DropdownButtonFormField<Priority>(
                       value: selectedPriority,
                       decoration: InputDecoration(
-                        labelText: 'Priority',
+                        labelText: AppLocalizations.of(context)!.priority,
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -210,8 +211,8 @@ class TodoFormModal extends StatelessWidget {
                             const SizedBox(width: 8),
                             Text(
                               selectedDueDate == null
-                                  ? 'Set Due Date (Optional)'
-                                  : 'Due: ${selectedDueDate!.day}/${selectedDueDate!.month}/${selectedDueDate!.year}',
+                                  ? AppLocalizations.of(context)!.setDueDateOptional
+                                  : AppLocalizations.of(context)!.dueWithDate(selectedDueDate!.day, selectedDueDate!.month, selectedDueDate!.year),
                               style: TextStyle(
                                 color: selectedDueDate == null 
                                   ? AppTheme.textSecondary 
@@ -249,7 +250,7 @@ class TodoFormModal extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              'Cancel',
+                              AppLocalizations.of(context)!.cancel,
                               style: TextStyle(color: AppTheme.textSecondary),
                             ),
                           ),
@@ -288,7 +289,7 @@ class TodoFormModal extends StatelessWidget {
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Failed to ${isEdit ? 'update' : 'add'} task: $e'),
+                                      content: Text(AppLocalizations.of(context)!.failedToAddUpdateTask(isEdit ? 'update' : 'add', e.toString())),
                                       backgroundColor: AppTheme.error,
                                     ),
                                   );
@@ -303,7 +304,7 @@ class TodoFormModal extends StatelessWidget {
                                 ),
                               ),
                               child: Text(
-                                isEdit ? 'Update Task' : 'Add Task',
+                                isEdit ? AppLocalizations.of(context)!.updateTask : AppLocalizations.of(context)!.addTask,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,

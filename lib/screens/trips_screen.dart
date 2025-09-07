@@ -8,6 +8,7 @@ import '../widgets/search_filter_bar.dart';
 import '../widgets/trip_card.dart';
 import '../providers/trip_provider.dart';
 import '../models/trip.dart';
+import '../l10n/app_localizations.dart';
 
 class TripsScreen extends StatefulWidget {
   const TripsScreen({super.key});
@@ -192,7 +193,7 @@ class _TripsScreenState extends State<TripsScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Failed to load trips',
+                    AppLocalizations.of(context)!.failedToLoad + ' trips',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 8),
@@ -206,7 +207,7 @@ class _TripsScreenState extends State<TripsScreen> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () => tripProvider.loadTrips(),
-                    child: const Text('Retry'),
+                    child: Text(AppLocalizations.of(context)!.retry),
                   ),
                 ],
               ),
@@ -229,12 +230,12 @@ class _TripsScreenState extends State<TripsScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'No trips yet',
+                    AppLocalizations.of(context)!.noDataYet,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Start planning your next adventure!',
+                    AppLocalizations.of(context)!.startPlanning,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context).colorScheme.outline,
                     ),
@@ -245,7 +246,7 @@ class _TripsScreenState extends State<TripsScreen> {
                       Navigator.pushNamed(context, '/create-trip');
                     },
                     icon: const Icon(Iconsax.add),
-                    label: const Text('Create Trip'),
+                    label: Text(AppLocalizations.of(context)!.createTrip),
                   ),
                 ],
               ),

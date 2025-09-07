@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/attachment.dart';
 import '../themes/app_theme.dart';
+import '../l10n/app_localizations.dart';
 
 class DocumentViewer extends StatelessWidget {
   final BookingAttachment attachment;
@@ -86,7 +87,7 @@ class DocumentViewer extends StatelessWidget {
                         Iconsax.share,
                         color: AppTheme.primaryColor,
                       ),
-                      tooltip: 'Share',
+                      tooltip: AppLocalizations.of(context)!.share,
                     ),
                     IconButton(
                       onPressed: () => Navigator.pop(context),
@@ -94,7 +95,7 @@ class DocumentViewer extends StatelessWidget {
                         Iconsax.close_circle,
                         color: AppTheme.textSecondary,
                       ),
-                      tooltip: 'Close',
+                      tooltip: AppLocalizations.of(context)!.close,
                     ),
                   ],
                 ),
@@ -136,14 +137,14 @@ class DocumentViewer extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'File not found',
+                  AppLocalizations.of(context)!.fileNotFound,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: AppTheme.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'The file may have been moved or deleted',
+                  AppLocalizations.of(context)!.fileMovedOrDeleted,
                   style: TextStyle(
                     color: AppTheme.textSecondary,
                     fontSize: 12,
@@ -183,7 +184,7 @@ class DocumentViewer extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Cannot display image',
+                    AppLocalizations.of(context)!.cannotDisplayImage,
                     style: TextStyle(
                       color: AppTheme.textSecondary,
                       fontSize: 16,
@@ -237,7 +238,7 @@ class DocumentViewer extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'Preview not available for this file type.\nTap "Open Externally" to view with another app.',
+              AppLocalizations.of(context)!.previewNotAvailable,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppTheme.textSecondary,
@@ -250,7 +251,7 @@ class DocumentViewer extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () => _shareAttachment(context),
                 icon: const Icon(Iconsax.export),
-                label: const Text('Open Externally'),
+                label: Text(AppLocalizations.of(context)!.openExternally),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   foregroundColor: Colors.white,
@@ -275,8 +276,8 @@ class DocumentViewer extends StatelessWidget {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('File not found'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.fileNotFound),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -284,7 +285,7 @@ class DocumentViewer extends StatelessWidget {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error sharing file: $e'),
+          content: Text(AppLocalizations.of(context)!.errorSharingFile(e.toString())),
           backgroundColor: AppTheme.error,
         ),
       );
