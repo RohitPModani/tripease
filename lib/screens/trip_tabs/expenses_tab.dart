@@ -417,128 +417,207 @@ class _ExpensesTabState extends State<ExpensesTab> {
   }
 
   Widget _buildExpenseItem(Expense expense, ExpenseProvider expenseProvider) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? AppTheme.surfaceDark
-            : AppTheme.surfaceLight,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: _getCategoryColor(expense.category).withOpacity(0.3),
-          width: 1.5,
+    return Dismissible(
+      key: Key(expense.id),
+      direction: DismissDirection.horizontal,
+      confirmDismiss: (direction) async {
+        if (direction == DismissDirection.endToStart) {
+          // Delete action
+          return await _showDeleteConfirmation(expense, expenseProvider);
+        } else if (direction == DismissDirection.startToEnd) {
+          // Edit action - don't dismiss, just open edit dialog
+          _showEditExpenseDialog(expense, expenseProvider);
+          return false;
+        }
+        return false;
+      },
+      background: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: AppTheme.primaryColor,
+          borderRadius: BorderRadius.circular(16),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, 2),
-            blurRadius: 8,
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        onTap: () => _showExpenseDetailsBottomSheet(expense, expenseProvider),
-        leading: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: _getCategoryColor(expense.category).withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Icon(
-            _getCategoryIcon(expense.category),
-            color: _getCategoryColor(expense.category),
-            size: 20,
-          ),
-        ),
-        title: Text(
-          expense.title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-          ),
-        ),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: _getCategoryColor(expense.category).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: _getCategoryColor(expense.category).withOpacity(0.3),
-                  ),
-                ),
-                child: Text(
-                  expense.category.displayName,
-                  style: TextStyle(
-                    color: _getCategoryColor(expense.category),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              if (expense.paidBy.isNotEmpty || expense.splits.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    if (expense.paidBy.isNotEmpty) ...[
-                      const Icon(
-                        Iconsax.user,
-                        size: 14,
-                        color: AppTheme.textSecondary,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Paid by ${expense.paidBy}',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: AppTheme.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
-              ],
-            ],
-          ),
-        ),
-        trailing: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '${widget.trip.defaultCurrency} ${expense.amount.toStringAsFixed(2)}',
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 16,
-                color: AppTheme.accentColor,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Row(
+        child: const Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
-                  Icons.calendar_today,
-                  size: 12,
-                  color: AppTheme.textSecondary,
+                Icon(
+                  Iconsax.edit_2,
+                  color: Colors.white,
+                  size: 24,
                 ),
-                const SizedBox(width: 4),
+                SizedBox(width: 8),
                 Text(
-                  '${expense.date.day} ${_getShortMonthName(expense.date.month)} ${expense.date.year}',
-                  style: const TextStyle(
-                    color: AppTheme.textSecondary,
-                    fontSize: 12,
+                  'Edit',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+      secondaryBackground: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: AppTheme.error,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: const Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Delete',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(width: 8),
+                Icon(
+                  Iconsax.trash,
+                  color: Colors.white,
+                  size: 24,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppTheme.surfaceDark
+              : AppTheme.surfaceLight,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: _getCategoryColor(expense.category).withOpacity(0.3),
+            width: 1.5,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              offset: const Offset(0, 2),
+              blurRadius: 8,
+              spreadRadius: 0,
+            ),
           ],
+        ),
+        child: ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          onTap: () => _showExpenseDetailsBottomSheet(expense, expenseProvider),
+          leading: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: _getCategoryColor(expense.category).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(
+              _getCategoryIcon(expense.category),
+              color: _getCategoryColor(expense.category),
+              size: 20,
+            ),
+          ),
+          title: Text(
+            expense.title,
+            style: const TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: _getCategoryColor(expense.category).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: _getCategoryColor(expense.category).withOpacity(0.3),
+                    ),
+                  ),
+                  child: Text(
+                    expense.category.displayName,
+                    style: TextStyle(
+                      color: _getCategoryColor(expense.category),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                if (expense.paidBy.isNotEmpty || expense.splits.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      if (expense.paidBy.isNotEmpty) ...[
+                        const Icon(
+                          Iconsax.user,
+                          size: 14,
+                          color: AppTheme.textSecondary,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Paid by ${expense.paidBy}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppTheme.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+          trailing: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '${widget.trip.defaultCurrency} ${expense.amount.toStringAsFixed(2)}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                  color: AppTheme.accentColor,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.calendar_today,
+                    size: 12,
+                    color: AppTheme.textSecondary,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    '${expense.date.day} ${_getShortMonthName(expense.date.month)} ${expense.date.year}',
+                    style: const TextStyle(
+                      color: AppTheme.textSecondary,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -852,6 +931,64 @@ class _ExpensesTabState extends State<ExpensesTab> {
 
   void _showEditExpenseDialog(Expense expense, ExpenseProvider expenseProvider) {
     _showExpenseDialog(expense: expense, expenseProvider: expenseProvider);
+  }
+
+  Future<bool> _showDeleteConfirmation(Expense expense, ExpenseProvider expenseProvider) async {
+    return await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppTheme.error.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  Iconsax.warning_2,
+                  color: AppTheme.error,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Text('Delete Expense'),
+            ],
+          ),
+          content: Text(
+            'Are you sure you want to delete "${expense.title}"? This action cannot be undone.',
+            style: const TextStyle(height: 1.4),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: AppTheme.textSecondary),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.of(context).pop(true);
+                await expenseProvider.deleteExpense(expense.id);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.error,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    ) ?? false;
   }
 
   void _showExpenseDialog({Expense? expense, ExpenseProvider? expenseProvider}) {

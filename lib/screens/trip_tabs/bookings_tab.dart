@@ -10,7 +10,6 @@ import '../../themes/app_theme.dart';
 import '../../providers/booking_provider.dart';
 import '../../widgets/booking_form_modal.dart';
 import '../../widgets/document_viewer.dart';
-import 'package:uuid/uuid.dart';
 
 class BookingsTab extends StatefulWidget {
   final Trip trip;
@@ -247,132 +246,211 @@ class _BookingsTabState extends State<BookingsTab> {
   }
 
   Widget _buildBookingItem(Booking booking, BookingProvider bookingProvider) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? AppTheme.surfaceDark
-            : AppTheme.surfaceLight,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: _getTypeColor(booking.type).withOpacity(0.3),
-          width: 1.5,
+    return Dismissible(
+      key: Key(booking.id),
+      direction: DismissDirection.horizontal,
+      confirmDismiss: (direction) async {
+        if (direction == DismissDirection.endToStart) {
+          // Delete action
+          return await _showDeleteConfirmation(booking, bookingProvider);
+        } else if (direction == DismissDirection.startToEnd) {
+          // Edit action - don't dismiss, just open edit dialog
+          _showEditBookingDialog(booking, bookingProvider);
+          return false;
+        }
+        return false;
+      },
+      background: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: AppTheme.primaryColor,
+          borderRadius: BorderRadius.circular(16),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, 2),
-            blurRadius: 8,
-            spreadRadius: 0,
+        child: const Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Iconsax.edit_2,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  'Edit',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ],
+        ),
       ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: () => _showBookingDetailsBottomSheet(booking, bookingProvider),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: _getTypeColor(booking.type).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
+      secondaryBackground: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: AppTheme.error,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: const Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Delete',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-                child: Icon(
-                  _getTypeIcon(booking.type),
-                  color: _getTypeColor(booking.type),
-                  size: 20,
+                SizedBox(width: 8),
+                Icon(
+                  Iconsax.trash,
+                  color: Colors.white,
+                  size: 24,
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      booking.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Text(
-                          booking.type.displayName,
-                          style: const TextStyle(
-                            color: AppTheme.textSecondary,
-                            fontSize: 12,
-                          ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppTheme.surfaceDark
+              : AppTheme.surfaceLight,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: _getTypeColor(booking.type).withOpacity(0.3),
+            width: 1.5,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              offset: const Offset(0, 2),
+              blurRadius: 8,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () => _showBookingDetailsBottomSheet(booking, bookingProvider),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: _getTypeColor(booking.type).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    _getTypeIcon(booking.type),
+                    color: _getTypeColor(booking.type),
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        booking.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
                         ),
-                        if (booking.bookingDate != null) ...[
-                          const SizedBox(width: 8),
-                          Icon(
-                            Iconsax.calendar_1,
-                            size: 12,
-                            color: AppTheme.textSecondary,
-                          ),
-                          const SizedBox(width: 4),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
                           Text(
-                            '${booking.bookingDate!.day}/${booking.bookingDate!.month}/${booking.bookingDate!.year}',
+                            booking.type.displayName,
                             style: const TextStyle(
-                              fontSize: 12,
                               color: AppTheme.textSecondary,
+                              fontSize: 12,
                             ),
                           ),
+                          if (booking.bookingDate != null) ...[
+                            const SizedBox(width: 8),
+                            Icon(
+                              Iconsax.calendar_1,
+                              size: 12,
+                              color: AppTheme.textSecondary,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              '${booking.bookingDate!.day}/${booking.bookingDate!.month}/${booking.bookingDate!.year}',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppTheme.textSecondary,
+                              ),
+                            ),
+                          ],
                         ],
-                      ],
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (booking.attachments.isNotEmpty) ...[
+                      Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primaryColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(
+                            color: AppTheme.primaryColor.withOpacity(0.3),
+                          ),
+                        ),
+                        child: Icon(
+                          Iconsax.attach_circle,
+                          color: AppTheme.primaryColor,
+                          size: 14,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: _getStatusColor(booking.status).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: _getStatusColor(booking.status).withOpacity(0.3),
+                        ),
+                      ),
+                      child: Text(
+                        booking.status.displayName,
+                        style: TextStyle(
+                          color: _getStatusColor(booking.status),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (booking.attachments.isNotEmpty) ...[
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primaryColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(
-                          color: AppTheme.primaryColor.withOpacity(0.3),
-                        ),
-                      ),
-                      child: Icon(
-                        Iconsax.attach_circle,
-                        color: AppTheme.primaryColor,
-                        size: 14,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                  ],
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: _getStatusColor(booking.status).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: _getStatusColor(booking.status).withOpacity(0.3),
-                      ),
-                    ),
-                    child: Text(
-                      booking.status.displayName,
-                      style: TextStyle(
-                        color: _getStatusColor(booking.status),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -721,26 +799,6 @@ class _BookingsTabState extends State<BookingsTab> {
     );
   }
 
-  Widget _buildInfoChip(IconData icon, String text) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          icon,
-          size: 14,
-          color: AppTheme.textSecondary,
-        ),
-        const SizedBox(width: 4),
-        Text(
-          text,
-          style: const TextStyle(
-            fontSize: 12,
-            color: AppTheme.textSecondary,
-          ),
-        ),
-      ],
-    );
-  }
 
   Color _getTypeColor(BookingType type) {
     switch (type) {
@@ -854,6 +912,64 @@ class _BookingsTabState extends State<BookingsTab> {
       widget.trip.defaultCurrency,
       booking: booking,
     );
+  }
+
+  Future<bool> _showDeleteConfirmation(Booking booking, BookingProvider bookingProvider) async {
+    return await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppTheme.error.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  Iconsax.warning_2,
+                  color: AppTheme.error,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Text('Delete Booking'),
+            ],
+          ),
+          content: Text(
+            'Are you sure you want to delete "${booking.title}"? This action cannot be undone.',
+            style: const TextStyle(height: 1.4),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: AppTheme.textSecondary),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.of(context).pop(true);
+                await bookingProvider.deleteBooking(booking.id);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.error,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    ) ?? false;
   }
 
 }

@@ -287,91 +287,170 @@ class _TodoTabState extends State<TodoTab> {
   }
 
   Widget _buildTodoItem(TodoItem todo) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? AppTheme.surfaceDark
-            : AppTheme.surfaceLight,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: _getPriorityColor(todo.priority).withOpacity(0.3),
-          width: 1.5,
+    return Dismissible(
+      key: Key(todo.id),
+      direction: DismissDirection.horizontal,
+      confirmDismiss: (direction) async {
+        if (direction == DismissDirection.endToStart) {
+          // Delete action
+          return await _showDeleteConfirmation(todo);
+        } else if (direction == DismissDirection.startToEnd) {
+          // Edit action - don't dismiss, just open edit dialog
+          _showEditTodoDialog(todo);
+          return false;
+        }
+        return false;
+      },
+      background: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: AppTheme.primaryColor,
+          borderRadius: BorderRadius.circular(16),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, 2),
-            blurRadius: 8,
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(6),
-        onTap: () => _showTodoDetailsBottomSheet(todo),
-        leading: Checkbox(
-          value: todo.isCompleted,
-          onChanged: (value) async {
-            final updatedTodo = todo.copyWith(
-              isCompleted: value ?? false,
-              updatedAt: DateTime.now(),
-            );
-            await Provider.of<TodoProvider>(context, listen: false).updateTodo(updatedTodo);
-          },
-          activeColor: AppTheme.primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
-          ),
-        ),
-        title: Text(
-          todo.title,
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
-            color: todo.isCompleted ? AppTheme.textSecondary : null,
-          ),
-        ),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: _getPriorityColor(todo.priority).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: _getPriorityColor(todo.priority).withOpacity(0.3),
-                  ),
-                ),
-                child: Text(
-                  _getPriorityDisplayName(todo.priority),
-                  style: TextStyle(
-                    color: _getPriorityColor(todo.priority),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              if (todo.dueDate != null) ...[
-                const SizedBox(width: 8),
+        child: const Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 Icon(
-                  Iconsax.calendar_1,
-                  size: 14,
-                  color: _getDueDateColor(todo.dueDate!),
+                  Iconsax.edit_2,
+                  color: Colors.white,
+                  size: 24,
                 ),
-                const SizedBox(width: 4),
+                SizedBox(width: 8),
                 Text(
-                  _formatDueDate(todo.dueDate!),
+                  'Edit',
                   style: TextStyle(
-                    fontSize: 12,
-                    color: _getDueDateColor(todo.dueDate!),
-                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
-            ],
+            ),
+          ),
+        ),
+      ),
+      secondaryBackground: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: AppTheme.error,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: const Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Delete',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(width: 8),
+                Icon(
+                  Iconsax.trash,
+                  color: Colors.white,
+                  size: 24,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppTheme.surfaceDark
+              : AppTheme.surfaceLight,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: _getPriorityColor(todo.priority).withOpacity(0.3),
+            width: 1.5,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              offset: const Offset(0, 2),
+              blurRadius: 8,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: ListTile(
+          contentPadding: const EdgeInsets.all(6),
+          onTap: () => _showTodoDetailsBottomSheet(todo),
+          leading: Checkbox(
+            value: todo.isCompleted,
+            onChanged: (value) async {
+              final updatedTodo = todo.copyWith(
+                isCompleted: value ?? false,
+                updatedAt: DateTime.now(),
+              );
+              await Provider.of<TodoProvider>(context, listen: false).updateTodo(updatedTodo);
+            },
+            activeColor: AppTheme.primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          title: Text(
+            todo.title,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
+              color: todo.isCompleted ? AppTheme.textSecondary : null,
+            ),
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: _getPriorityColor(todo.priority).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: _getPriorityColor(todo.priority).withOpacity(0.3),
+                    ),
+                  ),
+                  child: Text(
+                    _getPriorityDisplayName(todo.priority),
+                    style: TextStyle(
+                      color: _getPriorityColor(todo.priority),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                if (todo.dueDate != null) ...[
+                  const SizedBox(width: 8),
+                  Icon(
+                    Iconsax.calendar_1,
+                    size: 14,
+                    color: _getDueDateColor(todo.dueDate!),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    _formatDueDate(todo.dueDate!),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: _getDueDateColor(todo.dueDate!),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ),
         ),
       ),
@@ -665,6 +744,64 @@ class _TodoTabState extends State<TodoTab> {
 
   void _showEditTodoDialog(TodoItem todo) {
     _showTodoDialog(todo: todo);
+  }
+
+  Future<bool> _showDeleteConfirmation(TodoItem todo) async {
+    return await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppTheme.error.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  Iconsax.warning_2,
+                  color: AppTheme.error,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Text('Delete Task'),
+            ],
+          ),
+          content: Text(
+            'Are you sure you want to delete "${todo.title}"? This action cannot be undone.',
+            style: const TextStyle(height: 1.4),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: AppTheme.textSecondary),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.of(context).pop(true);
+                await Provider.of<TodoProvider>(context, listen: false).deleteTodo(todo.id);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.error,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    ) ?? false;
   }
 
   void _showTodoDialog({TodoItem? todo}) {
