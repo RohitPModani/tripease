@@ -4,11 +4,13 @@ import 'package:provider/provider.dart';
 import '../models/trip.dart';
 import '../themes/app_theme.dart';
 import '../providers/trip_provider.dart';
+import '../l10n/app_localizations.dart';
 import 'trip_tabs/overview_tab.dart';
 import 'trip_tabs/todo_tab.dart';
 import 'trip_tabs/bookings_tab.dart';
 import 'trip_tabs/expenses_tab.dart';
 import 'trip_tabs/itinerary_tab.dart';
+import 'edit_trip_screen.dart';
 
 class TripDetailScreen extends StatefulWidget {
   final String tripId;
@@ -234,35 +236,43 @@ class _TripDetailScreenState extends State<TripDetailScreen>
               onSelected: (value) async {
                 switch (value) {
                   case 'edit':
-                    // TODO: Navigate to edit trip screen
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditTripScreen(trip: trip),
+                      ),
+                    );
                     break;
                   case 'delete':
-                    // TODO: Show delete confirmation dialog
+                    _showDeleteConfirmationDialog(trip);
                     break;
                 }
               },
               itemBuilder: (context) => [
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: 'edit',
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Iconsax.edit_2,
                         size: 16,
                         color: AppTheme.primaryColor,
                       ),
-                      SizedBox(width: 12),
-                      Text('Edit Trip'),
+                      const SizedBox(width: 12),
+                      Text(AppLocalizations.of(context)!.editTrip),
                     ],
                   ),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: 'delete',
                   child: Row(
                     children: [
-                      Icon(Iconsax.trash, size: 16, color: Colors.red),
-                      SizedBox(width: 12),
-                      Text('Delete Trip', style: TextStyle(color: Colors.red)),
+                      const Icon(Iconsax.trash, size: 16, color: Colors.red),
+                      const SizedBox(width: 12),
+                      Text(
+                        AppLocalizations.of(context)!.deleteTrip,
+                        style: const TextStyle(color: Colors.red),
+                      ),
                     ],
                   ),
                 ),
@@ -293,6 +303,56 @@ class _TripDetailScreenState extends State<TripDetailScreen>
           ),
         ),
       ],
+    );
+  }
+
+  void _showDeleteConfirmationDialog(Trip trip) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.deleteTrip),
+        content: Text(l10n.deleteTripConfirmation),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context); // Close dialog
+              
+              try {
+                await Provider.of<TripProvider>(context, listen: false)
+                    .deleteTrip(trip.id);
+                
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.tripDeletedSuccessfully),
+                      backgroundColor: AppTheme.success,
+                    ),
+                  );
+                  Navigator.pop(context); // Go back to previous screen
+                }
+              } catch (e) {
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.failedToDeleteTrip),
+                      backgroundColor: AppTheme.error,
+                    ),
+                  );
+                }
+              }
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: AppTheme.error,
+            ),
+            child: Text(l10n.delete),
+          ),
+        ],
+      ),
     );
   }
 }

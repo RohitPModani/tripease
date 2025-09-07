@@ -642,4 +642,45 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get biometricAuthenticationDescription =>
       'Usa huella dactilar o reconocimiento facial para proteger tu aplicación';
+
+  @override
+  String get editTrip => 'Edit Trip';
+
+  @override
+  String get updateTrip => 'Update Trip';
+
+  @override
+  String get tripUpdatedSuccessfully => 'Trip updated successfully';
+
+  @override
+  String get failedToUpdateTrip => 'Failed to update trip';
+
+  @override
+  String get deleteTrip => 'Delete Trip';
+
+  @override
+  String get deleteTripConfirmation =>
+      'Are you sure you want to delete this trip? This action cannot be undone.';
+
+  @override
+  String get tripDeletedSuccessfully => 'Trip deleted successfully';
+
+  @override
+  String get failedToDeleteTrip => 'Failed to delete trip';
+
+  @override
+  String get tripCreatedSuccessfully => 'Trip created successfully!';
+
+  @override
+  String get failedToCreateTrip => 'Failed to create trip';
+
+  @override
+  String get selectStartDateFirst => 'Please select start date first';
+
+  @override
+  String get addAtLeastOneDestination => 'Please add at least one destination';
+
+  @override
+  String get selectBothStartAndEndDates =>
+      'Please select both start and end dates';
 }

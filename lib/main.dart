@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'database/database.dart';
+import 'models/trip.dart';
 import 'repositories/trip_repository.dart';
 import 'repositories/todo_repository.dart';
 import 'repositories/booking_repository.dart';
@@ -17,7 +18,9 @@ import 'themes/app_theme.dart';
 import 'screens/main_screen.dart';
 import 'screens/create_trip_screen.dart';
 import 'screens/trip_detail_screen.dart';
+import 'screens/edit_trip_screen.dart';
 import 'providers/localization_provider.dart';
+import 'providers/theme_provider.dart';
 import 'l10n/app_localizations.dart';
 
 void main() async {
@@ -33,15 +36,12 @@ void main() async {
   final expenseRepository = ExpenseRepository(database);
   final documentRepository = DocumentRepository(database);
   
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-    statusBarBrightness: Brightness.light,
-  ));
+  // System UI overlay style will be set dynamically based on theme
   
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => LocalizationProvider()),
         ChangeNotifierProvider(create: (_) => TripProvider(tripRepository)),
         ChangeNotifierProvider(create: (_) => TodoProvider(todoRepository)),
@@ -59,14 +59,24 @@ class TripeaseApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LocalizationProvider>(
-      builder: (context, localizationProvider, child) {
+    return Consumer2<ThemeProvider, LocalizationProvider>(
+      builder: (context, themeProvider, localizationProvider, child) {
+        // Set system UI overlay style based on current theme
+        final isDark = themeProvider.isCurrentlyDark(context);
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+          statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+          systemNavigationBarColor: isDark ? AppTheme.backgroundDark : AppTheme.backgroundLight,
+          systemNavigationBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+        ));
+
         return MaterialApp(
           title: 'Tripease', // App title - not localized as it's the app name
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeMode.system,
+          themeMode: themeProvider.themeMode,
           locale: localizationProvider.currentLocale,
           localizationsDelegates: const [
             AppLocalizations.delegate,
@@ -86,6 +96,11 @@ class TripeaseApp extends StatelessWidget {
                 final tripId = settings.arguments as String;
                 return MaterialPageRoute(
                   builder: (_) => TripDetailScreen(tripId: tripId),
+                );
+              case '/edit-trip':
+                final trip = settings.arguments as Trip;
+                return MaterialPageRoute(
+                  builder: (_) => EditTripScreen(trip: trip),
                 );
               default:
                 return MaterialPageRoute(builder: (_) => const MainScreen());

@@ -1291,6 +1291,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use fingerprint or face recognition to secure your app'**
   String get biometricAuthenticationDescription;
+
+  /// Edit trip screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Trip'**
+  String get editTrip;
+
+  /// Update trip button text
+  ///
+  /// In en, this message translates to:
+  /// **'Update Trip'**
+  String get updateTrip;
+
+  /// Success message when trip is updated
+  ///
+  /// In en, this message translates to:
+  /// **'Trip updated successfully'**
+  String get tripUpdatedSuccessfully;
+
+  /// Error message when trip update fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update trip'**
+  String get failedToUpdateTrip;
+
+  /// Delete trip action
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Trip'**
+  String get deleteTrip;
+
+  /// Confirmation message for deleting a trip
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this trip? This action cannot be undone.'**
+  String get deleteTripConfirmation;
+
+  /// Success message when trip is deleted
+  ///
+  /// In en, this message translates to:
+  /// **'Trip deleted successfully'**
+  String get tripDeletedSuccessfully;
+
+  /// Error message when trip deletion fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete trip'**
+  String get failedToDeleteTrip;
+
+  /// Success message when trip is created
+  ///
+  /// In en, this message translates to:
+  /// **'Trip created successfully!'**
+  String get tripCreatedSuccessfully;
+
+  /// Error message when trip creation fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create trip'**
+  String get failedToCreateTrip;
+
+  /// Error when trying to select end date without start date
+  ///
+  /// In en, this message translates to:
+  /// **'Please select start date first'**
+  String get selectStartDateFirst;
+
+  /// Error when no destinations are added
+  ///
+  /// In en, this message translates to:
+  /// **'Please add at least one destination'**
+  String get addAtLeastOneDestination;
+
+  /// Error when dates are not selected
+  ///
+  /// In en, this message translates to:
+  /// **'Please select both start and end dates'**
+  String get selectBothStartAndEndDates;
 }
 
 class _AppLocalizationsDelegate

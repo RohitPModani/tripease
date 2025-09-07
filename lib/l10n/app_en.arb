@@ -1096,5 +1096,70 @@
   "biometricAuthenticationDescription": "Use fingerprint or face recognition to secure your app",
   "@biometricAuthenticationDescription": {
     "description": "Biometric authentication setting description"
+  },
+
+  "editTrip": "Edit Trip",
+  "@editTrip": {
+    "description": "Edit trip screen title"
+  },
+
+  "updateTrip": "Update Trip",
+  "@updateTrip": {
+    "description": "Update trip button text"
+  },
+
+  "tripUpdatedSuccessfully": "Trip updated successfully",
+  "@tripUpdatedSuccessfully": {
+    "description": "Success message when trip is updated"
+  },
+
+  "failedToUpdateTrip": "Failed to update trip",
+  "@failedToUpdateTrip": {
+    "description": "Error message when trip update fails"
+  },
+
+  "deleteTrip": "Delete Trip",
+  "@deleteTrip": {
+    "description": "Delete trip action"
+  },
+
+  "deleteTripConfirmation": "Are you sure you want to delete this trip? This action cannot be undone.",
+  "@deleteTripConfirmation": {
+    "description": "Confirmation message for deleting a trip"
+  },
+
+  "tripDeletedSuccessfully": "Trip deleted successfully",
+  "@tripDeletedSuccessfully": {
+    "description": "Success message when trip is deleted"
+  },
+
+  "failedToDeleteTrip": "Failed to delete trip",
+  "@failedToDeleteTrip": {
+    "description": "Error message when trip deletion fails"
+  },
+
+  "tripCreatedSuccessfully": "Trip created successfully!",
+  "@tripCreatedSuccessfully": {
+    "description": "Success message when trip is created"
+  },
+
+  "failedToCreateTrip": "Failed to create trip",
+  "@failedToCreateTrip": {
+    "description": "Error message when trip creation fails"
+  },
+
+  "selectStartDateFirst": "Please select start date first",
+  "@selectStartDateFirst": {
+    "description": "Error when trying to select end date without start date"
+  },
+
+  "addAtLeastOneDestination": "Please add at least one destination",
+  "@addAtLeastOneDestination": {
+    "description": "Error when no destinations are added"
+  },
+
+  "selectBothStartAndEndDates": "Please select both start and end dates",
+  "@selectBothStartAndEndDates": {
+    "description": "Error when dates are not selected"
   }
 }

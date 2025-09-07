@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../themes/app_theme.dart';
 import '../providers/localization_provider.dart';
+import '../providers/theme_provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -13,7 +14,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _isDarkMode = false;
   bool _enableNotifications = true;
   bool _enableLocationServices = true;
   bool _enableBiometrics = false;
@@ -89,6 +89,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildPreferencesSection() {
     final l10n = AppLocalizations.of(context)!;
     final localizationProvider = Provider.of<LocalizationProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
     
     return _buildSection(
       title: l10n.preferences,
@@ -97,11 +98,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           icon: Iconsax.moon,
           title: l10n.darkMode,
           subtitle: l10n.switchBetweenLightAndDarkTheme,
-          value: _isDarkMode,
+          value: themeProvider.isDarkMode,
           onChanged: (value) {
-            setState(() {
-              _isDarkMode = value;
-            });
+            themeProvider.toggleDarkMode();
           },
         ),
         _buildActionTile(

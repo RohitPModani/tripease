@@ -2,39 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import '../themes/app_theme.dart';
+import '../l10n/app_localizations.dart';
+import '../models/trip.dart';
 
 class TripCard extends StatelessWidget {
-  final String title;
-  final List<String> destinations;
-  final DateTime startDate;
-  final DateTime endDate;
-  final int daysUntilStart;
-  final bool isActive;
-  final int completedTasks;
-  final int totalTasks;
-  final double totalExpense;
-  final String currency;
+  final Trip trip;
   final VoidCallback onTap;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   const TripCard({
     super.key,
-    required this.title,
-    required this.destinations,
-    required this.startDate,
-    required this.endDate,
-    required this.daysUntilStart,
-    required this.isActive,
-    required this.completedTasks,
-    required this.totalTasks,
-    required this.totalExpense,
-    required this.currency,
+    required this.trip,
     required this.onTap,
+    this.onEdit,
+    this.onDelete,
   });
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final progressPercentage = totalTasks > 0 ? completedTasks / totalTasks : 0.0;
     
     return Container(
       decoration: isDark
@@ -55,7 +42,7 @@ class TripCard extends StatelessWidget {
                 _buildDestinations(context),
                 const SizedBox(height: 16),
                 _buildDateRange(context),
-                if (isActive || daysUntilStart <= 7) ...[
+                if (trip.isActive || trip.daysUntilStart <= 7) ...[
                   const SizedBox(height: 12),
                   _buildStatusBadge(context),
                 ],
@@ -72,7 +59,7 @@ class TripCard extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            title,
+            trip.title,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w700,
             ),
@@ -80,18 +67,68 @@ class TripCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: AppTheme.primaryColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(10),
+        if (onEdit != null || onDelete != null) ...[
+          PopupMenuButton<String>(
+            icon: const Icon(
+              Iconsax.more,
+              color: AppTheme.textSecondary,
+              size: 20,
+            ),
+            onSelected: (value) {
+              switch (value) {
+                case 'edit':
+                  onEdit?.call();
+                  break;
+                case 'delete':
+                  onDelete?.call();
+                  break;
+              }
+            },
+            itemBuilder: (context) => [
+              if (onEdit != null)
+                PopupMenuItem(
+                  value: 'edit',
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Iconsax.edit_2,
+                        size: 16,
+                        color: AppTheme.primaryColor,
+                      ),
+                      const SizedBox(width: 12),
+                      Text(AppLocalizations.of(context)!.editTrip),
+                    ],
+                  ),
+                ),
+              if (onDelete != null)
+                PopupMenuItem(
+                  value: 'delete',
+                  child: Row(
+                    children: [
+                      const Icon(Iconsax.trash, size: 16, color: Colors.red),
+                      const SizedBox(width: 12),
+                      Text(
+                        AppLocalizations.of(context)!.deleteTrip,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
           ),
-          child: const Icon(
-            Iconsax.airplane,
-            color: AppTheme.primaryColor,
-            size: 20,
+        ] else
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: AppTheme.primaryColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Icon(
+              Iconsax.airplane,
+              color: AppTheme.primaryColor,
+              size: 20,
+            ),
           ),
-        ),
       ],
     );
   }
@@ -100,8 +137,8 @@ class TripCard extends StatelessWidget {
     return Wrap(
       spacing: 8,
       runSpacing: 8,
-      children: destinations.take(3).map((destination) {
-        final index = destinations.indexOf(destination);
+      children: trip.destinations.take(3).map((destination) {
+        final index = trip.destinations.indexOf(destination);
         final color = AppTheme.categoryColors[index % AppTheme.categoryColors.length];
         
         return Container(
@@ -134,7 +171,7 @@ class TripCard extends StatelessWidget {
           ),
         );
       }).toList()..addAll([
-        if (destinations.length > 3)
+        if (trip.destinations.length > 3)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
@@ -142,7 +179,7 @@ class TripCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
-              '+${destinations.length - 3} more',
+              '+${trip.destinations.length - 3} more',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: AppTheme.textSecondary,
                 fontWeight: FontWeight.w600,
@@ -155,9 +192,9 @@ class TripCard extends StatelessWidget {
 
   Widget _buildDateRange(BuildContext context) {
     final dateFormat = DateFormat('MMM dd');
-    final startDateStr = dateFormat.format(startDate);
-    final endDateStr = dateFormat.format(endDate);
-    final duration = endDate.difference(startDate).inDays + 1;
+    final startDateStr = dateFormat.format(trip.startDate);
+    final endDateStr = dateFormat.format(trip.endDate);
+    final duration = trip.endDate.difference(trip.startDate).inDays + 1;
     
     return Container(
       padding: const EdgeInsets.all(12),
@@ -200,87 +237,9 @@ class TripCard extends StatelessWidget {
     );
   }
 
-  Widget _buildProgressAndStats(BuildContext context, double progressPercentage) {
-    final numberFormat = NumberFormat.currency(symbol: getCurrencySymbol());
-    
-    return Row(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const Icon(
-                    Iconsax.task_square,
-                    size: 14,
-                    color: AppTheme.textSecondary,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    'Tasks',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '$completedTasks / $totalTasks',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 4),
-              LinearProgressIndicator(
-                value: progressPercentage,
-                backgroundColor: AppTheme.textSecondary.withOpacity(0.2),
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  progressPercentage < 0.5 
-                      ? AppTheme.warning 
-                      : progressPercentage < 0.8 
-                          ? AppTheme.secondaryColor 
-                          : AppTheme.success,
-                ),
-                borderRadius: BorderRadius.circular(4),
-                minHeight: 6,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 16),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Row(
-              children: [
-                const Icon(
-                  Iconsax.dollar_circle,
-                  size: 14,
-                  color: AppTheme.textSecondary,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  'Budget',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Text(
-              numberFormat.format(totalExpense),
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: AppTheme.success,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
 
   Widget _buildStatusBadge(BuildContext context) {
-    if (isActive) {
+    if (trip.isActive) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
@@ -309,7 +268,7 @@ class TripCard extends StatelessWidget {
           ],
         ),
       );
-    } else if (daysUntilStart <= 7) {
+    } else if (trip.daysUntilStart <= 7) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
@@ -326,9 +285,9 @@ class TripCard extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              daysUntilStart == 0 
+              trip.daysUntilStart == 0 
                   ? 'Starting Today!' 
-                  : '$daysUntilStart days to go',
+                  : '${trip.daysUntilStart} days to go',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: AppTheme.accentColor,
                 fontWeight: FontWeight.w600,
@@ -342,7 +301,7 @@ class TripCard extends StatelessWidget {
     return const SizedBox.shrink();
   }
 
-  String getCurrencySymbol() {
+  String getCurrencySymbol(String currency) {
     switch (currency) {
       case 'USD':
         return '\$';

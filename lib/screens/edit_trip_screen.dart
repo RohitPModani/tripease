@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:uuid/uuid.dart';
 import 'package:provider/provider.dart';
 import '../themes/app_theme.dart';
 import '../models/trip.dart';
 import '../providers/trip_provider.dart';
 import '../l10n/app_localizations.dart';
 
-class CreateTripScreen extends StatefulWidget {
-  const CreateTripScreen({super.key});
+class EditTripScreen extends StatefulWidget {
+  final Trip trip;
 
-  static void show(BuildContext context) {
+  const EditTripScreen({super.key, required this.trip});
+
+  static void show(BuildContext context, Trip trip) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => const CreateTripScreen(),
+      builder: (context) => EditTripScreen(trip: trip),
     );
   }
 
   @override
-  State<CreateTripScreen> createState() => _CreateTripScreenState();
+  State<EditTripScreen> createState() => _EditTripScreenState();
 }
 
-class _CreateTripScreenState extends State<CreateTripScreen> {
+class _EditTripScreenState extends State<EditTripScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _descriptionController;
   late final TextEditingController _destinationController;
@@ -46,6 +47,16 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     _titleController = TextEditingController();
     _descriptionController = TextEditingController();
     _destinationController = TextEditingController();
+    _initializeFromTrip();
+  }
+
+  void _initializeFromTrip() {
+    _titleController.text = widget.trip.title;
+    _descriptionController.text = widget.trip.description;
+    _destinations = List.from(widget.trip.destinations);
+    _startDate = widget.trip.startDate;
+    _endDate = widget.trip.endDate;
+    _selectedCurrency = widget.trip.defaultCurrency;
   }
 
   @override
@@ -72,12 +83,12 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     });
   }
 
-  Future<void> _selectStartDate() async {
-    final date = await showDatePicker(
+  void _selectStartDate() async {
+    final picked = await showDatePicker(
       context: context,
       initialDate: _startDate ?? DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365 * 2)),
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 1095)), // 3 years
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -89,18 +100,19 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
         );
       },
     );
-    
-    if (date != null) {
+
+    if (picked != null) {
       setState(() {
-        _startDate = date;
-        if (_endDate != null && _endDate!.isBefore(date)) {
-          _endDate = null;
+        _startDate = picked;
+        // Ensure end date is after start date
+        if (_endDate != null && _endDate!.isBefore(picked)) {
+          _endDate = picked.add(const Duration(days: 1));
         }
       });
     }
   }
 
-  Future<void> _selectEndDate() async {
+  void _selectEndDate() async {
     if (_startDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -111,11 +123,11 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       return;
     }
 
-    final date = await showDatePicker(
+    final picked = await showDatePicker(
       context: context,
       initialDate: _endDate ?? _startDate!.add(const Duration(days: 7)),
       firstDate: _startDate!,
-      lastDate: _startDate!.add(const Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 1095)),
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -127,17 +139,16 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
         );
       },
     );
-    
-    if (date != null) {
+
+    if (picked != null) {
       setState(() {
-        _endDate = date;
+        _endDate = picked;
       });
     }
   }
 
-  Future<void> _createTrip() async {
+  void _saveTrip() async {
     if (_titleController.text.trim().isEmpty) return;
-    
     if (_destinations.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -147,7 +158,6 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       );
       return;
     }
-
     if (_startDate == null || _endDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -159,24 +169,21 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     }
 
     try {
-      final trip = Trip(
-        id: const Uuid().v4(),
+      final updatedTrip = widget.trip.copyWith(
         title: _titleController.text.trim(),
+        description: _descriptionController.text.trim(),
         destinations: _destinations,
         startDate: _startDate!,
         endDate: _endDate!,
-        description: _descriptionController.text.trim(),
         defaultCurrency: _selectedCurrency,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
       );
 
-      await Provider.of<TripProvider>(context, listen: false).createTrip(trip);
-
+      await Provider.of<TripProvider>(context, listen: false).updateTrip(updatedTrip);
+      
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.tripCreatedSuccessfully),
+            content: Text(AppLocalizations.of(context)!.tripUpdatedSuccessfully),
             backgroundColor: AppTheme.success,
           ),
         );
@@ -186,7 +193,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.failedToCreateTrip),
+            content: Text(AppLocalizations.of(context)!.failedToUpdateTrip),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -259,14 +266,14 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
             borderRadius: BorderRadius.circular(10),
           ),
           child: const Icon(
-            Iconsax.airplane,
+            Iconsax.edit_2,
             color: AppTheme.primaryColor,
             size: 20,
           ),
         ),
         const SizedBox(width: 12),
         Text(
-          AppLocalizations.of(context)!.createTrip,
+          AppLocalizations.of(context)!.editTrip,
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.w600,
           ),
@@ -442,6 +449,46 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     );
   }
 
+  Widget _buildDestinationChip(String destination) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppTheme.primaryColor.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: AppTheme.primaryColor.withOpacity(0.3),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Iconsax.location,
+            size: 12,
+            color: AppTheme.primaryColor,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            destination,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: AppTheme.primaryColor,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(width: 4),
+          GestureDetector(
+            onTap: () => _removeDestination(destination),
+            child: Icon(
+              Iconsax.close_circle,
+              size: 14,
+              color: AppTheme.primaryColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildCurrencyField() {
     return DropdownButtonFormField<String>(
       value: _selectedCurrency,
@@ -494,46 +541,6 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     );
   }
 
-  Widget _buildDestinationChip(String destination) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: AppTheme.primaryColor.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: AppTheme.primaryColor.withOpacity(0.3),
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Iconsax.location,
-            size: 12,
-            color: AppTheme.primaryColor,
-          ),
-          const SizedBox(width: 4),
-          Text(
-            destination,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: AppTheme.primaryColor,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(width: 4),
-          GestureDetector(
-            onTap: () => _removeDestination(destination),
-            child: Icon(
-              Iconsax.close_circle,
-              size: 14,
-              color: AppTheme.primaryColor,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildButtons() {
     return Row(
       children: [
@@ -558,7 +565,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
           child: Container(
             decoration: AppTheme.glowingButtonDecoration,
             child: ElevatedButton(
-              onPressed: _isLoading ? null : _createTrip,
+              onPressed: _isLoading ? null : _saveTrip,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.transparent,
@@ -577,7 +584,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                       ),
                     )
                   : Text(
-                      AppLocalizations.of(context)!.createTrip,
+                      AppLocalizations.of(context)!.updateTrip,
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,

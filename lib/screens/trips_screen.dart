@@ -9,6 +9,7 @@ import '../widgets/trip_card.dart';
 import '../providers/trip_provider.dart';
 import '../models/trip.dart';
 import '../l10n/app_localizations.dart';
+import 'edit_trip_screen.dart';
 
 class TripsScreen extends StatefulWidget {
   const TripsScreen({super.key});
@@ -269,22 +270,19 @@ class _TripsScreenState extends State<TripsScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 16),
                         child: TripCard(
-                          title: trip.title,
-                          destinations: trip.destinations,
-                          startDate: trip.startDate,
-                          endDate: trip.endDate,
-                          daysUntilStart: trip.daysUntilStart,
-                          isActive: trip.isActive,
-                          completedTasks: 0, // TODO: Get from TodoProvider
-                          totalTasks: 0, // TODO: Get from TodoProvider
-                          totalExpense: 0.0, // TODO: Get from ExpenseProvider
-                          currency: trip.defaultCurrency,
+                          trip: trip,
                           onTap: () {
                             Navigator.pushNamed(
                               context,
                               '/trip-detail',
                               arguments: trip.id,
                             );
+                          },
+                          onEdit: () {
+                            EditTripScreen.show(context, trip);
+                          },
+                          onDelete: () {
+                            _showDeleteConfirmationDialog(trip);
                           },
                         ),
                       ),
@@ -327,4 +325,52 @@ class _TripsScreenState extends State<TripsScreen> {
     return filteredTrips;
   }
 
+  void _showDeleteConfirmationDialog(Trip trip) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.deleteTrip),
+        content: Text(l10n.deleteTripConfirmation),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context); // Close dialog
+              
+              try {
+                await Provider.of<TripProvider>(context, listen: false)
+                    .deleteTrip(trip.id);
+                
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.tripDeletedSuccessfully),
+                      backgroundColor: AppTheme.success,
+                    ),
+                  );
+                }
+              } catch (e) {
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.failedToDeleteTrip),
+                      backgroundColor: AppTheme.error,
+                    ),
+                  );
+                }
+              }
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: AppTheme.error,
+            ),
+            child: Text(l10n.delete),
+          ),
+        ],
+      ),
+    );
+  }
 }
