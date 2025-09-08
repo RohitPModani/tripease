@@ -398,30 +398,6 @@ abstract class AppLocalizations {
   /// **'App Settings'**
   String get appSettings;
 
-  /// Push notifications setting
-  ///
-  /// In en, this message translates to:
-  /// **'Push Notifications'**
-  String get pushNotifications;
-
-  /// Push notifications description
-  ///
-  /// In en, this message translates to:
-  /// **'Get reminders and updates'**
-  String get getRemindersAndUpdates;
-
-  /// Location services setting
-  ///
-  /// In en, this message translates to:
-  /// **'Location Services'**
-  String get locationServices;
-
-  /// Location services description
-  ///
-  /// In en, this message translates to:
-  /// **'Allow location-based features'**
-  String get allowLocationBasedFeatures;
-
   /// Backup and sync setting
   ///
   /// In en, this message translates to:
@@ -1285,18 +1261,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown'**
   String get unknown;
-
-  /// Biometric authentication setting title
-  ///
-  /// In en, this message translates to:
-  /// **'Biometric Authentication'**
-  String get biometricAuthentication;
-
-  /// Biometric authentication setting description
-  ///
-  /// In en, this message translates to:
-  /// **'Use fingerprint or face recognition to secure your app'**
-  String get biometricAuthenticationDescription;
 
   /// Edit trip screen title
   ///

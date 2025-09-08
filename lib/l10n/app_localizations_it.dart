@@ -161,19 +161,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get appSettings => 'Impostazioni App';
 
   @override
-  String get pushNotifications => 'Notifiche Push';
-
-  @override
-  String get getRemindersAndUpdates => 'Ricevi promemoria e aggiornamenti';
-
-  @override
-  String get locationServices => 'Servizi di Localizzazione';
-
-  @override
-  String get allowLocationBasedFeatures =>
-      'Consenti funzioni basate sulla posizione';
-
-  @override
   String get backupAndSync => 'Backup e Sincronizzazione';
 
   @override
@@ -634,13 +621,6 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get unknown => 'Sconosciuto';
-
-  @override
-  String get biometricAuthentication => 'Autenticazione Biometrica';
-
-  @override
-  String get biometricAuthenticationDescription =>
-      'Usa l\'impronta digitale o il riconoscimento facciale per proteggere la tua app';
 
   @override
   String get editTrip => 'Modifica Viaggio';

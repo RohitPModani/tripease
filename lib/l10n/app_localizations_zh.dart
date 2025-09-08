@@ -161,18 +161,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get appSettings => '应用设置';
 
   @override
-  String get pushNotifications => '推送通知';
-
-  @override
-  String get getRemindersAndUpdates => '获取提醒和更新';
-
-  @override
-  String get locationServices => '位置服务';
-
-  @override
-  String get allowLocationBasedFeatures => '允许基于位置的功能';
-
-  @override
   String get backupAndSync => '备份和同步';
 
   @override
@@ -624,12 +612,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get unknown => '未知';
-
-  @override
-  String get biometricAuthentication => '生物识别认证';
-
-  @override
-  String get biometricAuthenticationDescription => '使用指纹或面部识别来保护您的应用';
 
   @override
   String get editTrip => '编辑旅行';

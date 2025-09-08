@@ -264,26 +264,6 @@
     "description": "App settings section title"
   },
   
-  "pushNotifications": "Push Notifications",
-  "@pushNotifications": {
-    "description": "Push notifications setting"
-  },
-  
-  "getRemindersAndUpdates": "Get reminders and updates",
-  "@getRemindersAndUpdates": {
-    "description": "Push notifications description"
-  },
-  
-  "locationServices": "Location Services",
-  "@locationServices": {
-    "description": "Location services setting"
-  },
-  
-  "allowLocationBasedFeatures": "Allow location-based features",
-  "@allowLocationBasedFeatures": {
-    "description": "Location services description"
-  },
-  
   "backupAndSync": "Backup & Sync",
   "@backupAndSync": {
     "description": "Backup and sync setting"
@@ -1091,16 +1071,6 @@
   "unknown": "Unknown",
   "@unknown": {
     "description": "Unknown value placeholder"
-  },
-
-  "biometricAuthentication": "Biometric Authentication",
-  "@biometricAuthentication": {
-    "description": "Biometric authentication setting title"
-  },
-
-  "biometricAuthenticationDescription": "Use fingerprint or face recognition to secure your app",
-  "@biometricAuthenticationDescription": {
-    "description": "Biometric authentication setting description"
   },
 
   "editTrip": "Edit Trip",

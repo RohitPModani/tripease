@@ -14,9 +14,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _enableNotifications = true;
-  bool _enableLocationServices = true;
-  bool _enableBiometrics = false;
 
   @override
   Widget build(BuildContext context) {
@@ -112,17 +109,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _showLanguageSelector(context);
           },
         ),
-        _buildSwitchTile(
-          icon: Iconsax.finger_scan,
-          title: l10n.biometricAuthentication,
-          subtitle: l10n.biometricAuthenticationDescription,
-          value: _enableBiometrics,
-          onChanged: (value) {
-            setState(() {
-              _enableBiometrics = value;
-            });
-          },
-        ),
       ],
     );
   }
@@ -132,28 +118,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return _buildSection(
       title: l10n.appSettings,
       children: [
-        _buildSwitchTile(
-          icon: Iconsax.notification,
-          title: l10n.pushNotifications,
-          subtitle: l10n.getRemindersAndUpdates,
-          value: _enableNotifications,
-          onChanged: (value) {
-            setState(() {
-              _enableNotifications = value;
-            });
-          },
-        ),
-        _buildSwitchTile(
-          icon: Iconsax.location,
-          title: l10n.locationServices,
-          subtitle: l10n.allowLocationBasedFeatures,
-          value: _enableLocationServices,
-          onChanged: (value) {
-            setState(() {
-              _enableLocationServices = value;
-            });
-          },
-        ),
         _buildActionTile(
           icon: Iconsax.cloud,
           title: l10n.backupAndSync,

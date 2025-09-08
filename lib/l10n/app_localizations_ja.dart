@@ -161,18 +161,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get appSettings => 'アプリ設定';
 
   @override
-  String get pushNotifications => 'プッシュ通知';
-
-  @override
-  String get getRemindersAndUpdates => 'リマインダーと更新を取得';
-
-  @override
-  String get locationServices => '位置情報サービス';
-
-  @override
-  String get allowLocationBasedFeatures => '位置情報ベースの機能を許可';
-
-  @override
   String get backupAndSync => 'バックアップと同期';
 
   @override
@@ -625,12 +613,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get unknown => '不明';
-
-  @override
-  String get biometricAuthentication => '生体認証';
-
-  @override
-  String get biometricAuthenticationDescription => '指紋または顔認識を使用してアプリのセキュリティを強化';
 
   @override
   String get editTrip => '旅行を編集';

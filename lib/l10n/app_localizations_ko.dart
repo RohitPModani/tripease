@@ -161,18 +161,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get appSettings => '앱 설정';
 
   @override
-  String get pushNotifications => '푸시 알림';
-
-  @override
-  String get getRemindersAndUpdates => '알림 및 업데이트 받기';
-
-  @override
-  String get locationServices => '위치 서비스';
-
-  @override
-  String get allowLocationBasedFeatures => '위치 기반 기능 허용';
-
-  @override
   String get backupAndSync => '백업 및 동기화';
 
   @override
@@ -626,12 +614,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get unknown => '알 수 없음';
-
-  @override
-  String get biometricAuthentication => '생체 인증';
-
-  @override
-  String get biometricAuthenticationDescription => '지문이나 얼굴 인식을 사용하여 앱을 보호하세요';
 
   @override
   String get editTrip => '여행 편집';
