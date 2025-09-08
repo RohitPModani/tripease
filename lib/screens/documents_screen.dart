@@ -1,8 +1,18 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:gal/gal.dart';
 import '../themes/app_theme.dart';
 import '../l10n/app_localizations.dart';
+import '../widgets/document_form_modal.dart';
+import '../widgets/document_viewer.dart';
+import '../providers/document_provider.dart';
+import '../models/document.dart';
+import '../models/attachment.dart';
 
 class DocumentsScreen extends StatefulWidget {
   const DocumentsScreen({super.key});
@@ -11,20 +21,29 @@ class DocumentsScreen extends StatefulWidget {
   State<DocumentsScreen> createState() => _DocumentsScreenState();
 }
 
-class _DocumentsScreenState extends State<DocumentsScreen>
-    with TickerProviderStateMixin {
-  late TabController _tabController;
-
+class _DocumentsScreenState extends State<DocumentsScreen> {
+  String _searchQuery = '';
+  
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<DocumentProvider>(context, listen: false).loadPersonalDocuments();
+    });
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+  List<Document> _getFilteredDocuments(List<Document> documents) {
+    if (_searchQuery.isEmpty) {
+      return documents;
+    }
+    
+    final query = _searchQuery.toLowerCase();
+    return documents.where((document) {
+      return document.title.toLowerCase().contains(query) ||
+             document.description.toLowerCase().contains(query) ||
+             document.fileName.toLowerCase().contains(query) ||
+             _getDocumentTypeDisplayName(document.type).toLowerCase().contains(query);
+    }).toList();
   }
 
   @override
@@ -54,16 +73,11 @@ class _DocumentsScreenState extends State<DocumentsScreen>
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
                     _buildSearchBar(),
-                    const SizedBox(height: 16),
-                    _buildTabBar(),
                   ]),
                 ),
               ),
               SliverFillRemaining(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [_buildPersonalDocuments(), _buildTripDocuments()],
-                ),
+                child: _buildPersonalDocuments(),
               ),
             ],
           ),
@@ -71,19 +85,27 @@ class _DocumentsScreenState extends State<DocumentsScreen>
       ),
       floatingActionButton: Container(
         decoration: AppTheme.glowingButtonDecoration,
-        child: FloatingActionButton(
+        child: FloatingActionButton.extended(
+          heroTag: "add_document_fab",
           onPressed: () {
-            _showUploadDialog();
+            DocumentFormModal.show(context);
           },
           backgroundColor: Colors.transparent,
           elevation: 0,
-          child: const Icon(
-            Iconsax.document_upload,
-            size: 24,
-            color: AppTheme.textLight,
+          icon: const Icon(
+            Iconsax.add,
+            color: Colors.white,
+          ),
+          label: Text(
+            AppLocalizations.of(context)!.addDocument,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -109,21 +131,6 @@ class _DocumentsScreenState extends State<DocumentsScreen>
           ),
         ),
       ),
-      actions: [
-        Container(
-          margin: const EdgeInsets.only(right: 16),
-          decoration: BoxDecoration(
-            color: AppTheme.primaryColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: IconButton(
-            onPressed: () {
-              // TODO: Implement document scanner
-            },
-            icon: const Icon(Iconsax.scan, color: AppTheme.primaryColor),
-          ),
-        ),
-      ],
     );
   }
 
@@ -145,11 +152,23 @@ class _DocumentsScreenState extends State<DocumentsScreen>
       ),
       child: TextField(
         onChanged: (value) {
-          // TODO: Implement search filtering
+          setState(() {
+            _searchQuery = value;
+          });
         },
         decoration: InputDecoration(
           hintText: AppLocalizations.of(context)!.searchDocuments,
           prefixIcon: const Icon(Iconsax.search_normal_1),
+          suffixIcon: _searchQuery.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Iconsax.close_circle),
+                  onPressed: () {
+                    setState(() {
+                      _searchQuery = '';
+                    });
+                  },
+                )
+              : null,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(16),
         ),
@@ -157,232 +176,434 @@ class _DocumentsScreenState extends State<DocumentsScreen>
     );
   }
 
-  Widget _buildTabBar() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? AppTheme.surfaceDark
-            : AppTheme.surfaceLight,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: TabBar(
-        controller: _tabController,
-        indicator: BoxDecoration(
-          gradient: AppTheme.primaryGradient,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        dividerColor: Colors.transparent,
-        labelColor: AppTheme.textLight,
-        unselectedLabelColor: AppTheme.textSecondary,
-        labelStyle: Theme.of(
-          context,
-        ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-        tabs: [
-          Tab(text: AppLocalizations.of(context)!.personal),
-          Tab(text: AppLocalizations.of(context)!.tripRelated),
-        ],
-      ),
-    );
-  }
-
   Widget _buildPersonalDocuments() {
-    return AnimationLimiter(
-      child: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: _mockPersonalDocuments.length,
-        itemBuilder: (context, index) {
-          return AnimationConfiguration.staggeredList(
-            position: index,
-            duration: const Duration(milliseconds: 375),
-            child: SlideAnimation(
-              verticalOffset: 50.0,
-              child: FadeInAnimation(
-                child: _buildDocumentCard(_mockPersonalDocuments[index]),
-              ),
-            ),
+    return Consumer<DocumentProvider>(
+      builder: (context, documentProvider, child) {
+        if (documentProvider.isLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-        },
-      ),
-    );
-  }
+        }
 
-  Widget _buildTripDocuments() {
-    return AnimationLimiter(
-      child: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: _mockTripDocuments.length,
-        itemBuilder: (context, index) {
-          return AnimationConfiguration.staggeredList(
-            position: index,
-            duration: const Duration(milliseconds: 375),
-            child: SlideAnimation(
-              verticalOffset: 50.0,
-              child: FadeInAnimation(
-                child: _buildDocumentCard(_mockTripDocuments[index]),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildDocumentCard(Map<String, dynamic> document) {
-    final isExpiring = document['isExpiring'] ?? false;
-    final isExpired = document['isExpired'] ?? false;
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: Theme.of(context).brightness == Brightness.dark
-          ? AppTheme.pixieCardDecorationDark
-          : AppTheme.pixieCardDecoration,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: () {
-            // TODO: Open document
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
+        if (documentProvider.error != null) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: _getDocumentTypeColor(
-                      document['type'],
-                    ).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
+                Icon(
+                  Iconsax.warning_2,
+                  size: 48,
+                  color: Theme.of(context).colorScheme.error,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  AppLocalizations.of(context)!.failedToLoad + ' documents',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  documentProvider.error!,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.error,
                   ),
-                  child: Icon(
-                    _getDocumentTypeIcon(document['type']),
-                    color: _getDocumentTypeColor(document['type']),
-                    size: 24,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => documentProvider.loadPersonalDocuments(),
+                  child: Text(AppLocalizations.of(context)!.retry),
+                ),
+              ],
+            ),
+          );
+        }
+
+        final allDocuments = documentProvider.personalDocuments;
+        final documents = _getFilteredDocuments(allDocuments);
+
+        if (allDocuments.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Iconsax.document,
+                  size: 64,
+                  color: Theme.of(context).colorScheme.outline,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'No documents yet',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Add your first document to get started!',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.outline,
                   ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        document['title'],
-                        style: Theme.of(context).textTheme.titleLarge,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Text(
-                            document['type'],
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          const SizedBox(width: 8),
-                          Container(
-                            width: 4,
-                            height: 4,
-                            decoration: BoxDecoration(
-                              color: AppTheme.textSecondary,
-                              borderRadius: BorderRadius.circular(2),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            document['size'],
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ],
-                      ),
-                      if (document['expiryDate'] != null) ...[
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Icon(
-                              Iconsax.calendar,
-                              size: 12,
-                              color: isExpired
-                                  ? AppTheme.error
-                                  : isExpiring
-                                  ? AppTheme.warning
-                                  : AppTheme.textSecondary,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              'Expires: ${document['expiryDate']}',
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(
-                                    color: isExpired
-                                        ? AppTheme.error
-                                        : isExpiring
-                                        ? AppTheme.warning
-                                        : AppTheme.textSecondary,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ],
+                const SizedBox(height: 24),
+              ],
+            ),
+          );
+        }
+
+        if (documents.isEmpty && _searchQuery.isNotEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Iconsax.search_normal_1,
+                  size: 64,
+                  color: Theme.of(context).colorScheme.outline,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'No documents found',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Try adjusting your search terms',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.outline,
                   ),
                 ),
-                PopupMenuButton<String>(
-                  icon: Icon(Iconsax.more, color: AppTheme.textSecondary),
-                  onSelected: (value) {
-                    switch (value) {
-                      case 'view':
-                        // TODO: View document
-                        break;
-                      case 'share':
-                        // TODO: Share document
-                        break;
-                      case 'download':
-                        // TODO: Download document
-                        break;
-                      case 'delete':
-                        // TODO: Delete document
-                        break;
-                    }
+                const SizedBox(height: 24),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      _searchQuery = '';
+                    });
                   },
-                  itemBuilder: (context) => [
-                    const PopupMenuItem(value: 'view', child: Text('View')),
-                    const PopupMenuItem(value: 'share', child: Text('Share')),
-                    const PopupMenuItem(
-                      value: 'download',
-                      child: Text('Download'),
-                    ),
-                    const PopupMenuItem(value: 'delete', child: Text('Delete')),
-                  ],
+                  icon: const Icon(Iconsax.refresh),
+                  label: const Text('Clear search'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.primaryColor,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return AnimationLimiter(
+          child: ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: documents.length,
+            itemBuilder: (context, index) {
+              return AnimationConfiguration.staggeredList(
+                position: index,
+                duration: const Duration(milliseconds: 375),
+                child: SlideAnimation(
+                  verticalOffset: 50.0,
+                  child: FadeInAnimation(
+                    child: _buildDocumentCard(documents[index]),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+
+  Widget _buildDocumentCard(Document document) {
+    return Dismissible(
+      key: Key(document.id),
+      direction: DismissDirection.horizontal,
+      confirmDismiss: (direction) async {
+        if (direction == DismissDirection.endToStart) {
+          // Delete action
+          return await _showDeleteConfirmationDialog(document);
+        } else if (direction == DismissDirection.startToEnd) {
+          // Edit action - don't dismiss, just open edit dialog
+          DocumentFormModal.show(context, document: document);
+          return false;
+        }
+        return false;
+      },
+      onDismissed: (direction) async {
+        if (direction == DismissDirection.endToStart) {
+          // Perform deletion
+          try {
+            await Provider.of<DocumentProvider>(context, listen: false)
+                .deleteDocument(document.id);
+            
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Document "${document.title}" deleted successfully'),
+                  backgroundColor: AppTheme.success,
+                ),
+              );
+            }
+          } catch (e) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Failed to delete document: $e'),
+                  backgroundColor: AppTheme.error,
+                ),
+              );
+            }
+          }
+        }
+      },
+      background: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: AppTheme.primaryColor,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Iconsax.edit_2,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  AppLocalizations.of(context)!.edit,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-
-  void _showUploadDialog() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(24),
+      secondaryBackground: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: AppTheme.error,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.delete,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Icon(
+                  Iconsax.trash,
+                  color: Colors.white,
+                  size: 24,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.dark
               ? AppTheme.surfaceDark
               : AppTheme.surfaceLight,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: _getDocumentTypeColor(document.type.name).withOpacity(0.3),
+            width: 1.5,
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              offset: const Offset(0, 2),
+              blurRadius: 8,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () {
+            _showDocumentDetailsBottomSheet(document);
+          },
+          child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: _getDocumentTypeColor(document.type.name).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  _getDocumentTypeIcon(document.type.name),
+                  color: _getDocumentTypeColor(document.type.name),
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      document.title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Text(
+                          _getDocumentTypeDisplayName(document.type),
+                          style: const TextStyle(
+                            color: AppTheme.textSecondary,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Icon(
+                          Iconsax.calendar_1,
+                          size: 12,
+                          color: AppTheme.textSecondary,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Created: ${_formatDate(document.createdAt)}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppTheme.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppTheme.textSecondary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: AppTheme.textSecondary.withOpacity(0.3),
+                  ),
+                ),
+                child: Text(
+                  _formatFileSize(document.fileSize),
+                  style: TextStyle(
+                    color: AppTheme.textSecondary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        ),
+      ),
+    );
+  }
+
+  Future<bool> _showDeleteConfirmationDialog(Document document) async {
+    return await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Document'),
+        content: Text('Are you sure you want to delete "${document.title}"? This action cannot be undone.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context, true);
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: AppTheme.error,
+            ),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    ) ?? false;
+  }
+
+  String _formatFileSize(int bytes) {
+    if (bytes < 1024) return '$bytes B';
+    if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(1)} KB';
+    if (bytes < 1024 * 1024 * 1024) return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
+    return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(1)} GB';
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.day}/${date.month}/${date.year}';
+  }
+
+  String _getDocumentTypeDisplayName(DocumentType type) {
+    switch (type) {
+      case DocumentType.passport:
+        return 'Passport';
+      case DocumentType.visa:
+        return 'Visa';
+      case DocumentType.ticket:
+        return 'Ticket';
+      case DocumentType.hotel:
+        return 'Hotel';
+      case DocumentType.insurance:
+        return 'Insurance';
+      case DocumentType.other:
+        return 'Other';
+    }
+  }
+
+  void _showDocumentDetailsBottomSheet(Document document) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Container(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.75,
+        ),
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppTheme.surfaceDark
+              : AppTheme.surfaceLight,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
+              margin: const EdgeInsets.only(top: 8),
               width: 40,
               height: 4,
               decoration: BoxDecoration(
@@ -390,104 +611,496 @@ class _DocumentsScreenState extends State<DocumentsScreen>
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            const SizedBox(height: 24),
-            Text(
-              'Upload Document',
-              style: Theme.of(context).textTheme.headlineSmall,
+            Flexible(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: _getDocumentTypeColor(document.type.name).withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Icon(
+                            _getDocumentTypeIcon(document.type.name),
+                            color: _getDocumentTypeColor(document.type.name),
+                            size: 24,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Document Details',
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                _getDocumentTypeDisplayName(document.type),
+                                style: TextStyle(
+                                  color: _getDocumentTypeColor(document.type.name),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      'Title',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      document.title,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    if (document.description.isNotEmpty) ...[
+                      const SizedBox(height: 20),
+                      Text(
+                        'Description',
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        document.description,
+                        style: TextStyle(
+                          color: AppTheme.textSecondary,
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Created Date',
+                                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Iconsax.calendar_1,
+                                    size: 16,
+                                    color: AppTheme.textSecondary,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    _formatDate(document.createdAt),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'File Size',
+                                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                _formatFileSize(document.fileSize),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'File Name',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      document.fileName,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    // Attachments Section (Document File)
+                    Text(
+                      AppLocalizations.of(context)!.attachments,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryColor.withOpacity(0.05),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: AppTheme.primaryColor.withOpacity(0.2),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            _getDocumentFileIcon(document),
+                            color: AppTheme.primaryColor,
+                            size: 24,
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  document.fileName,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  _formatFileSize(document.fileSize),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppTheme.textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => _viewDocument(document),
+                            icon: Icon(
+                              Iconsax.eye,
+                              color: AppTheme.primaryColor,
+                              size: 26,
+                            ),
+                            tooltip: AppLocalizations.of(context)!.view,
+                          ),
+                          IconButton(
+                            onPressed: () => _downloadDocument(document),
+                            icon: Icon(
+                              Iconsax.document_download,
+                              color: AppTheme.secondaryColor,
+                              size: 24,
+                            ),
+                            tooltip: AppLocalizations.of(context)!.download,
+                          ),
+                          IconButton(
+                            onPressed: () => _shareDocument(document),
+                            icon: Icon(
+                              Iconsax.share,
+                              color: AppTheme.accentColor,
+                              size: 24,
+                            ),
+                            tooltip: AppLocalizations.of(context)!.share,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    // Edit and Delete buttons
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              DocumentFormModal.show(context, document: document);
+                            },
+                            icon: const Icon(Iconsax.edit_2),
+                            label: const Text('Edit'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.primaryColor,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              _showDeleteConfirmationDialog(document);
+                            },
+                            icon: const Icon(Iconsax.trash),
+                            label: const Text('Delete'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.error,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ),
-            const SizedBox(height: 24),
-            _buildUploadOption(
-              icon: Iconsax.camera,
-              title: AppLocalizations.of(context)!.takePhoto,
-              subtitle: AppLocalizations.of(context)!.captureDocumentWithCamera,
-              onTap: () {
-                Navigator.pop(context);
-                // TODO: Implement camera capture
-              },
-            ),
-            const SizedBox(height: 16),
-            _buildUploadOption(
-              icon: Iconsax.gallery,
-              title: AppLocalizations.of(context)!.chooseFromGallery,
-              subtitle: AppLocalizations.of(context)!.selectFromPhotoLibrary,
-              onTap: () {
-                Navigator.pop(context);
-                // TODO: Implement gallery selection
-              },
-            ),
-            const SizedBox(height: 16),
-            _buildUploadOption(
-              icon: Iconsax.document,
-              title: AppLocalizations.of(context)!.chooseFile,
-              subtitle: AppLocalizations.of(context)!.selectPdfOrOtherFiles,
-              onTap: () {
-                Navigator.pop(context);
-                // TODO: Implement file selection
-              },
-            ),
-            const SizedBox(height: 24),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildUploadOption({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return Container(
-      decoration: Theme.of(context).brightness == Brightness.dark
-          ? AppTheme.pixieCardDecorationDark
-          : AppTheme.pixieCardDecoration,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: AppTheme.primaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(icon, color: AppTheme.primaryColor, size: 24),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        subtitle,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
-                ),
-                const Icon(
-                  Iconsax.arrow_right_3,
-                  color: AppTheme.textSecondary,
-                  size: 20,
-                ),
-              ],
-            ),
+  Future<void> _viewDocument(Document document) async {
+    final attachment = _documentToAttachment(document);
+    DocumentViewer.show(context, attachment);
+  }
+
+  BookingAttachment _documentToAttachment(Document document) {
+    // Determine MIME type based on file extension
+    String mimeType = 'application/octet-stream'; // default
+    final extension = document.fileName.toLowerCase().split('.').last;
+    
+    switch (extension) {
+      case 'pdf':
+        mimeType = 'application/pdf';
+        break;
+      case 'jpg':
+      case 'jpeg':
+        mimeType = 'image/jpeg';
+        break;
+      case 'png':
+        mimeType = 'image/png';
+        break;
+      case 'gif':
+        mimeType = 'image/gif';
+        break;
+      case 'bmp':
+        mimeType = 'image/bmp';
+        break;
+      case 'webp':
+        mimeType = 'image/webp';
+        break;
+      case 'doc':
+        mimeType = 'application/msword';
+        break;
+      case 'docx':
+        mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        break;
+      case 'txt':
+        mimeType = 'text/plain';
+        break;
+    }
+
+    return BookingAttachment(
+      id: document.id,
+      fileName: document.fileName,
+      filePath: document.filePath,
+      mimeType: mimeType,
+      fileSize: document.fileSize,
+      uploadedAt: document.createdAt,
+    );
+  }
+
+  Future<void> _downloadDocument(Document document) async {
+    try {
+      final file = File(document.filePath);
+      if (!await file.exists()) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('File not found: ${document.fileName}'),
+            backgroundColor: AppTheme.error,
           ),
+        );
+        return;
+      }
+
+      // For images, offer choice between gallery and file save
+      if (document.isImage) {
+        await _showImageDownloadOptions(document, file);
+      } else {
+        // For documents, use file save dialog
+        await _saveFileWithDialog(document, file);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error downloading file: $e'),
+            backgroundColor: AppTheme.error,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _shareDocument(Document document) async {
+    try {
+      final file = File(document.filePath);
+      if (await file.exists()) {
+        await Share.shareXFiles(
+          [XFile(document.filePath)],
+          subject: document.title,
+          text: document.description.isNotEmpty ? document.description : null,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('File not found: ${document.fileName}'),
+            backgroundColor: AppTheme.error,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error sharing file: $e'),
+            backgroundColor: AppTheme.error,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _showImageDownloadOptions(Document document, File file) async {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppTheme.surfaceDark
+              : AppTheme.surfaceLight,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Download Image',
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 16),
+            ListTile(
+              leading: const Icon(Iconsax.gallery),
+              title: const Text('Save to Gallery'),
+              onTap: () async {
+                Navigator.pop(context);
+                try {
+                  await Gal.putImage(document.filePath);
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Image saved to gallery'),
+                        backgroundColor: AppTheme.success,
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Error saving to gallery: $e'),
+                        backgroundColor: AppTheme.error,
+                      ),
+                    );
+                  }
+                }
+              },
+            ),
+            ListTile(
+              leading: const Icon(Iconsax.folder),
+              title: const Text('Save to Files'),
+              onTap: () async {
+                Navigator.pop(context);
+                await _saveFileWithDialog(document, file);
+              },
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  Future<void> _saveFileWithDialog(Document document, File file) async {
+    try {
+      final result = await FilePicker.platform.saveFile(
+        dialogTitle: 'Save ${document.fileName}',
+        fileName: document.fileName,
+        bytes: await file.readAsBytes(),
+      );
+      
+      if (result != null && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('File saved successfully'),
+            backgroundColor: AppTheme.success,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error saving file: $e'),
+            backgroundColor: AppTheme.error,
+          ),
+        );
+      }
+    }
+  }
+
+  IconData _getDocumentFileIcon(Document document) {
+    if (document.isImage) {
+      return Iconsax.image;
+    }
+    
+    final extension = document.fileName.toLowerCase().split('.').last;
+    switch (extension) {
+      case 'pdf':
+        return Iconsax.document_text;
+      case 'doc':
+      case 'docx':
+        return Iconsax.document_text;
+      case 'txt':
+        return Iconsax.document_text;
+      default:
+        return Iconsax.document;
+    }
   }
 
   Color _getDocumentTypeColor(String type) {
@@ -498,10 +1111,12 @@ class _DocumentsScreenState extends State<DocumentsScreen>
         return AppTheme.secondaryColor;
       case 'ticket':
         return AppTheme.accentColor;
+      case 'hotel':
+        return AppTheme.warning;
       case 'insurance':
         return AppTheme.success;
-      case 'license':
-        return AppTheme.warning;
+      case 'other':
+        return AppTheme.textSecondary;
       default:
         return AppTheme.textSecondary;
     }
@@ -515,66 +1130,16 @@ class _DocumentsScreenState extends State<DocumentsScreen>
         return Iconsax.card_pos;
       case 'ticket':
         return Iconsax.ticket;
+      case 'hotel':
+        return Iconsax.building;
       case 'insurance':
         return Iconsax.shield_tick;
-      case 'license':
-        return Iconsax.driver;
+      case 'other':
+        return Iconsax.document;
       default:
         return Iconsax.document;
     }
   }
 
-  final List<Map<String, dynamic>> _mockPersonalDocuments = [
-    {
-      'title': 'US Passport',
-      'type': 'Passport',
-      'size': '2.4 MB',
-      'expiryDate': '2028-05-15',
-      'isExpiring': false,
-      'isExpired': false,
-    },
-    {
-      'title': 'Driver License',
-      'type': 'License',
-      'size': '1.8 MB',
-      'expiryDate': '2025-12-20',
-      'isExpiring': true,
-      'isExpired': false,
-    },
-    {
-      'title': 'Travel Insurance',
-      'type': 'Insurance',
-      'size': '856 KB',
-      'expiryDate': '2024-08-30',
-      'isExpiring': false,
-      'isExpired': true,
-    },
-  ];
 
-  final List<Map<String, dynamic>> _mockTripDocuments = [
-    {
-      'title': 'Flight Ticket - Paris',
-      'type': 'Ticket',
-      'size': '1.2 MB',
-      'expiryDate': null,
-      'isExpiring': false,
-      'isExpired': false,
-    },
-    {
-      'title': 'Hotel Voucher - Rome',
-      'type': 'Voucher',
-      'size': '945 KB',
-      'expiryDate': null,
-      'isExpiring': false,
-      'isExpired': false,
-    },
-    {
-      'title': 'Schengen Visa',
-      'type': 'Visa',
-      'size': '1.6 MB',
-      'expiryDate': '2025-06-10',
-      'isExpiring': false,
-      'isExpired': false,
-    },
-  ];
 }

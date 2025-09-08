@@ -98,6 +98,7 @@
   "noDataYet": "Noch keine Daten",
   "startPlanning": "Beginnen Sie mit der Planung Ihres nächsten Abenteuers!",
   "createTrip": "Reise erstellen",
+  "addDocument": "Dokument hinzufügen",
   "addExpense": "Ausgabe hinzufügen",
   "addActivity": "Aktivität hinzufügen",
   "addBooking": "Buchung hinzufügen",
@@ -198,5 +199,18 @@
   "errorSharingFile": "Fehler beim Teilen der Datei: {error}",
   "unknown": "Unbekannt",
   "biometricAuthentication": "Biometrische Authentifizierung",
-  "biometricAuthenticationDescription": "Verwenden Sie Fingerabdruck oder Gesichtserkennung, um Ihre App zu sichern"
+  "biometricAuthenticationDescription": "Verwenden Sie Fingerabdruck oder Gesichtserkennung, um Ihre App zu sichern",
+  "editTrip": "Reise bearbeiten",
+  "updateTrip": "Reise aktualisieren",
+  "tripUpdatedSuccessfully": "Reise erfolgreich aktualisiert",
+  "failedToUpdateTrip": "Fehler beim Aktualisieren der Reise",
+  "deleteTrip": "Reise löschen",
+  "deleteTripConfirmation": "Sind Sie sicher, dass Sie diese Reise löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "tripDeletedSuccessfully": "Reise erfolgreich gelöscht",
+  "failedToDeleteTrip": "Fehler beim Löschen der Reise",
+  "tripCreatedSuccessfully": "Reise erfolgreich erstellt!",
+  "failedToCreateTrip": "Fehler beim Erstellen der Reise",
+  "selectStartDateFirst": "Bitte wählen Sie zuerst das Startdatum",
+  "addAtLeastOneDestination": "Bitte fügen Sie mindestens ein Reiseziel hinzu",
+  "selectBothStartAndEndDates": "Bitte wählen Sie sowohl Start- als auch Enddatum"
 }

@@ -13,10 +13,9 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
+class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-  late AnimationController _animationController;
-  late Animation<double> _animation;
+  late PageController _pageController;
 
   final List<IconData> _icons = [
     Iconsax.map_1,
@@ -24,38 +23,33 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
     Iconsax.setting_2,
   ];
 
-  late final List<Widget> _screens;
+  final List<Widget> _screens = const [
+    TripsScreen(),
+    DocumentsScreen(),
+    SettingsScreen(),
+  ];
 
   @override
   void initState() {
     super.initState();
-    
-    _screens = [
-      const TripsScreen(),
-      const DocumentsScreen(),
-      const SettingsScreen(),
-    ];
-
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 200),
-      vsync: this,
-    );
-    _animation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    );
-
-
-    _animationController.forward();
+    _pageController = PageController(initialPage: _currentIndex);
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
   void _onTabTapped(int index) {
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _onPageChanged(int index) {
     setState(() {
       _currentIndex = index;
     });
@@ -76,93 +70,148 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
     final tabTitles = _getTabTitles(context);
     
     return Scaffold(
-      body: Stack(
-        children: [
-          AnimatedBuilder(
-            animation: _animation,
-            builder: (context, child) {
-              return Transform.scale(
-                scale: _animation.value,
-                child: _screens[_currentIndex],
-              );
-            },
-          ),
-        ],
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        children: _screens,
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: isDark ? AppTheme.surfaceDark : AppTheme.surfaceLight,
+          gradient: isDark 
+              ? const LinearGradient(
+                  colors: [AppTheme.surfaceDark, AppTheme.cardDark],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                )
+              : const LinearGradient(
+                  colors: [AppTheme.surfaceLight, AppTheme.backgroundLight],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
           boxShadow: [
             BoxShadow(
               color: isDark 
-                  ? Colors.black.withOpacity(0.3)
-                  : AppTheme.primaryColor.withOpacity(0.1),
-              offset: const Offset(0, -4),
-              blurRadius: 20,
+                  ? Colors.black.withOpacity(0.4)
+                  : AppTheme.primaryColor.withOpacity(0.08),
+              offset: const Offset(0, -8),
+              blurRadius: 32,
+              spreadRadius: 0,
+            ),
+            BoxShadow(
+              color: isDark 
+                  ? Colors.black.withOpacity(0.2)
+                  : AppTheme.primaryColor.withOpacity(0.04),
+              offset: const Offset(0, -2),
+              blurRadius: 8,
               spreadRadius: 0,
             ),
           ],
         ),
-        child: SafeArea(
-          child: Container(
-            height: 70,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: List.generate(_icons.length, (index) {
-                final isActive = _currentIndex == index;
-                final color = isActive 
-                    ? AppTheme.primaryColor
-                    : AppTheme.textSecondary;
-                
-                return Expanded(
-                  child: GestureDetector(
-                    onTap: () => _onTabTapped(index),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: isActive
-                          ? Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                              decoration: BoxDecoration(
-                                color: AppTheme.primaryColor.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    _icons[index],
-                                    size: 18,
-                                    color: color,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
+          child: SafeArea(
+            child: Container(
+              height: 72,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: List.generate(_icons.length, (index) {
+                  final isActive = _currentIndex == index;
+                  final color = isActive 
+                      ? AppTheme.primaryColor
+                      : AppTheme.textSecondary;
+                  
+                  return Expanded(
+                    child: GestureDetector(
+                      onTap: () => _onTabTapped(index),
+                      behavior: HitTestBehavior.opaque,
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOutCubic,
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        child: isActive
+                            ? Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      AppTheme.primaryColor.withOpacity(0.15),
+                                      AppTheme.primaryColor.withOpacity(0.08),
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
                                   ),
-                                  const SizedBox(width: 6),
-                                  Flexible(
-                                    child: Text(
-                                      tabTitles[index],
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w600,
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                    color: AppTheme.primaryColor.withOpacity(0.2),
+                                    width: 1,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppTheme.primaryColor.withOpacity(0.2),
+                                      offset: const Offset(0, 2),
+                                      blurRadius: 8,
+                                      spreadRadius: 0,
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    AnimatedContainer(
+                                      duration: const Duration(milliseconds: 300),
+                                      child: Icon(
+                                        _icons[index],
+                                        size: 20,
                                         color: color,
                                       ),
-                                      overflow: TextOverflow.ellipsis,
                                     ),
+                                    const SizedBox(width: 6),
+                                    Flexible(
+                                      child: AnimatedOpacity(
+                                        duration: const Duration(milliseconds: 300),
+                                        opacity: 1.0,
+                                        child: Text(
+                                          tabTitles[index],
+                                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: color,
+                                            fontSize: 11,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : AnimatedContainer(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOutCubic,
+                                padding: const EdgeInsets.all(8),
+                                child: AnimatedScale(
+                                  duration: const Duration(milliseconds: 300),
+                                  scale: 1.0,
+                                  child: Icon(
+                                    _icons[index],
+                                    size: 26,
+                                    color: color.withOpacity(0.7),
                                   ),
-                                ],
+                                ),
                               ),
-                            )
-                          : Container(
-                              padding: const EdgeInsets.all(8),
-                              child: Icon(
-                                _icons[index],
-                                size: 24,
-                                color: color,
-                              ),
-                            ),
+                      ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                }),
+              ),
             ),
           ),
         ),

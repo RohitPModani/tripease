@@ -98,6 +98,7 @@
   "noDataYet": "まだデータがありません",
   "startPlanning": "次の冒険の計画を始めましょう！",
   "createTrip": "旅行を作成",
+  "addDocument": "ドキュメントを追加",
   "addExpense": "支出を追加",
   "addActivity": "アクティビティを追加",
   "addBooking": "予約を追加",
@@ -199,5 +200,18 @@
   "errorSharingFile": "ファイルの共有エラー：{error}",
   "unknown": "不明",
   "biometricAuthentication": "生体認証",
-  "biometricAuthenticationDescription": "指紋または顔認識を使用してアプリのセキュリティを強化"
+  "biometricAuthenticationDescription": "指紋または顔認識を使用してアプリのセキュリティを強化",
+  "editTrip": "旅行を編集",
+  "updateTrip": "旅行を更新",
+  "tripUpdatedSuccessfully": "旅行が正常に更新されました",
+  "failedToUpdateTrip": "旅行の更新に失敗しました",
+  "deleteTrip": "旅行を削除",
+  "deleteTripConfirmation": "この旅行を削除してもよろしいですか？この操作は取り消すことができません。",
+  "tripDeletedSuccessfully": "旅行が正常に削除されました",
+  "failedToDeleteTrip": "旅行の削除に失敗しました",
+  "tripCreatedSuccessfully": "旅行が正常に作成されました！",
+  "failedToCreateTrip": "旅行の作成に失敗しました",
+  "selectStartDateFirst": "まず開始日を選択してください",
+  "addAtLeastOneDestination": "少なくとも1つの目的地を追加してください",
+  "selectBothStartAndEndDates": "開始日と終了日の両方を選択してください"
 }

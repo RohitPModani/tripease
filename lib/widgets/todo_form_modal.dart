@@ -18,10 +18,16 @@ class TodoFormModal extends StatefulWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => TodoFormModal(tripId: tripId, todo: todo),
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: TodoFormModal(tripId: tripId, todo: todo),
+      ),
     );
   }
 
@@ -32,6 +38,9 @@ class TodoFormModal extends StatefulWidget {
 class _TodoFormModalState extends State<TodoFormModal> {
   late final TextEditingController titleController;
   late final TextEditingController descriptionController;
+  late final ScrollController _scrollController;
+  late final FocusNode _titleFocusNode;
+  late final FocusNode _descriptionFocusNode;
 
   late Priority selectedPriority;
   DateTime? selectedDueDate;
@@ -51,18 +60,49 @@ class _TodoFormModalState extends State<TodoFormModal> {
     descriptionController = TextEditingController(
       text: widget.todo?.description ?? '',
     );
+    _scrollController = ScrollController();
+    _titleFocusNode = FocusNode();
+    _descriptionFocusNode = FocusNode();
     selectedPriority = widget.todo?.priority ?? Priority.medium;
     selectedDueDate = widget.todo?.dueDate;
 
     // Initialize character counts
     titleCharCount = titleController.text.length;
     descriptionCharCount = descriptionController.text.length;
+
+    // Add focus listeners for auto-scroll
+    _titleFocusNode.addListener(() {
+      if (_titleFocusNode.hasFocus) {
+        _scrollToField(0.0);
+      }
+    });
+    
+    _descriptionFocusNode.addListener(() {
+      if (_descriptionFocusNode.hasFocus) {
+        _scrollToField(100.0);
+      }
+    });
+  }
+
+  void _scrollToField(double offset) {
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          offset,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
 
   @override
   void dispose() {
     titleController.dispose();
     descriptionController.dispose();
+    _scrollController.dispose();
+    _titleFocusNode.dispose();
+    _descriptionFocusNode.dispose();
     super.dispose();
   }
 
@@ -70,14 +110,18 @@ class _TodoFormModalState extends State<TodoFormModal> {
   Widget build(BuildContext context) {
     final isEdit = widget.todo != null;
 
-    return Container(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.75,
-      ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? AppTheme.surfaceDark
-            : AppTheme.surfaceLight,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: DraggableScrollableSheet(
+        initialChildSize: 0.75,
+        minChildSize: 0.5,
+        maxChildSize: 0.95,
+        expand: false,
+        builder: (context, scrollController) => Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppTheme.surfaceDark
+              : AppTheme.surfaceLight,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
@@ -92,8 +136,9 @@ class _TodoFormModalState extends State<TodoFormModal> {
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          Flexible(
+          Expanded(
             child: SingleChildScrollView(
+              controller: _scrollController,
               padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,6 +170,7 @@ class _TodoFormModalState extends State<TodoFormModal> {
                   const SizedBox(height: 24),
                   TextFormField(
                     controller: titleController,
+                    focusNode: _titleFocusNode,
                     maxLength: FormValidators.titleLimit,
                     onChanged: (value) {
                       setState(() {
@@ -180,6 +226,7 @@ class _TodoFormModalState extends State<TodoFormModal> {
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: descriptionController,
+                    focusNode: _descriptionFocusNode,
                     maxLength: FormValidators.descriptionLimit,
                     onChanged: (value) {
                       setState(() {
@@ -483,6 +530,8 @@ class _TodoFormModalState extends State<TodoFormModal> {
             ),
           ),
         ],
+      ),
+      ),
       ),
     );
   }

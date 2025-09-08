@@ -3189,6 +3189,18 @@ class $DocumentsTableTable extends DocumentsTable
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
   static const VerificationMeta _filePathMeta = const VerificationMeta(
     'filePath',
   );
@@ -3273,6 +3285,7 @@ class $DocumentsTableTable extends DocumentsTable
     id,
     tripId,
     title,
+    description,
     filePath,
     fileName,
     fileSize,
@@ -3311,6 +3324,15 @@ class $DocumentsTableTable extends DocumentsTable
       );
     } else if (isInserting) {
       context.missing(_titleMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
     }
     if (data.containsKey('file_path')) {
       context.handle(
@@ -3387,6 +3409,10 @@ class $DocumentsTableTable extends DocumentsTable
         DriftSqlType.string,
         data['${effectivePrefix}title'],
       )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
       filePath: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}file_path'],
@@ -3428,6 +3454,7 @@ class DocumentEntity extends DataClass implements Insertable<DocumentEntity> {
   final String id;
   final String? tripId;
   final String title;
+  final String description;
   final String filePath;
   final String fileName;
   final int fileSize;
@@ -3439,6 +3466,7 @@ class DocumentEntity extends DataClass implements Insertable<DocumentEntity> {
     required this.id,
     this.tripId,
     required this.title,
+    required this.description,
     required this.filePath,
     required this.fileName,
     required this.fileSize,
@@ -3455,6 +3483,7 @@ class DocumentEntity extends DataClass implements Insertable<DocumentEntity> {
       map['trip_id'] = Variable<String>(tripId);
     }
     map['title'] = Variable<String>(title);
+    map['description'] = Variable<String>(description);
     map['file_path'] = Variable<String>(filePath);
     map['file_name'] = Variable<String>(fileName);
     map['file_size'] = Variable<int>(fileSize);
@@ -3472,6 +3501,7 @@ class DocumentEntity extends DataClass implements Insertable<DocumentEntity> {
           ? const Value.absent()
           : Value(tripId),
       title: Value(title),
+      description: Value(description),
       filePath: Value(filePath),
       fileName: Value(fileName),
       fileSize: Value(fileSize),
@@ -3491,6 +3521,7 @@ class DocumentEntity extends DataClass implements Insertable<DocumentEntity> {
       id: serializer.fromJson<String>(json['id']),
       tripId: serializer.fromJson<String?>(json['tripId']),
       title: serializer.fromJson<String>(json['title']),
+      description: serializer.fromJson<String>(json['description']),
       filePath: serializer.fromJson<String>(json['filePath']),
       fileName: serializer.fromJson<String>(json['fileName']),
       fileSize: serializer.fromJson<int>(json['fileSize']),
@@ -3507,6 +3538,7 @@ class DocumentEntity extends DataClass implements Insertable<DocumentEntity> {
       'id': serializer.toJson<String>(id),
       'tripId': serializer.toJson<String?>(tripId),
       'title': serializer.toJson<String>(title),
+      'description': serializer.toJson<String>(description),
       'filePath': serializer.toJson<String>(filePath),
       'fileName': serializer.toJson<String>(fileName),
       'fileSize': serializer.toJson<int>(fileSize),
@@ -3521,6 +3553,7 @@ class DocumentEntity extends DataClass implements Insertable<DocumentEntity> {
     String? id,
     Value<String?> tripId = const Value.absent(),
     String? title,
+    String? description,
     String? filePath,
     String? fileName,
     int? fileSize,
@@ -3532,6 +3565,7 @@ class DocumentEntity extends DataClass implements Insertable<DocumentEntity> {
     id: id ?? this.id,
     tripId: tripId.present ? tripId.value : this.tripId,
     title: title ?? this.title,
+    description: description ?? this.description,
     filePath: filePath ?? this.filePath,
     fileName: fileName ?? this.fileName,
     fileSize: fileSize ?? this.fileSize,
@@ -3545,6 +3579,9 @@ class DocumentEntity extends DataClass implements Insertable<DocumentEntity> {
       id: data.id.present ? data.id.value : this.id,
       tripId: data.tripId.present ? data.tripId.value : this.tripId,
       title: data.title.present ? data.title.value : this.title,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
       filePath: data.filePath.present ? data.filePath.value : this.filePath,
       fileName: data.fileName.present ? data.fileName.value : this.fileName,
       fileSize: data.fileSize.present ? data.fileSize.value : this.fileSize,
@@ -3563,6 +3600,7 @@ class DocumentEntity extends DataClass implements Insertable<DocumentEntity> {
           ..write('id: $id, ')
           ..write('tripId: $tripId, ')
           ..write('title: $title, ')
+          ..write('description: $description, ')
           ..write('filePath: $filePath, ')
           ..write('fileName: $fileName, ')
           ..write('fileSize: $fileSize, ')
@@ -3579,6 +3617,7 @@ class DocumentEntity extends DataClass implements Insertable<DocumentEntity> {
     id,
     tripId,
     title,
+    description,
     filePath,
     fileName,
     fileSize,
@@ -3594,6 +3633,7 @@ class DocumentEntity extends DataClass implements Insertable<DocumentEntity> {
           other.id == this.id &&
           other.tripId == this.tripId &&
           other.title == this.title &&
+          other.description == this.description &&
           other.filePath == this.filePath &&
           other.fileName == this.fileName &&
           other.fileSize == this.fileSize &&
@@ -3607,6 +3647,7 @@ class DocumentsTableCompanion extends UpdateCompanion<DocumentEntity> {
   final Value<String> id;
   final Value<String?> tripId;
   final Value<String> title;
+  final Value<String> description;
   final Value<String> filePath;
   final Value<String> fileName;
   final Value<int> fileSize;
@@ -3619,6 +3660,7 @@ class DocumentsTableCompanion extends UpdateCompanion<DocumentEntity> {
     this.id = const Value.absent(),
     this.tripId = const Value.absent(),
     this.title = const Value.absent(),
+    this.description = const Value.absent(),
     this.filePath = const Value.absent(),
     this.fileName = const Value.absent(),
     this.fileSize = const Value.absent(),
@@ -3632,6 +3674,7 @@ class DocumentsTableCompanion extends UpdateCompanion<DocumentEntity> {
     required String id,
     this.tripId = const Value.absent(),
     required String title,
+    this.description = const Value.absent(),
     required String filePath,
     required String fileName,
     required int fileSize,
@@ -3652,6 +3695,7 @@ class DocumentsTableCompanion extends UpdateCompanion<DocumentEntity> {
     Expression<String>? id,
     Expression<String>? tripId,
     Expression<String>? title,
+    Expression<String>? description,
     Expression<String>? filePath,
     Expression<String>? fileName,
     Expression<int>? fileSize,
@@ -3665,6 +3709,7 @@ class DocumentsTableCompanion extends UpdateCompanion<DocumentEntity> {
       if (id != null) 'id': id,
       if (tripId != null) 'trip_id': tripId,
       if (title != null) 'title': title,
+      if (description != null) 'description': description,
       if (filePath != null) 'file_path': filePath,
       if (fileName != null) 'file_name': fileName,
       if (fileSize != null) 'file_size': fileSize,
@@ -3680,6 +3725,7 @@ class DocumentsTableCompanion extends UpdateCompanion<DocumentEntity> {
     Value<String>? id,
     Value<String?>? tripId,
     Value<String>? title,
+    Value<String>? description,
     Value<String>? filePath,
     Value<String>? fileName,
     Value<int>? fileSize,
@@ -3693,6 +3739,7 @@ class DocumentsTableCompanion extends UpdateCompanion<DocumentEntity> {
       id: id ?? this.id,
       tripId: tripId ?? this.tripId,
       title: title ?? this.title,
+      description: description ?? this.description,
       filePath: filePath ?? this.filePath,
       fileName: fileName ?? this.fileName,
       fileSize: fileSize ?? this.fileSize,
@@ -3715,6 +3762,9 @@ class DocumentsTableCompanion extends UpdateCompanion<DocumentEntity> {
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
     }
     if (filePath.present) {
       map['file_path'] = Variable<String>(filePath.value);
@@ -3749,6 +3799,7 @@ class DocumentsTableCompanion extends UpdateCompanion<DocumentEntity> {
           ..write('id: $id, ')
           ..write('tripId: $tripId, ')
           ..write('title: $title, ')
+          ..write('description: $description, ')
           ..write('filePath: $filePath, ')
           ..write('fileName: $fileName, ')
           ..write('fileSize: $fileSize, ')
@@ -6332,6 +6383,7 @@ typedef $$DocumentsTableTableCreateCompanionBuilder =
       required String id,
       Value<String?> tripId,
       required String title,
+      Value<String> description,
       required String filePath,
       required String fileName,
       required int fileSize,
@@ -6346,6 +6398,7 @@ typedef $$DocumentsTableTableUpdateCompanionBuilder =
       Value<String> id,
       Value<String?> tripId,
       Value<String> title,
+      Value<String> description,
       Value<String> filePath,
       Value<String> fileName,
       Value<int> fileSize,
@@ -6401,6 +6454,11 @@ class $$DocumentsTableTableFilterComposer
 
   ColumnFilters<String> get title => $composableBuilder(
     column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -6482,6 +6540,11 @@ class $$DocumentsTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get filePath => $composableBuilder(
     column: $table.filePath,
     builder: (column) => ColumnOrderings(column),
@@ -6555,6 +6618,11 @@ class $$DocumentsTableTableAnnotationComposer
 
   GeneratedColumn<String> get title =>
       $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get filePath =>
       $composableBuilder(column: $table.filePath, builder: (column) => column);
@@ -6636,6 +6704,7 @@ class $$DocumentsTableTableTableManager
                 Value<String> id = const Value.absent(),
                 Value<String?> tripId = const Value.absent(),
                 Value<String> title = const Value.absent(),
+                Value<String> description = const Value.absent(),
                 Value<String> filePath = const Value.absent(),
                 Value<String> fileName = const Value.absent(),
                 Value<int> fileSize = const Value.absent(),
@@ -6648,6 +6717,7 @@ class $$DocumentsTableTableTableManager
                 id: id,
                 tripId: tripId,
                 title: title,
+                description: description,
                 filePath: filePath,
                 fileName: fileName,
                 fileSize: fileSize,
@@ -6662,6 +6732,7 @@ class $$DocumentsTableTableTableManager
                 required String id,
                 Value<String?> tripId = const Value.absent(),
                 required String title,
+                Value<String> description = const Value.absent(),
                 required String filePath,
                 required String fileName,
                 required int fileSize,
@@ -6674,6 +6745,7 @@ class $$DocumentsTableTableTableManager
                 id: id,
                 tripId: tripId,
                 title: title,
+                description: description,
                 filePath: filePath,
                 fileName: fileName,
                 fileSize: fileSize,

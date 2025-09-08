@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:uuid/uuid.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../themes/app_theme.dart';
 import '../models/trip.dart';
 import '../providers/trip_provider.dart';
@@ -16,10 +17,16 @@ class CreateTripScreen extends StatefulWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => const CreateTripScreen(),
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: const CreateTripScreen(),
+      ),
     );
   }
 
@@ -31,15 +38,30 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _descriptionController;
   late final TextEditingController _destinationController;
-  
+  late final FocusNode _titleFocusNode;
+  late final FocusNode _descriptionFocusNode;
+  late final FocusNode _destinationFocusNode;
+
   List<String> _destinations = [];
   DateTime? _startDate;
   DateTime? _endDate;
+  DateRangePickerController _dateRangeController = DateRangePickerController();
   String _selectedCurrency = 'USD';
   bool _isLoading = false;
+  bool _showDatePicker = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final List<String> _currencies = CurrencyFormatter.getAllSupportedCurrencies();
+  // Character count state
+  int titleCharCount = 0;
+  int descriptionCharCount = 0;
+  int destinationCharCount = 0;
+
+  // Validation error state
+  String? titleError;
+  String? descriptionError;
+
+  final List<String> _currencies =
+      CurrencyFormatter.getAllSupportedCurrencies();
 
   @override
   void initState() {
@@ -47,6 +69,14 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     _titleController = TextEditingController();
     _descriptionController = TextEditingController();
     _destinationController = TextEditingController();
+    _titleFocusNode = FocusNode();
+    _descriptionFocusNode = FocusNode();
+    _destinationFocusNode = FocusNode();
+
+    // Initialize character counts
+    titleCharCount = _titleController.text.length;
+    descriptionCharCount = _descriptionController.text.length;
+    destinationCharCount = _destinationController.text.length;
   }
 
   @override
@@ -54,6 +84,10 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     _titleController.dispose();
     _descriptionController.dispose();
     _destinationController.dispose();
+    _titleFocusNode.dispose();
+    _descriptionFocusNode.dispose();
+    _destinationFocusNode.dispose();
+    _dateRangeController.dispose();
     super.dispose();
   }
 
@@ -64,7 +98,9 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       if (destination.length > FormValidators.locationLimit) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Destination must be ${FormValidators.locationLimit} characters or less'),
+            content: Text(
+              'Destination must be ${FormValidators.locationLimit} characters or less',
+            ),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -73,6 +109,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       setState(() {
         _destinations.add(destination);
         _destinationController.clear();
+        destinationCharCount = 0;
       });
     }
   }
@@ -83,72 +120,33 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     });
   }
 
-  Future<void> _selectStartDate() async {
-    final date = await showDatePicker(
-      context: context,
-      initialDate: _startDate ?? DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365 * 2)),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: Theme.of(context).colorScheme.copyWith(
-              primary: AppTheme.primaryColor,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-    
-    if (date != null) {
+  void _toggleDatePicker() {
+    setState(() {
+      _showDatePicker = !_showDatePicker;
+    });
+  }
+
+  void _onDateRangeChanged(DateRangePickerSelectionChangedArgs args) {
+    if (args.value is PickerDateRange) {
+      final PickerDateRange range = args.value;
       setState(() {
-        _startDate = date;
-        if (_endDate != null && _endDate!.isBefore(date)) {
-          _endDate = null;
-        }
+        _startDate = range.startDate;
+        _endDate = range.endDate;
       });
     }
   }
 
-  Future<void> _selectEndDate() async {
-    if (_startDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.selectStartDateFirst),
-          backgroundColor: AppTheme.error,
-        ),
-      );
-      return;
-    }
-
-    final date = await showDatePicker(
-      context: context,
-      initialDate: _endDate ?? _startDate!.add(const Duration(days: 7)),
-      firstDate: _startDate!,
-      lastDate: _startDate!.add(const Duration(days: 365)),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: Theme.of(context).colorScheme.copyWith(
-              primary: AppTheme.primaryColor,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-    
-    if (date != null) {
-      setState(() {
-        _endDate = date;
-      });
-    }
+  void _clearDateRange() {
+    setState(() {
+      _startDate = null;
+      _endDate = null;
+      _dateRangeController.selectedRange = null;
+    });
   }
 
   Future<void> _createTrip() async {
     if (!_formKey.currentState!.validate()) return;
-    
+
     if (_destinations.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -162,7 +160,9 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     if (_startDate == null || _endDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.selectBothStartAndEndDates),
+          content: Text(
+            AppLocalizations.of(context)!.selectBothStartAndEndDates,
+          ),
           backgroundColor: AppTheme.error,
         ),
       );
@@ -187,7 +187,9 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.tripCreatedSuccessfully),
+            content: Text(
+              AppLocalizations.of(context)!.tripCreatedSuccessfully,
+            ),
             backgroundColor: AppTheme.success,
           ),
         );
@@ -207,58 +209,62 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: Container(
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.9,
-        ),
-        decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? AppTheme.surfaceDark
-              : AppTheme.surfaceLight,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 8),
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: AppTheme.textSecondary.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(2),
-            ),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: DraggableScrollableSheet(
+        initialChildSize: 0.75,
+        minChildSize: 0.5,
+        maxChildSize: 0.95,
+        expand: false,
+        builder: (context, scrollController) => Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppTheme.surfaceDark
+                : AppTheme.surfaceLight,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           ),
-            Flexible(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                  _buildHeader(),
-                  const SizedBox(height: 24),
-                  _buildTitleField(),
-                  const SizedBox(height: 16),
-                  _buildDestinationsField(),
-                  const SizedBox(height: 16),
-                  _buildDatesField(),
-                  const SizedBox(height: 16),
-                  _buildCurrencyField(),
-                  const SizedBox(height: 16),
-                  _buildDescriptionField(),
-                  const SizedBox(height: 24),
-                  _buildButtons(),
-                ],
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 8),
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppTheme.textSecondary.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  padding: const EdgeInsets.all(24),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildHeader(),
+                        const SizedBox(height: 24),
+                        _buildTitleField(),
+                        const SizedBox(height: 16),
+                        _buildDestinationsField(),
+                        const SizedBox(height: 16),
+                        _buildDatesField(),
+                        const SizedBox(height: 16),
+                        _buildCurrencyField(),
+                        const SizedBox(height: 16),
+                        _buildDescriptionField(),
+                        const SizedBox(height: 24),
+                        _buildButtons(),
+                      ],
+                    ),
                   ),
                 ),
               ),
+            ],
           ),
-        ],
-      ),
+        ),
       ),
     );
   }
@@ -281,9 +287,9 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
         const SizedBox(width: 12),
         Text(
           AppLocalizations.of(context)!.createTrip,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
         ),
       ],
     );
@@ -292,21 +298,52 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   Widget _buildTitleField() {
     return TextFormField(
       controller: _titleController,
-      decoration: FormValidators.createRequiredInputDecoration(
-        labelText: AppLocalizations.of(context)!.title,
-        maxLength: FormValidators.titleLimit,
-      ).copyWith(
-        labelStyle: TextStyle(color: AppTheme.textSecondary),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-        ),
-        contentPadding: const EdgeInsets.all(16),
-      ),
+      focusNode: _titleFocusNode,
+      maxLength: FormValidators.titleLimit,
+      onChanged: (value) {
+        setState(() {
+          titleCharCount = value.length;
+          titleError = FormValidators.validateTitle(value);
+        });
+      },
+      decoration:
+          FormValidators.createRequiredInputDecoration(
+            labelText: AppLocalizations.of(context)!.title,
+            maxLength: FormValidators.titleLimit,
+          ).copyWith(
+            labelStyle: TextStyle(color: AppTheme.textSecondary),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: AppTheme.textSecondary.withOpacity(0.3),
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: AppTheme.primaryColor,
+                width: 2,
+              ),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppTheme.error, width: 2),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppTheme.error, width: 2),
+            ),
+            contentPadding: const EdgeInsets.all(16),
+            counterText: '',
+            suffixText: '$titleCharCount/${FormValidators.titleLimit}',
+            suffixStyle: TextStyle(
+              fontSize: 12,
+              color: titleCharCount > FormValidators.titleLimit
+                  ? AppTheme.error
+                  : AppTheme.textSecondary,
+            ),
+            errorText: titleError,
+          ),
       validator: FormValidators.validateTitle,
       autofocus: true,
     );
@@ -321,21 +358,42 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
             Expanded(
               child: TextFormField(
                 controller: _destinationController,
-                decoration: FormValidators.createOptionalInputDecoration(
-                  labelText: 'Destinations',
-                  maxLength: FormValidators.locationLimit,
-                ).copyWith(
-                  labelStyle: TextStyle(color: AppTheme.textSecondary),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-                  ),
-                  contentPadding: const EdgeInsets.all(16),
-                ),
+                focusNode: _destinationFocusNode,
+                maxLength: FormValidators.locationLimit,
+                onChanged: (value) {
+                  setState(() {
+                    destinationCharCount = value.length;
+                  });
+                },
+                decoration:
+                    FormValidators.createOptionalInputDecoration(
+                      labelText: 'Destinations',
+                      maxLength: FormValidators.locationLimit,
+                    ).copyWith(
+                      labelStyle: TextStyle(color: AppTheme.textSecondary),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: AppTheme.textSecondary.withOpacity(0.3),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(
+                          color: AppTheme.primaryColor,
+                          width: 2,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.all(16),
+                      counterText: '',
+                      suffixText: '$destinationCharCount/${FormValidators.locationLimit}',
+                      suffixStyle: TextStyle(
+                        fontSize: 12,
+                        color: destinationCharCount > FormValidators.locationLimit
+                            ? AppTheme.error
+                            : AppTheme.textSecondary,
+                      ),
+                    ),
                 validator: (value) {
                   if (value != null && value.trim().isNotEmpty) {
                     return FormValidators.validateDestination(value);
@@ -350,11 +408,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
               decoration: AppTheme.glowingButtonDecoration,
               child: IconButton(
                 onPressed: _addDestination,
-                icon: const Icon(
-                  Iconsax.add,
-                  color: Colors.white,
-                  size: 20,
-                ),
+                icon: const Icon(Iconsax.add, color: Colors.white, size: 20),
               ),
             ),
           ],
@@ -377,92 +431,160 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     return Column(
       children: [
         InkWell(
-          onTap: _selectStartDate,
+          onTap: _toggleDatePicker,
           child: Container(
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
+              border: Border.all(
+                color: _showDatePicker
+                    ? AppTheme.primaryColor
+                    : AppTheme.textSecondary.withOpacity(0.3),
+                width: _showDatePicker ? 2 : 1,
+              ),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
               children: [
-                Icon(
-                  Iconsax.calendar_1,
-                  color: AppTheme.primaryColor,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  _startDate == null
-                      ? 'Select Start Date'
-                      : 'Start: ${_startDate!.day}/${_startDate!.month}/${_startDate!.year}',
-                  style: TextStyle(
-                    color: _startDate == null 
-                        ? AppTheme.textSecondary 
-                        : Theme.of(context).textTheme.bodyMedium?.color,
+                Icon(Iconsax.calendar, color: AppTheme.primaryColor),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Travel Dates',
+                        style: TextStyle(
+                          color: AppTheme.textSecondary,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        _startDate == null
+                            ? 'Select date range'
+                            : _endDate == null
+                            ? '${_startDate!.day}/${_startDate!.month}/${_startDate!.year} - Select end date'
+                            : '${_startDate!.day}/${_startDate!.month}/${_startDate!.year} - ${_endDate!.day}/${_endDate!.month}/${_endDate!.year}',
+                        style: TextStyle(
+                          color: _startDate == null
+                              ? AppTheme.textSecondary
+                              : Theme.of(context).textTheme.bodyMedium?.color,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const Spacer(),
-                if (_startDate != null)
+                if (_startDate != null || _endDate != null)
                   IconButton(
                     icon: Icon(
                       Iconsax.close_circle,
                       color: AppTheme.textSecondary,
+                      size: 20,
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _startDate = null;
-                      });
-                    },
+                    onPressed: _clearDateRange,
                   ),
+                Icon(
+                  _showDatePicker ? Iconsax.arrow_up_2 : Iconsax.arrow_down_1,
+                  color: AppTheme.primaryColor,
+                  size: 20,
+                ),
               ],
             ),
           ),
         ),
-        const SizedBox(height: 12),
-        InkWell(
-          onTap: _selectEndDate,
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
+        if (_showDatePicker) ...[
+          const SizedBox(height: 12),
+          Container(
             decoration: BoxDecoration(
-              border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
+              border: Border.all(color: AppTheme.primaryColor.withOpacity(0.2)),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Row(
-              children: [
-                Icon(
-                  Iconsax.calendar_2,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: SfDateRangePicker(
+                controller: _dateRangeController,
+                view: DateRangePickerView.month,
+                selectionMode: DateRangePickerSelectionMode.range,
+                startRangeSelectionColor: AppTheme.primaryColor,
+                endRangeSelectionColor: AppTheme.primaryColor,
+                rangeSelectionColor: AppTheme.primaryColor.withOpacity(0.1),
+                todayHighlightColor: AppTheme.primaryColor,
+                selectionTextStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+                rangeTextStyle: TextStyle(
                   color: AppTheme.primaryColor,
+                  fontWeight: FontWeight.w500,
                 ),
-                const SizedBox(width: 8),
-                Text(
-                  _endDate == null
-                      ? 'Select End Date'
-                      : 'End: ${_endDate!.day}/${_endDate!.month}/${_endDate!.year}',
-                  style: TextStyle(
-                    color: _endDate == null 
-                        ? AppTheme.textSecondary 
-                        : Theme.of(context).textTheme.bodyMedium?.color,
-                  ),
-                ),
-                const Spacer(),
-                if (_endDate != null)
-                  IconButton(
-                    icon: Icon(
-                      Iconsax.close_circle,
+                minDate: DateTime.now(),
+                maxDate: DateTime.now().add(const Duration(days: 365 * 2)),
+                onSelectionChanged: _onDateRangeChanged,
+                monthViewSettings: DateRangePickerMonthViewSettings(
+                  firstDayOfWeek: 1,
+                  viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                    textStyle: TextStyle(
                       color: AppTheme.textSecondary,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _endDate = null;
-                      });
-                    },
                   ),
-              ],
+                ),
+                monthCellStyle: DateRangePickerMonthCellStyle(
+                  textStyle: Theme.of(context).textTheme.bodyMedium,
+                  todayTextStyle: TextStyle(
+                    color: AppTheme.primaryColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  disabledDatesTextStyle: TextStyle(
+                    color: AppTheme.textSecondary.withOpacity(0.5),
+                  ),
+                ),
+                headerStyle: DateRangePickerHeaderStyle(
+                  textAlign: TextAlign.center,
+                  textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
+          if (_startDate != null && _endDate != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: AppTheme.primaryColor.withOpacity(0.3),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Iconsax.calendar_tick,
+                      color: AppTheme.primaryColor,
+                      size: 16,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${_endDate!.difference(_startDate!).inDays + 1} days selected',
+                      style: TextStyle(
+                        color: AppTheme.primaryColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
       ],
     );
   }
@@ -475,7 +597,9 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
         labelStyle: TextStyle(color: AppTheme.textSecondary),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+          borderSide: BorderSide(
+            color: AppTheme.textSecondary.withOpacity(0.3),
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -502,21 +626,53 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   Widget _buildDescriptionField() {
     return TextFormField(
       controller: _descriptionController,
-      decoration: FormValidators.createOptionalInputDecoration(
-        labelText: AppLocalizations.of(context)!.descriptionOptional,
-        maxLength: FormValidators.descriptionLimit,
-      ).copyWith(
-        labelStyle: TextStyle(color: AppTheme.textSecondary),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-        ),
-        contentPadding: const EdgeInsets.all(16),
-      ),
+      focusNode: _descriptionFocusNode,
+      maxLength: FormValidators.descriptionLimit,
+      onChanged: (value) {
+        setState(() {
+          descriptionCharCount = value.length;
+          descriptionError = FormValidators.validateDescription(value);
+        });
+      },
+      decoration:
+          FormValidators.createOptionalInputDecoration(
+            labelText: AppLocalizations.of(context)!.descriptionOptional,
+            maxLength: FormValidators.descriptionLimit,
+          ).copyWith(
+            labelStyle: TextStyle(color: AppTheme.textSecondary),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: AppTheme.textSecondary.withOpacity(0.3),
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: AppTheme.primaryColor,
+                width: 2,
+              ),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppTheme.error, width: 2),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppTheme.error, width: 2),
+            ),
+            contentPadding: const EdgeInsets.all(16),
+            counterText: '',
+            suffixText:
+                '$descriptionCharCount/${FormValidators.descriptionLimit}',
+            suffixStyle: TextStyle(
+              fontSize: 12,
+              color: descriptionCharCount > FormValidators.descriptionLimit
+                  ? AppTheme.error
+                  : AppTheme.textSecondary,
+            ),
+            errorText: descriptionError,
+          ),
       validator: FormValidators.validateDescription,
       maxLines: 3,
     );
@@ -528,18 +684,12 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       decoration: BoxDecoration(
         color: AppTheme.primaryColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: AppTheme.primaryColor.withOpacity(0.3),
-        ),
+        border: Border.all(color: AppTheme.primaryColor.withOpacity(0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Iconsax.location,
-            size: 12,
-            color: AppTheme.primaryColor,
-          ),
+          Icon(Iconsax.location, size: 12, color: AppTheme.primaryColor),
           const SizedBox(width: 4),
           Text(
             destination,

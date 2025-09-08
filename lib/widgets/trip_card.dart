@@ -225,14 +225,15 @@ class TripCard extends StatelessWidget {
             size: 16,
           ),
           const SizedBox(width: 8),
-          Text(
-            '$startDateStr - $endDateStr',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppTheme.secondaryColor,
-              fontWeight: FontWeight.w600,
+          Expanded(
+            child: Text(
+              '$startDateStr - $endDateStr',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: AppTheme.secondaryColor,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
-          const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(

@@ -29,13 +29,19 @@ class ExpenseFormModal extends StatefulWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => ExpenseFormModal(
-        tripId: tripId,
-        defaultCurrency: defaultCurrency,
-        expense: expense,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: ExpenseFormModal(
+          tripId: tripId,
+          defaultCurrency: defaultCurrency,
+          expense: expense,
+        ),
       ),
     );
   }
@@ -102,14 +108,16 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
   Widget build(BuildContext context) {
     final isEdit = widget.expense != null;
 
-    return Container(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.75,
-      ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? AppTheme.surfaceDark
-            : AppTheme.surfaceLight,
+    return DraggableScrollableSheet(
+      initialChildSize: 0.75,
+      minChildSize: 0.5,
+      maxChildSize: 0.95,
+      expand: false,
+      builder: (context, scrollController) => Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppTheme.surfaceDark
+              : AppTheme.surfaceLight,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
@@ -124,8 +132,9 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          Flexible(
+          Expanded(
             child: SingleChildScrollView(
+              controller: scrollController,
               padding: const EdgeInsets.all(24),
               child: Form(
                 key: _formKey,
@@ -553,6 +562,7 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

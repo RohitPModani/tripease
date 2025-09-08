@@ -310,6 +310,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createTrip => 'Create Trip';
 
   @override
+  String get addDocument => 'Add Document';
+
+  @override
   String get addExpense => 'Add Expense';
 
   @override

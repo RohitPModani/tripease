@@ -5,6 +5,8 @@ import 'package:iconsax/iconsax.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:gal/gal.dart';
 import '../models/attachment.dart';
 import '../themes/app_theme.dart';
 import '../l10n/app_localizations.dart';
@@ -331,29 +333,154 @@ class DocumentViewer extends StatelessWidget {
         return;
       }
 
-      // Use Share.shareXFiles which will allow user to save to Downloads or other apps
-      await Share.shareXFiles(
-        [XFile(attachment.filePath)],
-        subject: 'Save ${attachment.fileName}',
-        text: 'Save this document to your device',
-      );
-
-      // Show confirmation that download/share was initiated
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('File ready to download - choose where to save it'),
-          backgroundColor: AppTheme.success,
-        ),
-      );
+      // For images, offer choice between gallery and file save
+      if (attachment.isImage) {
+        await _showImageDownloadOptions(context, file);
+      } else {
+        // For documents, use file save dialog
+        await _saveFileWithDialog(context, file);
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error preparing download: $e'),
+          content: Text('Error downloading file: $e'),
           backgroundColor: AppTheme.error,
         ),
       );
     }
   }
+
+  Future<void> _showImageDownloadOptions(BuildContext context, File file) async {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Container(
+        padding: EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppTheme.textSecondary.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            SizedBox(height: 24),
+            Text(
+              'Save Image',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            SizedBox(height: 24),
+            ListTile(
+              leading: Container(
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(Iconsax.gallery, color: AppTheme.primaryColor),
+              ),
+              title: Text('Save to Photos'),
+              subtitle: Text('Save directly to your photo gallery'),
+              onTap: () async {
+                Navigator.pop(context);
+                await _saveToGallery(context, file);
+              },
+            ),
+            SizedBox(height: 8),
+            ListTile(
+              leading: Container(
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppTheme.secondaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(Iconsax.folder, color: AppTheme.secondaryColor),
+              ),
+              title: Text('Save to Files'),
+              subtitle: Text('Choose a specific folder to save'),
+              onTap: () async {
+                Navigator.pop(context);
+                await _saveFileWithDialog(context, file);
+              },
+            ),
+            SizedBox(height: 24),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _saveToGallery(BuildContext context, File file) async {
+    try {
+      if (attachment.isImage) {
+        await Gal.putImage(attachment.filePath);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Image saved to Photos'),
+            backgroundColor: AppTheme.success,
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error saving to Photos: $e'),
+          backgroundColor: AppTheme.error,
+        ),
+      );
+    }
+  }
+
+  Future<void> _saveFileWithDialog(BuildContext context, File file) async {
+    try {
+      // Use FilePicker to let user choose save location
+      String? outputFile = await FilePicker.platform.saveFile(
+        dialogTitle: 'Save ${attachment.fileName}',
+        fileName: attachment.fileName,
+        type: FileType.any,
+      );
+
+      if (outputFile == null) {
+        // User cancelled the dialog
+        return;
+      }
+
+      // Copy the file to chosen location
+      await file.copy(outputFile);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('File saved successfully'),
+          backgroundColor: AppTheme.success,
+          action: SnackBarAction(
+            label: 'Open',
+            textColor: Colors.white,
+            onPressed: () async {
+              try {
+                await _openFile(outputFile);
+              } catch (e) {
+                // If opening fails, offer to share instead
+                Share.shareXFiles([XFile(outputFile)]);
+              }
+            },
+          ),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error saving file: $e'),
+          backgroundColor: AppTheme.error,
+        ),
+      );
+    }
+  }
+
 
   Future<void> _shareAttachment(BuildContext context) async {
     try {

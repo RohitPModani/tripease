@@ -692,6 +692,12 @@ abstract class AppLocalizations {
   /// **'Create Trip'**
   String get createTrip;
 
+  /// Add document button
+  ///
+  /// In en, this message translates to:
+  /// **'Add Document'**
+  String get addDocument;
+
   /// Add expense button
   ///
   /// In en, this message translates to:

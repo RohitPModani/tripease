@@ -37,13 +37,19 @@ class BookingFormModal extends StatefulWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => BookingFormModal(
-        tripId: tripId,
-        defaultCurrency: defaultCurrency,
-        booking: booking,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: BookingFormModal(
+          tripId: tripId,
+          defaultCurrency: defaultCurrency,
+          booking: booking,
+        ),
       ),
     );
   }
@@ -214,10 +220,14 @@ class _BookingFormModalState extends State<BookingFormModal> {
   Widget build(BuildContext context) {
     final isEdit = widget.booking != null;
 
-    return Container(
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.75,
-        ),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: DraggableScrollableSheet(
+        initialChildSize: 0.75,
+        minChildSize: 0.5,
+        maxChildSize: 0.95,
+        expand: false,
+        builder: (context, scrollController) => Container(
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.dark
               ? AppTheme.surfaceDark
@@ -236,8 +246,9 @@ class _BookingFormModalState extends State<BookingFormModal> {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            Flexible(
+            Expanded(
               child: SingleChildScrollView(
+                controller: scrollController,
                 padding: const EdgeInsets.all(24),
                 child: Form(
                   key: _formKey,
@@ -808,6 +819,8 @@ class _BookingFormModalState extends State<BookingFormModal> {
             ),
           ],
         ),
+      ),
+      ),
     );
   }
 

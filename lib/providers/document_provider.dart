@@ -44,6 +44,7 @@ class DocumentProvider extends ChangeNotifier {
   Future<void> createDocument(Document document) async {
     try {
       await _repository.createDocument(document);
+      
       if (document.isPersonal) {
         _personalDocuments.add(document);
       } else {

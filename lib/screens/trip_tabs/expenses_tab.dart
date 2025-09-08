@@ -7,7 +7,7 @@ import '../../themes/app_theme.dart';
 import '../../providers/expense_provider.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/currency_formatter.dart';
-import 'package:uuid/uuid.dart';
+import '../../widgets/expense_form_modal.dart';
 
 class ExpensesTab extends StatefulWidget {
   final Trip trip;
@@ -144,7 +144,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
           floatingActionButton: Container(
             decoration: AppTheme.glowingButtonDecoration,
             child: FloatingActionButton.extended(
-              onPressed: () => _showAddExpenseDialog(expenseProvider),
+              onPressed: () => ExpenseFormModal.show(context, widget.trip.id, widget.trip.defaultCurrency),
               icon: const Icon(Iconsax.add),
               label: Text(
                 AppLocalizations.of(context)!.addExpense,
@@ -202,7 +202,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
               return Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: FilterChip(
-                  label: Text('${category.displayName} ($count)'),
+                  label: Text('${_getCategoryDisplayName(category)} ($count)'),
                   selected: isSelected,
                   onSelected: (selected) {
                     setState(() {
@@ -334,7 +334,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          entry.key.displayName,
+                          _getCategoryDisplayName(entry.key),
                           style: const TextStyle(fontSize: 14),
                         ),
                       ),
@@ -405,7 +405,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
             Container(
               decoration: AppTheme.glowingButtonDecoration,
               child: ElevatedButton.icon(
-                onPressed: () => _showAddExpenseDialog(expenseProvider),
+                onPressed: () => ExpenseFormModal.show(context, widget.trip.id, widget.trip.defaultCurrency),
                 icon: const Icon(Iconsax.add),
                 label: Text(
                   AppLocalizations.of(context)!.addExpense,
@@ -435,7 +435,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
           return await _showDeleteConfirmation(expense, expenseProvider);
         } else if (direction == DismissDirection.startToEnd) {
           // Edit action - don't dismiss, just open edit dialog
-          _showEditExpenseDialog(expense, expenseProvider);
+          ExpenseFormModal.show(context, widget.trip.id, widget.trip.defaultCurrency, expense: expense);
           return false;
         }
         return false;
@@ -561,7 +561,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     ),
                   ),
                   child: Text(
-                    expense.category.displayName,
+                    _getCategoryDisplayName(expense.category),
                     style: TextStyle(
                       color: _getCategoryColor(expense.category),
                       fontSize: 12,
@@ -701,7 +701,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                                 ),
                               ),
                               Text(
-                                expense.category.displayName,
+                                _getCategoryDisplayName(expense.category),
                                 style: TextStyle(
                                   color: _getCategoryColor(expense.category),
                                   fontWeight: FontWeight.w500,
@@ -861,7 +861,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                           child: ElevatedButton.icon(
                             onPressed: () {
                               Navigator.pop(context);
-                              _showEditExpenseDialog(expense, expenseProvider);
+                              ExpenseFormModal.show(context, widget.trip.id, widget.trip.defaultCurrency, expense: expense);
                             },
                             icon: const Icon(Iconsax.edit_2),
                             label: const Text('Edit'),
@@ -934,13 +934,23 @@ class _ExpensesTabState extends State<ExpensesTab> {
     }
   }
 
-  void _showAddExpenseDialog(ExpenseProvider expenseProvider) {
-    _showExpenseDialog(expenseProvider: expenseProvider);
+  String _getCategoryDisplayName(ExpenseCategory category) {
+    switch (category) {
+      case ExpenseCategory.transport:
+        return 'Transport';
+      case ExpenseCategory.accommodation:
+        return 'Accommodation';
+      case ExpenseCategory.food:
+        return 'Food & Drinks';
+      case ExpenseCategory.activities:
+        return 'Activities';
+      case ExpenseCategory.shopping:
+        return 'Shopping';
+      case ExpenseCategory.other:
+        return 'Other';
+    }
   }
 
-  void _showEditExpenseDialog(Expense expense, ExpenseProvider expenseProvider) {
-    _showExpenseDialog(expense: expense, expenseProvider: expenseProvider);
-  }
 
   Future<bool> _showDeleteConfirmation(Expense expense, ExpenseProvider expenseProvider) async {
     return await showDialog<bool>(
@@ -1000,317 +1010,6 @@ class _ExpensesTabState extends State<ExpensesTab> {
     ) ?? false;
   }
 
-  void _showExpenseDialog({Expense? expense, ExpenseProvider? expenseProvider}) {
-    final isEdit = expense != null;
-    final titleController = TextEditingController(text: expense?.title ?? '');
-    final descriptionController = TextEditingController(text: expense?.description ?? '');
-    final amountController = TextEditingController(
-      text: expense?.amount.toString() ?? '',
-    );
-    final paidByController = TextEditingController(text: expense?.paidBy ?? '');
-    
-    ExpenseCategory selectedCategory = expense?.category ?? ExpenseCategory.other;
-    DateTime selectedDate = expense?.date ?? DateTime.now();
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => StatefulBuilder(
-        builder: (context, setModalState) => Container(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.75,
-          ),
-          decoration: BoxDecoration(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.surfaceDark
-                : AppTheme.surfaceLight,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 8),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppTheme.textSecondary.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              Flexible(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: AppTheme.accentColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Icon(
-                              Iconsax.dollar_circle,
-                              color: AppTheme.accentColor,
-                              size: 20,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Text(
-                            isEdit ? 'Edit Expense' : 'Add New Expense',
-                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                      TextFormField(
-                        controller: titleController,
-                        decoration: InputDecoration(
-                          labelText: 'Expense Title',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                        autofocus: true,
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: amountController,
-                        decoration: InputDecoration(
-                          labelText: 'Amount (${widget.trip.defaultCurrency})',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                        keyboardType: TextInputType.number,
-                      ),
-                      const SizedBox(height: 16),
-                      DropdownButtonFormField<ExpenseCategory>(
-                        value: selectedCategory,
-                        decoration: InputDecoration(
-                          labelText: 'Category',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                        items: ExpenseCategory.values
-                            .map((category) => DropdownMenuItem(
-                                  value: category,
-                                  child: Row(
-                                    children: [
-                                      Icon(_getCategoryIcon(category), size: 16),
-                                      const SizedBox(width: 8),
-                                      Text(category.displayName),
-                                    ],
-                                  ),
-                                ))
-                            .toList(),
-                        onChanged: (value) {
-                          if (value != null) {
-                            setModalState(() {
-                              selectedCategory = value;
-                            });
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: descriptionController,
-                        decoration: InputDecoration(
-                          labelText: 'Description (Optional)',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                        maxLines: 2,
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: paidByController,
-                        decoration: InputDecoration(
-                          labelText: 'Paid By (Optional)',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.accentColor, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      InkWell(
-                        onTap: () async {
-                          final date = await showDatePicker(
-                            context: context,
-                            initialDate: selectedDate,
-                            firstDate: DateTime.now().subtract(const Duration(days: 365)),
-                            lastDate: DateTime.now().add(const Duration(days: 30)),
-                            builder: (context, child) {
-                              return Theme(
-                                data: Theme.of(context).copyWith(
-                                  colorScheme: Theme.of(context).colorScheme.copyWith(
-                                    primary: AppTheme.accentColor,
-                                  ),
-                                ),
-                                child: child!,
-                              );
-                            },
-                          );
-                          if (date != null) {
-                            setModalState(() {
-                              selectedDate = date;
-                            });
-                          }
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Iconsax.calendar_1,
-                                color: AppTheme.accentColor,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Date: ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
-                                style: TextStyle(
-                                  color: Theme.of(context).textTheme.bodyMedium?.color,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton(
-                              onPressed: () => Navigator.pop(context),
-                              style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
-                                side: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: Text(
-                                'Cancel',
-                                style: TextStyle(color: AppTheme.textSecondary),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Container(
-                              decoration: AppTheme.glowingButtonDecoration,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  if (titleController.text.trim().isEmpty ||
-                                      amountController.text.trim().isEmpty) return;
-
-                                  final amount = double.tryParse(amountController.text.trim());
-                                  if (amount == null || amount <= 0) return;
-
-                                  final expenseItem = Expense(
-                                    id: expense?.id ?? const Uuid().v4(),
-                                    tripId: widget.trip.id,
-                                    title: titleController.text.trim(),
-                                    amount: amount,
-                                    category: selectedCategory,
-                                    date: selectedDate,
-                                    description: descriptionController.text.trim(),
-                                    paidBy: paidByController.text.trim(),
-                                    splits: expense?.splits ?? [],
-                                    createdAt: expense?.createdAt ?? DateTime.now(),
-                                    updatedAt: DateTime.now(),
-                                  );
-
-                                  final provider = expenseProvider ?? Provider.of<ExpenseProvider>(context, listen: false);
-                                  if (expense != null) {
-                                    await provider.updateExpense(expenseItem);
-                                  } else {
-                                    await provider.createExpense(expenseItem);
-                                  }
-                                  
-                                  if (mounted) {
-                                    Navigator.pop(context);
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  elevation: 0,
-                                ),
-                                child: Text(
-                                  isEdit ? 'Update Expense' : 'Add Expense',
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   void _showExpenseBreakdown(List<Expense> expenses) {
     final personTotals = _getExpensesByPerson(expenses);
@@ -1368,21 +1067,3 @@ class _ExpensesTabState extends State<ExpensesTab> {
   }
 }
 
-extension ExpenseCategoryExtension on ExpenseCategory {
-  String get displayName {
-    switch (this) {
-      case ExpenseCategory.transport:
-        return 'Transport';
-      case ExpenseCategory.accommodation:
-        return 'Accommodation';
-      case ExpenseCategory.food:
-        return 'Food & Drinks';
-      case ExpenseCategory.activities:
-        return 'Activities';
-      case ExpenseCategory.shopping:
-        return 'Shopping';
-      case ExpenseCategory.other:
-        return 'Other';
-    }
-  }
-}

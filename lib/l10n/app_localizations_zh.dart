@@ -308,6 +308,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get createTrip => '创建旅行';
 
   @override
+  String get addDocument => '添加文档';
+
+  @override
   String get addExpense => '添加支出';
 
   @override
@@ -629,43 +632,41 @@ class AppLocalizationsZh extends AppLocalizations {
   String get biometricAuthenticationDescription => '使用指纹或面部识别来保护您的应用';
 
   @override
-  String get editTrip => 'Edit Trip';
+  String get editTrip => '编辑旅行';
 
   @override
-  String get updateTrip => 'Update Trip';
+  String get updateTrip => '更新旅行';
 
   @override
-  String get tripUpdatedSuccessfully => 'Trip updated successfully';
+  String get tripUpdatedSuccessfully => '旅行更新成功';
 
   @override
-  String get failedToUpdateTrip => 'Failed to update trip';
+  String get failedToUpdateTrip => '旅行更新失败';
 
   @override
-  String get deleteTrip => 'Delete Trip';
+  String get deleteTrip => '删除旅行';
 
   @override
-  String get deleteTripConfirmation =>
-      'Are you sure you want to delete this trip? This action cannot be undone.';
+  String get deleteTripConfirmation => '您确定要删除这次旅行吗？此操作无法撤销。';
 
   @override
-  String get tripDeletedSuccessfully => 'Trip deleted successfully';
+  String get tripDeletedSuccessfully => '旅行删除成功';
 
   @override
-  String get failedToDeleteTrip => 'Failed to delete trip';
+  String get failedToDeleteTrip => '旅行删除失败';
 
   @override
-  String get tripCreatedSuccessfully => 'Trip created successfully!';
+  String get tripCreatedSuccessfully => '旅行创建成功！';
 
   @override
-  String get failedToCreateTrip => 'Failed to create trip';
+  String get failedToCreateTrip => '旅行创建失败';
 
   @override
-  String get selectStartDateFirst => 'Please select start date first';
+  String get selectStartDateFirst => '请先选择开始日期';
 
   @override
-  String get addAtLeastOneDestination => 'Please add at least one destination';
+  String get addAtLeastOneDestination => '请至少添加一个目的地';
 
   @override
-  String get selectBothStartAndEndDates =>
-      'Please select both start and end dates';
+  String get selectBothStartAndEndDates => '请选择开始和结束日期';
 }

@@ -317,6 +317,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get createTrip => 'Crear Viaje';
 
   @override
+  String get addDocument => 'Agregar Documento';
+
+  @override
   String get addExpense => 'Agregar Gasto';
 
   @override
@@ -644,43 +647,44 @@ class AppLocalizationsEs extends AppLocalizations {
       'Usa huella dactilar o reconocimiento facial para proteger tu aplicación';
 
   @override
-  String get editTrip => 'Edit Trip';
+  String get editTrip => 'Editar Viaje';
 
   @override
-  String get updateTrip => 'Update Trip';
+  String get updateTrip => 'Actualizar Viaje';
 
   @override
-  String get tripUpdatedSuccessfully => 'Trip updated successfully';
+  String get tripUpdatedSuccessfully => 'Viaje actualizado exitosamente';
 
   @override
-  String get failedToUpdateTrip => 'Failed to update trip';
+  String get failedToUpdateTrip => 'Error al actualizar el viaje';
 
   @override
-  String get deleteTrip => 'Delete Trip';
+  String get deleteTrip => 'Eliminar Viaje';
 
   @override
   String get deleteTripConfirmation =>
-      'Are you sure you want to delete this trip? This action cannot be undone.';
+      '¿Estás seguro de que quieres eliminar este viaje? Esta acción no se puede deshacer.';
 
   @override
-  String get tripDeletedSuccessfully => 'Trip deleted successfully';
+  String get tripDeletedSuccessfully => 'Viaje eliminado exitosamente';
 
   @override
-  String get failedToDeleteTrip => 'Failed to delete trip';
+  String get failedToDeleteTrip => 'Error al eliminar el viaje';
 
   @override
-  String get tripCreatedSuccessfully => 'Trip created successfully!';
+  String get tripCreatedSuccessfully => '¡Viaje creado exitosamente!';
 
   @override
-  String get failedToCreateTrip => 'Failed to create trip';
+  String get failedToCreateTrip => 'Error al crear el viaje';
 
   @override
-  String get selectStartDateFirst => 'Please select start date first';
+  String get selectStartDateFirst =>
+      'Por favor selecciona primero la fecha de inicio';
 
   @override
-  String get addAtLeastOneDestination => 'Please add at least one destination';
+  String get addAtLeastOneDestination => 'Por favor agrega al menos un destino';
 
   @override
   String get selectBothStartAndEndDates =>
-      'Please select both start and end dates';
+      'Por favor selecciona tanto la fecha de inicio como la de fin';
 }

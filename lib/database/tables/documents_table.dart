@@ -9,6 +9,7 @@ class DocumentsTable extends Table {
   TextColumn get id => text()();
   TextColumn get tripId => text().nullable().references(TripsTable, #id)(); // null for personal documents
   TextColumn get title => text().withLength(max: 255)();
+  TextColumn get description => text().withDefault(const Constant(''))();
   TextColumn get filePath => text()();
   TextColumn get fileName => text()();
   IntColumn get fileSize => integer()();

@@ -25,7 +25,17 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 4;
+
+  /// Clear all data from the database (useful for development/testing)
+  Future<void> clearDatabase() async {
+    await delete(tripsTable).go();
+    await delete(todoItemsTable).go();
+    await delete(bookingsTable).go();
+    await delete(expensesTable).go();
+    await delete(expenseSplitsTable).go();
+    await delete(documentsTable).go();
+  }
 
   @override
   MigrationStrategy get migration {
@@ -36,6 +46,14 @@ class AppDatabase extends _$AppDatabase {
       onUpgrade: (Migrator m, int from, int to) async {
         if (from == 1) {
           await m.addColumn(bookingsTable, bookingsTable.attachments);
+        }
+        if (from <= 2) {
+          await m.addColumn(documentsTable, documentsTable.description);
+        }
+        if (from <= 3) {
+          // Force recreation of documents table to ensure description column exists
+          await m.drop(documentsTable);
+          await m.create(documentsTable);
         }
       },
     );

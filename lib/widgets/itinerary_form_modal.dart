@@ -62,16 +62,22 @@ class ItineraryFormModal extends StatefulWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => ItineraryFormModal(
-        tripId: tripId,
-        onActivityAdded: onActivityAdded,
-        selectedDate: selectedDate,
-        activity: activity,
-        tripStartDate: tripStartDate,
-        tripEndDate: tripEndDate,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: ItineraryFormModal(
+          tripId: tripId,
+          onActivityAdded: onActivityAdded,
+          selectedDate: selectedDate,
+          activity: activity,
+          tripStartDate: tripStartDate,
+          tripEndDate: tripEndDate,
+        ),
       ),
     );
   }
@@ -84,6 +90,10 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
   late final TextEditingController titleController;
   late final TextEditingController descriptionController;
   late final TextEditingController locationController;
+  late final ScrollController _scrollController;
+  late final FocusNode _titleFocusNode;
+  late final FocusNode _descriptionFocusNode;
+  late final FocusNode _locationFocusNode;
   
   late ActivityType selectedType;
   late DateTime selectedActivityDate;
@@ -107,6 +117,10 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
     titleController = TextEditingController(text: widget.activity?.title ?? '');
     descriptionController = TextEditingController(text: widget.activity?.description ?? '');
     locationController = TextEditingController(text: widget.activity?.location ?? '');
+    _scrollController = ScrollController();
+    _titleFocusNode = FocusNode();
+    _descriptionFocusNode = FocusNode();
+    _locationFocusNode = FocusNode();
     
     selectedType = widget.activity?.type ?? ActivityType.sightseeing;
     
@@ -128,6 +142,37 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
     titleCharCount = titleController.text.length;
     locationCharCount = locationController.text.length;
     descriptionCharCount = descriptionController.text.length;
+
+    // Add focus listeners for auto-scroll
+    _titleFocusNode.addListener(() {
+      if (_titleFocusNode.hasFocus) {
+        _scrollToField(0.0);
+      }
+    });
+    
+    _descriptionFocusNode.addListener(() {
+      if (_descriptionFocusNode.hasFocus) {
+        _scrollToField(200.0);
+      }
+    });
+
+    _locationFocusNode.addListener(() {
+      if (_locationFocusNode.hasFocus) {
+        _scrollToField(150.0);
+      }
+    });
+  }
+
+  void _scrollToField(double offset) {
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          offset,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
 
   @override
@@ -135,6 +180,10 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
     titleController.dispose();
     descriptionController.dispose();
     locationController.dispose();
+    _scrollController.dispose();
+    _titleFocusNode.dispose();
+    _descriptionFocusNode.dispose();
+    _locationFocusNode.dispose();
     super.dispose();
   }
 
@@ -144,19 +193,23 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
   Widget build(BuildContext context) {
     final isEdit = widget.activity != null;
 
-    return Container(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.75,
-      ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? AppTheme.surfaceDark
-            : AppTheme.surfaceLight,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: DraggableScrollableSheet(
+        initialChildSize: 0.75,
+        minChildSize: 0.5,
+        maxChildSize: 0.95,
+        expand: false,
+        builder: (context, scrollController) => Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppTheme.surfaceDark
+              : AppTheme.surfaceLight,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
             Container(
               margin: const EdgeInsets.only(top: 8),
               width: 40,
@@ -166,8 +219,9 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            Flexible(
+            Expanded(
               child: SingleChildScrollView(
+                controller: _scrollController,
                 padding: const EdgeInsets.all(24),
                 child: Form(
                   key: _formKey,
@@ -200,6 +254,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                     const SizedBox(height: 24),
                     TextFormField(
                       controller: titleController,
+                      focusNode: _titleFocusNode,
                       maxLength: FormValidators.titleLimit,
                       onChanged: (value) {
                         setState(() {
@@ -281,6 +336,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: locationController,
+                      focusNode: _locationFocusNode,
                       maxLength: FormValidators.locationLimit,
                       onChanged: (value) {
                         setState(() {
@@ -531,6 +587,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: descriptionController,
+                      focusNode: _descriptionFocusNode,
                       maxLength: FormValidators.itineraryDescriptionLimit,
                       onChanged: (value) {
                         setState(() {
@@ -640,6 +697,8 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
             ),
           ],
         ),
+      ),
+      ),
       );
   }
 

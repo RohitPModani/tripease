@@ -3,7 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../models/trip.dart';
 import '../../themes/app_theme.dart';
 import '../../l10n/app_localizations.dart';
-import '../../utils/form_validators.dart';
+import '../../widgets/itinerary_form_modal.dart';
 
 class ItineraryTab extends StatefulWidget {
   final Trip trip;
@@ -588,466 +588,65 @@ class _ItineraryTabState extends State<ItineraryTab> {
   }
 
   void _showAddActivityDialog(ItineraryDay day) {
-    _showActivityDialog(day);
+    ItineraryFormModal.show(
+      context, 
+      widget.trip.id, 
+      (activity, date) => _onActivityAdded(activity, day),
+      selectedDate: day.date,
+      tripStartDate: widget.trip.startDate,
+      tripEndDate: widget.trip.endDate,
+    );
   }
 
   void _showEditActivityDialog(ItineraryActivity activity, ItineraryDay day) {
-    _showActivityDialog(day, activity: activity);
+    ItineraryFormModal.show(
+      context, 
+      widget.trip.id, 
+      (updatedActivity, date) => _onActivityUpdated(updatedActivity, activity, day),
+      selectedDate: day.date,
+      activity: activity,
+      tripStartDate: widget.trip.startDate,
+      tripEndDate: widget.trip.endDate,
+    );
   }
 
-  void _showActivityDialog(ItineraryDay day, {ItineraryActivity? activity}) {
-    final isEdit = activity != null;
-    final titleController = TextEditingController(text: activity?.title ?? '');
-    final descriptionController = TextEditingController(text: activity?.description ?? '');
-    final locationController = TextEditingController(text: activity?.location ?? '');
-    
-    ActivityType selectedType = activity?.type ?? ActivityType.sightseeing;
-    TimeOfDay? selectedStartTime = activity?.startTime;
-    TimeOfDay? selectedEndTime = activity?.endTime;
-    
-    // Character count state
-    int titleCharCount = (activity?.title ?? '').length;
-    int descriptionCharCount = (activity?.description ?? '').length;
-    int locationCharCount = (activity?.location ?? '').length;
-    
-    // Validation error state
-    String? titleError;
-    String? descriptionError;
-    String? locationError;
+  void _onActivityAdded(ItineraryActivity activity, ItineraryDay day) {
+    setState(() {
+      day.activities.add(activity);
+      // Sort activities by start time
+      day.activities.sort((a, b) {
+        if (a.startTime == null && b.startTime == null) return 0;
+        if (a.startTime == null) return 1;
+        if (b.startTime == null) return -1;
+        
+        final aMinutes = a.startTime!.hour * 60 + a.startTime!.minute;
+        final bMinutes = b.startTime!.hour * 60 + b.startTime!.minute;
+        return aMinutes.compareTo(bMinutes);
+      });
+    });
+  }
 
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => StatefulBuilder(
-        builder: (context, setModalState) => Container(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.75,
-          ),
-          decoration: BoxDecoration(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.surfaceDark
-                : AppTheme.surfaceLight,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 8),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppTheme.textSecondary.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              Flexible(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: AppTheme.primaryColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Icon(
-                              Iconsax.calendar_add,
-                              color: AppTheme.primaryColor,
-                              size: 20,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Text(
-                            isEdit ? 'Edit Activity' : 'Add New Activity',
-                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                      TextFormField(
-                        controller: titleController,
-                        maxLength: FormValidators.titleLimit,
-                        onChanged: (value) {
-                          setModalState(() {
-                            titleCharCount = value.length;
-                            titleError = FormValidators.validateTitle(value);
-                          });
-                        },
-                        validator: FormValidators.validateTitle,
-                        decoration: InputDecoration(
-                          labelText: 'Activity Title',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                          counterText: '',
-                          suffixText: '$titleCharCount/${FormValidators.titleLimit}',
-                          suffixStyle: TextStyle(
-                            fontSize: 12,
-                            color: titleCharCount > FormValidators.titleLimit 
-                                ? AppTheme.error 
-                                : AppTheme.textSecondary,
-                          ),
-                          errorText: titleError,
-                        ),
-                        autofocus: true,
-                      ),
-                      const SizedBox(height: 16),
-                      DropdownButtonFormField<ActivityType>(
-                        value: selectedType,
-                        decoration: InputDecoration(
-                          labelText: 'Activity Type',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                        items: ActivityType.values
-                            .map((type) => DropdownMenuItem(
-                                  value: type,
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(4),
-                                        decoration: BoxDecoration(
-                                          color: _getActivityTypeColor(type).withOpacity(0.1),
-                                          borderRadius: BorderRadius.circular(4),
-                                        ),
-                                        child: Icon(
-                                          _getActivityTypeIcon(type),
-                                          color: _getActivityTypeColor(type),
-                                          size: 16,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(_getActivityTypeDisplayName(type)),
-                                    ],
-                                  ),
-                                ))
-                            .toList(),
-                        onChanged: (value) {
-                          if (value != null) {
-                            setModalState(() {
-                              selectedType = value;
-                            });
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: descriptionController,
-                        maxLength: FormValidators.itineraryDescriptionLimit,
-                        onChanged: (value) {
-                          setModalState(() {
-                            descriptionCharCount = value.length;
-                            descriptionError = FormValidators.validateItineraryDescription(value);
-                          });
-                        },
-                        validator: FormValidators.validateItineraryDescription,
-                        decoration: InputDecoration(
-                          labelText: 'Description (Optional)',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                          counterText: '',
-                          suffixText: '$descriptionCharCount/${FormValidators.itineraryDescriptionLimit}',
-                          suffixStyle: TextStyle(
-                            fontSize: 12,
-                            color: descriptionCharCount > FormValidators.itineraryDescriptionLimit 
-                                ? AppTheme.error 
-                                : AppTheme.textSecondary,
-                          ),
-                          errorText: descriptionError,
-                        ),
-                        maxLines: 3,
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: locationController,
-                        maxLength: FormValidators.locationLimit,
-                        onChanged: (value) {
-                          setModalState(() {
-                            locationCharCount = value.length;
-                            locationError = FormValidators.validateLocation(value);
-                          });
-                        },
-                        validator: FormValidators.validateLocation,
-                        decoration: InputDecoration(
-                          labelText: 'Location (Optional)',
-                          labelStyle: TextStyle(color: AppTheme.textSecondary),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.error, width: 2),
-                          ),
-                          contentPadding: const EdgeInsets.all(16),
-                          counterText: '',
-                          suffixText: '$locationCharCount/${FormValidators.locationLimit}',
-                          suffixStyle: TextStyle(
-                            fontSize: 12,
-                            color: locationCharCount > FormValidators.locationLimit 
-                                ? AppTheme.error 
-                                : AppTheme.textSecondary,
-                          ),
-                          errorText: locationError,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () async {
-                                final time = await showTimePicker(
-                                  context: context,
-                                  initialTime: selectedStartTime ?? TimeOfDay.now(),
-                                );
-                                if (time != null) {
-                                  setModalState(() {
-                                    selectedStartTime = time;
-                                  });
-                                }
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Start Time',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: AppTheme.textSecondary,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      selectedStartTime != null
-                                          ? _formatTime(selectedStartTime!)
-                                          : 'Select time',
-                                      style: TextStyle(
-                                        color: selectedStartTime != null 
-                                            ? Theme.of(context).textTheme.bodyMedium?.color
-                                            : AppTheme.textSecondary,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () async {
-                                final time = await showTimePicker(
-                                  context: context,
-                                  initialTime: selectedEndTime ?? 
-                                      (selectedStartTime != null 
-                                          ? TimeOfDay(
-                                              hour: selectedStartTime!.hour + 1,
-                                              minute: selectedStartTime!.minute,
-                                            )
-                                          : TimeOfDay.now()),
-                                );
-                                if (time != null) {
-                                  setModalState(() {
-                                    selectedEndTime = time;
-                                  });
-                                }
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'End Time',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: AppTheme.textSecondary,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      selectedEndTime != null
-                                          ? _formatTime(selectedEndTime!)
-                                          : 'Select time',
-                                      style: TextStyle(
-                                        color: selectedEndTime != null 
-                                            ? Theme.of(context).textTheme.bodyMedium?.color
-                                            : AppTheme.textSecondary,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton(
-                              onPressed: () => Navigator.pop(context),
-                              style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
-                                side: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: Text(
-                                'Cancel',
-                                style: TextStyle(color: AppTheme.textSecondary),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Container(
-                              decoration: AppTheme.glowingButtonDecoration,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  // Validate fields before saving
-                                  final titleValidation = FormValidators.validateTitle(titleController.text);
-                                  final descriptionValidation = FormValidators.validateItineraryDescription(descriptionController.text);
-                                  final locationValidation = FormValidators.validateLocation(locationController.text);
-                                  
-                                  setModalState(() {
-                                    titleError = titleValidation;
-                                    descriptionError = descriptionValidation;
-                                    locationError = locationValidation;
-                                  });
-                                  
-                                  if (titleValidation != null || descriptionValidation != null || locationValidation != null) {
-                                    return; // Don't save if there are validation errors
-                                  }
-
-                                  final newActivity = ItineraryActivity(
-                                    title: titleController.text.trim(),
-                                    type: selectedType,
-                                    description: descriptionController.text.trim(),
-                                    location: locationController.text.trim(),
-                                    startTime: selectedStartTime,
-                                    endTime: selectedEndTime,
-                                  );
-
-                                  setState(() {
-                                    if (isEdit) {
-                                      final index = day.activities.indexOf(activity);
-                                      day.activities[index] = newActivity;
-                                    } else {
-                                      day.activities.add(newActivity);
-                                      // Sort activities by start time
-                                      day.activities.sort((a, b) {
-                                        if (a.startTime == null && b.startTime == null) return 0;
-                                        if (a.startTime == null) return 1;
-                                        if (b.startTime == null) return -1;
-                                        return a.startTime!.hour * 60 + a.startTime!.minute -
-                                               (b.startTime!.hour * 60 + b.startTime!.minute);
-                                      });
-                                    }
-                                  });
-
-                                  Navigator.pop(context);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  elevation: 0,
-                                ),
-                                child: Text(
-                                  isEdit ? 'Update Activity' : 'Add Activity',
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  void _onActivityUpdated(ItineraryActivity updatedActivity, ItineraryActivity originalActivity, ItineraryDay day) {
+    setState(() {
+      final activityIndex = day.activities.indexWhere(
+        (a) => a.title == originalActivity.title &&
+               a.type == originalActivity.type &&
+               a.startTime == originalActivity.startTime,
+      );
+      if (activityIndex != -1) {
+        day.activities[activityIndex] = updatedActivity;
+        // Re-sort activities by start time
+        day.activities.sort((a, b) {
+          if (a.startTime == null && b.startTime == null) return 0;
+          if (a.startTime == null) return 1;
+          if (b.startTime == null) return -1;
+          
+          final aMinutes = a.startTime!.hour * 60 + a.startTime!.minute;
+          final bMinutes = b.startTime!.hour * 60 + b.startTime!.minute;
+          return aMinutes.compareTo(bMinutes);
+        });
+      }
+    });
   }
 
   void _deleteActivity(ItineraryActivity activity, ItineraryDay day) {
@@ -1370,53 +969,4 @@ class ItineraryDay {
     required this.dayNumber,
     required this.activities,
   });
-}
-
-class ItineraryActivity {
-  final String title;
-  final ActivityType type;
-  final String description;
-  final String location;
-  final TimeOfDay? startTime;
-  final TimeOfDay? endTime;
-
-  ItineraryActivity({
-    required this.title,
-    required this.type,
-    this.description = '',
-    this.location = '',
-    this.startTime,
-    this.endTime,
-  });
-}
-
-enum ActivityType {
-  sightseeing,
-  meal,
-  transport,
-  accommodation,
-  shopping,
-  entertainment,
-  other,
-}
-
-extension ActivityTypeExtension on ActivityType {
-  String get displayName {
-    switch (this) {
-      case ActivityType.sightseeing:
-        return 'Sightseeing';
-      case ActivityType.meal:
-        return 'Meal';
-      case ActivityType.transport:
-        return 'Transport';
-      case ActivityType.accommodation:
-        return 'Accommodation';
-      case ActivityType.shopping:
-        return 'Shopping';
-      case ActivityType.entertainment:
-        return 'Entertainment';
-      case ActivityType.other:
-        return 'Other';
-    }
-  }
 }

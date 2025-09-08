@@ -309,6 +309,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get createTrip => '여행 만들기';
 
   @override
+  String get addDocument => '문서 추가';
+
+  @override
   String get addExpense => '지출 추가';
 
   @override
@@ -631,43 +634,41 @@ class AppLocalizationsKo extends AppLocalizations {
   String get biometricAuthenticationDescription => '지문이나 얼굴 인식을 사용하여 앱을 보호하세요';
 
   @override
-  String get editTrip => 'Edit Trip';
+  String get editTrip => '여행 편집';
 
   @override
-  String get updateTrip => 'Update Trip';
+  String get updateTrip => '여행 업데이트';
 
   @override
-  String get tripUpdatedSuccessfully => 'Trip updated successfully';
+  String get tripUpdatedSuccessfully => '여행이 성공적으로 업데이트되었습니다';
 
   @override
-  String get failedToUpdateTrip => 'Failed to update trip';
+  String get failedToUpdateTrip => '여행 업데이트에 실패했습니다';
 
   @override
-  String get deleteTrip => 'Delete Trip';
+  String get deleteTrip => '여행 삭제';
 
   @override
-  String get deleteTripConfirmation =>
-      'Are you sure you want to delete this trip? This action cannot be undone.';
+  String get deleteTripConfirmation => '이 여행을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.';
 
   @override
-  String get tripDeletedSuccessfully => 'Trip deleted successfully';
+  String get tripDeletedSuccessfully => '여행이 성공적으로 삭제되었습니다';
 
   @override
-  String get failedToDeleteTrip => 'Failed to delete trip';
+  String get failedToDeleteTrip => '여행 삭제에 실패했습니다';
 
   @override
-  String get tripCreatedSuccessfully => 'Trip created successfully!';
+  String get tripCreatedSuccessfully => '여행이 성공적으로 생성되었습니다!';
 
   @override
-  String get failedToCreateTrip => 'Failed to create trip';
+  String get failedToCreateTrip => '여행 생성에 실패했습니다';
 
   @override
-  String get selectStartDateFirst => 'Please select start date first';
+  String get selectStartDateFirst => '먼저 시작일을 선택해주세요';
 
   @override
-  String get addAtLeastOneDestination => 'Please add at least one destination';
+  String get addAtLeastOneDestination => '최소 하나의 목적지를 추가해주세요';
 
   @override
-  String get selectBothStartAndEndDates =>
-      'Please select both start and end dates';
+  String get selectBothStartAndEndDates => '시작일과 종료일을 모두 선택해주세요';
 }

@@ -98,6 +98,7 @@
   "noDataYet": "暂无数据",
   "startPlanning": "开始规划您的下一次冒险！",
   "createTrip": "创建旅行",
+  "addDocument": "添加文档",
   "addExpense": "添加支出",
   "addActivity": "添加活动",
   "addBooking": "添加预订",
@@ -199,5 +200,18 @@
   "errorSharingFile": "文件分享错误：{error}",
   "unknown": "未知",
   "biometricAuthentication": "生物识别认证",
-  "biometricAuthenticationDescription": "使用指纹或面部识别来保护您的应用"
+  "biometricAuthenticationDescription": "使用指纹或面部识别来保护您的应用",
+  "editTrip": "编辑旅行",
+  "updateTrip": "更新旅行",
+  "tripUpdatedSuccessfully": "旅行更新成功",
+  "failedToUpdateTrip": "旅行更新失败",
+  "deleteTrip": "删除旅行",
+  "deleteTripConfirmation": "您确定要删除这次旅行吗？此操作无法撤销。",
+  "tripDeletedSuccessfully": "旅行删除成功",
+  "failedToDeleteTrip": "旅行删除失败",
+  "tripCreatedSuccessfully": "旅行创建成功！",
+  "failedToCreateTrip": "旅行创建失败",
+  "selectStartDateFirst": "请先选择开始日期",
+  "addAtLeastOneDestination": "请至少添加一个目的地",
+  "selectBothStartAndEndDates": "请选择开始和结束日期"
 }

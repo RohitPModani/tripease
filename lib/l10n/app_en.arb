@@ -514,6 +514,11 @@
     "description": "Create trip button"
   },
   
+  "addDocument": "Add Document",
+  "@addDocument": {
+    "description": "Add document button"
+  },
+  
   "addExpense": "Add Expense",
   "@addExpense": {
     "description": "Add expense button"

@@ -308,6 +308,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get createTrip => '旅行を作成';
 
   @override
+  String get addDocument => 'ドキュメントを追加';
+
+  @override
   String get addExpense => '支出を追加';
 
   @override
@@ -630,43 +633,41 @@ class AppLocalizationsJa extends AppLocalizations {
   String get biometricAuthenticationDescription => '指紋または顔認識を使用してアプリのセキュリティを強化';
 
   @override
-  String get editTrip => 'Edit Trip';
+  String get editTrip => '旅行を編集';
 
   @override
-  String get updateTrip => 'Update Trip';
+  String get updateTrip => '旅行を更新';
 
   @override
-  String get tripUpdatedSuccessfully => 'Trip updated successfully';
+  String get tripUpdatedSuccessfully => '旅行が正常に更新されました';
 
   @override
-  String get failedToUpdateTrip => 'Failed to update trip';
+  String get failedToUpdateTrip => '旅行の更新に失敗しました';
 
   @override
-  String get deleteTrip => 'Delete Trip';
+  String get deleteTrip => '旅行を削除';
 
   @override
-  String get deleteTripConfirmation =>
-      'Are you sure you want to delete this trip? This action cannot be undone.';
+  String get deleteTripConfirmation => 'この旅行を削除してもよろしいですか？この操作は取り消すことができません。';
 
   @override
-  String get tripDeletedSuccessfully => 'Trip deleted successfully';
+  String get tripDeletedSuccessfully => '旅行が正常に削除されました';
 
   @override
-  String get failedToDeleteTrip => 'Failed to delete trip';
+  String get failedToDeleteTrip => '旅行の削除に失敗しました';
 
   @override
-  String get tripCreatedSuccessfully => 'Trip created successfully!';
+  String get tripCreatedSuccessfully => '旅行が正常に作成されました！';
 
   @override
-  String get failedToCreateTrip => 'Failed to create trip';
+  String get failedToCreateTrip => '旅行の作成に失敗しました';
 
   @override
-  String get selectStartDateFirst => 'Please select start date first';
+  String get selectStartDateFirst => 'まず開始日を選択してください';
 
   @override
-  String get addAtLeastOneDestination => 'Please add at least one destination';
+  String get addAtLeastOneDestination => '少なくとも1つの目的地を追加してください';
 
   @override
-  String get selectBothStartAndEndDates =>
-      'Please select both start and end dates';
+  String get selectBothStartAndEndDates => '開始日と終了日の両方を選択してください';
 }
