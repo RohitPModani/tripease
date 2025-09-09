@@ -3,7 +3,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import '../themes/app_theme.dart';
-import '../widgets/search_bar.dart';
 import '../widgets/trip_card.dart';
 import '../providers/trip_provider.dart';
 import '../models/trip.dart';
@@ -23,6 +22,7 @@ enum TripFilter { all, upcoming, active, completed }
 class _TripsScreenState extends State<TripsScreen> {
   String _searchQuery = '';
   TripFilter _selectedFilter = TripFilter.all;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -30,6 +30,12 @@ class _TripsScreenState extends State<TripsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<TripProvider>(context, listen: false).loadTrips();
     });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -131,13 +137,46 @@ class _TripsScreenState extends State<TripsScreen> {
 
 
   Widget _buildSearchBar() {
-    return CustomSearchBar(
-      searchQuery: _searchQuery,
-      onSearchChanged: (query) {
-        setState(() {
-          _searchQuery = query;
-        });
-      },
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.surfaceDark
+            : AppTheme.surfaceLight,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.primaryColor.withOpacity(0.1),
+            offset: const Offset(0, 4),
+            blurRadius: 12,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: TextField(
+        controller: _searchController,
+        onChanged: (value) {
+          setState(() {
+            _searchQuery = value;
+          });
+        },
+        decoration: InputDecoration(
+          hintText: AppLocalizations.of(context)!.searchTripsPlaceholder,
+          prefixIcon: const Icon(Iconsax.search_normal_1),
+          suffixIcon: _searchQuery.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Iconsax.close_circle),
+                  onPressed: () {
+                    _searchController.clear();
+                    setState(() {
+                      _searchQuery = '';
+                    });
+                  },
+                )
+              : null,
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.all(16),
+        ),
+      ),
     );
   }
 
@@ -304,7 +343,7 @@ class _TripsScreenState extends State<TripsScreen> {
 
         final trips = _getFilteredTrips(tripProvider.trips);
 
-        if (trips.isEmpty) {
+        if (tripProvider.trips.isEmpty) {
           return SliverToBoxAdapter(
             child: Center(
               child: Column(
@@ -329,6 +368,55 @@ class _TripsScreenState extends State<TripsScreen> {
                   ),
                   const SizedBox(height: 24),
                 ],
+              ),
+            ),
+          );
+        }
+
+        if (trips.isEmpty && (_searchQuery.isNotEmpty || _selectedFilter != TripFilter.all)) {
+          return SliverToBoxAdapter(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(32),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Iconsax.search_normal_1,
+                      size: 64,
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'No trips found',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Try adjusting your search terms or filters',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        _searchController.clear();
+                        setState(() {
+                          _searchQuery = '';
+                          _selectedFilter = TripFilter.all;
+                        });
+                      },
+                      icon: const Icon(Iconsax.refresh),
+                      label: Text('Clear Filters'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primaryColor,
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

@@ -6,11 +6,13 @@ import '../l10n/app_localizations.dart';
 class CustomSearchBar extends StatefulWidget {
   final String searchQuery;
   final ValueChanged<String> onSearchChanged;
+  final String? hintText;
 
   const CustomSearchBar({
     super.key,
     required this.searchQuery,
     required this.onSearchChanged,
+    this.hintText,
   });
 
   @override
@@ -26,6 +28,14 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
     super.initState();
     _focusNode = FocusNode();
     _controller = TextEditingController(text: widget.searchQuery);
+  }
+
+  @override
+  void didUpdateWidget(CustomSearchBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.searchQuery != oldWidget.searchQuery) {
+      _controller.text = widget.searchQuery;
+    }
   }
 
   @override
@@ -62,8 +72,17 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           focusNode: _focusNode,
           onChanged: widget.onSearchChanged,
           decoration: InputDecoration(
-            hintText: AppLocalizations.of(context)!.searchTripsPlaceholder,
+            hintText: widget.hintText ?? AppLocalizations.of(context)!.searchTripsPlaceholder,
             prefixIcon: const Icon(Iconsax.search_normal_1),
+            suffixIcon: widget.searchQuery.isNotEmpty
+                ? IconButton(
+                    icon: const Icon(Iconsax.close_circle),
+                    onPressed: () {
+                      _controller.clear();
+                      widget.onSearchChanged('');
+                    },
+                  )
+                : null,
             border: InputBorder.none,
             contentPadding: const EdgeInsets.all(16),
           ),

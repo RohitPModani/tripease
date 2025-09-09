@@ -109,36 +109,25 @@ class _ExpensesTabState extends State<ExpensesTab> {
           body: Column(
             children: [
               _buildSummaryCard(expenses),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                height: 1,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.transparent,
-                      (Theme.of(context).brightness == Brightness.dark
-                          ? AppTheme.textSecondaryDark
-                          : AppTheme.textSecondary).withOpacity(0.5),
-                      Colors.transparent,
-                    ],
-                    stops: const [0.0, 0.5, 1.0],
-                  ),
-                ),
-              ),
+              if (expenses.isNotEmpty) ...[
+                _buildFilterChips(expenses),
+              ],
               Expanded(
                 child: expenses.isEmpty
                     ? _buildEmptyState(expenseProvider)
-                    : RefreshIndicator(
-                        onRefresh: () => expenseProvider.loadExpenses(widget.trip.id),
-                        color: AppTheme.primaryColor,
-                        child: ListView.builder(
-                          padding: const EdgeInsets.all(16),
-                          itemCount: sortedExpenses.length,
-                          itemBuilder: (context, index) {
-                            return _buildExpenseItem(sortedExpenses[index], expenseProvider);
-                          },
-                        ),
-                      ),
+                    : sortedExpenses.isEmpty && _selectedCategory != null
+                        ? _buildNoResultsState()
+                        : RefreshIndicator(
+                            onRefresh: () => expenseProvider.loadExpenses(widget.trip.id),
+                            color: AppTheme.primaryColor,
+                            child: ListView.builder(
+                              padding: const EdgeInsets.all(16),
+                              itemCount: sortedExpenses.length,
+                              itemBuilder: (context, index) {
+                                return _buildExpenseItem(sortedExpenses[index], expenseProvider);
+                              },
+                            ),
+                          ),
               ),
             ],
           ),
@@ -993,6 +982,186 @@ class _ExpensesTabState extends State<ExpensesTab> {
     ) ?? false;
   }
 
+
+  Widget _buildFilterChips(List<Expense> expenses) {
+    final transportCount = expenses.where((expense) => expense.category == ExpenseCategory.transport).length;
+    final accommodationCount = expenses.where((expense) => expense.category == ExpenseCategory.accommodation).length;
+    final foodCount = expenses.where((expense) => expense.category == ExpenseCategory.food).length;
+    final activitiesCount = expenses.where((expense) => expense.category == ExpenseCategory.activities).length;
+    final shoppingCount = expenses.where((expense) => expense.category == ExpenseCategory.shopping).length;
+    final otherCount = expenses.where((expense) => expense.category == ExpenseCategory.other).length;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: SizedBox(
+        height: 40,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          child: Row(
+            children: [
+              FilterChip(
+                label: Text(AppLocalizations.of(context)!.allWithCount(expenses.length)),
+                selected: _selectedCategory == null,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedCategory = null;
+                  });
+                },
+                selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                checkmarkColor: AppTheme.primaryColor,
+                labelStyle: TextStyle(
+                  color: _selectedCategory == null ? AppTheme.primaryColor : null,
+                  fontWeight: _selectedCategory == null ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+              const SizedBox(width: 8),
+              FilterChip(
+                label: Text('${AppLocalizations.of(context)!.transport} ($transportCount)'),
+                selected: _selectedCategory == ExpenseCategory.transport,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedCategory = selected ? ExpenseCategory.transport : null;
+                  });
+                },
+                selectedColor: _getCategoryColor(ExpenseCategory.transport).withOpacity(0.2),
+                checkmarkColor: _getCategoryColor(ExpenseCategory.transport),
+                labelStyle: TextStyle(
+                  color: _selectedCategory == ExpenseCategory.transport ? _getCategoryColor(ExpenseCategory.transport) : null,
+                  fontWeight: _selectedCategory == ExpenseCategory.transport ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+              const SizedBox(width: 8),
+              FilterChip(
+                label: Text('${AppLocalizations.of(context)!.accommodation} ($accommodationCount)'),
+                selected: _selectedCategory == ExpenseCategory.accommodation,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedCategory = selected ? ExpenseCategory.accommodation : null;
+                  });
+                },
+                selectedColor: _getCategoryColor(ExpenseCategory.accommodation).withOpacity(0.2),
+                checkmarkColor: _getCategoryColor(ExpenseCategory.accommodation),
+                labelStyle: TextStyle(
+                  color: _selectedCategory == ExpenseCategory.accommodation ? _getCategoryColor(ExpenseCategory.accommodation) : null,
+                  fontWeight: _selectedCategory == ExpenseCategory.accommodation ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+              const SizedBox(width: 8),
+              FilterChip(
+                label: Text('${AppLocalizations.of(context)!.food} ($foodCount)'),
+                selected: _selectedCategory == ExpenseCategory.food,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedCategory = selected ? ExpenseCategory.food : null;
+                  });
+                },
+                selectedColor: _getCategoryColor(ExpenseCategory.food).withOpacity(0.2),
+                checkmarkColor: _getCategoryColor(ExpenseCategory.food),
+                labelStyle: TextStyle(
+                  color: _selectedCategory == ExpenseCategory.food ? _getCategoryColor(ExpenseCategory.food) : null,
+                  fontWeight: _selectedCategory == ExpenseCategory.food ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+              const SizedBox(width: 8),
+              FilterChip(
+                label: Text('${AppLocalizations.of(context)!.activities} ($activitiesCount)'),
+                selected: _selectedCategory == ExpenseCategory.activities,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedCategory = selected ? ExpenseCategory.activities : null;
+                  });
+                },
+                selectedColor: _getCategoryColor(ExpenseCategory.activities).withOpacity(0.2),
+                checkmarkColor: _getCategoryColor(ExpenseCategory.activities),
+                labelStyle: TextStyle(
+                  color: _selectedCategory == ExpenseCategory.activities ? _getCategoryColor(ExpenseCategory.activities) : null,
+                  fontWeight: _selectedCategory == ExpenseCategory.activities ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+              const SizedBox(width: 8),
+              FilterChip(
+                label: Text('${AppLocalizations.of(context)!.shopping} ($shoppingCount)'),
+                selected: _selectedCategory == ExpenseCategory.shopping,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedCategory = selected ? ExpenseCategory.shopping : null;
+                  });
+                },
+                selectedColor: _getCategoryColor(ExpenseCategory.shopping).withOpacity(0.2),
+                checkmarkColor: _getCategoryColor(ExpenseCategory.shopping),
+                labelStyle: TextStyle(
+                  color: _selectedCategory == ExpenseCategory.shopping ? _getCategoryColor(ExpenseCategory.shopping) : null,
+                  fontWeight: _selectedCategory == ExpenseCategory.shopping ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+              const SizedBox(width: 8),
+              FilterChip(
+                label: Text('${AppLocalizations.of(context)!.other} ($otherCount)'),
+                selected: _selectedCategory == ExpenseCategory.other,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedCategory = selected ? ExpenseCategory.other : null;
+                  });
+                },
+                selectedColor: _getCategoryColor(ExpenseCategory.other).withOpacity(0.2),
+                checkmarkColor: _getCategoryColor(ExpenseCategory.other),
+                labelStyle: TextStyle(
+                  color: _selectedCategory == ExpenseCategory.other ? _getCategoryColor(ExpenseCategory.other) : null,
+                  fontWeight: _selectedCategory == ExpenseCategory.other ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNoResultsState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Iconsax.filter_search,
+              size: 64,
+              color: Theme.of(context).colorScheme.outline,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'No expenses found',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'No expenses found for this category',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.outline,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () {
+                setState(() {
+                  _selectedCategory = null;
+                });
+              },
+              icon: const Icon(Iconsax.refresh),
+              label: Text('Clear Filters'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryColor,
+                foregroundColor: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   void _showExpenseBreakdown(List<Expense> expenses) {
     final personTotals = _getExpensesByPerson(expenses);

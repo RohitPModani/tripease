@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:gal/gal.dart';
 import '../../models/trip.dart';
@@ -26,7 +25,9 @@ class BookingsTab extends StatefulWidget {
 }
 
 class _BookingsTabState extends State<BookingsTab> {
+  String _searchQuery = '';
   BookingType? _selectedType;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -36,11 +37,32 @@ class _BookingsTabState extends State<BookingsTab> {
     });
   }
 
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   List<Booking> _getFilteredBookings(List<Booking> bookings) {
-    if (_selectedType == null) {
-      return bookings;
+    List<Booking> filtered = bookings;
+    
+    // Filter by type
+    if (_selectedType != null) {
+      filtered = filtered.where((booking) => booking.type == _selectedType).toList();
     }
-    return bookings.where((booking) => booking.type == _selectedType).toList();
+    
+    // Filter by search query
+    if (_searchQuery.isNotEmpty) {
+      final query = _searchQuery.toLowerCase();
+      filtered = filtered.where((booking) {
+        return booking.title.toLowerCase().contains(query) ||
+               booking.description.toLowerCase().contains(query) ||
+               booking.vendor.toLowerCase().contains(query) ||
+               booking.confirmationNumber.toLowerCase().contains(query);
+      }).toList();
+    }
+    
+    return filtered;
   }
 
   List<Booking> _getSortedBookings(List<Booking> bookings) {
@@ -85,20 +107,25 @@ class _BookingsTabState extends State<BookingsTab> {
         return Scaffold(
           body: Column(
             children: [
+              if (bookingProvider.bookings.isNotEmpty) ...[
+                _buildSearchAndFilters(bookingProvider.bookings),
+              ],
               Expanded(
                 child: bookingProvider.bookings.isEmpty
                     ? _buildEmptyState(bookingProvider)
-                    : RefreshIndicator(
-                        onRefresh: () => bookingProvider.loadBookings(widget.trip.id),
-                        color: AppTheme.primaryColor,
-                        child: ListView.builder(
-                          padding: const EdgeInsets.all(16),
-                          itemCount: sortedBookings.length,
-                          itemBuilder: (context, index) {
-                            return _buildBookingItem(sortedBookings[index], bookingProvider);
-                          },
-                        ),
-                      ),
+                    : sortedBookings.isEmpty && (_searchQuery.isNotEmpty || _selectedType != null)
+                        ? _buildNoResultsState()
+                        : RefreshIndicator(
+                            onRefresh: () => bookingProvider.loadBookings(widget.trip.id),
+                            color: AppTheme.primaryColor,
+                            child: ListView.builder(
+                              padding: const EdgeInsets.all(16),
+                              itemCount: sortedBookings.length,
+                              itemBuilder: (context, index) {
+                                return _buildBookingItem(sortedBookings[index], bookingProvider);
+                              },
+                            ),
+                          ),
               ),
             ],
           ),
@@ -997,6 +1024,242 @@ class _BookingsTabState extends State<BookingsTab> {
       widget.trip.id, 
       widget.trip.defaultCurrency,
       booking: booking,
+    );
+  }
+
+  Widget _buildSearchAndFilters(List<Booking> bookings) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          _buildSearchBar(),
+          const SizedBox(height: 16),
+          _buildFilterChips(bookings),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSearchBar() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.surfaceDark
+            : AppTheme.surfaceLight,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.primaryColor.withOpacity(0.1),
+            offset: const Offset(0, 4),
+            blurRadius: 12,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: TextField(
+        controller: _searchController,
+        onChanged: (value) {
+          setState(() {
+            _searchQuery = value;
+          });
+        },
+        decoration: InputDecoration(
+          hintText: 'Search bookings...',
+          prefixIcon: const Icon(Iconsax.search_normal_1),
+          suffixIcon: _searchQuery.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Iconsax.close_circle),
+                  onPressed: () {
+                    _searchController.clear();
+                    setState(() {
+                      _searchQuery = '';
+                    });
+                  },
+                )
+              : null,
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.all(16),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFilterChips(List<Booking> bookings) {
+    final flightCount = bookings.where((booking) => booking.type == BookingType.flight).length;
+    final hotelCount = bookings.where((booking) => booking.type == BookingType.hotel).length;
+    final activityCount = bookings.where((booking) => booking.type == BookingType.activity).length;
+    final transportCount = bookings.where((booking) => booking.type == BookingType.transport).length;
+    final restaurantCount = bookings.where((booking) => booking.type == BookingType.restaurant).length;
+    final otherCount = bookings.where((booking) => booking.type == BookingType.other).length;
+
+    return SizedBox(
+      height: 40,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        child: Row(
+          children: [
+            FilterChip(
+              label: Text(AppLocalizations.of(context)!.allWithCount(bookings.length)),
+              selected: _selectedType == null,
+              onSelected: (selected) {
+                setState(() {
+                  _selectedType = null;
+                });
+              },
+              selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+              checkmarkColor: AppTheme.primaryColor,
+              labelStyle: TextStyle(
+                color: _selectedType == null ? AppTheme.primaryColor : null,
+                fontWeight: _selectedType == null ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            const SizedBox(width: 8),
+            FilterChip(
+              label: Text('Flight ($flightCount)'),
+              selected: _selectedType == BookingType.flight,
+              onSelected: (selected) {
+                setState(() {
+                  _selectedType = selected ? BookingType.flight : null;
+                });
+              },
+              selectedColor: _getTypeColor(BookingType.flight).withOpacity(0.2),
+              checkmarkColor: _getTypeColor(BookingType.flight),
+              labelStyle: TextStyle(
+                color: _selectedType == BookingType.flight ? _getTypeColor(BookingType.flight) : null,
+                fontWeight: _selectedType == BookingType.flight ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            const SizedBox(width: 8),
+            FilterChip(
+              label: Text('${AppLocalizations.of(context)!.hotel} ($hotelCount)'),
+              selected: _selectedType == BookingType.hotel,
+              onSelected: (selected) {
+                setState(() {
+                  _selectedType = selected ? BookingType.hotel : null;
+                });
+              },
+              selectedColor: _getTypeColor(BookingType.hotel).withOpacity(0.2),
+              checkmarkColor: _getTypeColor(BookingType.hotel),
+              labelStyle: TextStyle(
+                color: _selectedType == BookingType.hotel ? _getTypeColor(BookingType.hotel) : null,
+                fontWeight: _selectedType == BookingType.hotel ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            const SizedBox(width: 8),
+            FilterChip(
+              label: Text('${AppLocalizations.of(context)!.activities} ($activityCount)'),
+              selected: _selectedType == BookingType.activity,
+              onSelected: (selected) {
+                setState(() {
+                  _selectedType = selected ? BookingType.activity : null;
+                });
+              },
+              selectedColor: _getTypeColor(BookingType.activity).withOpacity(0.2),
+              checkmarkColor: _getTypeColor(BookingType.activity),
+              labelStyle: TextStyle(
+                color: _selectedType == BookingType.activity ? _getTypeColor(BookingType.activity) : null,
+                fontWeight: _selectedType == BookingType.activity ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            const SizedBox(width: 8),
+            FilterChip(
+              label: Text('${AppLocalizations.of(context)!.transport} ($transportCount)'),
+              selected: _selectedType == BookingType.transport,
+              onSelected: (selected) {
+                setState(() {
+                  _selectedType = selected ? BookingType.transport : null;
+                });
+              },
+              selectedColor: _getTypeColor(BookingType.transport).withOpacity(0.2),
+              checkmarkColor: _getTypeColor(BookingType.transport),
+              labelStyle: TextStyle(
+                color: _selectedType == BookingType.transport ? _getTypeColor(BookingType.transport) : null,
+                fontWeight: _selectedType == BookingType.transport ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            const SizedBox(width: 8),
+            FilterChip(
+              label: Text('Restaurant ($restaurantCount)'),
+              selected: _selectedType == BookingType.restaurant,
+              onSelected: (selected) {
+                setState(() {
+                  _selectedType = selected ? BookingType.restaurant : null;
+                });
+              },
+              selectedColor: _getTypeColor(BookingType.restaurant).withOpacity(0.2),
+              checkmarkColor: _getTypeColor(BookingType.restaurant),
+              labelStyle: TextStyle(
+                color: _selectedType == BookingType.restaurant ? _getTypeColor(BookingType.restaurant) : null,
+                fontWeight: _selectedType == BookingType.restaurant ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            const SizedBox(width: 8),
+            FilterChip(
+              label: Text('${AppLocalizations.of(context)!.other} ($otherCount)'),
+              selected: _selectedType == BookingType.other,
+              onSelected: (selected) {
+                setState(() {
+                  _selectedType = selected ? BookingType.other : null;
+                });
+              },
+              selectedColor: _getTypeColor(BookingType.other).withOpacity(0.2),
+              checkmarkColor: _getTypeColor(BookingType.other),
+              labelStyle: TextStyle(
+                color: _selectedType == BookingType.other ? _getTypeColor(BookingType.other) : null,
+                fontWeight: _selectedType == BookingType.other ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNoResultsState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Iconsax.search_normal_1,
+              size: 64,
+              color: Theme.of(context).colorScheme.outline,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'No bookings found',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Try adjusting your search terms or filters',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.outline,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () {
+                _searchController.clear();
+                setState(() {
+                  _searchQuery = '';
+                  _selectedType = null;
+                });
+              },
+              icon: const Icon(Iconsax.refresh),
+              label: Text('Clear Filters'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryColor,
+                foregroundColor: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

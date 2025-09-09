@@ -18,7 +18,9 @@ class TodoTab extends StatefulWidget {
 }
 
 class _TodoTabState extends State<TodoTab> {
+  String _searchQuery = '';
   Priority? _selectedPriority; // null means 'all'
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -28,12 +30,26 @@ class _TodoTabState extends State<TodoTab> {
     });
   }
 
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   List<TodoItem> _getFilteredAndSortedTodos(List<TodoItem> todos) {
     List<TodoItem> filtered;
     if (_selectedPriority == null) {
       filtered = todos;
     } else {
       filtered = todos.where((todo) => todo.priority == _selectedPriority).toList();
+    }
+    
+    // Apply search query filter
+    if (_searchQuery.isNotEmpty) {
+      filtered = filtered.where((todo) {
+        return todo.title.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+               todo.description.toLowerCase().contains(_searchQuery.toLowerCase());
+      }).toList();
     }
     
     filtered.sort((a, b) {
@@ -116,20 +132,25 @@ class _TodoTabState extends State<TodoTab> {
         return Scaffold(
           body: Column(
             children: [
+              if (todoProvider.todos.isNotEmpty) ...[
+                _buildSearchAndFilters(todoProvider.todos),
+              ],
               Expanded(
                 child: todoProvider.todos.isEmpty
                     ? _buildEmptyState()
-                    : RefreshIndicator(
-                        onRefresh: () => todoProvider.loadTodos(widget.trip.id),
-                        color: AppTheme.primaryColor,
-                        child: ListView.builder(
-                          padding: const EdgeInsets.all(16),
-                          itemCount: sortedTodos.length,
-                          itemBuilder: (context, index) {
-                            return _buildTodoItem(sortedTodos[index]);
-                          },
-                        ),
-                      ),
+                    : sortedTodos.isEmpty && _searchQuery.isNotEmpty
+                        ? _buildNoResultsState()
+                        : RefreshIndicator(
+                            onRefresh: () => todoProvider.loadTodos(widget.trip.id),
+                            color: AppTheme.primaryColor,
+                            child: ListView.builder(
+                              padding: const EdgeInsets.all(16),
+                              itemCount: sortedTodos.length,
+                              itemBuilder: (context, index) {
+                                return _buildTodoItem(sortedTodos[index]);
+                              },
+                            ),
+                          ),
               ),
             ],
           ),
@@ -679,6 +700,208 @@ class _TodoTabState extends State<TodoTab> {
 
   void _showEditTodoDialog(TodoItem todo) {
     TodoFormModal.show(context, widget.trip.id, todo: todo);
+  }
+
+  Widget _buildSearchAndFilters(List<TodoItem> todos) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          _buildSearchBar(),
+          const SizedBox(height: 16),
+          _buildFilterChips(todos),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSearchBar() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.surfaceDark
+            : AppTheme.surfaceLight,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.primaryColor.withOpacity(0.1),
+            offset: const Offset(0, 4),
+            blurRadius: 12,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: TextField(
+        controller: _searchController,
+        onChanged: (value) {
+          setState(() {
+            _searchQuery = value;
+          });
+        },
+        decoration: InputDecoration(
+          hintText: 'Search tasks...',
+          prefixIcon: const Icon(Iconsax.search_normal_1),
+          suffixIcon: _searchQuery.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Iconsax.close_circle),
+                  onPressed: () {
+                    _searchController.clear();
+                    setState(() {
+                      _searchQuery = '';
+                    });
+                  },
+                )
+              : null,
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.all(16),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFilterChips(List<TodoItem> todos) {
+    final urgentCount = todos.where((todo) => todo.priority == Priority.urgent).length;
+    final highCount = todos.where((todo) => todo.priority == Priority.high).length;
+    final mediumCount = todos.where((todo) => todo.priority == Priority.medium).length;
+    final lowCount = todos.where((todo) => todo.priority == Priority.low).length;
+
+    return SizedBox(
+      height: 40,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        child: Row(
+          children: [
+            FilterChip(
+              label: Text(AppLocalizations.of(context)!.allWithCount(todos.length)),
+              selected: _selectedPriority == null,
+              onSelected: (selected) {
+                setState(() {
+                  _selectedPriority = null;
+                });
+              },
+              selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+              checkmarkColor: AppTheme.primaryColor,
+              labelStyle: TextStyle(
+                color: _selectedPriority == null ? AppTheme.primaryColor : null,
+                fontWeight: _selectedPriority == null ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            const SizedBox(width: 8),
+            FilterChip(
+              label: Text('Urgent ($urgentCount)'),
+              selected: _selectedPriority == Priority.urgent,
+              onSelected: (selected) {
+                setState(() {
+                  _selectedPriority = selected ? Priority.urgent : null;
+                });
+              },
+              selectedColor: _getPriorityColor(Priority.urgent).withOpacity(0.2),
+              checkmarkColor: _getPriorityColor(Priority.urgent),
+              labelStyle: TextStyle(
+                color: _selectedPriority == Priority.urgent ? _getPriorityColor(Priority.urgent) : null,
+                fontWeight: _selectedPriority == Priority.urgent ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            const SizedBox(width: 8),
+            FilterChip(
+              label: Text('High ($highCount)'),
+              selected: _selectedPriority == Priority.high,
+              onSelected: (selected) {
+                setState(() {
+                  _selectedPriority = selected ? Priority.high : null;
+                });
+              },
+              selectedColor: _getPriorityColor(Priority.high).withOpacity(0.2),
+              checkmarkColor: _getPriorityColor(Priority.high),
+              labelStyle: TextStyle(
+                color: _selectedPriority == Priority.high ? _getPriorityColor(Priority.high) : null,
+                fontWeight: _selectedPriority == Priority.high ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            const SizedBox(width: 8),
+            FilterChip(
+              label: Text('Medium ($mediumCount)'),
+              selected: _selectedPriority == Priority.medium,
+              onSelected: (selected) {
+                setState(() {
+                  _selectedPriority = selected ? Priority.medium : null;
+                });
+              },
+              selectedColor: _getPriorityColor(Priority.medium).withOpacity(0.2),
+              checkmarkColor: _getPriorityColor(Priority.medium),
+              labelStyle: TextStyle(
+                color: _selectedPriority == Priority.medium ? _getPriorityColor(Priority.medium) : null,
+                fontWeight: _selectedPriority == Priority.medium ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+            const SizedBox(width: 8),
+            FilterChip(
+              label: Text('Low ($lowCount)'),
+              selected: _selectedPriority == Priority.low,
+              onSelected: (selected) {
+                setState(() {
+                  _selectedPriority = selected ? Priority.low : null;
+                });
+              },
+              selectedColor: _getPriorityColor(Priority.low).withOpacity(0.2),
+              checkmarkColor: _getPriorityColor(Priority.low),
+              labelStyle: TextStyle(
+                color: _selectedPriority == Priority.low ? _getPriorityColor(Priority.low) : null,
+                fontWeight: _selectedPriority == Priority.low ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNoResultsState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Iconsax.search_normal_1,
+              size: 64,
+              color: Theme.of(context).colorScheme.outline,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'No tasks found',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Try adjusting your search terms or filters',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.outline,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () {
+                _searchController.clear();
+                setState(() {
+                  _searchQuery = '';
+                  _selectedPriority = null;
+                });
+              },
+              icon: const Icon(Iconsax.refresh),
+              label: Text('Clear Filters'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryColor,
+                foregroundColor: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<bool> _showDeleteConfirmation(TodoItem todo) async {

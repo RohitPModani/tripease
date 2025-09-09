@@ -26,6 +26,7 @@ class DocumentsScreen extends StatefulWidget {
 class _DocumentsScreenState extends State<DocumentsScreen> {
   String _searchQuery = '';
   DocumentFilter _selectedFilter = DocumentFilter.all;
+  final TextEditingController _searchController = TextEditingController();
   
   @override
   void initState() {
@@ -33,6 +34,12 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<DocumentProvider>(context, listen: false).loadPersonalDocuments();
     });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   List<Document> _getFilteredDocuments(List<Document> documents) {
@@ -179,6 +186,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
         ],
       ),
       child: TextField(
+        controller: _searchController,
         onChanged: (value) {
           setState(() {
             _searchQuery = value;
@@ -191,6 +199,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               ? IconButton(
                   icon: const Icon(Iconsax.close_circle),
                   onPressed: () {
+                    _searchController.clear();
                     setState(() {
                       _searchQuery = '';
                     });
@@ -277,7 +286,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
           );
         }
 
-        if (documents.isEmpty && _searchQuery.isNotEmpty) {
+        if (documents.isEmpty && (_searchQuery.isNotEmpty || _selectedFilter != DocumentFilter.all)) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -294,20 +303,23 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Try adjusting your search terms',
+                  'Try adjusting your search terms or filters',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.outline,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton.icon(
                   onPressed: () {
+                    _searchController.clear();
                     setState(() {
                       _searchQuery = '';
+                      _selectedFilter = DocumentFilter.all;
                     });
                   },
                   icon: const Icon(Iconsax.refresh),
-                  label: Text(AppLocalizations.of(context)!.clearSearch),
+                  label: Text('Clear Filters'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primaryColor,
                     foregroundColor: Colors.white,
