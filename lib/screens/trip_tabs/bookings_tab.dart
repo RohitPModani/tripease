@@ -221,8 +221,10 @@ class _BookingsTabState extends State<BookingsTab> {
             Text(
               AppLocalizations.of(context)!.keepTrackMessage,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: AppTheme.textSecondary,
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary,
                 height: 1.4,
               ),
             ),
@@ -387,8 +389,10 @@ class _BookingsTabState extends State<BookingsTab> {
                         children: [
                           Text(
                             booking.type.getDisplayName(AppLocalizations.of(context)!),
-                            style: const TextStyle(
-                              color: AppTheme.textSecondary,
+                            style: TextStyle(
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? AppTheme.textSecondaryDark
+                                  : AppTheme.textSecondary,
                               fontSize: 12,
                             ),
                           ),
@@ -397,14 +401,18 @@ class _BookingsTabState extends State<BookingsTab> {
                             Icon(
                               Iconsax.calendar_1,
                               size: 12,
-                              color: AppTheme.textSecondary,
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? AppTheme.textSecondaryDark
+                                  : AppTheme.textSecondary,
                             ),
                             const SizedBox(width: 4),
                             Text(
                               '${booking.bookingDate!.day}/${booking.bookingDate!.month}/${booking.bookingDate!.year}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 12,
-                                color: AppTheme.textSecondary,
+                                color: Theme.of(context).brightness == Brightness.dark
+                                  ? AppTheme.textSecondaryDark
+                                  : AppTheme.textSecondary,
                               ),
                             ),
                           ],
@@ -487,7 +495,9 @@ class _BookingsTabState extends State<BookingsTab> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: (Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary).withOpacity(0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -558,7 +568,9 @@ class _BookingsTabState extends State<BookingsTab> {
                       Text(
                         booking.description,
                         style: TextStyle(
-                          color: AppTheme.textSecondary,
+                          color: Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary,
                           height: 1.4,
                         ),
                       ),
@@ -615,7 +627,9 @@ class _BookingsTabState extends State<BookingsTab> {
                                     Icon(
                                       Iconsax.calendar_1,
                                       size: 16,
-                                      color: AppTheme.textSecondary,
+                                      color: Theme.of(context).brightness == Brightness.dark
+                                  ? AppTheme.textSecondaryDark
+                                  : AppTheme.textSecondary,
                                     ),
                                     const SizedBox(width: 6),
                                     Text(
@@ -720,7 +734,9 @@ class _BookingsTabState extends State<BookingsTab> {
                                       attachment.displaySize,
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: AppTheme.textSecondary,
+                                        color: Theme.of(context).brightness == Brightness.dark
+                                  ? AppTheme.textSecondaryDark
+                                  : AppTheme.textSecondary,
                                       ),
                                     ),
                                   ],
@@ -818,7 +834,9 @@ class _BookingsTabState extends State<BookingsTab> {
       case BookingType.restaurant:
         return Colors.red;
       case BookingType.other:
-        return AppTheme.textSecondary;
+        return Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.textSecondaryDark
+            : AppTheme.textSecondary;
     }
   }
 
@@ -899,7 +917,9 @@ class _BookingsTabState extends State<BookingsTab> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: (Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary).withOpacity(0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -1085,7 +1105,11 @@ class _BookingsTabState extends State<BookingsTab> {
               onPressed: () => Navigator.of(context).pop(false),
               child: Text(
                 'Cancel',
-                style: TextStyle(color: AppTheme.textSecondary),
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? AppTheme.textSecondaryDark
+                      : AppTheme.textSecondary,
+                ),
               ),
             ),
             ElevatedButton(

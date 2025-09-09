@@ -258,8 +258,10 @@ class _TodoTabState extends State<TodoTab> {
             Text(
               AppLocalizations.of(context)!.stayOrganizedMessage,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: AppTheme.textSecondary,
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary,
                 height: 1.4,
               ),
             ),
@@ -408,7 +410,9 @@ class _TodoTabState extends State<TodoTab> {
             style: TextStyle(
               fontWeight: FontWeight.w500,
               decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
-              color: todo.isCompleted ? AppTheme.textSecondary : null,
+              color: todo.isCompleted ? (Theme.of(context).brightness == Brightness.dark
+                  ? AppTheme.textSecondaryDark
+                  : AppTheme.textSecondary) : null,
             ),
           ),
           subtitle: Padding(
@@ -483,7 +487,9 @@ class _TodoTabState extends State<TodoTab> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: (Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary).withOpacity(0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -554,7 +560,9 @@ class _TodoTabState extends State<TodoTab> {
                         Text(
                           todo.description,
                           style: TextStyle(
-                            color: AppTheme.textSecondary,
+                            color: Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary,
                             height: 1.4,
                           ),
                         ),
@@ -720,7 +728,9 @@ class _TodoTabState extends State<TodoTab> {
     } else if (difference <= 1) {
       return Colors.orange; // Due soon
     } else {
-      return AppTheme.textSecondary; // Normal
+      return Theme.of(context).brightness == Brightness.dark
+          ? AppTheme.textSecondaryDark
+          : AppTheme.textSecondary; // Normal
     }
   }
 
@@ -782,7 +792,11 @@ class _TodoTabState extends State<TodoTab> {
               onPressed: () => Navigator.of(context).pop(false),
               child: Text(
                 AppLocalizations.of(context)!.cancel,
-                style: TextStyle(color: AppTheme.textSecondary),
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? AppTheme.textSecondaryDark
+                      : AppTheme.textSecondary,
+                ),
               ),
             ),
             ElevatedButton(

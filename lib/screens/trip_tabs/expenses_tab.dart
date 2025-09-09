@@ -117,7 +117,9 @@ class _ExpensesTabState extends State<ExpensesTab> {
                   gradient: LinearGradient(
                     colors: [
                       Colors.transparent,
-                      AppTheme.textSecondary.withOpacity(0.5),
+                      (Theme.of(context).brightness == Brightness.dark
+                          ? AppTheme.textSecondaryDark
+                          : AppTheme.textSecondary).withOpacity(0.5),
                       Colors.transparent,
                     ],
                     stops: const [0.0, 0.5, 1.0],
@@ -340,7 +342,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                       ),
                       Text(
                         CurrencyFormatter.formatAmount(entry.value, widget.trip.defaultCurrency),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
                         ),
@@ -348,8 +350,10 @@ class _ExpensesTabState extends State<ExpensesTab> {
                       const SizedBox(width: 8),
                       Text(
                         '${(percentage * 100).toInt()}%',
-                        style: const TextStyle(
-                          color: AppTheme.textSecondary,
+                        style: TextStyle(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondary,
                           fontSize: 12,
                         ),
                       ),
@@ -393,11 +397,13 @@ class _ExpensesTabState extends State<ExpensesTab> {
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               'Track your trip expenses and split costs with travel companions!',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary,
                 height: 1.4,
               ),
             ),
@@ -461,7 +467,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                 const SizedBox(width: 8),
                 Text(
                   AppLocalizations.of(context)!.edit,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -487,7 +493,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
               children: [
                 Text(
                   AppLocalizations.of(context)!.delete,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -541,7 +547,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
           ),
           title: Text(
             expense.title,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 16,
             ),
@@ -574,17 +580,21 @@ class _ExpensesTabState extends State<ExpensesTab> {
                   Row(
                     children: [
                       if (expense.paidBy.isNotEmpty) ...[
-                        const Icon(
+                        Icon(
                           Iconsax.user,
                           size: 14,
-                          color: AppTheme.textSecondary,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondary,
                         ),
                         const SizedBox(width: 4),
                         Text(
                           'Paid by ${expense.paidBy}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
-                            color: AppTheme.textSecondary,
+                            color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondary,
                           ),
                         ),
                       ],
@@ -610,16 +620,20 @@ class _ExpensesTabState extends State<ExpensesTab> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.calendar_today,
                     size: 12,
-                    color: AppTheme.textSecondary,
+                    color: Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary,
                   ),
                   const SizedBox(width: 4),
                   Text(
                     '${expense.date.day} ${_getShortMonthName(expense.date.month)} ${expense.date.year}',
-                    style: const TextStyle(
-                      color: AppTheme.textSecondary,
+                    style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary,
                       fontSize: 12,
                     ),
                   ),
@@ -665,7 +679,9 @@ class _ExpensesTabState extends State<ExpensesTab> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: (Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary).withOpacity(0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -766,13 +782,17 @@ class _ExpensesTabState extends State<ExpensesTab> {
                                   Icon(
                                     Iconsax.calendar_1,
                                     size: 16,
-                                    color: AppTheme.textSecondary,
+                                    color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondary,
                                   ),
                                   const SizedBox(width: 6),
                                   Text(
                                     '${expense.date.day} ${_getShortMonthName(expense.date.month)} ${expense.date.year}',
                                     style: TextStyle(
-                                      color: AppTheme.textSecondary,
+                                      color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondary,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -795,7 +815,9 @@ class _ExpensesTabState extends State<ExpensesTab> {
                       Text(
                         expense.description,
                         style: TextStyle(
-                          color: AppTheme.textSecondary,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondary,
                           height: 1.4,
                         ),
                       ),
@@ -814,13 +836,17 @@ class _ExpensesTabState extends State<ExpensesTab> {
                           Icon(
                             Iconsax.user,
                             size: 16,
-                            color: AppTheme.textSecondary,
+                            color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondary,
                           ),
                           const SizedBox(width: 6),
                           Text(
                             expense.paidBy,
                             style: TextStyle(
-                              color: AppTheme.textSecondary,
+                              color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondary,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -841,13 +867,17 @@ class _ExpensesTabState extends State<ExpensesTab> {
                           Icon(
                             Iconsax.people,
                             size: 16,
-                            color: AppTheme.textSecondary,
+                            color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondary,
                           ),
                           const SizedBox(width: 6),
                           Text(
                             'Split ${expense.splits.length} ways',
                             style: TextStyle(
-                              color: AppTheme.textSecondary,
+                              color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondary,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -913,7 +943,9 @@ class _ExpensesTabState extends State<ExpensesTab> {
       case ExpenseCategory.shopping:
         return Colors.pink;
       case ExpenseCategory.other:
-        return AppTheme.textSecondary;
+        return Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.textSecondaryDark
+            : AppTheme.textSecondary;
     }
   }
 
@@ -987,7 +1019,11 @@ class _ExpensesTabState extends State<ExpensesTab> {
               onPressed: () => Navigator.of(context).pop(false),
               child: Text(
                 'Cancel',
-                style: TextStyle(color: AppTheme.textSecondary),
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? AppTheme.textSecondaryDark
+                      : AppTheme.textSecondary,
+                ),
               ),
             ),
             ElevatedButton(

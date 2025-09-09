@@ -98,7 +98,9 @@ class _ItineraryTabState extends State<ItineraryTab> {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                              color: isSelected ? AppTheme.primaryColor : AppTheme.textSecondary,
+                              color: isSelected ? AppTheme.primaryColor : (Theme.of(context).brightness == Brightness.dark
+                                  ? AppTheme.textSecondaryDark
+                                  : AppTheme.textSecondary),
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -178,8 +180,10 @@ class _ItineraryTabState extends State<ItineraryTab> {
                     const SizedBox(height: 4),
                     Text(
                       _formatDate(selectedDay.date),
-                      style: const TextStyle(
-                        color: AppTheme.textSecondary,
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.textSecondaryDark
+                            : AppTheme.textSecondary,
                         fontSize: 16,
                       ),
                     ),
@@ -190,7 +194,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
                 decoration: AppTheme.glowingButtonDecoration,
                 child: IconButton(
                   onPressed: () => _showAddActivityDialog(selectedDay),
-                  icon: const Icon(
+                  icon: Icon(
                     Iconsax.add,
                     color: Colors.white,
                   ),
@@ -242,11 +246,13 @@ class _ItineraryTabState extends State<ItineraryTab> {
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               'Add activities to plan your perfect day!',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary,
                 height: 1.4,
               ),
             ),
@@ -255,10 +261,10 @@ class _ItineraryTabState extends State<ItineraryTab> {
               decoration: AppTheme.glowingButtonDecoration,
               child: ElevatedButton.icon(
                 onPressed: () => _showAddActivityDialog(days[selectedDayIndex]),
-                icon: const Icon(Iconsax.add),
+                icon: Icon(Iconsax.add),
                 label: Text(
                   AppLocalizations.of(context)!.addActivity,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
@@ -310,7 +316,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
                 const SizedBox(width: 8),
                 Text(
                   AppLocalizations.of(context)!.edit,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -336,7 +342,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
               children: [
                 Text(
                   AppLocalizations.of(context)!.delete,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -397,15 +403,17 @@ class _ItineraryTabState extends State<ItineraryTab> {
                     if (activity.endTime != null && activity.startTime != null)
                       Text(
                         _formatTime(activity.endTime!),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 10,
-                          color: AppTheme.textSecondary,
+                          color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.textSecondaryDark
+                            : AppTheme.textSecondary,
                         ),
                       ),
                     if (activity.startTime == null)
                       Text(
                         AppLocalizations.of(context)!.allDay,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 10,
                           color: AppTheme.primaryColor,
@@ -418,7 +426,9 @@ class _ItineraryTabState extends State<ItineraryTab> {
               Container(
                 width: 1,
                 height: 40,
-                color: AppTheme.textSecondary.withOpacity(0.2),
+                color: (Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary).withOpacity(0.2),
               ),
             ],
           ),
@@ -440,7 +450,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
               Expanded(
                 child: Text(
                   activity.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
                   ),
@@ -456,8 +466,10 @@ class _ItineraryTabState extends State<ItineraryTab> {
                 if (activity.description.isNotEmpty) ...[
                   Text(
                     activity.description,
-                    style: const TextStyle(
-                      color: AppTheme.textSecondary,
+                    style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary,
                       fontSize: 13,
                       height: 1.3,
                     ),
@@ -469,18 +481,22 @@ class _ItineraryTabState extends State<ItineraryTab> {
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Iconsax.location,
                         size: 12,
-                        color: AppTheme.textSecondary,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.textSecondaryDark
+                            : AppTheme.textSecondary,
                       ),
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
                           activity.location,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
-                            color: AppTheme.textSecondary,
+                            color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.textSecondaryDark
+                            : AppTheme.textSecondary,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -512,7 +528,9 @@ class _ItineraryTabState extends State<ItineraryTab> {
       case ActivityType.entertainment:
         return Colors.red;
       case ActivityType.other:
-        return AppTheme.textSecondary;
+        return Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.textSecondaryDark
+            : AppTheme.textSecondary;
     }
   }
 
@@ -671,7 +689,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
                   color: AppTheme.error.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Icon(
+                child: Icon(
                   Iconsax.warning_2,
                   color: AppTheme.error,
                   size: 20,
@@ -683,14 +701,18 @@ class _ItineraryTabState extends State<ItineraryTab> {
           ),
           content: Text(
             'Are you sure you want to delete "${activity.title}"? This action cannot be undone.',
-            style: const TextStyle(height: 1.4),
+            style: TextStyle(height: 1.4),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
               child: Text(
                 'Cancel',
-                style: TextStyle(color: AppTheme.textSecondary),
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? AppTheme.textSecondaryDark
+                      : AppTheme.textSecondary,
+                ),
               ),
             ),
             ElevatedButton(
@@ -738,7 +760,9 @@ class _ItineraryTabState extends State<ItineraryTab> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: (Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary).withOpacity(0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -809,7 +833,9 @@ class _ItineraryTabState extends State<ItineraryTab> {
                       Text(
                         activity.description,
                         style: TextStyle(
-                          color: AppTheme.textSecondary,
+                          color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.textSecondaryDark
+                            : AppTheme.textSecondary,
                           height: 1.4,
                         ),
                       ),
@@ -825,16 +851,20 @@ class _ItineraryTabState extends State<ItineraryTab> {
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Iconsax.location,
                             size: 16,
-                            color: AppTheme.textSecondary,
+                            color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.textSecondaryDark
+                            : AppTheme.textSecondary,
                           ),
                           const SizedBox(width: 6),
                           Text(
                             activity.location,
                             style: TextStyle(
-                              color: AppTheme.textSecondary,
+                              color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.textSecondaryDark
+                            : AppTheme.textSecondary,
                             ),
                           ),
                         ],

@@ -29,55 +29,63 @@ class _OverviewTabState extends State<OverviewTab> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<TodoProvider>(context, listen: false).loadTodos(widget.trip.id);
-      Provider.of<BookingProvider>(context, listen: false).loadBookings(widget.trip.id);
-      Provider.of<ExpenseProvider>(context, listen: false).loadExpenses(widget.trip.id);
+      Provider.of<TodoProvider>(
+        context,
+        listen: false,
+      ).loadTodos(widget.trip.id);
+      Provider.of<BookingProvider>(
+        context,
+        listen: false,
+      ).loadBookings(widget.trip.id);
+      Provider.of<ExpenseProvider>(
+        context,
+        listen: false,
+      ).loadExpenses(widget.trip.id);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer3<TodoProvider, BookingProvider, ExpenseProvider>(
-      builder: (context, todoProvider, bookingProvider, expenseProvider, child) {
-        final isLoading = todoProvider.isLoading || 
-                         bookingProvider.isLoading || 
-                         expenseProvider.isLoading;
+      builder:
+          (context, todoProvider, bookingProvider, expenseProvider, child) {
+            final isLoading =
+                todoProvider.isLoading ||
+                bookingProvider.isLoading ||
+                expenseProvider.isLoading;
 
-        if (isLoading) {
-          return const Center(
-            child: CircularProgressIndicator(
+            if (isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(color: AppTheme.primaryColor),
+              );
+            }
+
+            return RefreshIndicator(
+              onRefresh: () async {
+                await todoProvider.loadTodos(widget.trip.id);
+                await expenseProvider.loadExpenses(widget.trip.id);
+              },
               color: AppTheme.primaryColor,
-            ),
-          );
-        }
-
-        return RefreshIndicator(
-          onRefresh: () async {
-            await todoProvider.loadTodos(widget.trip.id);
-            await bookingProvider.loadBookings(widget.trip.id);
-            await expenseProvider.loadExpenses(widget.trip.id);
-          },
-          color: AppTheme.primaryColor,
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildQuickActionsCard(),
-                const SizedBox(height: 16),
-                _buildStatsGrid(
-                  todoProvider.todos,
-                  expenseProvider.expenses,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildQuickActionsCard(),
+                    const SizedBox(height: 16),
+                    _buildStatsGrid(
+                      todoProvider.todos,
+                      expenseProvider.expenses,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildTripInfoCard(),
+                    const SizedBox(height: 16),
+                  ],
                 ),
-                const SizedBox(height: 16),
-                _buildTripInfoCard(),
-                const SizedBox(height: 16),
-              ],
-            ),
-          ),
-        );
-      },
+              ),
+            );
+          },
     );
   }
 
@@ -95,15 +103,22 @@ class _OverviewTabState extends State<OverviewTab> {
       ),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.white.withOpacity(0.1),
-              Colors.white.withOpacity(0.03),
-            ],
+          gradient: Theme.of(context).brightness == Brightness.dark
+              ? AppTheme.darkCardGradient
+              : AppTheme.cardGradient,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            width: 1,
+            color: AppTheme.primaryColor.withOpacity(0.2),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: AppTheme.primaryColor.withOpacity(0.08),
+              offset: const Offset(0, 12),
+              blurRadius: 32,
+              spreadRadius: 0,
+            ),
+          ],
         ),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -132,47 +147,48 @@ class _OverviewTabState extends State<OverviewTab> {
                 Iconsax.location,
                 AppTheme.primaryColor,
               ),
-            if (widget.trip.description.isNotEmpty) ...[
-              const SizedBox(height: 20),
-              Text(
-                'Description',
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
+              if (widget.trip.description.isNotEmpty) ...[
+                const SizedBox(height: 20),
+                Text(
+                  'Description',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                widget.trip.description,
-                style: TextStyle(
-                  color: AppTheme.textSecondary,
-                  height: 1.4,
+                const SizedBox(height: 8),
+                Text(
+                  widget.trip.description,
+                  style: TextStyle(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppTheme.textSecondaryDark
+                        : AppTheme.textSecondary,
+                    height: 1.4,
+                  ),
                 ),
-              ),
+              ],
             ],
-          ],
+          ),
         ),
-      ),
       ),
     );
   }
 
-  Widget _buildInfoItem(String label, String value, IconData icon, Color color) {
+  Widget _buildInfoItem(
+    String label,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            color.withOpacity(0.08),
-            color.withOpacity(0.03),
-          ],
+          colors: [color.withOpacity(0.08), color.withOpacity(0.03)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: color.withOpacity(0.2),
-          width: 1,
-        ),
+        border: Border.all(color: color.withOpacity(0.2), width: 1),
       ),
       child: Row(
         children: [
@@ -182,11 +198,7 @@ class _OverviewTabState extends State<OverviewTab> {
               color: color.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(
-              icon,
-              size: 18,
-              color: color,
-            ),
+            child: Icon(icon, size: 18, color: color),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -197,7 +209,9 @@ class _OverviewTabState extends State<OverviewTab> {
                   label,
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppTheme.textSecondary,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppTheme.textSecondaryDark
+                        : AppTheme.textSecondary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -240,7 +254,10 @@ class _OverviewTabState extends State<OverviewTab> {
         Expanded(
           child: _buildStatCard(
             AppLocalizations.of(context)!.totalExpenses,
-            CurrencyFormatter.formatAmount(totalExpenses, widget.trip.defaultCurrency),
+            CurrencyFormatter.formatAmount(
+              totalExpenses,
+              widget.trip.defaultCurrency,
+            ),
             Iconsax.dollar_circle,
             AppTheme.accentColor,
             null,
@@ -290,19 +307,17 @@ class _OverviewTabState extends State<OverviewTab> {
                     color: color.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: Icon(
-                    icon,
-                    color: color,
-                    size: 16,
-                  ),
+                  child: Icon(icon, color: color, size: 16),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
-                      color: AppTheme.textSecondary,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppTheme.textSecondaryDark
+                          : AppTheme.textSecondary,
                     ),
                   ),
                 ),
@@ -311,10 +326,7 @@ class _OverviewTabState extends State<OverviewTab> {
             const SizedBox(height: 12),
             Text(
               value,
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 16,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
             ),
             if (progress != null) ...[
               const SizedBox(height: 8),
@@ -400,7 +412,9 @@ class _OverviewTabState extends State<OverviewTab> {
                       Text(
                         'Add new items to your trip',
                         style: TextStyle(
-                          color: AppTheme.textSecondary,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondary,
                           fontWeight: FontWeight.w500,
                           fontSize: 14,
                         ),
@@ -430,7 +444,11 @@ class _OverviewTabState extends State<OverviewTab> {
                     'Booking',
                     Iconsax.airplane,
                     AppTheme.secondaryColor,
-                    () => BookingFormModal.show(context, widget.trip.id, widget.trip.defaultCurrency),
+                    () => BookingFormModal.show(
+                      context,
+                      widget.trip.id,
+                      widget.trip.defaultCurrency,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -439,7 +457,11 @@ class _OverviewTabState extends State<OverviewTab> {
                     'Expense',
                     Iconsax.dollar_circle,
                     AppTheme.accentColor,
-                    () => ExpenseFormModal.show(context, widget.trip.id, widget.trip.defaultCurrency),
+                    () => ExpenseFormModal.show(
+                      context,
+                      widget.trip.id,
+                      widget.trip.defaultCurrency,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -454,12 +476,15 @@ class _OverviewTabState extends State<OverviewTab> {
                       (activity, date) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Activity "${activity.title}" added for ${date.day}/${date.month}/${date.year}'),
+                            content: Text(
+                              'Activity "${activity.title}" added for ${date.day}/${date.month}/${date.year}',
+                            ),
                             backgroundColor: AppTheme.success,
                           ),
                         );
                       },
-                      selectedDate: null, // Let the modal use trip start date as default
+                      selectedDate:
+                          null, // Let the modal use trip start date as default
                       tripStartDate: widget.trip.startDate,
                       tripEndDate: widget.trip.endDate,
                     ),
@@ -482,18 +507,12 @@ class _OverviewTabState extends State<OverviewTab> {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            color.withOpacity(0.1),
-            color.withOpacity(0.05),
-          ],
+          colors: [color.withOpacity(0.1), color.withOpacity(0.05)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: color.withOpacity(0.3),
-          width: 1.5,
-        ),
+        border: Border.all(color: color.withOpacity(0.3), width: 1.5),
         boxShadow: [
           BoxShadow(
             color: color.withOpacity(0.15),
@@ -516,11 +535,7 @@ class _OverviewTabState extends State<OverviewTab> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  icon,
-                  color: color,
-                  size: 18,
-                ),
+                Icon(icon, color: color, size: 18),
                 const SizedBox(height: 4),
                 Text(
                   title,
@@ -539,23 +554,24 @@ class _OverviewTabState extends State<OverviewTab> {
     );
   }
 
-  Widget _buildInfoItemWithBadge(String label, String value, IconData icon, Color color, int daysLeft, bool isActive) {
+  Widget _buildInfoItemWithBadge(
+    String label,
+    String value,
+    IconData icon,
+    Color color,
+    int daysLeft,
+    bool isActive,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            color.withOpacity(0.08),
-            color.withOpacity(0.03),
-          ],
+          colors: [color.withOpacity(0.08), color.withOpacity(0.03)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: color.withOpacity(0.2),
-          width: 1,
-        ),
+        border: Border.all(color: color.withOpacity(0.2), width: 1),
       ),
       child: Row(
         children: [
@@ -565,11 +581,7 @@ class _OverviewTabState extends State<OverviewTab> {
               color: color.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(
-              icon,
-              size: 18,
-              color: color,
-            ),
+            child: Icon(icon, size: 18, color: color),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -582,13 +594,18 @@ class _OverviewTabState extends State<OverviewTab> {
                       label,
                       style: TextStyle(
                         fontSize: 14,
-                        color: AppTheme.textSecondary,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.textSecondaryDark
+                            : AppTheme.textSecondary,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(width: 12),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: daysLeft > 0
@@ -597,22 +614,33 @@ class _OverviewTabState extends State<OverviewTab> {
                                   AppTheme.accentColor.withOpacity(0.1),
                                 ]
                               : isActive
-                                  ? [
-                                      AppTheme.success.withOpacity(0.2),
-                                      AppTheme.success.withOpacity(0.1),
-                                    ]
-                                  : [
-                                      AppTheme.textSecondary.withOpacity(0.2),
-                                      AppTheme.textSecondary.withOpacity(0.1),
-                                    ],
+                              ? [
+                                  AppTheme.success.withOpacity(0.2),
+                                  AppTheme.success.withOpacity(0.1),
+                                ]
+                              : [
+                                  (Theme.of(context).brightness ==
+                                              Brightness.dark
+                                          ? AppTheme.textSecondaryDark
+                                          : AppTheme.textSecondary)
+                                      .withOpacity(0.2),
+                                  (Theme.of(context).brightness ==
+                                              Brightness.dark
+                                          ? AppTheme.textSecondaryDark
+                                          : AppTheme.textSecondary)
+                                      .withOpacity(0.1),
+                                ],
                         ),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: daysLeft > 0
                               ? AppTheme.accentColor.withOpacity(0.3)
                               : isActive
-                                  ? AppTheme.success.withOpacity(0.3)
-                                  : AppTheme.textSecondary.withOpacity(0.3),
+                              ? AppTheme.success.withOpacity(0.3)
+                              : (Theme.of(context).brightness == Brightness.dark
+                                        ? AppTheme.textSecondaryDark
+                                        : AppTheme.textSecondary)
+                                    .withOpacity(0.3),
                           width: 1,
                         ),
                       ),
@@ -623,24 +651,34 @@ class _OverviewTabState extends State<OverviewTab> {
                             daysLeft > 0
                                 ? Iconsax.clock
                                 : isActive
-                                    ? Iconsax.play_circle
-                                    : Iconsax.tick_circle,
+                                ? Iconsax.play_circle
+                                : Iconsax.tick_circle,
                             size: 12,
                             color: daysLeft > 0
                                 ? AppTheme.accentColor
                                 : isActive
-                                    ? AppTheme.success
-                                    : AppTheme.textSecondary,
+                                ? AppTheme.success
+                                : (Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? AppTheme.textSecondaryDark
+                                      : AppTheme.textSecondary),
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            _getTripStatusText(daysLeft, isActive, widget.trip.endDate),
+                            _getTripStatusText(
+                              daysLeft,
+                              isActive,
+                              widget.trip.endDate,
+                            ),
                             style: TextStyle(
                               color: daysLeft > 0
                                   ? AppTheme.accentColor
                                   : isActive
-                                      ? AppTheme.success
-                                      : AppTheme.textSecondary,
+                                  ? AppTheme.success
+                                  : (Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? AppTheme.textSecondaryDark
+                                        : AppTheme.textSecondary),
                               fontWeight: FontWeight.w600,
                               fontSize: 10,
                             ),
@@ -671,7 +709,7 @@ class _OverviewTabState extends State<OverviewTab> {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final tripEndDate = DateTime(endDate.year, endDate.month, endDate.day);
-    
+
     if (today.isAfter(tripEndDate)) {
       return 'Completed';
     } else if (isActive) {
@@ -682,13 +720,25 @@ class _OverviewTabState extends State<OverviewTab> {
   }
 
   String _formatDateRange(DateTime startDate, DateTime endDate) {
-    final months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    
+    final months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+
     String formatDate(DateTime date) {
       return '${date.day.toString().padLeft(2, '0')} ${months[date.month - 1]} ${date.year}';
     }
-    
+
     return '${formatDate(startDate)} - ${formatDate(endDate)}';
   }
 }
