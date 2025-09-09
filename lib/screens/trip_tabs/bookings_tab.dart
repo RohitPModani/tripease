@@ -85,7 +85,6 @@ class _BookingsTabState extends State<BookingsTab> {
         return Scaffold(
           body: Column(
             children: [
-              _buildFilterBar(bookingProvider.bookings, bookingProvider),
               Expanded(
                 child: bookingProvider.bookings.isEmpty
                     ? _buildEmptyState(bookingProvider)
@@ -119,73 +118,6 @@ class _BookingsTabState extends State<BookingsTab> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildFilterBar(List<Booking> bookings, BookingProvider bookingProvider) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? AppTheme.surfaceDark
-            : AppTheme.surfaceLight,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, 2),
-            blurRadius: 4,
-          ),
-        ],
-      ),
-      child: SizedBox(
-        height: 40,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
-          child: Row(
-            children: [
-              FilterChip(
-                label: Text(AppLocalizations.of(context)!.allWithCount(bookings.length)),
-                selected: _selectedType == null,
-                onSelected: (selected) {
-                  setState(() {
-                    _selectedType = null;
-                  });
-                },
-                selectedColor: AppTheme.primaryColor.withOpacity(0.2),
-                checkmarkColor: AppTheme.primaryColor,
-                labelStyle: TextStyle(
-                  color: _selectedType == null ? AppTheme.primaryColor : null,
-                  fontWeight: _selectedType == null ? FontWeight.w600 : FontWeight.w400,
-                ),
-              ),
-              const SizedBox(width: 8),
-              ...BookingType.values.expand((type) {
-                final isSelected = _selectedType == type;
-                final count = bookings.where((b) => b.type == type).length;
-                return [
-                  FilterChip(
-                    label: Text('${type.getDisplayName(AppLocalizations.of(context)!)} ($count)'),
-                    selected: isSelected,
-                    onSelected: (selected) {
-                      setState(() {
-                        _selectedType = selected ? type : null;
-                      });
-                    },
-                    selectedColor: AppTheme.primaryColor.withOpacity(0.2),
-                    checkmarkColor: AppTheme.primaryColor,
-                    labelStyle: TextStyle(
-                      color: isSelected ? AppTheme.primaryColor : null,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                ];
-              }).toList(),
-            ],
-          ),
-        ),
-      ),
     );
   }
 

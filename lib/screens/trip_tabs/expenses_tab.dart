@@ -108,7 +108,6 @@ class _ExpensesTabState extends State<ExpensesTab> {
         return Scaffold(
           body: Column(
             children: [
-              _buildFilterBar(expenses, expenseProvider),
               _buildSummaryCard(expenses),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
@@ -159,74 +158,6 @@ class _ExpensesTabState extends State<ExpensesTab> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildFilterBar(List<Expense> expenses, ExpenseProvider expenseProvider) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? AppTheme.surfaceDark
-            : AppTheme.surfaceLight,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, 2),
-            blurRadius: 4,
-          ),
-        ],
-      ),
-      child: SizedBox(
-        height: 40,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
-          child: Row(
-          children: [
-            FilterChip(
-              label: Text(AppLocalizations.of(context)!.allWithCount(expenses.length)),
-              selected: _selectedCategory == null,
-              onSelected: (selected) {
-                setState(() {
-                  _selectedCategory = null;
-                });
-              },
-              selectedColor: AppTheme.primaryColor.withOpacity(0.2),
-              checkmarkColor: AppTheme.primaryColor,
-              labelStyle: TextStyle(
-                color: _selectedCategory == null ? AppTheme.primaryColor : null,
-                fontWeight: _selectedCategory == null ? FontWeight.w600 : FontWeight.w400,
-              ),
-            ),
-            const SizedBox(width: 8),
-            ...ExpenseCategory.values.map((category) {
-              final isSelected = _selectedCategory == category;
-              final count = expenses.where((e) => e.category == category).length;
-              final categoryColor = _getCategoryColor(category);
-              return Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: FilterChip(
-                  label: Text('${_getCategoryDisplayName(category)} ($count)'),
-                  selected: isSelected,
-                  onSelected: (selected) {
-                    setState(() {
-                      _selectedCategory = selected ? category : null;
-                    });
-                  },
-                  selectedColor: categoryColor.withOpacity(0.2),
-                  checkmarkColor: categoryColor,
-                  labelStyle: TextStyle(
-                    color: isSelected ? categoryColor : null,
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                  ),
-                ),
-              );
-            }).toList(),
-          ],
-        ),
-        ),
-      ),
     );
   }
 

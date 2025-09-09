@@ -116,7 +116,6 @@ class _TodoTabState extends State<TodoTab> {
         return Scaffold(
           body: Column(
             children: [
-              _buildFilterBar(todoProvider.todos),
               Expanded(
                 child: todoProvider.todos.isEmpty
                     ? _buildEmptyState()
@@ -150,75 +149,6 @@ class _TodoTabState extends State<TodoTab> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildFilterBar(List<TodoItem> todos) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? AppTheme.surfaceDark
-            : AppTheme.surfaceLight,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, 2),
-            blurRadius: 4,
-          ),
-        ],
-      ),
-      child: SizedBox(
-        height: 40,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
-          child: Row(
-            children: [
-              FilterChip(
-                label: Text(AppLocalizations.of(context)!.allWithCount(todos.length)),
-                selected: _selectedPriority == null,
-                onSelected: (selected) {
-                  setState(() {
-                    _selectedPriority = null;
-                  });
-                },
-                selectedColor: AppTheme.primaryColor.withOpacity(0.2),
-                checkmarkColor: AppTheme.primaryColor,
-                labelStyle: TextStyle(
-                  color: _selectedPriority == null ? AppTheme.primaryColor : null,
-                  fontWeight: _selectedPriority == null ? FontWeight.w600 : FontWeight.w400,
-                ),
-              ),
-              const SizedBox(width: 8),
-              ...Priority.values.expand((priority) {
-                final isSelected = _selectedPriority == priority;
-                final priorityColor = _getPriorityColor(priority);
-                return [
-                  FilterChip(
-                    label: Text(
-                      '${_getPriorityDisplayName(priority)} (${todos.where((t) => t.priority == priority).length})',
-                    ),
-                    selected: isSelected,
-                    onSelected: (selected) {
-                      setState(() {
-                        _selectedPriority = selected ? priority : null;
-                      });
-                    },
-                    selectedColor: priorityColor.withOpacity(0.2),
-                    checkmarkColor: priorityColor,
-                    labelStyle: TextStyle(
-                      color: isSelected ? priorityColor : null,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                ];
-              }).toList(),
-            ],
-          ),
-        ),
-      ),
     );
   }
 
