@@ -116,7 +116,7 @@ class _TripsScreenState extends State<TripsScreen> {
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
         title: Text(
-          'Tripease',
+          AppLocalizations.of(context)!.appTitle,
           style: Theme.of(context).textTheme.displayMedium?.copyWith(
             fontWeight: FontWeight.w700,
             foreground: Paint()
@@ -154,7 +154,7 @@ class _TripsScreenState extends State<TripsScreen> {
           child: Row(
               children: [
                 FilterChip(
-                  label: Text('All (${trips.length})'),
+                  label: Text(AppLocalizations.of(context)!.allWithTotal(trips.length)),
                   selected: _selectedFilter == TripFilter.all,
                   onSelected: (selected) {
                     setState(() {
@@ -170,7 +170,7 @@ class _TripsScreenState extends State<TripsScreen> {
                 ),
                 const SizedBox(width: 8),
                 FilterChip(
-                  label: Text('Upcoming ($upcomingTrips)'),
+                  label: Text(AppLocalizations.of(context)!.upcomingWithCount(upcomingTrips)),
                   selected: _selectedFilter == TripFilter.upcoming,
                   onSelected: (selected) {
                     setState(() {
@@ -186,7 +186,7 @@ class _TripsScreenState extends State<TripsScreen> {
                 ),
                 const SizedBox(width: 8),
                 FilterChip(
-                  label: Text('Active ($activeTrips)'),
+                  label: Text(AppLocalizations.of(context)!.activeWithCount(activeTrips)),
                   selected: _selectedFilter == TripFilter.active,
                   onSelected: (selected) {
                     setState(() {
@@ -202,7 +202,7 @@ class _TripsScreenState extends State<TripsScreen> {
                 ),
                 const SizedBox(width: 8),
                 FilterChip(
-                  label: Text('Completed ($completedTrips)'),
+                  label: Text(AppLocalizations.of(context)!.completedWithCount(completedTrips)),
                   selected: _selectedFilter == TripFilter.completed,
                   onSelected: (selected) {
                     setState(() {
@@ -228,7 +228,7 @@ class _TripsScreenState extends State<TripsScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Your Trips',
+          AppLocalizations.of(context)!.yourTripsTitle,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),
@@ -243,7 +243,7 @@ class _TripsScreenState extends State<TripsScreen> {
             builder: (context, tripProvider, child) {
               final activeTrips = tripProvider.trips.where((trip) => trip.isActive).length;
               return Text(
-                '$activeTrips Active',
+                AppLocalizations.of(context)!.activeTripsCount(activeTrips),
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: AppTheme.primaryColor,
                   fontWeight: FontWeight.w600,

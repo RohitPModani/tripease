@@ -1,0 +1,211 @@
+{
+  "@@locale": "pt",
+  "appTitle": "Tripease",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  
+  "trips": "Viagens",
+  "@trips": {
+    "description": "Trips tab title"
+  },
+  
+  "documents": "Documentos",
+  "@documents": {
+    "description": "Documents tab title"
+  },
+  
+  "settings": "Configurações",
+  "@settings": {
+    "description": "Settings tab title"
+  },
+  
+  "quickStats": "Estatísticas Rápidas",
+  "@quickStats": {
+    "description": "Quick stats card title"
+  },
+  
+  "activeTrips": "Viagens Ativas",
+  "@activeTrips": {
+    "description": "Active trips label"
+  },
+  
+  "pendingTasks": "Tarefas Pendentes",
+  "@pendingTasks": {
+    "description": "Pending tasks label"
+  },
+  
+  "totalBudget": "Orçamento Total",
+  "@totalBudget": {
+    "description": "Total budget label"
+  },
+  
+  "nextTripStartsIn": "Próxima viagem começa em {days} dias",
+  "@nextTripStartsIn": {
+    "description": "Next trip countdown message",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  
+  "yourTrips": "Suas Viagens",
+  "@yourTrips": {
+    "description": "Your trips section title"
+  },
+  
+  "searchTrips": "Buscar viagens...",
+  "@searchTrips": {
+    "description": "Search trips placeholder"
+  },
+  
+  "daysUntilStart": "Dias Até o Início",
+  "@daysUntilStart": {
+    "description": "Sort by days until start"
+  },
+  
+  "dateCreated": "Data de Criação",
+  "@dateCreated": {
+    "description": "Sort by date created"
+  },
+  
+  "alphabetical": "Alfabética",
+  "@alphabetical": {
+    "description": "Sort alphabetically"
+  },
+  
+  "budget": "Orçamento",
+  "@budget": {
+    "description": "Budget label"
+  },
+  
+  "tasks": "Tarefas",
+  "@tasks": {
+    "description": "Tasks label"
+  },
+  
+  "tripInProgress": "Viagem em Andamento",
+  "@tripInProgress": {
+    "description": "Trip in progress status"
+  },
+  
+  "startingToday": "Começando Hoje!",
+  "@startingToday": {
+    "description": "Trip starting today message"
+  },
+  
+  "daysToGo": "{days} dias restantes",
+  "@daysToGo": {
+    "description": "Days to go message",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  
+  "active": "{count} Ativo",
+  "@active": {
+    "description": "Active count label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  
+  "searchDocuments": "Buscar documentos...",
+  "@searchDocuments": {
+    "description": "Search documents placeholder"
+  },
+  
+  "personal": "Pessoal",
+  "@personal": {
+    "description": "Personal documents tab"
+  },
+  
+  "tripRelated": "Relacionado à Viagem",
+  "@tripRelated": {
+    "description": "Trip related documents tab"
+  },
+  
+  "uploadDocument": "Enviar Documento",
+  "@uploadDocument": {
+    "description": "Upload document title"
+  },
+  
+  "takePhoto": "Tirar Foto",
+  "@takePhoto": {
+    "description": "Take photo option"
+  },
+  
+  "captureDocumentWithCamera": "Capturar documento com a câmera",
+  "@captureDocumentWithCamera": {
+    "description": "Take photo description"
+  },
+  
+  "chooseFromGallery": "Escolher da Galeria",
+  "@chooseFromGallery": {
+    "description": "Choose from gallery option"
+  },
+  
+  "selectFromPhotoLibrary": "Selecionar da biblioteca de fotos",
+  "@selectFromPhotoLibrary": {
+    "description": "Choose from gallery description"
+  },
+  
+  "chooseFile": "Escolher Arquivo",
+  "@chooseFile": {
+    "description": "Choose file option"
+  },
+  
+  "selectPdfOrOtherFiles": "Selecionar PDF ou outros arquivos",
+  "@selectPdfOrOtherFiles": {
+    "description": "Choose file description"
+  },
+  
+  "expires": "Expira: {date}",
+  "@expires": {
+    "description": "Document expiry date",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "2024-12-31"
+      }
+    }
+  },
+  
+  "view": "Ver",
+  "@view": {
+    "description": "View action"
+  },
+  
+  "share": "Compartilhar",
+  "@share": {
+    "description": "Share action"
+  },
+  
+  "download": "Baixar",
+  "@download": {
+    "description": "Download action"
+  },
+  
+  "delete": "Excluir",
+  "@delete": {
+    "description": "Delete action"
+  },
+  
+  "cancel": "Cancelar",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  
+  "portuguese": "Português",
+  "@portuguese": {
+    "description": "Portuguese language"
+  }
+}

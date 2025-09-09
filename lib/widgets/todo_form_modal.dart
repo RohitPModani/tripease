@@ -175,10 +175,10 @@ class _TodoFormModalState extends State<TodoFormModal> {
                     onChanged: (value) {
                       setState(() {
                         titleCharCount = value.length;
-                        titleError = FormValidators.validateTitle(value);
+                        titleError = FormValidators.validateTitle(value, context);
                       });
                     },
-                    validator: FormValidators.validateTitle,
+                    validator: (value) => FormValidators.validateTitle(value, context),
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!.taskTitle,
                       labelStyle: TextStyle(color: AppTheme.textSecondary),
@@ -233,10 +233,11 @@ class _TodoFormModalState extends State<TodoFormModal> {
                         descriptionCharCount = value.length;
                         descriptionError = FormValidators.validateDescription(
                           value,
+                          context,
                         );
                       });
                     },
-                    validator: FormValidators.validateDescription,
+                    validator: (value) => FormValidators.validateDescription(value, context),
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(
                         context,
@@ -443,10 +444,12 @@ class _TodoFormModalState extends State<TodoFormModal> {
                               final titleValidation =
                                   FormValidators.validateTitle(
                                     titleController.text,
+                                    context,
                                   );
                               final descriptionValidation =
                                   FormValidators.validateDescription(
                                     descriptionController.text,
+                                    context,
                                   );
 
                               setState(() {
@@ -551,15 +554,16 @@ class _TodoFormModalState extends State<TodoFormModal> {
   }
 
   String _getPriorityDisplayName(Priority priority) {
+    final l10n = AppLocalizations.of(context)!;
     switch (priority) {
       case Priority.urgent:
-        return 'Urgent';
+        return l10n.urgent;
       case Priority.high:
-        return 'High';
+        return l10n.high;
       case Priority.medium:
-        return 'Medium';
+        return l10n.medium;
       case Priority.low:
-        return 'Low';
+        return l10n.low;
     }
   }
 }

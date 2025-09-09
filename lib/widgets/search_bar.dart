@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import '../themes/app_theme.dart';
+import '../l10n/app_localizations.dart';
 
 class CustomSearchBar extends StatefulWidget {
   final String searchQuery;
@@ -60,11 +61,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           controller: _controller,
           focusNode: _focusNode,
           onChanged: widget.onSearchChanged,
-          decoration: const InputDecoration(
-            hintText: 'Search trips...',
-            prefixIcon: Icon(Iconsax.search_normal_1),
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)!.searchTripsPlaceholder,
+            prefixIcon: const Icon(Iconsax.search_normal_1),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.all(16),
+            contentPadding: const EdgeInsets.all(16),
           ),
         ),
       ),

@@ -6,6 +6,7 @@ import '../models/expense.dart';
 import '../themes/app_theme.dart';
 import '../providers/expense_provider.dart';
 import '../utils/form_validators.dart';
+import '../l10n/app_localizations.dart';
 
 class ExpenseFormModal extends StatefulWidget {
   final String tripId;
@@ -157,7 +158,7 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                         ),
                         const SizedBox(width: 12),
                         Text(
-                          isEdit ? 'Edit Expense' : 'Add New Expense',
+                          isEdit ? AppLocalizations.of(context)!.editExpense : AppLocalizations.of(context)!.addNewExpense,
                           style: Theme.of(context).textTheme.headlineSmall
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
@@ -170,13 +171,14 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                       onChanged: (value) {
                         setState(() {
                           titleCharCount = value.length;
-                          titleError = FormValidators.validateTitle(value);
+                          titleError = FormValidators.validateTitle(value, context);
                         });
                       },
                       decoration:
                           FormValidators.createRequiredInputDecoration(
-                            labelText: 'Expense Title',
+                            labelText: AppLocalizations.of(context)!.expenseTitle,
                             maxLength: FormValidators.titleLimit,
+                            context: context,
                           ).copyWith(
                             labelStyle: TextStyle(
                               color: AppTheme.textSecondary,
@@ -219,14 +221,14 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                             ),
                             errorText: titleError,
                           ),
-                      validator: FormValidators.validateTitle,
+                      validator: (value) => FormValidators.validateTitle(value, context),
                       autofocus: true,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: amountController,
                       decoration: InputDecoration(
-                        labelText: 'Amount (${widget.defaultCurrency})',
+                        labelText: AppLocalizations.of(context)!.amountCurrency(widget.defaultCurrency),
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -243,14 +245,14 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                         ),
                         contentPadding: const EdgeInsets.all(16),
                       ),
-                      validator: FormValidators.validateAmount,
+                      validator: (value) => FormValidators.validateAmount(value, context),
                       keyboardType: TextInputType.number,
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<ExpenseCategory>(
                       value: selectedCategory,
                       decoration: InputDecoration(
-                        labelText: 'Category',
+                        labelText: AppLocalizations.of(context)!.category,
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -296,13 +298,14 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                       onChanged: (value) {
                         setState(() {
                           descriptionCharCount = value.length;
-                          descriptionError = FormValidators.validateDescription(value);
+                          descriptionError = FormValidators.validateDescription(value, context);
                         });
                       },
                       decoration:
                           FormValidators.createOptionalInputDecoration(
-                            labelText: 'Description',
+                            labelText: AppLocalizations.of(context)!.description,
                             maxLength: FormValidators.descriptionLimit,
+                            context: context,
                           ).copyWith(
                             labelStyle: TextStyle(
                               color: AppTheme.textSecondary,
@@ -345,7 +348,7 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                             ),
                             errorText: descriptionError,
                           ),
-                      validator: FormValidators.validateDescription,
+                      validator: (value) => FormValidators.validateDescription(value, context),
                       maxLines: 2,
                     ),
                     const SizedBox(height: 16),
@@ -355,13 +358,14 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                       onChanged: (value) {
                         setState(() {
                           paidByCharCount = value.length;
-                          paidByError = FormValidators.validatePaidBy(value);
+                          paidByError = FormValidators.validatePaidBy(value, context);
                         });
                       },
                       decoration:
                           FormValidators.createOptionalInputDecoration(
-                            labelText: 'Paid By',
+                            labelText: AppLocalizations.of(context)!.paidBy,
                             maxLength: FormValidators.paidByLimit,
+                            context: context,
                           ).copyWith(
                             labelStyle: TextStyle(
                               color: AppTheme.textSecondary,
@@ -404,7 +408,7 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                             ),
                             errorText: paidByError,
                           ),
-                      validator: FormValidators.validatePaidBy,
+                      validator: (value) => FormValidators.validatePaidBy(value, context),
                     ),
                     const SizedBox(height: 16),
                     InkWell(
@@ -478,7 +482,7 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                               ),
                             ),
                             child: Text(
-                              'Cancel',
+                              AppLocalizations.of(context)!.cancel,
                               style: TextStyle(color: AppTheme.textSecondary),
                             ),
                           ),
@@ -544,7 +548,7 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                                 ),
                               ),
                               child: Text(
-                                isEdit ? 'Update Expense' : 'Add Expense',
+                                isEdit ? AppLocalizations.of(context)!.updateExpense : AppLocalizations.of(context)!.addExpense,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -585,19 +589,20 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
   }
 
   String _getCategoryDisplayName(ExpenseCategory category) {
+    final l10n = AppLocalizations.of(context)!;
     switch (category) {
       case ExpenseCategory.food:
-        return 'Food';
+        return l10n.food;
       case ExpenseCategory.transport:
-        return 'Transport';
+        return l10n.transport;
       case ExpenseCategory.accommodation:
-        return 'Accommodation';
+        return l10n.accommodation;
       case ExpenseCategory.activities:
-        return 'Entertainment';
+        return l10n.entertainment;
       case ExpenseCategory.shopping:
-        return 'Shopping';
+        return l10n.shopping;
       case ExpenseCategory.other:
-        return 'Other';
+        return l10n.other;
     }
   }
 }

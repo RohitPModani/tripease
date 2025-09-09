@@ -15,6 +15,11 @@ class LocalizationProvider extends ChangeNotifier {
     Locale('fr'), // French
     Locale('de'), // German
     Locale('it'), // Italian
+    Locale('pt'), // Portuguese
+    Locale('ru'), // Russian
+    Locale('ar'), // Arabic
+    Locale('hi'), // Hindi
+    Locale('nl'), // Dutch
   ];
 
   LocalizationProvider() {
@@ -52,6 +57,16 @@ class LocalizationProvider extends ChangeNotifier {
         return 'Deutsch (German)';
       case 'it':
         return 'Italiano (Italian)';
+      case 'pt':
+        return 'Português (Portuguese)';
+      case 'ru':
+        return 'Русский (Russian)';
+      case 'ar':
+        return 'العربية (Arabic)';
+      case 'hi':
+        return 'हिन्दी (Hindi)';
+      case 'nl':
+        return 'Nederlands (Dutch)';
       default:
         return 'English';
     }
@@ -75,6 +90,16 @@ class LocalizationProvider extends ChangeNotifier {
         return 'Deutsch';
       case 'it':
         return 'Italiano';
+      case 'pt':
+        return 'Português';
+      case 'ru':
+        return 'Русский';
+      case 'ar':
+        return 'العربية';
+      case 'hi':
+        return 'हिन्दी';
+      case 'nl':
+        return 'Nederlands';
       default:
         return 'English';
     }

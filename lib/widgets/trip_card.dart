@@ -275,7 +275,7 @@ class TripCard extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              'Trip in Progress',
+              AppLocalizations.of(context)!.tripInProgressStatus,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: AppTheme.success,
                 fontWeight: FontWeight.w600,
@@ -301,7 +301,7 @@ class TripCard extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              'Completed',
+              AppLocalizations.of(context)!.completedStatus,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: AppTheme.textSecondary,
                 fontWeight: FontWeight.w600,

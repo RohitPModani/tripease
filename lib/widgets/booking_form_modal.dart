@@ -285,12 +285,13 @@ class _BookingFormModalState extends State<BookingFormModal> {
                       onChanged: (value) {
                         setState(() {
                           titleCharCount = value.length;
-                          titleError = FormValidators.validateTitle(value);
+                          titleError = FormValidators.validateTitle(value, context);
                         });
                       },
                       decoration: FormValidators.createRequiredInputDecoration(
                         labelText: AppLocalizations.of(context)!.bookingTitle,
                         maxLength: FormValidators.titleLimit,
+                        context: context,
                       ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
@@ -320,7 +321,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         ),
                         errorText: titleError,
                       ),
-                      validator: FormValidators.validateTitle,
+                      validator: (value) => FormValidators.validateTitle(value, context),
                       autofocus: true,
                     ),
                     const SizedBox(height: 16),
@@ -366,12 +367,13 @@ class _BookingFormModalState extends State<BookingFormModal> {
                       onChanged: (value) {
                         setState(() {
                           descriptionCharCount = value.length;
-                          descriptionError = FormValidators.validateDescription(value);
+                          descriptionError = FormValidators.validateDescription(value, context);
                         });
                       },
                       decoration: FormValidators.createOptionalInputDecoration(
                         labelText: AppLocalizations.of(context)!.descriptionOptional,
                         maxLength: FormValidators.descriptionLimit,
+                        context: context,
                       ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
@@ -401,7 +403,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         ),
                         errorText: descriptionError,
                       ),
-                      validator: FormValidators.validateDescription,
+                      validator: (value) => FormValidators.validateDescription(value, context),
                       maxLines: 3,
                     ),
                     const SizedBox(height: 16),
@@ -411,12 +413,13 @@ class _BookingFormModalState extends State<BookingFormModal> {
                       onChanged: (value) {
                         setState(() {
                           vendorCharCount = value.length;
-                          vendorError = FormValidators.validateVendorCompany(value);
+                          vendorError = FormValidators.validateVendorCompany(value, context);
                         });
                       },
                       decoration: FormValidators.createOptionalInputDecoration(
                         labelText: AppLocalizations.of(context)!.vendorCompanyOptional,
                         maxLength: FormValidators.vendorCompanyLimit,
+                        context: context,
                       ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
@@ -446,7 +449,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         ),
                         errorText: vendorError,
                       ),
-                      validator: FormValidators.validateVendorCompany,
+                      validator: (value) => FormValidators.validateVendorCompany(value, context),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -455,12 +458,13 @@ class _BookingFormModalState extends State<BookingFormModal> {
                       onChanged: (value) {
                         setState(() {
                           confirmationCharCount = value.length;
-                          confirmationError = FormValidators.validateConfirmationNumber(value);
+                          confirmationError = FormValidators.validateConfirmationNumber(value, context);
                         });
                       },
                       decoration: FormValidators.createOptionalInputDecoration(
                         labelText: AppLocalizations.of(context)!.confirmationNumberOptional,
                         maxLength: FormValidators.confirmationNumberLimit,
+                        context: context,
                       ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
@@ -490,7 +494,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         ),
                         errorText: confirmationError,
                       ),
-                      validator: FormValidators.validateConfirmationNumber,
+                      validator: (value) => FormValidators.validateConfirmationNumber(value, context),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -508,7 +512,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         ),
                         contentPadding: const EdgeInsets.all(16),
                       ),
-                      validator: FormValidators.validateAmount,
+                      validator: (value) => FormValidators.validateAmount(value, context),
                       keyboardType: TextInputType.number,
                     ),
                     const SizedBox(height: 16),

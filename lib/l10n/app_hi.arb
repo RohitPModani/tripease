@@ -1,0 +1,211 @@
+{
+  "@@locale": "hi",
+  "appTitle": "Tripease",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  
+  "trips": "यात्राएं",
+  "@trips": {
+    "description": "Trips tab title"
+  },
+  
+  "documents": "दस्तावेज़",
+  "@documents": {
+    "description": "Documents tab title"
+  },
+  
+  "settings": "सेटिंग्स",
+  "@settings": {
+    "description": "Settings tab title"
+  },
+  
+  "quickStats": "त्वरित आंकड़े",
+  "@quickStats": {
+    "description": "Quick stats card title"
+  },
+  
+  "activeTrips": "सक्रिय यात्राएं",
+  "@activeTrips": {
+    "description": "Active trips label"
+  },
+  
+  "pendingTasks": "लंबित कार्य",
+  "@pendingTasks": {
+    "description": "Pending tasks label"
+  },
+  
+  "totalBudget": "कुल बजट",
+  "@totalBudget": {
+    "description": "Total budget label"
+  },
+  
+  "nextTripStartsIn": "अगली यात्रा {days} दिनों में शुरू होगी",
+  "@nextTripStartsIn": {
+    "description": "Next trip countdown message",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  
+  "yourTrips": "आपकी यात्राएं",
+  "@yourTrips": {
+    "description": "Your trips section title"
+  },
+  
+  "searchTrips": "यात्राएं खोजें...",
+  "@searchTrips": {
+    "description": "Search trips placeholder"
+  },
+  
+  "daysUntilStart": "शुरू होने तक के दिन",
+  "@daysUntilStart": {
+    "description": "Sort by days until start"
+  },
+  
+  "dateCreated": "बनाने की तारीख",
+  "@dateCreated": {
+    "description": "Sort by date created"
+  },
+  
+  "alphabetical": "वर्णानुक्रम",
+  "@alphabetical": {
+    "description": "Sort alphabetically"
+  },
+  
+  "budget": "बजट",
+  "@budget": {
+    "description": "Budget label"
+  },
+  
+  "tasks": "कार्य",
+  "@tasks": {
+    "description": "Tasks label"
+  },
+  
+  "tripInProgress": "यात्रा चल रही है",
+  "@tripInProgress": {
+    "description": "Trip in progress status"
+  },
+  
+  "startingToday": "आज शुरू हो रही है!",
+  "@startingToday": {
+    "description": "Trip starting today message"
+  },
+  
+  "daysToGo": "{days} दिन बाकी हैं",
+  "@daysToGo": {
+    "description": "Days to go message",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  
+  "active": "{count} सक्रिय",
+  "@active": {
+    "description": "Active count label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  
+  "searchDocuments": "दस्तावेज़ खोजें...",
+  "@searchDocuments": {
+    "description": "Search documents placeholder"
+  },
+  
+  "personal": "व्यक्तिगत",
+  "@personal": {
+    "description": "Personal documents tab"
+  },
+  
+  "tripRelated": "यात्रा संबंधी",
+  "@tripRelated": {
+    "description": "Trip related documents tab"
+  },
+  
+  "uploadDocument": "दस्तावेज़ अपलोड करें",
+  "@uploadDocument": {
+    "description": "Upload document title"
+  },
+  
+  "takePhoto": "फोटो लें",
+  "@takePhoto": {
+    "description": "Take photo option"
+  },
+  
+  "captureDocumentWithCamera": "कैमरे से दस्तावेज़ कैप्चर करें",
+  "@captureDocumentWithCamera": {
+    "description": "Take photo description"
+  },
+  
+  "chooseFromGallery": "गैलरी से चुनें",
+  "@chooseFromGallery": {
+    "description": "Choose from gallery option"
+  },
+  
+  "selectFromPhotoLibrary": "फोटो लाइब्रेरी से चुनें",
+  "@selectFromPhotoLibrary": {
+    "description": "Choose from gallery description"
+  },
+  
+  "chooseFile": "फाइल चुनें",
+  "@chooseFile": {
+    "description": "Choose file option"
+  },
+  
+  "selectPdfOrOtherFiles": "PDF या अन्य फाइलें चुनें",
+  "@selectPdfOrOtherFiles": {
+    "description": "Choose file description"
+  },
+  
+  "expires": "समाप्ति: {date}",
+  "@expires": {
+    "description": "Document expiry date",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "2024-12-31"
+      }
+    }
+  },
+  
+  "view": "देखें",
+  "@view": {
+    "description": "View action"
+  },
+  
+  "share": "साझा करें",
+  "@share": {
+    "description": "Share action"
+  },
+  
+  "download": "डाउनलोड",
+  "@download": {
+    "description": "Download action"
+  },
+  
+  "delete": "हटाएं",
+  "@delete": {
+    "description": "Delete action"
+  },
+  
+  "cancel": "रद्द करें",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  
+  "hindi": "हिन्दी",
+  "@hindi": {
+    "description": "Hindi language"
+  }
+}

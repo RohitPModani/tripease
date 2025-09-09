@@ -9,6 +9,7 @@ import '../models/document.dart';
 import '../themes/app_theme.dart';
 import '../providers/document_provider.dart';
 import '../utils/form_validators.dart';
+import '../l10n/app_localizations.dart';
 
 class DocumentFormModal extends StatefulWidget {
   final Document? document;
@@ -119,13 +120,13 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
             ),
             const SizedBox(height: 24),
             Text(
-              'Select Document',
+              AppLocalizations.of(context)!.selectDocument,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 24),
             _buildFilePickerOption(
               icon: Iconsax.camera,
-              title: 'Take Photo',
+              title: AppLocalizations.of(context)!.takePhoto,
               subtitle: 'Capture document with camera',
               onTap: () {
                 Navigator.pop(context);
@@ -135,7 +136,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
             const SizedBox(height: 16),
             _buildFilePickerOption(
               icon: Iconsax.gallery,
-              title: 'Choose from Gallery',
+              title: AppLocalizations.of(context)!.chooseFromGallery,
               subtitle: 'Select from photo library',
               onTap: () {
                 Navigator.pop(context);
@@ -145,7 +146,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
             const SizedBox(height: 16),
             _buildFilePickerOption(
               icon: Iconsax.document,
-              title: 'Choose File',
+              title: AppLocalizations.of(context)!.chooseFile,
               subtitle: 'Select PDF or other files',
               onTap: () {
                 Navigator.pop(context);
@@ -427,7 +428,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         ),
         const SizedBox(width: 12),
         Text(
-          widget.document == null ? 'Add Document' : 'Edit Document',
+          widget.document == null ? AppLocalizations.of(context)!.addDocument : AppLocalizations.of(context)!.editDocument,
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.w600,
           ),
@@ -443,7 +444,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
       onChanged: (value) {
         setState(() {
           titleCharCount = value.length;
-          titleError = FormValidators.validateTitle(value);
+          titleError = FormValidators.validateTitle(value, context);
         });
       },
       decoration: InputDecoration(
@@ -486,7 +487,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         ),
         errorText: titleError,
       ),
-      validator: FormValidators.validateTitle,
+      validator: (value) => FormValidators.validateTitle(value, context),
       autofocus: true,
     );
   }
@@ -498,12 +499,13 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
       onChanged: (value) {
         setState(() {
           descriptionCharCount = value.length;
-          descriptionError = FormValidators.validateDescription(value);
+          descriptionError = FormValidators.validateDescription(value, context);
         });
       },
       decoration: FormValidators.createOptionalInputDecoration(
-        labelText: 'Description',
+        labelText: AppLocalizations.of(context)!.description,
         maxLength: FormValidators.descriptionLimit,
+        context: context,
       ).copyWith(
         labelStyle: TextStyle(color: AppTheme.textSecondary),
         border: OutlineInputBorder(
@@ -533,7 +535,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         ),
         errorText: descriptionError,
       ),
-      validator: FormValidators.validateDescription,
+      validator: (value) => FormValidators.validateDescription(value, context),
       maxLines: 3,
     );
   }
@@ -609,7 +611,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
             ),
             const SizedBox(height: 8),
             Text(
-              selectedFilePath != null ? 'Change Document' : 'Upload Document',
+              selectedFilePath != null ? AppLocalizations.of(context)!.changeDocument : AppLocalizations.of(context)!.uploadDocument,
               style: TextStyle(
                 color: AppTheme.primaryColor,
                 fontWeight: FontWeight.w600,
@@ -680,7 +682,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
               ),
             ),
             child: Text(
-              'Cancel',
+              AppLocalizations.of(context)!.cancel,
               style: TextStyle(color: AppTheme.textSecondary),
             ),
           ),
@@ -709,7 +711,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
                       ),
                     )
                   : Text(
-                      widget.document == null ? 'Add Document' : 'Update Document',
+                      widget.document == null ? AppLocalizations.of(context)!.addDocument : AppLocalizations.of(context)!.updateDocument,
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
@@ -724,19 +726,20 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
   }
 
   String _getDocumentTypeDisplayName(DocumentType type) {
+    final l10n = AppLocalizations.of(context)!;
     switch (type) {
       case DocumentType.passport:
-        return 'Passport';
+        return l10n.passport;
       case DocumentType.visa:
-        return 'Visa';
+        return l10n.visa;
       case DocumentType.ticket:
-        return 'Ticket';
+        return l10n.ticket;
       case DocumentType.hotel:
-        return 'Hotel';
+        return l10n.hotel;
       case DocumentType.insurance:
-        return 'Insurance';
+        return l10n.insurance;
       case DocumentType.other:
-        return 'Other';
+        return l10n.other;
     }
   }
 

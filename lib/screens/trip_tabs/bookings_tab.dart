@@ -166,7 +166,7 @@ class _BookingsTabState extends State<BookingsTab> {
                     return Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: FilterChip(
-                        label: Text('${type.displayName} ($count)'),
+                        label: Text('${type.getDisplayName(AppLocalizations.of(context)!)} ($count)'),
                         selected: isSelected,
                         onSelected: (selected) {
                           setState(() {
@@ -386,7 +386,7 @@ class _BookingsTabState extends State<BookingsTab> {
                       Row(
                         children: [
                           Text(
-                            booking.type.displayName,
+                            booking.type.getDisplayName(AppLocalizations.of(context)!),
                             style: const TextStyle(
                               color: AppTheme.textSecondary,
                               fontSize: 12,
@@ -444,7 +444,7 @@ class _BookingsTabState extends State<BookingsTab> {
                         ),
                       ),
                       child: Text(
-                        booking.status.displayName,
+                        booking.status.getDisplayName(AppLocalizations.of(context)!),
                         style: TextStyle(
                           color: _getStatusColor(booking.status),
                           fontSize: 12,
@@ -523,7 +523,7 @@ class _BookingsTabState extends State<BookingsTab> {
                                 ),
                               ),
                               Text(
-                                booking.type.displayName,
+                                booking.type.getDisplayName(AppLocalizations.of(context)!),
                                 style: TextStyle(
                                   color: _getTypeColor(booking.type),
                                   fontWeight: FontWeight.w500,
@@ -587,7 +587,7 @@ class _BookingsTabState extends State<BookingsTab> {
                                   ),
                                 ),
                                 child: Text(
-                                  booking.status.displayName,
+                                  booking.status.getDisplayName(AppLocalizations.of(context)!),
                                   style: TextStyle(
                                     color: _getStatusColor(booking.status),
                                     fontWeight: FontWeight.w500,
@@ -1111,33 +1111,33 @@ class _BookingsTabState extends State<BookingsTab> {
 }
 
 extension BookingTypeExtension on BookingType {
-  String get displayName {
+  String getDisplayName(AppLocalizations l10n) {
     switch (this) {
       case BookingType.flight:
-        return 'Flight';
+        return 'Flight'; // TODO: Add l10n.flight when available
       case BookingType.hotel:
-        return 'Hotel';
+        return l10n.hotel;
       case BookingType.activity:
-        return 'Activity';
+        return l10n.activities; // Using existing activities key
       case BookingType.transport:
-        return 'Transport';
+        return l10n.transport;
       case BookingType.restaurant:
-        return 'Restaurant';
+        return 'Restaurant'; // TODO: Add l10n.restaurant when available
       case BookingType.other:
-        return 'Other';
+        return l10n.other;
     }
   }
 }
 
 extension BookingStatusExtension on BookingStatus {
-  String get displayName {
+  String getDisplayName(AppLocalizations l10n) {
     switch (this) {
       case BookingStatus.confirmed:
-        return 'Confirmed';
+        return l10n.confirmed;
       case BookingStatus.pending:
-        return 'Pending';
+        return l10n.pending;
       case BookingStatus.cancelled:
-        return 'Cancelled';
+        return l10n.cancelled;
     }
   }
 }

@@ -4,233 +4,235 @@ import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for Chinese (`zh`).
-class AppLocalizationsZh extends AppLocalizations {
-  AppLocalizationsZh([String locale = 'zh']) : super(locale);
+/// The translations for Portuguese (`pt`).
+class AppLocalizationsPt extends AppLocalizations {
+  AppLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
-  String get appTitle => '畅游易';
+  String get appTitle => 'Tripease';
 
   @override
-  String get trips => '行程';
+  String get trips => 'Viagens';
 
   @override
-  String get documents => '文档';
+  String get documents => 'Documentos';
 
   @override
-  String get settings => '设置';
+  String get settings => 'Configurações';
 
   @override
-  String get quickStats => '快速统计';
+  String get quickStats => 'Estatísticas Rápidas';
 
   @override
-  String get activeTrips => '进行中行程';
+  String get activeTrips => 'Viagens Ativas';
 
   @override
-  String get pendingTasks => '待办任务';
+  String get pendingTasks => 'Tarefas Pendentes';
 
   @override
-  String get totalBudget => '总预算';
+  String get totalBudget => 'Orçamento Total';
 
   @override
   String nextTripStartsIn(int days) {
-    return '下次行程还有 $days 天开始';
+    return 'Próxima viagem começa em $days dias';
   }
 
   @override
-  String get yourTrips => '您的行程';
+  String get yourTrips => 'Suas Viagens';
 
   @override
-  String get searchTrips => '搜索行程...';
+  String get searchTrips => 'Buscar viagens...';
 
   @override
-  String get daysUntilStart => '距离开始天数';
+  String get daysUntilStart => 'Dias Até o Início';
 
   @override
-  String get dateCreated => '创建日期';
+  String get dateCreated => 'Data de Criação';
 
   @override
-  String get alphabetical => '字母顺序';
+  String get alphabetical => 'Alfabética';
 
   @override
-  String get budget => '预算';
+  String get budget => 'Orçamento';
 
   @override
-  String get tasks => '任务';
+  String get tasks => 'Tarefas';
 
   @override
-  String get tripInProgress => '行程进行中';
+  String get tripInProgress => 'Viagem em Andamento';
 
   @override
-  String get startingToday => '今天开始！';
+  String get startingToday => 'Começando Hoje!';
 
   @override
   String daysToGo(int days) {
-    return '还有 $days 天';
+    return '$days dias restantes';
   }
 
   @override
   String active(int count) {
-    return '$count 个活跃';
+    return '$count Ativo';
   }
 
   @override
-  String get searchDocuments => '搜索文档...';
+  String get searchDocuments => 'Buscar documentos...';
 
   @override
-  String get personal => '个人';
+  String get personal => 'Pessoal';
 
   @override
-  String get tripRelated => '行程相关';
+  String get tripRelated => 'Relacionado à Viagem';
 
   @override
-  String get uploadDocument => '上传文档';
+  String get uploadDocument => 'Enviar Documento';
 
   @override
-  String get takePhoto => '拍照';
+  String get takePhoto => 'Tirar Foto';
 
   @override
-  String get captureDocumentWithCamera => '用相机拍摄文档';
+  String get captureDocumentWithCamera => 'Capturar documento com a câmera';
 
   @override
-  String get chooseFromGallery => '从相册选择';
+  String get chooseFromGallery => 'Escolher da Galeria';
 
   @override
-  String get selectFromPhotoLibrary => '从照片库中选择';
+  String get selectFromPhotoLibrary => 'Selecionar da biblioteca de fotos';
 
   @override
-  String get chooseFile => '选择文件';
+  String get chooseFile => 'Escolher Arquivo';
 
   @override
-  String get selectPdfOrOtherFiles => '选择PDF或其他文件';
+  String get selectPdfOrOtherFiles => 'Selecionar PDF ou outros arquivos';
 
   @override
   String expires(String date) {
-    return '到期时间：$date';
+    return 'Expira: $date';
   }
 
   @override
-  String get view => '查看';
+  String get view => 'Ver';
 
   @override
-  String get share => '分享';
+  String get share => 'Compartilhar';
 
   @override
-  String get download => '下载';
+  String get download => 'Baixar';
 
   @override
-  String get delete => '删除';
+  String get delete => 'Excluir';
 
   @override
-  String get profile => '个人资料';
+  String get profile => 'Profile';
 
   @override
-  String get preferences => '偏好设置';
+  String get preferences => 'Preferences';
 
   @override
-  String get darkMode => '深色模式';
+  String get darkMode => 'Dark Mode';
 
   @override
-  String get switchBetweenLightAndDarkTheme => '在明亮和深色主题之间切换';
+  String get switchBetweenLightAndDarkTheme =>
+      'Switch between light and dark theme';
 
   @override
-  String get language => '语言';
+  String get language => 'Language';
 
   @override
-  String get selectYourPreferredLanguage => '选择您的首选语言';
+  String get selectYourPreferredLanguage => 'Select your preferred language';
 
   @override
-  String get defaultCurrency => '默认货币';
+  String get defaultCurrency => 'Default Currency';
 
   @override
-  String get currencyUsedForNewTrips => '新行程使用的货币';
+  String get currencyUsedForNewTrips => 'Currency used for new trips';
 
   @override
-  String get dateFormat => '日期格式';
+  String get dateFormat => 'Date Format';
 
   @override
-  String get howDatesAreDisplayed => '日期显示格式';
+  String get howDatesAreDisplayed => 'How dates are displayed';
 
   @override
-  String get temperatureUnit => '温度单位';
+  String get temperatureUnit => 'Temperature Unit';
 
   @override
-  String get temperatureScalePreference => '温度刻度偏好';
+  String get temperatureScalePreference => 'Temperature scale preference';
 
   @override
-  String get appSettings => '应用设置';
+  String get appSettings => 'App Settings';
 
   @override
-  String get backupAndSync => '备份和同步';
+  String get backupAndSync => 'Backup & Sync';
 
   @override
-  String get manageYourDataBackup => '管理您的数据备份';
+  String get manageYourDataBackup => 'Manage your data backup';
 
   @override
-  String get importData => '导入数据';
+  String get importData => 'Import Data';
 
   @override
-  String get importTripsFromOtherApps => '从其他应用导入行程';
+  String get importTripsFromOtherApps => 'Import trips from other apps';
 
   @override
-  String get exportData => '导出数据';
+  String get exportData => 'Export Data';
 
   @override
-  String get exportYourTripData => '导出您的行程数据';
+  String get exportYourTripData => 'Export your trip data';
 
   @override
-  String get about => '关于';
+  String get about => 'About';
 
   @override
-  String get appVersion => '应用版本';
+  String get appVersion => 'App Version';
 
   @override
-  String get rateApp => '评价应用';
+  String get rateApp => 'Rate App';
 
   @override
-  String get leaveAReviewOnTheAppStore => '在应用商店留下评价';
+  String get leaveAReviewOnTheAppStore => 'Leave a review on the app store';
 
   @override
-  String get helpAndSupport => '帮助与支持';
+  String get helpAndSupport => 'Help & Support';
 
   @override
-  String get faqsAndContactInformation => '常见问题和联系信息';
+  String get faqsAndContactInformation => 'FAQs and contact information';
 
   @override
-  String get privacyPolicy => '隐私政策';
+  String get privacyPolicy => 'Privacy Policy';
 
   @override
-  String get readOurPrivacyPolicy => '阅读我们的隐私政策';
+  String get readOurPrivacyPolicy => 'Read our privacy policy';
 
   @override
-  String get termsOfService => '服务条款';
+  String get termsOfService => 'Terms of Service';
 
   @override
-  String get readOurTermsAndConditions => '阅读我们的条款和条件';
+  String get readOurTermsAndConditions => 'Read our terms and conditions';
 
   @override
-  String get dangerZone => '危险区域';
+  String get dangerZone => 'Danger Zone';
 
   @override
-  String get clearAllData => '清除所有数据';
+  String get clearAllData => 'Clear All Data';
 
   @override
-  String get removeAllTripsAndDocuments => '删除所有行程和文档';
+  String get removeAllTripsAndDocuments => 'Remove all trips and documents';
 
   @override
-  String get clearAllDataConfirmation => '此操作无法撤销。您的所有行程、文档和设置将被永久删除。';
+  String get clearAllDataConfirmation =>
+      'This action cannot be undone. All your trips, documents, and settings will be permanently deleted.';
 
   @override
-  String get cancel => '取消';
+  String get cancel => 'Cancelar';
 
   @override
-  String get clearAll => '全部清除';
+  String get clearAll => 'Clear All';
 
   @override
-  String get celsius => '摄氏度';
+  String get celsius => 'Celsius';
 
   @override
-  String get fahrenheit => '华氏度';
+  String get fahrenheit => 'Fahrenheit';
 
   @override
   String get english => 'English';
@@ -272,400 +274,406 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dutch => 'Nederlands';
 
   @override
-  String get title => '标题';
+  String get title => 'Title';
 
   @override
-  String get description => '描述';
+  String get description => 'Description';
 
   @override
-  String get amount => '金额';
+  String get amount => 'Amount';
 
   @override
-  String get date => '日期';
+  String get date => 'Date';
 
   @override
-  String get edit => '编辑';
+  String get edit => 'Edit';
 
   @override
-  String get retry => '重试';
+  String get retry => 'Retry';
 
   @override
-  String get add => '添加';
+  String get add => 'Add';
 
   @override
-  String get update => '更新';
+  String get update => 'Update';
 
   @override
-  String get close => '关闭';
+  String get close => 'Close';
 
   @override
-  String get failedToLoad => '加载失败';
+  String get failedToLoad => 'Failed to load';
 
   @override
-  String get noDataYet => '暂无数据';
+  String get noDataYet => 'No data yet';
 
   @override
-  String get startPlanning => '开始规划您的下一次冒险！';
+  String get startPlanning => 'Start planning your next adventure!';
 
   @override
-  String get createTrip => '创建旅行';
+  String get createTrip => 'Create Trip';
 
   @override
-  String get addDocument => '添加文档';
+  String get addDocument => 'Add Document';
 
   @override
-  String get addExpense => '添加支出';
+  String get addExpense => 'Add Expense';
 
   @override
-  String get addActivity => '添加活动';
+  String get addActivity => 'Add Activity';
 
   @override
-  String get addBooking => '添加预订';
+  String get addBooking => 'Add Booking';
 
   @override
-  String get totalExpenses => '总支出';
+  String get totalExpenses => 'Total Expenses';
 
   @override
-  String get toDoItems => '待办事项';
+  String get toDoItems => 'To-Do Items';
 
   @override
-  String get expenseDetails => '支出详情';
+  String get expenseDetails => 'Expense Details';
 
   @override
-  String get expenseTitle => '支出标题';
+  String get expenseTitle => 'Expense Title';
 
   @override
-  String get category => '类别';
+  String get category => 'Category';
 
   @override
-  String get paidBy => '付款人';
+  String get paidBy => 'Paid By';
 
   @override
-  String get you => '您';
+  String get you => 'You';
 
   @override
-  String get allDay => '全天';
+  String get allDay => 'All Day';
 
   @override
-  String get startTime => '开始时间';
+  String get startTime => 'Start Time';
 
   @override
-  String get endTime => '结束时间';
+  String get endTime => 'End Time';
 
   @override
-  String get activityTitle => '活动标题';
+  String get activityTitle => 'Activity Title';
 
   @override
-  String get activityType => '活动类型';
+  String get activityType => 'Activity Type';
 
   @override
-  String get bookingTitle => '预订标题';
+  String get bookingTitle => 'Booking Title';
 
   @override
-  String get bookingType => '预订类型';
+  String get bookingType => 'Booking';
 
   @override
-  String get status => '状态';
+  String get status => 'Status';
 
   @override
-  String get addFile => '添加文件';
+  String get addFile => 'Add File';
 
   @override
-  String get fileNotFound => '文件未找到';
+  String get fileNotFound => 'File not found';
 
   @override
-  String get fileMovedOrDeleted => '文件可能已被移动或删除';
+  String get fileMovedOrDeleted => 'The file may have been moved or deleted';
 
   @override
-  String get cannotDisplayImage => '无法显示图像';
+  String get cannotDisplayImage => 'Cannot display image';
 
   @override
-  String get openExternally => '外部打开';
+  String get openExternally => 'Open Externally';
 
   @override
-  String get failedToReadFile => '读取文件数据失败';
+  String get failedToReadFile => 'Failed to read file data';
 
   @override
-  String get deleteExpense => '删除支出';
+  String get deleteExpense => 'Delete Expense';
 
   @override
-  String get deleteExpenseConfirmation => '您确定要删除此支出吗？';
+  String get deleteExpenseConfirmation =>
+      'Are you sure you want to delete this expense?';
 
   @override
-  String get expenseBreakdown => '支出明细';
+  String get expenseBreakdown => 'Expense Breakdown';
 
   @override
-  String get breakdown => '明细';
+  String get breakdown => 'Breakdown';
 
   @override
-  String get noExpensesYet => '暂无支出';
+  String get noExpensesYet => 'No Expenses Yet';
 
   @override
-  String get noActivitiesPlanned => '暂无计划的活动';
+  String get noActivitiesPlanned => 'No activities planned';
 
   @override
-  String get splitDetails => '分摊详情';
+  String get splitDetails => 'Split Details';
 
   @override
-  String get editExpense => '编辑支出';
+  String get editExpense => 'Edit Expense';
 
   @override
-  String get addNewExpense => '添加新支出';
+  String get addNewExpense => 'Add New Expense';
 
   @override
-  String get editActivity => '编辑活动';
+  String get editActivity => 'Edit Activity';
 
   @override
-  String get addNewActivity => '添加新活动';
+  String get addNewActivity => 'Add New Activity';
 
   @override
-  String get editBooking => '编辑预订';
+  String get editBooking => 'Edit Booking';
 
   @override
-  String get addNewBooking => '添加新预订';
+  String get addNewBooking => 'Add New Booking';
 
   @override
-  String get updateExpense => '更新支出';
+  String get updateExpense => 'Update Expense';
 
   @override
-  String get updateActivity => '更新活动';
+  String get updateActivity => 'Update Activity';
 
   @override
-  String get updateBooking => '更新预订';
+  String get updateBooking => 'Update Booking';
 
   @override
-  String get transport => '交通';
+  String get transport => 'Transport';
 
   @override
-  String get accommodation => '住宿';
+  String get accommodation => 'Accommodation';
 
   @override
-  String get activities => '活动';
+  String get activities => 'Activities';
 
   @override
-  String get shopping => '购物';
+  String get shopping => 'Shopping';
 
   @override
-  String get sightseeing => '观光';
+  String get sightseeing => 'Sightseeing';
 
   @override
-  String get meal => '餐饮';
+  String get meal => 'Meal';
 
   @override
-  String get entertainment => '娱乐';
+  String get entertainment => 'Entertainment';
 
   @override
-  String get other => '其他';
+  String get other => 'Other';
 
   @override
-  String get noBookingsYet => '暂无预订';
+  String get noBookingsYet => 'No Bookings Yet';
 
   @override
-  String get addFirstBooking => '添加第一个预订';
+  String get addFirstBooking => 'Add First Booking';
 
   @override
-  String get bookingDetails => '预订详情';
+  String get bookingDetails => 'Booking Details';
 
   @override
-  String get vendor => '供应商';
+  String get vendor => 'Vendor';
 
   @override
-  String get confirmationNumber => '确认号';
+  String get confirmationNumber => 'Confirmation Number';
 
   @override
-  String get attachments => '附件';
+  String get attachments => 'Attachments';
 
   @override
-  String get failedToLoadTodos => '加载待办事项失败';
+  String get failedToLoadTodos => 'Failed to load todos';
 
   @override
-  String get task => '任务';
+  String get task => 'Task';
 
   @override
   String allWithCount(int count) {
-    return '全部 ($count)';
+    return 'All ($count)';
   }
 
   @override
-  String get noToDoItems => '暂无待办事项';
+  String get noToDoItems => 'No To-Do Items';
 
   @override
-  String get stayOrganizedMessage => '通过为旅行规划添加任务来保持井然有序！';
+  String get stayOrganizedMessage =>
+      'Stay organized by adding tasks for your trip planning!';
 
   @override
-  String get addFirstTask => '添加第一个任务';
+  String get addFirstTask => 'Add First Task';
 
   @override
-  String get taskDetails => '任务详情';
+  String get taskDetails => 'Task Details';
 
   @override
-  String get completed => '已完成';
+  String get completed => 'Completed';
 
   @override
-  String get pending => '待处理';
+  String get pending => 'Pending';
 
   @override
-  String get priority => '优先级';
+  String get priority => 'Priority';
 
   @override
-  String get dueDate => '截止日期';
+  String get dueDate => 'Due Date';
 
   @override
-  String get editTask => '编辑任务';
+  String get editTask => 'Edit Task';
 
   @override
-  String get addNewTask => '添加新任务';
+  String get addNewTask => 'Add New Task';
 
   @override
-  String get updateTask => '更新任务';
+  String get updateTask => 'Update Task';
 
   @override
-  String get addTask => '添加任务';
+  String get addTask => 'Add Task';
 
   @override
-  String get deleteTask => '删除任务';
+  String get deleteTask => 'Delete Task';
 
   @override
   String deleteTaskConfirmation(String title) {
-    return '您确定要删除\"$title\"吗？此操作无法撤销。';
+    return 'Are you sure you want to delete \"$title\"? This action cannot be undone.';
   }
 
   @override
-  String get keepTrackMessage => '跟踪您的航班、酒店和活动！';
+  String get keepTrackMessage =>
+      'Keep track of your flights, hotels, and activities!';
 
   @override
-  String get previewNotAvailable => '此文件类型不支持预览。\n点击\"外部打开\"以使用其他应用查看。';
+  String get previewNotAvailable =>
+      'Preview not available for this file type.\nTap \"Open Externally\" to view with another app.';
 
   @override
-  String get appVersionBeta => '1.0.0 (测试版)';
+  String get appVersionBeta => '1.0.0 (Beta)';
 
   @override
-  String get defaultUserName => '张三';
+  String get defaultUserName => 'John Doe';
 
   @override
-  String get defaultUserEmail => 'zhang.san@email.com';
+  String get defaultUserEmail => 'john.doe@email.com';
 
   @override
-  String get taskTitle => '任务标题';
+  String get taskTitle => 'Task Title';
 
   @override
-  String get descriptionOptional => '描述（可选）';
+  String get descriptionOptional => 'Description (Optional)';
 
   @override
-  String get setDueDateOptional => '设置截止日期（可选）';
+  String get setDueDateOptional => 'Set Due Date (Optional)';
 
   @override
   String dueWithDate(int day, int month, int year) {
-    return '截止日期：$year/$month/$day';
+    return 'Due: $day/$month/$year';
   }
 
   @override
-  String get urgent => '紧急';
+  String get urgent => 'Urgent';
 
   @override
-  String get high => '高';
+  String get high => 'High';
 
   @override
-  String get medium => '中等';
+  String get medium => 'Medium';
 
   @override
-  String get low => '低';
+  String get low => 'Low';
 
   @override
   String failedToAddUpdateTask(String action, String error) {
-    return '任务$action失败：$error';
+    return 'Failed to $action task: $error';
   }
 
   @override
-  String get vendorCompanyOptional => '供应商/公司（可选）';
+  String get vendorCompanyOptional => 'Vendor/Company (Optional)';
 
   @override
-  String get confirmationNumberOptional => '确认号码（可选）';
+  String get confirmationNumberOptional => 'Confirmation Number (Optional)';
 
   @override
   String amountCurrency(String currency) {
-    return '金额（$currency）';
+    return 'Amount ($currency)';
   }
 
   @override
-  String get setBookingDateOptional => '设置预订日期（可选）';
+  String get setBookingDateOptional => 'Set Booking Date (Optional)';
 
   @override
   String dateWithDate(int day, int month, int year) {
-    return '日期：$year/$month/$day';
+    return 'Date: $day/$month/$year';
   }
 
   @override
-  String get attachmentsOptional => '附件（可选）';
+  String get attachmentsOptional => 'Attachments (Optional)';
 
   @override
   String get maxFileSizeSupported =>
-      '最大文件大小：5MB\n支持格式：PDF、DOC、DOCX、JPG、PNG、GIF';
+      'Max file size: 5MB\nSupported formats: PDF, DOC, DOCX, JPG, PNG, GIF';
 
   @override
   String failedToAddUpdateBooking(String action, String error) {
-    return '预订$action失败：$error';
+    return 'Failed to $action booking: $error';
   }
 
   @override
   String fileAttachedSuccessfully(String filename) {
-    return '$filename 附加成功';
+    return '$filename attached successfully';
   }
 
   @override
-  String get fileSizeMustBeLess => '文件大小必须小于5MB';
+  String get fileSizeMustBeLess => 'File size must be less than 5MB';
 
   @override
   String failedToPickFile(String error) {
-    return '文件选择失败：$error';
+    return 'Failed to pick file: $error';
   }
 
   @override
   String errorSharingFile(String error) {
-    return '文件分享错误：$error';
+    return 'Error sharing file: $error';
   }
 
   @override
-  String get unknown => '未知';
+  String get unknown => 'Unknown';
 
   @override
-  String get editTrip => '编辑旅行';
+  String get editTrip => 'Edit Trip';
 
   @override
-  String get updateTrip => '更新旅行';
+  String get updateTrip => 'Update Trip';
 
   @override
-  String get tripUpdatedSuccessfully => '旅行更新成功';
+  String get tripUpdatedSuccessfully => 'Trip updated successfully';
 
   @override
-  String get failedToUpdateTrip => '旅行更新失败';
+  String get failedToUpdateTrip => 'Failed to update trip';
 
   @override
-  String get deleteTrip => '删除旅行';
+  String get deleteTrip => 'Delete Trip';
 
   @override
-  String get deleteTripConfirmation => '您确定要删除这次旅行吗？此操作无法撤销。';
+  String get deleteTripConfirmation =>
+      'Are you sure you want to delete this trip? This action cannot be undone.';
 
   @override
-  String get tripDeletedSuccessfully => '旅行删除成功';
+  String get tripDeletedSuccessfully => 'Trip deleted successfully';
 
   @override
-  String get failedToDeleteTrip => '旅行删除失败';
+  String get failedToDeleteTrip => 'Failed to delete trip';
 
   @override
-  String get tripCreatedSuccessfully => '旅行创建成功！';
+  String get tripCreatedSuccessfully => 'Trip created successfully!';
 
   @override
-  String get failedToCreateTrip => '旅行创建失败';
+  String get failedToCreateTrip => 'Failed to create trip';
 
   @override
-  String get selectStartDateFirst => '请先选择开始日期';
+  String get selectStartDateFirst => 'Please select start date first';
 
   @override
-  String get addAtLeastOneDestination => '请至少添加一个目的地';
+  String get addAtLeastOneDestination => 'Please add at least one destination';
 
   @override
-  String get selectBothStartAndEndDates => '请选择开始和结束日期';
+  String get selectBothStartAndEndDates =>
+      'Please select both start and end dates';
 
   @override
   String get titleIsRequired => 'Title is required';

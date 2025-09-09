@@ -1,0 +1,211 @@
+{
+  "@@locale": "nl",
+  "appTitle": "Tripease",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  
+  "trips": "Reizen",
+  "@trips": {
+    "description": "Trips tab title"
+  },
+  
+  "documents": "Documenten",
+  "@documents": {
+    "description": "Documents tab title"
+  },
+  
+  "settings": "Instellingen",
+  "@settings": {
+    "description": "Settings tab title"
+  },
+  
+  "quickStats": "Snelle statistieken",
+  "@quickStats": {
+    "description": "Quick stats card title"
+  },
+  
+  "activeTrips": "Actieve reizen",
+  "@activeTrips": {
+    "description": "Active trips label"
+  },
+  
+  "pendingTasks": "Lopende taken",
+  "@pendingTasks": {
+    "description": "Pending tasks label"
+  },
+  
+  "totalBudget": "Totaal budget",
+  "@totalBudget": {
+    "description": "Total budget label"
+  },
+  
+  "nextTripStartsIn": "Volgende reis begint over {days} dagen",
+  "@nextTripStartsIn": {
+    "description": "Next trip countdown message",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  
+  "yourTrips": "Jouw reizen",
+  "@yourTrips": {
+    "description": "Your trips section title"
+  },
+  
+  "searchTrips": "Reizen zoeken...",
+  "@searchTrips": {
+    "description": "Search trips placeholder"
+  },
+  
+  "daysUntilStart": "Dagen tot start",
+  "@daysUntilStart": {
+    "description": "Sort by days until start"
+  },
+  
+  "dateCreated": "Datum aangemaakt",
+  "@dateCreated": {
+    "description": "Sort by date created"
+  },
+  
+  "alphabetical": "Alfabetisch",
+  "@alphabetical": {
+    "description": "Sort alphabetically"
+  },
+  
+  "budget": "Budget",
+  "@budget": {
+    "description": "Budget label"
+  },
+  
+  "tasks": "Taken",
+  "@tasks": {
+    "description": "Tasks label"
+  },
+  
+  "tripInProgress": "Reis in uitvoering",
+  "@tripInProgress": {
+    "description": "Trip in progress status"
+  },
+  
+  "startingToday": "Begint vandaag!",
+  "@startingToday": {
+    "description": "Trip starting today message"
+  },
+  
+  "daysToGo": "{days} dagen te gaan",
+  "@daysToGo": {
+    "description": "Days to go message",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  
+  "active": "{count} actief",
+  "@active": {
+    "description": "Active count label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  
+  "searchDocuments": "Documenten zoeken...",
+  "@searchDocuments": {
+    "description": "Search documents placeholder"
+  },
+  
+  "personal": "Persoonlijk",
+  "@personal": {
+    "description": "Personal documents tab"
+  },
+  
+  "tripRelated": "Reis gerelateerd",
+  "@tripRelated": {
+    "description": "Trip related documents tab"
+  },
+  
+  "uploadDocument": "Document uploaden",
+  "@uploadDocument": {
+    "description": "Upload document title"
+  },
+  
+  "takePhoto": "Foto maken",
+  "@takePhoto": {
+    "description": "Take photo option"
+  },
+  
+  "captureDocumentWithCamera": "Document vastleggen met camera",
+  "@captureDocumentWithCamera": {
+    "description": "Take photo description"
+  },
+  
+  "chooseFromGallery": "Kiezen uit galerij",
+  "@chooseFromGallery": {
+    "description": "Choose from gallery option"
+  },
+  
+  "selectFromPhotoLibrary": "Selecteren uit fotobibliotheek",
+  "@selectFromPhotoLibrary": {
+    "description": "Choose from gallery description"
+  },
+  
+  "chooseFile": "Bestand kiezen",
+  "@chooseFile": {
+    "description": "Choose file option"
+  },
+  
+  "selectPdfOrOtherFiles": "PDF of andere bestanden selecteren",
+  "@selectPdfOrOtherFiles": {
+    "description": "Choose file description"
+  },
+  
+  "expires": "Verloopt: {date}",
+  "@expires": {
+    "description": "Document expiry date",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "2024-12-31"
+      }
+    }
+  },
+  
+  "view": "Bekijken",
+  "@view": {
+    "description": "View action"
+  },
+  
+  "share": "Delen",
+  "@share": {
+    "description": "Share action"
+  },
+  
+  "download": "Downloaden",
+  "@download": {
+    "description": "Download action"
+  },
+  
+  "delete": "Verwijderen",
+  "@delete": {
+    "description": "Delete action"
+  },
+  
+  "cancel": "Annuleren",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  
+  "dutch": "Nederlands",
+  "@dutch": {
+    "description": "Dutch language"
+  }
+}

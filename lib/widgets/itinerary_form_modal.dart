@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import '../themes/app_theme.dart';
 import '../utils/form_validators.dart';
+import '../l10n/app_localizations.dart';
 
 enum ActivityType {
   sightseeing,
@@ -244,7 +245,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                         ),
                         const SizedBox(width: 12),
                         Text(
-                          isEdit ? 'Edit Activity' : 'Add New Activity',
+                          isEdit ? AppLocalizations.of(context)!.editActivity : AppLocalizations.of(context)!.addNewActivity,
                           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -259,12 +260,13 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                       onChanged: (value) {
                         setState(() {
                           titleCharCount = value.length;
-                          titleError = FormValidators.validateTitle(value);
+                          titleError = FormValidators.validateTitle(value, context);
                         });
                       },
                       decoration: FormValidators.createRequiredInputDecoration(
-                        labelText: 'Activity Title',
+                        labelText: AppLocalizations.of(context)!.activityTitle,
                         maxLength: FormValidators.titleLimit,
+                        context: context,
                       ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
@@ -294,14 +296,14 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                         ),
                         errorText: titleError,
                       ),
-                      validator: FormValidators.validateTitle,
+                      validator: (value) => FormValidators.validateTitle(value, context),
                       autofocus: true,
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<ActivityType>(
                       value: selectedType,
                       decoration: InputDecoration(
-                        labelText: 'Activity Type',
+                        labelText: AppLocalizations.of(context)!.activityType,
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -341,12 +343,13 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                       onChanged: (value) {
                         setState(() {
                           locationCharCount = value.length;
-                          locationError = FormValidators.validateLocation(value);
+                          locationError = FormValidators.validateLocation(value, context);
                         });
                       },
                       decoration: FormValidators.createOptionalInputDecoration(
-                        labelText: 'Location',
+                        labelText: AppLocalizations.of(context)!.location,
                         maxLength: FormValidators.locationLimit,
+                        context: context,
                       ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
@@ -376,7 +379,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                         ),
                         errorText: locationError,
                       ),
-                      validator: FormValidators.validateLocation,
+                      validator: (value) => FormValidators.validateLocation(value, context),
                     ),
                     const SizedBox(height: 16),
                     InkWell(
@@ -486,7 +489,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                                   Expanded(
                                     child: Text(
                                       selectedStartTime == null
-                                          ? 'Start Time'
+                                          ? AppLocalizations.of(context)!.startTime
                                           : _formatTime(selectedStartTime!),
                                       style: TextStyle(
                                         color: selectedStartTime == null
@@ -555,7 +558,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                                   Expanded(
                                     child: Text(
                                       selectedEndTime == null
-                                          ? 'End Time'
+                                          ? AppLocalizations.of(context)!.endTime
                                           : _formatTime(selectedEndTime!),
                                       style: TextStyle(
                                         color: selectedEndTime == null
@@ -592,12 +595,13 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                       onChanged: (value) {
                         setState(() {
                           descriptionCharCount = value.length;
-                          descriptionError = FormValidators.validateItineraryDescription(value);
+                          descriptionError = FormValidators.validateItineraryDescription(value, context);
                         });
                       },
                       decoration: FormValidators.createOptionalInputDecoration(
-                        labelText: 'Description',
+                        labelText: AppLocalizations.of(context)!.description,
                         maxLength: FormValidators.itineraryDescriptionLimit,
+                        context: context,
                       ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
@@ -627,7 +631,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                         ),
                         errorText: descriptionError,
                       ),
-                      validator: FormValidators.validateItineraryDescription,
+                      validator: (value) => FormValidators.validateItineraryDescription(value, context),
                       maxLines: 3,
                     ),
                     const SizedBox(height: 24),
@@ -644,7 +648,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                               ),
                             ),
                             child: Text(
-                              'Cancel',
+                              AppLocalizations.of(context)!.cancel,
                               style: TextStyle(color: AppTheme.textSecondary),
                             ),
                           ),
@@ -678,7 +682,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                                 ),
                               ),
                               child: Text(
-                                isEdit ? 'Update Activity' : 'Add Activity',
+                                isEdit ? AppLocalizations.of(context)!.updateActivity : AppLocalizations.of(context)!.addActivity,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -722,21 +726,22 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
   }
 
   String _getActivityTypeDisplayName(ActivityType type) {
+    final l10n = AppLocalizations.of(context)!;
     switch (type) {
       case ActivityType.sightseeing:
-        return 'Sightseeing';
+        return l10n.sightseeing;
       case ActivityType.meal:
-        return 'Meal';
+        return l10n.meal;
       case ActivityType.transport:
-        return 'Transport';
+        return l10n.transport;
       case ActivityType.accommodation:
-        return 'Accommodation';
+        return l10n.accommodation;
       case ActivityType.shopping:
-        return 'Shopping';
+        return l10n.shopping;
       case ActivityType.entertainment:
-        return 'Entertainment';
+        return l10n.entertainment;
       case ActivityType.other:
-        return 'Other';
+        return l10n.other;
     }
   }
 

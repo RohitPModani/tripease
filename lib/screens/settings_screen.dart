@@ -434,6 +434,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
         return '🇩🇪';
       case 'it':
         return '🇮🇹';
+      case 'pt':
+        return '🇵🇹';
+      case 'ru':
+        return '🇷🇺';
+      case 'ar':
+        return '🇸🇦';
+      case 'hi':
+        return '🇮🇳';
+      case 'nl':
+        return '🇳🇱';
       default:
         return '🌍';
     }

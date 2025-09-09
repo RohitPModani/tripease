@@ -5,13 +5,18 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_ar.dart';
 import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
 import 'app_localizations_fr.dart';
+import 'app_localizations_hi.dart';
 import 'app_localizations_it.dart';
 import 'app_localizations_ja.dart';
 import 'app_localizations_ko.dart';
+import 'app_localizations_nl.dart';
+import 'app_localizations_pt.dart';
+import 'app_localizations_ru.dart';
 import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
@@ -100,13 +105,18 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
     Locale('de'),
     Locale('en'),
     Locale('es'),
     Locale('fr'),
+    Locale('hi'),
     Locale('it'),
     Locale('ja'),
     Locale('ko'),
+    Locale('nl'),
+    Locale('pt'),
+    Locale('ru'),
     Locale('zh'),
   ];
 
@@ -248,7 +258,7 @@ abstract class AppLocalizations {
   /// **'Trip Related'**
   String get tripRelated;
 
-  /// Upload document title
+  /// Button text for uploading new document
   ///
   /// In en, this message translates to:
   /// **'Upload Document'**
@@ -590,6 +600,36 @@ abstract class AppLocalizations {
   /// **'Italiano'**
   String get italian;
 
+  /// Portuguese language
+  ///
+  /// In en, this message translates to:
+  /// **'Português'**
+  String get portuguese;
+
+  /// Russian language
+  ///
+  /// In en, this message translates to:
+  /// **'Русский'**
+  String get russian;
+
+  /// Arabic language
+  ///
+  /// In en, this message translates to:
+  /// **'العربية'**
+  String get arabic;
+
+  /// Hindi language
+  ///
+  /// In en, this message translates to:
+  /// **'हिन्दी'**
+  String get hindi;
+
+  /// Dutch language
+  ///
+  /// In en, this message translates to:
+  /// **'Nederlands'**
+  String get dutch;
+
   /// Title label
   ///
   /// In en, this message translates to:
@@ -680,7 +720,7 @@ abstract class AppLocalizations {
   /// **'Add Expense'**
   String get addExpense;
 
-  /// Add activity button
+  /// Add activity button text
   ///
   /// In en, this message translates to:
   /// **'Add Activity'**
@@ -770,10 +810,10 @@ abstract class AppLocalizations {
   /// **'Booking Title'**
   String get bookingTitle;
 
-  /// Booking type field
+  /// Activity type for bookings
   ///
   /// In en, this message translates to:
-  /// **'Booking Type'**
+  /// **'Booking'**
   String get bookingType;
 
   /// Status field
@@ -1339,6 +1379,624 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please select both start and end dates'**
   String get selectBothStartAndEndDates;
+
+  /// Validation error when title is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Title is required'**
+  String get titleIsRequired;
+
+  /// Validation error when title is too long
+  ///
+  /// In en, this message translates to:
+  /// **'Title must be {limit} characters or less'**
+  String titleTooLong(int limit);
+
+  /// Validation error when description is too long
+  ///
+  /// In en, this message translates to:
+  /// **'Description must be {limit} characters or less'**
+  String descriptionTooLong(int limit);
+
+  /// Validation error when vendor name is too long
+  ///
+  /// In en, this message translates to:
+  /// **'Vendor/Company must be {limit} characters or less'**
+  String vendorTooLong(int limit);
+
+  /// Validation error when confirmation number is too long
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation number must be {limit} characters or less'**
+  String confirmationNumberTooLong(int limit);
+
+  /// Validation error when paid by name is too long
+  ///
+  /// In en, this message translates to:
+  /// **'Paid by must be {limit} characters or less'**
+  String paidByTooLong(int limit);
+
+  /// Validation error when location is too long
+  ///
+  /// In en, this message translates to:
+  /// **'Location must be {limit} characters or less'**
+  String locationTooLong(int limit);
+
+  /// Validation error when itinerary description is too long
+  ///
+  /// In en, this message translates to:
+  /// **'Description must be {limit} characters or less'**
+  String itineraryDescriptionTooLong(int limit);
+
+  /// Validation error when amount is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Amount is required'**
+  String get amountIsRequired;
+
+  /// Validation error when amount format is invalid
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid amount'**
+  String get enterValidAmount;
+
+  /// Validation error when amount is negative or zero
+  ///
+  /// In en, this message translates to:
+  /// **'Amount must be positive'**
+  String get amountMustBePositive;
+
+  /// Generic required field validation error
+  ///
+  /// In en, this message translates to:
+  /// **'{fieldName} is required'**
+  String fieldIsRequired(String fieldName);
+
+  /// Validation error when destination is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Destination is required'**
+  String get destinationIsRequired;
+
+  /// Validation error when destination name is too long
+  ///
+  /// In en, this message translates to:
+  /// **'Destination must be {limit} characters or less'**
+  String destinationTooLong(int limit);
+
+  /// Label for optional fields
+  ///
+  /// In en, this message translates to:
+  /// **'{labelText} (Optional)'**
+  String fieldOptional(String labelText);
+
+  /// Character limit indicator
+  ///
+  /// In en, this message translates to:
+  /// **'{maxLength} max'**
+  String maxCharacters(int maxLength);
+
+  /// Search input placeholder for trips
+  ///
+  /// In en, this message translates to:
+  /// **'Search trips...'**
+  String get searchTripsPlaceholder;
+
+  /// Filter option showing all items with count
+  ///
+  /// In en, this message translates to:
+  /// **'All ({total})'**
+  String allWithTotal(int total);
+
+  /// Filter option for upcoming trips with count
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming ({count})'**
+  String upcomingWithCount(int count);
+
+  /// Filter option for active trips with count
+  ///
+  /// In en, this message translates to:
+  /// **'Active ({count})'**
+  String activeWithCount(int count);
+
+  /// Filter option for completed trips with count
+  ///
+  /// In en, this message translates to:
+  /// **'Completed ({count})'**
+  String completedWithCount(int count);
+
+  /// Section title for user's trips
+  ///
+  /// In en, this message translates to:
+  /// **'Your Trips'**
+  String get yourTripsTitle;
+
+  /// Active trips counter
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Active'**
+  String activeTripsCount(int count);
+
+  /// Bookings tab title in trip detail screen
+  ///
+  /// In en, this message translates to:
+  /// **'Bookings'**
+  String get bookingsTabTitle;
+
+  /// Expenses tab title in trip detail screen
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get expensesTabTitle;
+
+  /// Overview tab title in trip detail screen
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get overviewTabTitle;
+
+  /// To-Do tab title in trip detail screen
+  ///
+  /// In en, this message translates to:
+  /// **'To-Do'**
+  String get todoTabTitle;
+
+  /// Itinerary tab title in trip detail screen
+  ///
+  /// In en, this message translates to:
+  /// **'Itinerary'**
+  String get itineraryTabTitle;
+
+  /// Error message when trip fails to load
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load trip'**
+  String get failedToLoadTrip;
+
+  /// Error message when trip is not found
+  ///
+  /// In en, this message translates to:
+  /// **'Trip not found'**
+  String get tripNotFound;
+
+  /// Dialog title for saving images
+  ///
+  /// In en, this message translates to:
+  /// **'Save Image'**
+  String get saveImage;
+
+  /// Option to save image to photo gallery
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Photos'**
+  String get saveToPhotos;
+
+  /// Description for save to photos option
+  ///
+  /// In en, this message translates to:
+  /// **'Save directly to your photo gallery'**
+  String get saveToPhotosDescription;
+
+  /// Option to save file to specific location
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Files'**
+  String get saveToFiles;
+
+  /// Description for save to files option
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a specific folder to save'**
+  String get saveToFilesDescription;
+
+  /// Success message when image is saved to photos
+  ///
+  /// In en, this message translates to:
+  /// **'Image saved to Photos'**
+  String get imageSavedToPhotos;
+
+  /// Success message when file is saved
+  ///
+  /// In en, this message translates to:
+  /// **'File saved successfully'**
+  String get fileSavedSuccessfully;
+
+  /// Action to open something
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get open;
+
+  /// Error message when file download fails
+  ///
+  /// In en, this message translates to:
+  /// **'Error downloading file: {error}'**
+  String errorDownloadingFile(String error);
+
+  /// Error message when saving to photos fails
+  ///
+  /// In en, this message translates to:
+  /// **'Error saving to Photos: {error}'**
+  String errorSavingToPhotos(String error);
+
+  /// Error message when saving file fails
+  ///
+  /// In en, this message translates to:
+  /// **'Error saving file: {error}'**
+  String errorSavingFile(String error);
+
+  /// Dialog title for selecting documents
+  ///
+  /// In en, this message translates to:
+  /// **'Select Document'**
+  String get selectDocument;
+
+  /// Option title for choosing from gallery
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from Gallery'**
+  String get chooseFromGalleryTitle;
+
+  /// Description for gallery option
+  ///
+  /// In en, this message translates to:
+  /// **'Select from photo library'**
+  String get chooseFromGalleryDescription;
+
+  /// Option title for choosing files
+  ///
+  /// In en, this message translates to:
+  /// **'Choose File'**
+  String get chooseFileTitle;
+
+  /// Description for file picker option
+  ///
+  /// In en, this message translates to:
+  /// **'Select PDF or other files'**
+  String get chooseFileDescription;
+
+  /// Error when camera capture fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to capture image'**
+  String get failedToCaptureImage;
+
+  /// Error when image selection fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to select image'**
+  String get failedToSelectImage;
+
+  /// Error when file selection fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to select file'**
+  String get failedToSelectFile;
+
+  /// Success message when document is added
+  ///
+  /// In en, this message translates to:
+  /// **'Document added successfully'**
+  String get documentAddedSuccessfully;
+
+  /// Success message when document is updated
+  ///
+  /// In en, this message translates to:
+  /// **'Document updated successfully'**
+  String get documentUpdatedSuccessfully;
+
+  /// Error message when document save fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save document'**
+  String get failedToSaveDocument;
+
+  /// Required document title field
+  ///
+  /// In en, this message translates to:
+  /// **'Document Title *'**
+  String get documentTitle;
+
+  /// Document category field
+  ///
+  /// In en, this message translates to:
+  /// **'Document Category'**
+  String get documentCategory;
+
+  /// Button text for changing existing document
+  ///
+  /// In en, this message translates to:
+  /// **'Change Document'**
+  String get changeDocument;
+
+  /// Documents screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get documentsTitle;
+
+  /// Empty state message when no documents exist
+  ///
+  /// In en, this message translates to:
+  /// **'No documents yet'**
+  String get noDocumentsYet;
+
+  /// Message when search returns no results
+  ///
+  /// In en, this message translates to:
+  /// **'No documents found'**
+  String get noDocumentsFound;
+
+  /// Button to clear search filters
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get clearSearch;
+
+  /// Dialog title for document details
+  ///
+  /// In en, this message translates to:
+  /// **'Document Details'**
+  String get documentDetails;
+
+  /// Label for file size information
+  ///
+  /// In en, this message translates to:
+  /// **'File Size'**
+  String get fileSize;
+
+  /// Label for file name information
+  ///
+  /// In en, this message translates to:
+  /// **'File Name'**
+  String get fileName;
+
+  /// Dialog title for deleting document
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Document'**
+  String get deleteDocument;
+
+  /// Confirmation message for deleting document
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{title}\"? This action cannot be undone.'**
+  String deleteDocumentConfirmation(String title);
+
+  /// Success message when document is deleted
+  ///
+  /// In en, this message translates to:
+  /// **'Document \"{title}\" deleted successfully'**
+  String documentDeletedSuccessfully(String title);
+
+  /// Error message when document deletion fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete document: {error}'**
+  String failedToDeleteDocument(String error);
+
+  /// Location field label
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
+
+  /// Activity title field label
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Title'**
+  String get activityTitleLabel;
+
+  /// Activity type field label
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Type'**
+  String get activityTypeLabel;
+
+  /// Expense title field label
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Title'**
+  String get expenseTitleLabel;
+
+  /// Destinations field label
+  ///
+  /// In en, this message translates to:
+  /// **'Destinations'**
+  String get destinations;
+
+  /// Currency field label
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get currency;
+
+  /// Status text for ongoing trips
+  ///
+  /// In en, this message translates to:
+  /// **'Trip in Progress'**
+  String get tripInProgressStatus;
+
+  /// Status text for completed items
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completedStatus;
+
+  /// Section header for trip dates
+  ///
+  /// In en, this message translates to:
+  /// **'Trip Dates'**
+  String get tripDates;
+
+  /// Activity type for expenses
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get expenseType;
+
+  /// Dialog title for expense details
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Details'**
+  String get expenseDetailsTitle;
+
+  /// Dialog title for activity details
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Details'**
+  String get activityDetailsTitle;
+
+  /// Dialog title for deleting activity
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Activity'**
+  String get deleteActivity;
+
+  /// Dialog title for deleting booking
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Booking'**
+  String get deleteBooking;
+
+  /// January month abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'Jan'**
+  String get january;
+
+  /// February month abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'Feb'**
+  String get february;
+
+  /// March month abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'Mar'**
+  String get march;
+
+  /// April month abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'Apr'**
+  String get april;
+
+  /// May month abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'May'**
+  String get may;
+
+  /// June month abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'Jun'**
+  String get june;
+
+  /// July month abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'Jul'**
+  String get july;
+
+  /// August month abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'Aug'**
+  String get august;
+
+  /// September month abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'Sept'**
+  String get september;
+
+  /// October month abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'Oct'**
+  String get october;
+
+  /// November month abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'Nov'**
+  String get november;
+
+  /// December month abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'Dec'**
+  String get december;
+
+  /// Food expense category
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get food;
+
+  /// Confirmed status
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get confirmed;
+
+  /// Cancelled status
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
+  /// Passport document type
+  ///
+  /// In en, this message translates to:
+  /// **'Passport'**
+  String get passport;
+
+  /// Visa document type
+  ///
+  /// In en, this message translates to:
+  /// **'Visa'**
+  String get visa;
+
+  /// Ticket document type
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket'**
+  String get ticket;
+
+  /// Hotel document type
+  ///
+  /// In en, this message translates to:
+  /// **'Hotel'**
+  String get hotel;
+
+  /// Insurance document type
+  ///
+  /// In en, this message translates to:
+  /// **'Insurance'**
+  String get insurance;
+
+  /// Edit document title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Document'**
+  String get editDocument;
+
+  /// Update document button text
+  ///
+  /// In en, this message translates to:
+  /// **'Update Document'**
+  String get updateDocument;
+
+  /// Save to gallery option
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Gallery'**
+  String get saveToGallery;
 }
 
 class _AppLocalizationsDelegate
@@ -1352,13 +2010,18 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) => <String>[
+    'ar',
     'de',
     'en',
     'es',
     'fr',
+    'hi',
     'it',
     'ja',
     'ko',
+    'nl',
+    'pt',
+    'ru',
     'zh',
   ].contains(locale.languageCode);
 
@@ -1369,6 +2032,8 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'ar':
+      return AppLocalizationsAr();
     case 'de':
       return AppLocalizationsDe();
     case 'en':
@@ -1377,12 +2042,20 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEs();
     case 'fr':
       return AppLocalizationsFr();
+    case 'hi':
+      return AppLocalizationsHi();
     case 'it':
       return AppLocalizationsIt();
     case 'ja':
       return AppLocalizationsJa();
     case 'ko':
       return AppLocalizationsKo();
+    case 'nl':
+      return AppLocalizationsNl();
+    case 'pt':
+      return AppLocalizationsPt();
+    case 'ru':
+      return AppLocalizationsRu();
     case 'zh':
       return AppLocalizationsZh();
   }

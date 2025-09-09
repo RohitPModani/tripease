@@ -423,6 +423,31 @@
   "@italian": {
     "description": "Italian language"
   },
+
+  "portuguese": "Português",
+  "@portuguese": {
+    "description": "Portuguese language"
+  },
+
+  "russian": "Русский",
+  "@russian": {
+    "description": "Russian language"
+  },
+
+  "arabic": "العربية",
+  "@arabic": {
+    "description": "Arabic language"
+  },
+
+  "hindi": "हिन्दी",
+  "@hindi": {
+    "description": "Hindi language"
+  },
+
+  "dutch": "Nederlands",
+  "@dutch": {
+    "description": "Dutch language"
+  },
   
   "title": "Title",
   "@title": {
@@ -1136,5 +1161,667 @@
   "selectBothStartAndEndDates": "Please select both start and end dates",
   "@selectBothStartAndEndDates": {
     "description": "Error when dates are not selected"
+  },
+
+  "titleIsRequired": "Title is required",
+  "@titleIsRequired": {
+    "description": "Validation error when title is missing"
+  },
+
+  "titleTooLong": "Title must be {limit} characters or less",
+  "@titleTooLong": {
+    "description": "Validation error when title is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+
+  "descriptionTooLong": "Description must be {limit} characters or less", 
+  "@descriptionTooLong": {
+    "description": "Validation error when description is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "500"
+      }
+    }
+  },
+
+  "vendorTooLong": "Vendor/Company must be {limit} characters or less",
+  "@vendorTooLong": {
+    "description": "Validation error when vendor name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+
+  "confirmationNumberTooLong": "Confirmation number must be {limit} characters or less",
+  "@confirmationNumberTooLong": {
+    "description": "Validation error when confirmation number is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+
+  "paidByTooLong": "Paid by must be {limit} characters or less",
+  "@paidByTooLong": {
+    "description": "Validation error when paid by name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+
+  "locationTooLong": "Location must be {limit} characters or less",
+  "@locationTooLong": {
+    "description": "Validation error when location is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+
+  "itineraryDescriptionTooLong": "Description must be {limit} characters or less",
+  "@itineraryDescriptionTooLong": {
+    "description": "Validation error when itinerary description is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "500"
+      }
+    }
+  },
+
+  "amountIsRequired": "Amount is required",
+  "@amountIsRequired": {
+    "description": "Validation error when amount is missing"
+  },
+
+  "enterValidAmount": "Please enter a valid amount",
+  "@enterValidAmount": {
+    "description": "Validation error when amount format is invalid"
+  },
+
+  "amountMustBePositive": "Amount must be positive",
+  "@amountMustBePositive": {
+    "description": "Validation error when amount is negative or zero"
+  },
+
+  "fieldIsRequired": "{fieldName} is required",
+  "@fieldIsRequired": {
+    "description": "Generic required field validation error",
+    "placeholders": {
+      "fieldName": {
+        "type": "String",
+        "example": "Destination"
+      }
+    }
+  },
+
+  "destinationIsRequired": "Destination is required", 
+  "@destinationIsRequired": {
+    "description": "Validation error when destination is missing"
+  },
+
+  "destinationTooLong": "Destination must be {limit} characters or less",
+  "@destinationTooLong": {
+    "description": "Validation error when destination name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+
+  "fieldOptional": "{labelText} (Optional)",
+  "@fieldOptional": {
+    "description": "Label for optional fields",
+    "placeholders": {
+      "labelText": {
+        "type": "String",
+        "example": "Description"
+      }
+    }
+  },
+
+  "maxCharacters": "{maxLength} max",
+  "@maxCharacters": {
+    "description": "Character limit indicator",
+    "placeholders": {
+      "maxLength": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+
+  "searchTripsPlaceholder": "Search trips...",
+  "@searchTripsPlaceholder": {
+    "description": "Search input placeholder for trips"
+  },
+
+  "allWithTotal": "All ({total})",
+  "@allWithTotal": {
+    "description": "Filter option showing all items with count",
+    "placeholders": {
+      "total": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
+
+  "upcomingWithCount": "Upcoming ({count})",
+  "@upcomingWithCount": {
+    "description": "Filter option for upcoming trips with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+
+  "activeWithCount": "Active ({count})",
+  "@activeWithCount": {
+    "description": "Filter option for active trips with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+
+  "completedWithCount": "Completed ({count})",
+  "@completedWithCount": {
+    "description": "Filter option for completed trips with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "7"
+      }
+    }
+  },
+
+  "yourTripsTitle": "Your Trips",
+  "@yourTripsTitle": {
+    "description": "Section title for user's trips"
+  },
+
+  "activeTripsCount": "{count} Active",
+  "@activeTripsCount": {
+    "description": "Active trips counter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+
+  "bookingsTabTitle": "Bookings",
+  "@bookingsTabTitle": {
+    "description": "Bookings tab title in trip detail screen"
+  },
+
+  "expensesTabTitle": "Expenses", 
+  "@expensesTabTitle": {
+    "description": "Expenses tab title in trip detail screen"
+  },
+
+  "overviewTabTitle": "Overview",
+  "@overviewTabTitle": {
+    "description": "Overview tab title in trip detail screen"
+  },
+
+  "todoTabTitle": "To-Do",
+  "@todoTabTitle": {
+    "description": "To-Do tab title in trip detail screen"
+  },
+
+  "itineraryTabTitle": "Itinerary",
+  "@itineraryTabTitle": {
+    "description": "Itinerary tab title in trip detail screen"
+  },
+
+  "failedToLoadTrip": "Failed to load trip",
+  "@failedToLoadTrip": {
+    "description": "Error message when trip fails to load"
+  },
+
+  "tripNotFound": "Trip not found",
+  "@tripNotFound": {
+    "description": "Error message when trip is not found"
+  },
+
+  "saveImage": "Save Image",
+  "@saveImage": {
+    "description": "Dialog title for saving images"
+  },
+
+  "saveToPhotos": "Save to Photos",
+  "@saveToPhotos": {
+    "description": "Option to save image to photo gallery"
+  },
+
+  "saveToPhotosDescription": "Save directly to your photo gallery",
+  "@saveToPhotosDescription": {
+    "description": "Description for save to photos option"
+  },
+
+  "saveToFiles": "Save to Files",
+  "@saveToFiles": {
+    "description": "Option to save file to specific location"
+  },
+
+  "saveToFilesDescription": "Choose a specific folder to save",
+  "@saveToFilesDescription": {
+    "description": "Description for save to files option"
+  },
+
+  "imageSavedToPhotos": "Image saved to Photos",
+  "@imageSavedToPhotos": {
+    "description": "Success message when image is saved to photos"
+  },
+
+  "fileSavedSuccessfully": "File saved successfully",
+  "@fileSavedSuccessfully": {
+    "description": "Success message when file is saved"
+  },
+
+  "open": "Open",
+  "@open": {
+    "description": "Action to open something"
+  },
+
+  "errorDownloadingFile": "Error downloading file: {error}",
+  "@errorDownloadingFile": {
+    "description": "Error message when file download fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+
+  "errorSavingToPhotos": "Error saving to Photos: {error}",
+  "@errorSavingToPhotos": {
+    "description": "Error message when saving to photos fails",
+    "placeholders": {
+      "error": {
+        "type": "String", 
+        "example": "Permission denied"
+      }
+    }
+  },
+
+  "errorSavingFile": "Error saving file: {error}",
+  "@errorSavingFile": {
+    "description": "Error message when saving file fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Disk full"
+      }
+    }
+  },
+
+  "selectDocument": "Select Document",
+  "@selectDocument": {
+    "description": "Dialog title for selecting documents"
+  },
+
+  "chooseFromGalleryTitle": "Choose from Gallery",
+  "@chooseFromGalleryTitle": {
+    "description": "Option title for choosing from gallery"
+  },
+
+  "chooseFromGalleryDescription": "Select from photo library", 
+  "@chooseFromGalleryDescription": {
+    "description": "Description for gallery option"
+  },
+
+  "chooseFileTitle": "Choose File",
+  "@chooseFileTitle": {
+    "description": "Option title for choosing files"
+  },
+
+  "chooseFileDescription": "Select PDF or other files",
+  "@chooseFileDescription": {
+    "description": "Description for file picker option"
+  },
+
+  "failedToCaptureImage": "Failed to capture image",
+  "@failedToCaptureImage": {
+    "description": "Error when camera capture fails"
+  },
+
+  "failedToSelectImage": "Failed to select image",
+  "@failedToSelectImage": {
+    "description": "Error when image selection fails"
+  },
+
+  "failedToSelectFile": "Failed to select file",
+  "@failedToSelectFile": {
+    "description": "Error when file selection fails"
+  },
+
+  "documentAddedSuccessfully": "Document added successfully",
+  "@documentAddedSuccessfully": {
+    "description": "Success message when document is added"
+  },
+
+  "documentUpdatedSuccessfully": "Document updated successfully",
+  "@documentUpdatedSuccessfully": {
+    "description": "Success message when document is updated"
+  },
+
+  "failedToSaveDocument": "Failed to save document",
+  "@failedToSaveDocument": {
+    "description": "Error message when document save fails"
+  },
+
+  "documentTitle": "Document Title *",
+  "@documentTitle": {
+    "description": "Required document title field"
+  },
+
+  "documentCategory": "Document Category",
+  "@documentCategory": {
+    "description": "Document category field"
+  },
+
+  "uploadDocument": "Upload Document",
+  "@uploadDocument": {
+    "description": "Button text for uploading new document"
+  },
+
+  "changeDocument": "Change Document",
+  "@changeDocument": {
+    "description": "Button text for changing existing document"
+  },
+
+  "documentsTitle": "Documents",
+  "@documentsTitle": {
+    "description": "Documents screen title"
+  },
+
+  "noDocumentsYet": "No documents yet",
+  "@noDocumentsYet": {
+    "description": "Empty state message when no documents exist"
+  },
+
+  "noDocumentsFound": "No documents found",
+  "@noDocumentsFound": {
+    "description": "Message when search returns no results"
+  },
+
+  "clearSearch": "Clear search",
+  "@clearSearch": {
+    "description": "Button to clear search filters"
+  },
+
+  "documentDetails": "Document Details",
+  "@documentDetails": {
+    "description": "Dialog title for document details"
+  },
+
+  "fileSize": "File Size",
+  "@fileSize": {
+    "description": "Label for file size information"
+  },
+
+  "fileName": "File Name",
+  "@fileName": {
+    "description": "Label for file name information"
+  },
+
+  "deleteDocument": "Delete Document",
+  "@deleteDocument": {
+    "description": "Dialog title for deleting document"
+  },
+
+  "deleteDocumentConfirmation": "Are you sure you want to delete \"{title}\"? This action cannot be undone.",
+  "@deleteDocumentConfirmation": {
+    "description": "Confirmation message for deleting document",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Passport.pdf"
+      }
+    }
+  },
+
+  "documentDeletedSuccessfully": "Document \"{title}\" deleted successfully",
+  "@documentDeletedSuccessfully": {
+    "description": "Success message when document is deleted",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Passport.pdf"
+      }
+    }
+  },
+
+  "failedToDeleteDocument": "Failed to delete document: {error}",
+  "@failedToDeleteDocument": {
+    "description": "Error message when document deletion fails", 
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File in use"
+      }
+    }
+  },
+
+  "location": "Location",
+  "@location": {
+    "description": "Location field label"
+  },
+
+  "activityTitleLabel": "Activity Title",
+  "@activityTitleLabel": {
+    "description": "Activity title field label"
+  },
+
+  "activityTypeLabel": "Activity Type",
+  "@activityTypeLabel": {
+    "description": "Activity type field label"
+  },
+
+  "expenseTitleLabel": "Expense Title",
+  "@expenseTitleLabel": {
+    "description": "Expense title field label"
+  },
+
+  "destinations": "Destinations",
+  "@destinations": {
+    "description": "Destinations field label"
+  },
+
+  "currency": "Currency",
+  "@currency": {
+    "description": "Currency field label"
+  },
+
+  "tripInProgressStatus": "Trip in Progress",
+  "@tripInProgressStatus": {
+    "description": "Status text for ongoing trips"
+  },
+
+  "completedStatus": "Completed", 
+  "@completedStatus": {
+    "description": "Status text for completed items"
+  },
+
+  "tripDates": "Trip Dates",
+  "@tripDates": {
+    "description": "Section header for trip dates"
+  },
+
+  "bookingType": "Booking",
+  "@bookingType": {
+    "description": "Activity type for bookings"
+  },
+
+  "expenseType": "Expense",
+  "@expenseType": {
+    "description": "Activity type for expenses"
+  },
+
+  "expenseDetailsTitle": "Expense Details",
+  "@expenseDetailsTitle": {
+    "description": "Dialog title for expense details"
+  },
+
+  "activityDetailsTitle": "Activity Details",
+  "@activityDetailsTitle": {
+    "description": "Dialog title for activity details"
+  },
+
+  "deleteActivity": "Delete Activity",
+  "@deleteActivity": {
+    "description": "Dialog title for deleting activity"
+  },
+
+  "deleteBooking": "Delete Booking",
+  "@deleteBooking": {
+    "description": "Dialog title for deleting booking"
+  },
+
+  "january": "Jan",
+  "@january": {
+    "description": "January month abbreviation"
+  },
+
+  "february": "Feb", 
+  "@february": {
+    "description": "February month abbreviation"
+  },
+
+  "march": "Mar",
+  "@march": {
+    "description": "March month abbreviation"
+  },
+
+  "april": "Apr",
+  "@april": {
+    "description": "April month abbreviation"
+  },
+
+  "may": "May",
+  "@may": {
+    "description": "May month abbreviation"
+  },
+
+  "june": "Jun",
+  "@june": {
+    "description": "June month abbreviation"
+  },
+
+  "july": "Jul",
+  "@july": {
+    "description": "July month abbreviation"
+  },
+
+  "august": "Aug",
+  "@august": {
+    "description": "August month abbreviation"
+  },
+
+  "september": "Sept",
+  "@september": {
+    "description": "September month abbreviation"
+  },
+
+  "october": "Oct",
+  "@october": {
+    "description": "October month abbreviation"
+  },
+
+  "november": "Nov",
+  "@november": {
+    "description": "November month abbreviation"
+  },
+
+  "december": "Dec",
+  "@december": {
+    "description": "December month abbreviation"
+  },
+
+  "food": "Food",
+  "@food": {
+    "description": "Food expense category"
+  },
+
+  "confirmed": "Confirmed",
+  "@confirmed": {
+    "description": "Confirmed status"
+  },
+
+  "cancelled": "Cancelled",
+  "@cancelled": {
+    "description": "Cancelled status"
+  },
+
+  "passport": "Passport",
+  "@passport": {
+    "description": "Passport document type"
+  },
+
+  "visa": "Visa",
+  "@visa": {
+    "description": "Visa document type"
+  },
+
+  "ticket": "Ticket",
+  "@ticket": {
+    "description": "Ticket document type"
+  },
+
+  "hotel": "Hotel",
+  "@hotel": {
+    "description": "Hotel document type"
+  },
+
+  "insurance": "Insurance",
+  "@insurance": {
+    "description": "Insurance document type"
+  },
+
+  "editDocument": "Edit Document",
+  "@editDocument": {
+    "description": "Edit document title"
+  },
+
+  "updateDocument": "Update Document",
+  "@updateDocument": {
+    "description": "Update document button text"
+  },
+
+  "saveToGallery": "Save to Gallery",
+  "@saveToGallery": {
+    "description": "Save to gallery option"
+  },
+
+  "addActivity": "Add Activity",
+  "@addActivity": {
+    "description": "Add activity button text"
   }
 }

@@ -25,18 +25,21 @@ class _TripDetailScreenState extends State<TripDetailScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
-  final List<Tab> _tabs = const [
-    Tab(icon: Icon(Iconsax.chart), text: 'Overview'),
-    Tab(icon: Icon(Iconsax.task_square), text: 'To-Do'),
-    Tab(icon: Icon(Iconsax.airplane), text: 'Bookings'),
-    Tab(icon: Icon(Iconsax.dollar_circle), text: 'Expenses'),
-    Tab(icon: Icon(Iconsax.calendar_1), text: 'Itinerary'),
-  ];
+  List<Tab> _getTabs(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return [
+      Tab(icon: const Icon(Iconsax.chart), text: l10n.overviewTabTitle),
+      Tab(icon: const Icon(Iconsax.task_square), text: l10n.todoTabTitle),
+      Tab(icon: const Icon(Iconsax.airplane), text: l10n.bookingsTabTitle),
+      Tab(icon: const Icon(Iconsax.dollar_circle), text: l10n.expensesTabTitle),
+      Tab(icon: const Icon(Iconsax.calendar_1), text: l10n.itineraryTabTitle),
+    ];
+  }
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: _tabs.length, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<TripProvider>(context, listen: false).loadTrip(widget.tripId);
     });
@@ -111,7 +114,7 @@ class _TripDetailScreenState extends State<TripDetailScreen>
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Failed to load trip',
+                      AppLocalizations.of(context)!.failedToLoadTrip,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(height: 8),
@@ -159,10 +162,10 @@ class _TripDetailScreenState extends State<TripDetailScreen>
                   ],
                 ),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
-                  'Trip not found',
-                  style: TextStyle(fontSize: 18, color: AppTheme.textSecondary),
+                  AppLocalizations.of(context)!.tripNotFound,
+                  style: const TextStyle(fontSize: 18, color: AppTheme.textSecondary),
                 ),
               ),
             ),
@@ -294,7 +297,7 @@ class _TripDetailScreenState extends State<TripDetailScreen>
               fontWeight: FontWeight.w400,
               fontSize: 12,
             ),
-            tabs: _tabs,
+            tabs: _getTabs(context),
           ),
         ),
       ],

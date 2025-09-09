@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 
 /// Centralized form validation utilities for character limits and field validation
 class FormValidators {
@@ -12,94 +13,104 @@ class FormValidators {
   static const int itineraryDescriptionLimit = 250;
 
   /// Validates title field with character limit
-  static String? validateTitle(String? value) {
+  static String? validateTitle(String? value, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (value == null || value.trim().isEmpty) {
-      return 'Title is required';
+      return l10n.titleIsRequired;
     }
     if (value.trim().length > titleLimit) {
-      return 'Title must be $titleLimit characters or less';
+      return l10n.titleTooLong(titleLimit);
     }
     return null;
   }
 
   /// Validates description field with character limit
-  static String? validateDescription(String? value) {
+  static String? validateDescription(String? value, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (value != null && value.trim().length > descriptionLimit) {
-      return 'Description must be $descriptionLimit characters or less';
+      return l10n.descriptionTooLong(descriptionLimit);
     }
     return null;
   }
 
   /// Validates vendor/company field with character limit
-  static String? validateVendorCompany(String? value) {
+  static String? validateVendorCompany(String? value, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (value != null && value.trim().length > vendorCompanyLimit) {
-      return 'Vendor/Company must be $vendorCompanyLimit characters or less';
+      return l10n.vendorTooLong(vendorCompanyLimit);
     }
     return null;
   }
 
   /// Validates confirmation number field with character limit
-  static String? validateConfirmationNumber(String? value) {
+  static String? validateConfirmationNumber(String? value, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (value != null && value.trim().length > confirmationNumberLimit) {
-      return 'Confirmation number must be $confirmationNumberLimit characters or less';
+      return l10n.confirmationNumberTooLong(confirmationNumberLimit);
     }
     return null;
   }
 
   /// Validates paid by field with character limit
-  static String? validatePaidBy(String? value) {
+  static String? validatePaidBy(String? value, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (value != null && value.trim().length > paidByLimit) {
-      return 'Paid by must be $paidByLimit characters or less';
+      return l10n.paidByTooLong(paidByLimit);
     }
     return null;
   }
 
   /// Validates location field with character limit
-  static String? validateLocation(String? value) {
+  static String? validateLocation(String? value, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (value != null && value.trim().length > locationLimit) {
-      return 'Location must be $locationLimit characters or less';
+      return l10n.locationTooLong(locationLimit);
     }
     return null;
   }
 
   /// Validates itinerary description field with character limit
-  static String? validateItineraryDescription(String? value) {
+  static String? validateItineraryDescription(String? value, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (value != null && value.trim().length > itineraryDescriptionLimit) {
-      return 'Description must be $itineraryDescriptionLimit characters or less';
+      return l10n.itineraryDescriptionTooLong(itineraryDescriptionLimit);
     }
     return null;
   }
 
   /// Validates amount field (numeric)
-  static String? validateAmount(String? value) {
+  static String? validateAmount(String? value, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (value == null || value.trim().isEmpty) {
-      return 'Amount is required';
+      return l10n.amountIsRequired;
     }
     final amount = double.tryParse(value.trim());
     if (amount == null) {
-      return 'Please enter a valid amount';
+      return l10n.enterValidAmount;
     }
     if (amount < 0) {
-      return 'Amount must be positive';
+      return l10n.amountMustBePositive;
     }
     return null;
   }
 
   /// Validates required field (not empty)
-  static String? validateRequired(String? value, String fieldName) {
+  static String? validateRequired(String? value, String fieldName, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (value == null || value.trim().isEmpty) {
-      return '$fieldName is required';
+      return l10n.fieldIsRequired(fieldName);
     }
     return null;
   }
 
   /// Validates destination field
-  static String? validateDestination(String? value) {
+  static String? validateDestination(String? value, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (value == null || value.trim().isEmpty) {
-      return 'Destination is required';
+      return l10n.destinationIsRequired;
     }
     if (value.trim().length > locationLimit) {
-      return 'Destination must be $locationLimit characters or less';
+      return l10n.destinationTooLong(locationLimit);
     }
     return null;
   }
@@ -109,14 +120,16 @@ class FormValidators {
   static InputDecoration createInputDecoration({
     required String labelText,
     required int maxLength,
+    required BuildContext context,
     String? helperText,
     bool isRequired = false,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     return InputDecoration(
-      labelText: isRequired ? labelText : '$labelText (Optional)',
+      labelText: isRequired ? labelText : l10n.fieldOptional(labelText),
       helperText: helperText,
       counterText: '', // Hide default counter
-      suffixText: '${maxLength} max',
+      suffixText: l10n.maxCharacters(maxLength),
       suffixStyle: const TextStyle(fontSize: 12),
     );
   }
@@ -125,11 +138,13 @@ class FormValidators {
   static InputDecoration createRequiredInputDecoration({
     required String labelText,
     required int maxLength,
+    required BuildContext context,
     String? helperText,
   }) {
     return createInputDecoration(
       labelText: labelText,
       maxLength: maxLength,
+      context: context,
       helperText: helperText,
       isRequired: true,
     );
@@ -139,11 +154,13 @@ class FormValidators {
   static InputDecoration createOptionalInputDecoration({
     required String labelText,
     required int maxLength,
+    required BuildContext context,
     String? helperText,
   }) {
     return createInputDecoration(
       labelText: labelText,
       maxLength: maxLength,
+      context: context,
       helperText: helperText,
       isRequired: false,
     );

@@ -257,6 +257,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String get italian => 'Italiano';
 
   @override
+  String get portuguese => 'Português';
+
+  @override
+  String get russian => 'Русский';
+
+  @override
+  String get arabic => 'العربية';
+
+  @override
+  String get hindi => 'हिन्दी';
+
+  @override
+  String get dutch => 'Nederlands';
+
+  @override
   String get title => 'タイトル';
 
   @override
@@ -652,4 +667,357 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get selectBothStartAndEndDates => '開始日と終了日の両方を選択してください';
+
+  @override
+  String get titleIsRequired => 'Title is required';
+
+  @override
+  String titleTooLong(int limit) {
+    return 'Title must be $limit characters or less';
+  }
+
+  @override
+  String descriptionTooLong(int limit) {
+    return 'Description must be $limit characters or less';
+  }
+
+  @override
+  String vendorTooLong(int limit) {
+    return 'Vendor/Company must be $limit characters or less';
+  }
+
+  @override
+  String confirmationNumberTooLong(int limit) {
+    return 'Confirmation number must be $limit characters or less';
+  }
+
+  @override
+  String paidByTooLong(int limit) {
+    return 'Paid by must be $limit characters or less';
+  }
+
+  @override
+  String locationTooLong(int limit) {
+    return 'Location must be $limit characters or less';
+  }
+
+  @override
+  String itineraryDescriptionTooLong(int limit) {
+    return 'Description must be $limit characters or less';
+  }
+
+  @override
+  String get amountIsRequired => 'Amount is required';
+
+  @override
+  String get enterValidAmount => 'Please enter a valid amount';
+
+  @override
+  String get amountMustBePositive => 'Amount must be positive';
+
+  @override
+  String fieldIsRequired(String fieldName) {
+    return '$fieldName is required';
+  }
+
+  @override
+  String get destinationIsRequired => 'Destination is required';
+
+  @override
+  String destinationTooLong(int limit) {
+    return 'Destination must be $limit characters or less';
+  }
+
+  @override
+  String fieldOptional(String labelText) {
+    return '$labelText (Optional)';
+  }
+
+  @override
+  String maxCharacters(int maxLength) {
+    return '$maxLength max';
+  }
+
+  @override
+  String get searchTripsPlaceholder => 'Search trips...';
+
+  @override
+  String allWithTotal(int total) {
+    return 'All ($total)';
+  }
+
+  @override
+  String upcomingWithCount(int count) {
+    return 'Upcoming ($count)';
+  }
+
+  @override
+  String activeWithCount(int count) {
+    return 'Active ($count)';
+  }
+
+  @override
+  String completedWithCount(int count) {
+    return 'Completed ($count)';
+  }
+
+  @override
+  String get yourTripsTitle => 'Your Trips';
+
+  @override
+  String activeTripsCount(int count) {
+    return '$count Active';
+  }
+
+  @override
+  String get bookingsTabTitle => 'Bookings';
+
+  @override
+  String get expensesTabTitle => 'Expenses';
+
+  @override
+  String get overviewTabTitle => 'Overview';
+
+  @override
+  String get todoTabTitle => 'To-Do';
+
+  @override
+  String get itineraryTabTitle => 'Itinerary';
+
+  @override
+  String get failedToLoadTrip => 'Failed to load trip';
+
+  @override
+  String get tripNotFound => 'Trip not found';
+
+  @override
+  String get saveImage => 'Save Image';
+
+  @override
+  String get saveToPhotos => 'Save to Photos';
+
+  @override
+  String get saveToPhotosDescription => 'Save directly to your photo gallery';
+
+  @override
+  String get saveToFiles => 'Save to Files';
+
+  @override
+  String get saveToFilesDescription => 'Choose a specific folder to save';
+
+  @override
+  String get imageSavedToPhotos => 'Image saved to Photos';
+
+  @override
+  String get fileSavedSuccessfully => 'File saved successfully';
+
+  @override
+  String get open => 'Open';
+
+  @override
+  String errorDownloadingFile(String error) {
+    return 'Error downloading file: $error';
+  }
+
+  @override
+  String errorSavingToPhotos(String error) {
+    return 'Error saving to Photos: $error';
+  }
+
+  @override
+  String errorSavingFile(String error) {
+    return 'Error saving file: $error';
+  }
+
+  @override
+  String get selectDocument => 'Select Document';
+
+  @override
+  String get chooseFromGalleryTitle => 'Choose from Gallery';
+
+  @override
+  String get chooseFromGalleryDescription => 'Select from photo library';
+
+  @override
+  String get chooseFileTitle => 'Choose File';
+
+  @override
+  String get chooseFileDescription => 'Select PDF or other files';
+
+  @override
+  String get failedToCaptureImage => 'Failed to capture image';
+
+  @override
+  String get failedToSelectImage => 'Failed to select image';
+
+  @override
+  String get failedToSelectFile => 'Failed to select file';
+
+  @override
+  String get documentAddedSuccessfully => 'Document added successfully';
+
+  @override
+  String get documentUpdatedSuccessfully => 'Document updated successfully';
+
+  @override
+  String get failedToSaveDocument => 'Failed to save document';
+
+  @override
+  String get documentTitle => 'Document Title *';
+
+  @override
+  String get documentCategory => 'Document Category';
+
+  @override
+  String get changeDocument => 'Change Document';
+
+  @override
+  String get documentsTitle => 'Documents';
+
+  @override
+  String get noDocumentsYet => 'No documents yet';
+
+  @override
+  String get noDocumentsFound => 'No documents found';
+
+  @override
+  String get clearSearch => 'Clear search';
+
+  @override
+  String get documentDetails => 'Document Details';
+
+  @override
+  String get fileSize => 'File Size';
+
+  @override
+  String get fileName => 'File Name';
+
+  @override
+  String get deleteDocument => 'Delete Document';
+
+  @override
+  String deleteDocumentConfirmation(String title) {
+    return 'Are you sure you want to delete \"$title\"? This action cannot be undone.';
+  }
+
+  @override
+  String documentDeletedSuccessfully(String title) {
+    return 'Document \"$title\" deleted successfully';
+  }
+
+  @override
+  String failedToDeleteDocument(String error) {
+    return 'Failed to delete document: $error';
+  }
+
+  @override
+  String get location => 'Location';
+
+  @override
+  String get activityTitleLabel => 'Activity Title';
+
+  @override
+  String get activityTypeLabel => 'Activity Type';
+
+  @override
+  String get expenseTitleLabel => 'Expense Title';
+
+  @override
+  String get destinations => 'Destinations';
+
+  @override
+  String get currency => 'Currency';
+
+  @override
+  String get tripInProgressStatus => 'Trip in Progress';
+
+  @override
+  String get completedStatus => 'Completed';
+
+  @override
+  String get tripDates => 'Trip Dates';
+
+  @override
+  String get expenseType => 'Expense';
+
+  @override
+  String get expenseDetailsTitle => 'Expense Details';
+
+  @override
+  String get activityDetailsTitle => 'Activity Details';
+
+  @override
+  String get deleteActivity => 'Delete Activity';
+
+  @override
+  String get deleteBooking => 'Delete Booking';
+
+  @override
+  String get january => 'Jan';
+
+  @override
+  String get february => 'Feb';
+
+  @override
+  String get march => 'Mar';
+
+  @override
+  String get april => 'Apr';
+
+  @override
+  String get may => 'May';
+
+  @override
+  String get june => 'Jun';
+
+  @override
+  String get july => 'Jul';
+
+  @override
+  String get august => 'Aug';
+
+  @override
+  String get september => 'Sept';
+
+  @override
+  String get october => 'Oct';
+
+  @override
+  String get november => 'Nov';
+
+  @override
+  String get december => 'Dec';
+
+  @override
+  String get food => 'Food';
+
+  @override
+  String get confirmed => 'Confirmed';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
+  String get passport => 'Passport';
+
+  @override
+  String get visa => 'Visa';
+
+  @override
+  String get ticket => 'Ticket';
+
+  @override
+  String get hotel => 'Hotel';
+
+  @override
+  String get insurance => 'Insurance';
+
+  @override
+  String get editDocument => 'Edit Document';
+
+  @override
+  String get updateDocument => 'Update Document';
+
+  @override
+  String get saveToGallery => 'Save to Gallery';
 }

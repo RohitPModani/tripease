@@ -13,6 +13,7 @@ class AppTheme {
   static const Color cardDark = Color(0xFF0F3460);
   static const Color textPrimary = Color(0xFF2E3A59);
   static const Color textSecondary = Color(0xFF8E92A3);
+  static const Color textSecondaryDark = Color(0xFFB8BCC8);
   static const Color textLight = Color(0xFFFFFFFF);
   static const Color success = Color(0xFF2ECC71);
   static const Color warning = Color(0xFFF39C12);
@@ -172,11 +173,11 @@ class AppTheme {
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         hintStyle: GoogleFonts.poppins(
-          color: textSecondary,
+          color: textSecondaryDark,
           fontSize: 14,
         ),
         labelStyle: GoogleFonts.poppins(
-          color: textSecondary,
+          color: textSecondaryDark,
           fontSize: 14,
         ),
       ),
@@ -209,8 +210,8 @@ class AppTheme {
       chipTheme: ChipThemeData(
         backgroundColor: primaryColor.withOpacity(0.1),
         selectedColor: primaryColor,
-        deleteIconColor: textSecondary,
-        disabledColor: textSecondary.withOpacity(0.3),
+        deleteIconColor: textSecondaryDark,
+        disabledColor: textSecondaryDark.withOpacity(0.3),
         labelStyle: GoogleFonts.poppins(
           fontSize: 12,
           fontWeight: FontWeight.w500,
@@ -287,7 +288,7 @@ class AppTheme {
         titleSmall: GoogleFonts.poppins(
           fontSize: 12,
           fontWeight: FontWeight.w500,
-          color: textSecondary,
+          color: textSecondaryDark,
         ),
         bodyLarge: GoogleFonts.poppins(
           fontSize: 16,
@@ -302,7 +303,7 @@ class AppTheme {
         bodySmall: GoogleFonts.poppins(
           fontSize: 12,
           fontWeight: FontWeight.w400,
-          color: textSecondary,
+          color: textSecondaryDark,
         ),
         labelLarge: GoogleFonts.poppins(
           fontSize: 14,
@@ -312,12 +313,12 @@ class AppTheme {
         labelMedium: GoogleFonts.poppins(
           fontSize: 12,
           fontWeight: FontWeight.w500,
-          color: textSecondary,
+          color: textSecondaryDark,
         ),
         labelSmall: GoogleFonts.poppins(
           fontSize: 10,
           fontWeight: FontWeight.w500,
-          color: textSecondary,
+          color: textSecondaryDark,
         ),
       ),
       cardTheme: CardThemeData(
@@ -365,11 +366,11 @@ class AppTheme {
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         hintStyle: GoogleFonts.poppins(
-          color: textSecondary,
+          color: textSecondaryDark,
           fontSize: 14,
         ),
         labelStyle: GoogleFonts.poppins(
-          color: textSecondary,
+          color: textSecondaryDark,
           fontSize: 14,
         ),
       ),
@@ -395,15 +396,15 @@ class AppTheme {
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: surfaceDark,
         selectedItemColor: primaryColor,
-        unselectedItemColor: textSecondary,
+        unselectedItemColor: textSecondaryDark,
         elevation: 16,
         type: BottomNavigationBarType.fixed,
       ),
       chipTheme: ChipThemeData(
         backgroundColor: primaryColor.withOpacity(0.1),
         selectedColor: primaryColor,
-        deleteIconColor: textSecondary,
-        disabledColor: textSecondary.withOpacity(0.3),
+        deleteIconColor: textSecondaryDark,
+        disabledColor: textSecondaryDark.withOpacity(0.3),
         labelStyle: GoogleFonts.poppins(
           fontSize: 12,
           fontWeight: FontWeight.w500,

@@ -411,7 +411,7 @@ class _OverviewTabState extends State<OverviewTab> {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           Container(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: Row(

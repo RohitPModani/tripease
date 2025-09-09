@@ -1,0 +1,211 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Tripease",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  
+  "trips": "Поездки",
+  "@trips": {
+    "description": "Trips tab title"
+  },
+  
+  "documents": "Документы",
+  "@documents": {
+    "description": "Documents tab title"
+  },
+  
+  "settings": "Настройки",
+  "@settings": {
+    "description": "Settings tab title"
+  },
+  
+  "quickStats": "Быстрая статистика",
+  "@quickStats": {
+    "description": "Quick stats card title"
+  },
+  
+  "activeTrips": "Активные поездки",
+  "@activeTrips": {
+    "description": "Active trips label"
+  },
+  
+  "pendingTasks": "Ожидающие задачи",
+  "@pendingTasks": {
+    "description": "Pending tasks label"
+  },
+  
+  "totalBudget": "Общий бюджет",
+  "@totalBudget": {
+    "description": "Total budget label"
+  },
+  
+  "nextTripStartsIn": "Следующая поездка начнется через {days} дней",
+  "@nextTripStartsIn": {
+    "description": "Next trip countdown message",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  
+  "yourTrips": "Ваши поездки",
+  "@yourTrips": {
+    "description": "Your trips section title"
+  },
+  
+  "searchTrips": "Поиск поездок...",
+  "@searchTrips": {
+    "description": "Search trips placeholder"
+  },
+  
+  "daysUntilStart": "Дни до начала",
+  "@daysUntilStart": {
+    "description": "Sort by days until start"
+  },
+  
+  "dateCreated": "Дата создания",
+  "@dateCreated": {
+    "description": "Sort by date created"
+  },
+  
+  "alphabetical": "По алфавиту",
+  "@alphabetical": {
+    "description": "Sort alphabetically"
+  },
+  
+  "budget": "Бюджет",
+  "@budget": {
+    "description": "Budget label"
+  },
+  
+  "tasks": "Задачи",
+  "@tasks": {
+    "description": "Tasks label"
+  },
+  
+  "tripInProgress": "Поездка в процессе",
+  "@tripInProgress": {
+    "description": "Trip in progress status"
+  },
+  
+  "startingToday": "Начинается сегодня!",
+  "@startingToday": {
+    "description": "Trip starting today message"
+  },
+  
+  "daysToGo": "{days} дней осталось",
+  "@daysToGo": {
+    "description": "Days to go message",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  
+  "active": "{count} активных",
+  "@active": {
+    "description": "Active count label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  
+  "searchDocuments": "Поиск документов...",
+  "@searchDocuments": {
+    "description": "Search documents placeholder"
+  },
+  
+  "personal": "Личные",
+  "@personal": {
+    "description": "Personal documents tab"
+  },
+  
+  "tripRelated": "Связанные с поездкой",
+  "@tripRelated": {
+    "description": "Trip related documents tab"
+  },
+  
+  "uploadDocument": "Загрузить документ",
+  "@uploadDocument": {
+    "description": "Upload document title"
+  },
+  
+  "takePhoto": "Сделать фото",
+  "@takePhoto": {
+    "description": "Take photo option"
+  },
+  
+  "captureDocumentWithCamera": "Сфотографировать документ камерой",
+  "@captureDocumentWithCamera": {
+    "description": "Take photo description"
+  },
+  
+  "chooseFromGallery": "Выбрать из галереи",
+  "@chooseFromGallery": {
+    "description": "Choose from gallery option"
+  },
+  
+  "selectFromPhotoLibrary": "Выбрать из библиотеки фотографий",
+  "@selectFromPhotoLibrary": {
+    "description": "Choose from gallery description"
+  },
+  
+  "chooseFile": "Выбрать файл",
+  "@chooseFile": {
+    "description": "Choose file option"
+  },
+  
+  "selectPdfOrOtherFiles": "Выбрать PDF или другие файлы",
+  "@selectPdfOrOtherFiles": {
+    "description": "Choose file description"
+  },
+  
+  "expires": "Истекает: {date}",
+  "@expires": {
+    "description": "Document expiry date",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "2024-12-31"
+      }
+    }
+  },
+  
+  "view": "Посмотреть",
+  "@view": {
+    "description": "View action"
+  },
+  
+  "share": "Поделиться",
+  "@share": {
+    "description": "Share action"
+  },
+  
+  "download": "Скачать",
+  "@download": {
+    "description": "Download action"
+  },
+  
+  "delete": "Удалить",
+  "@delete": {
+    "description": "Delete action"
+  },
+  
+  "cancel": "Отменить",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  
+  "russian": "Русский",
+  "@russian": {
+    "description": "Russian language"
+  }
+}

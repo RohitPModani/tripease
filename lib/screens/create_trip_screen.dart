@@ -303,13 +303,14 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       onChanged: (value) {
         setState(() {
           titleCharCount = value.length;
-          titleError = FormValidators.validateTitle(value);
+          titleError = FormValidators.validateTitle(value, context);
         });
       },
       decoration:
           FormValidators.createRequiredInputDecoration(
             labelText: AppLocalizations.of(context)!.title,
             maxLength: FormValidators.titleLimit,
+            context: context,
           ).copyWith(
             labelStyle: TextStyle(color: AppTheme.textSecondary),
             border: OutlineInputBorder(
@@ -344,7 +345,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
             ),
             errorText: titleError,
           ),
-      validator: FormValidators.validateTitle,
+      validator: (value) => FormValidators.validateTitle(value, context),
       autofocus: true,
     );
   }
@@ -369,6 +370,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                     FormValidators.createOptionalInputDecoration(
                       labelText: 'Destinations',
                       maxLength: FormValidators.locationLimit,
+                      context: context,
                     ).copyWith(
                       labelStyle: TextStyle(color: AppTheme.textSecondary),
                       border: OutlineInputBorder(
@@ -396,7 +398,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                     ),
                 validator: (value) {
                   if (value != null && value.trim().isNotEmpty) {
-                    return FormValidators.validateDestination(value);
+                    return FormValidators.validateDestination(value, context);
                   }
                   return null;
                 },
@@ -631,13 +633,14 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       onChanged: (value) {
         setState(() {
           descriptionCharCount = value.length;
-          descriptionError = FormValidators.validateDescription(value);
+          descriptionError = FormValidators.validateDescription(value, context);
         });
       },
       decoration:
           FormValidators.createOptionalInputDecoration(
             labelText: AppLocalizations.of(context)!.descriptionOptional,
             maxLength: FormValidators.descriptionLimit,
+            context: context,
           ).copyWith(
             labelStyle: TextStyle(color: AppTheme.textSecondary),
             border: OutlineInputBorder(
@@ -673,7 +676,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
             ),
             errorText: descriptionError,
           ),
-      validator: FormValidators.validateDescription,
+      validator: (value) => FormValidators.validateDescription(value, context),
       maxLines: 3,
     );
   }

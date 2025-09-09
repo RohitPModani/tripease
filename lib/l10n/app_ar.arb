@@ -1,0 +1,211 @@
+{
+  "@@locale": "ar",
+  "appTitle": "Tripease",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  
+  "trips": "الرحلات",
+  "@trips": {
+    "description": "Trips tab title"
+  },
+  
+  "documents": "الوثائق",
+  "@documents": {
+    "description": "Documents tab title"
+  },
+  
+  "settings": "الإعدادات",
+  "@settings": {
+    "description": "Settings tab title"
+  },
+  
+  "quickStats": "إحصائيات سريعة",
+  "@quickStats": {
+    "description": "Quick stats card title"
+  },
+  
+  "activeTrips": "الرحلات النشطة",
+  "@activeTrips": {
+    "description": "Active trips label"
+  },
+  
+  "pendingTasks": "المهام المعلقة",
+  "@pendingTasks": {
+    "description": "Pending tasks label"
+  },
+  
+  "totalBudget": "الميزانية الإجمالية",
+  "@totalBudget": {
+    "description": "Total budget label"
+  },
+  
+  "nextTripStartsIn": "تبدأ الرحلة التالية خلال {days} أيام",
+  "@nextTripStartsIn": {
+    "description": "Next trip countdown message",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  
+  "yourTrips": "رحلاتك",
+  "@yourTrips": {
+    "description": "Your trips section title"
+  },
+  
+  "searchTrips": "البحث عن الرحلات...",
+  "@searchTrips": {
+    "description": "Search trips placeholder"
+  },
+  
+  "daysUntilStart": "أيام حتى البداية",
+  "@daysUntilStart": {
+    "description": "Sort by days until start"
+  },
+  
+  "dateCreated": "تاريخ الإنشاء",
+  "@dateCreated": {
+    "description": "Sort by date created"
+  },
+  
+  "alphabetical": "أبجدي",
+  "@alphabetical": {
+    "description": "Sort alphabetically"
+  },
+  
+  "budget": "الميزانية",
+  "@budget": {
+    "description": "Budget label"
+  },
+  
+  "tasks": "المهام",
+  "@tasks": {
+    "description": "Tasks label"
+  },
+  
+  "tripInProgress": "رحلة قيد التنفيذ",
+  "@tripInProgress": {
+    "description": "Trip in progress status"
+  },
+  
+  "startingToday": "تبدأ اليوم!",
+  "@startingToday": {
+    "description": "Trip starting today message"
+  },
+  
+  "daysToGo": "{days} أيام متبقية",
+  "@daysToGo": {
+    "description": "Days to go message",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  
+  "active": "{count} نشطة",
+  "@active": {
+    "description": "Active count label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  
+  "searchDocuments": "البحث عن الوثائق...",
+  "@searchDocuments": {
+    "description": "Search documents placeholder"
+  },
+  
+  "personal": "شخصي",
+  "@personal": {
+    "description": "Personal documents tab"
+  },
+  
+  "tripRelated": "مرتبطة بالرحلة",
+  "@tripRelated": {
+    "description": "Trip related documents tab"
+  },
+  
+  "uploadDocument": "رفع وثيقة",
+  "@uploadDocument": {
+    "description": "Upload document title"
+  },
+  
+  "takePhoto": "التقاط صورة",
+  "@takePhoto": {
+    "description": "Take photo option"
+  },
+  
+  "captureDocumentWithCamera": "التقط الوثيقة بالكاميرا",
+  "@captureDocumentWithCamera": {
+    "description": "Take photo description"
+  },
+  
+  "chooseFromGallery": "اختر من المعرض",
+  "@chooseFromGallery": {
+    "description": "Choose from gallery option"
+  },
+  
+  "selectFromPhotoLibrary": "اختر من مكتبة الصور",
+  "@selectFromPhotoLibrary": {
+    "description": "Choose from gallery description"
+  },
+  
+  "chooseFile": "اختر ملف",
+  "@chooseFile": {
+    "description": "Choose file option"
+  },
+  
+  "selectPdfOrOtherFiles": "اختر PDF أو ملفات أخرى",
+  "@selectPdfOrOtherFiles": {
+    "description": "Choose file description"
+  },
+  
+  "expires": "تنتهي صلاحيته: {date}",
+  "@expires": {
+    "description": "Document expiry date",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "2024-12-31"
+      }
+    }
+  },
+  
+  "view": "عرض",
+  "@view": {
+    "description": "View action"
+  },
+  
+  "share": "مشاركة",
+  "@share": {
+    "description": "Share action"
+  },
+  
+  "download": "تحميل",
+  "@download": {
+    "description": "Download action"
+  },
+  
+  "delete": "حذف",
+  "@delete": {
+    "description": "Delete action"
+  },
+  
+  "cancel": "إلغاء",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  
+  "arabic": "العربية",
+  "@arabic": {
+    "description": "Arabic language"
+  }
+}
