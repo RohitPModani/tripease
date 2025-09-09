@@ -149,7 +149,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
             _buildFilePickerOption(
               icon: Iconsax.camera,
               title: AppLocalizations.of(context)!.takePhoto,
-              subtitle: 'Capture document with camera',
+              subtitle: AppLocalizations.of(context)!.captureDocumentWithCamera,
               onTap: () {
                 Navigator.pop(context);
                 _pickImageFromCamera();
@@ -159,7 +159,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
             _buildFilePickerOption(
               icon: Iconsax.gallery,
               title: AppLocalizations.of(context)!.chooseFromGallery,
-              subtitle: 'Select from photo library',
+              subtitle: AppLocalizations.of(context)!.selectFromPhotoLibrary,
               onTap: () {
                 Navigator.pop(context);
                 _pickImageFromGallery();
@@ -169,7 +169,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
             _buildFilePickerOption(
               icon: Iconsax.document,
               title: AppLocalizations.of(context)!.chooseFile,
-              subtitle: 'Select PDF or other files',
+              subtitle: AppLocalizations.of(context)!.selectPdfOrOtherFiles,
               onTap: () {
                 Navigator.pop(context);
                 _pickFileFromDevice();
@@ -249,7 +249,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
         await _processSelectedFile(image.path, image.name);
       }
     } catch (e) {
-      _showError(AppLocalizations.of(context)!.failedToPickFile('Failed to capture image'));
+      _showError(AppLocalizations.of(context)!.failedToCaptureImage);
     }
   }
 
@@ -262,7 +262,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
         await _processSelectedFile(image.path, image.name);
       }
     } catch (e) {
-      _showError(AppLocalizations.of(context)!.failedToPickFile('Failed to select image'));
+      _showError(AppLocalizations.of(context)!.failedToSelectImage);
     }
   }
 
@@ -519,8 +519,11 @@ class _BookingFormModalState extends State<BookingFormModal> {
                     const SizedBox(height: 16),
                     DropdownButtonFormField<BookingType>(
                       value: selectedType,
-                      decoration: InputDecoration(
+                      decoration: FormValidators.createOptionalInputDecoration(
                         labelText: AppLocalizations.of(context)!.bookingType,
+                        maxLength: 0, // Not applicable for dropdown
+                        context: context,
+                      ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -531,6 +534,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                           borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
                         ),
                         contentPadding: const EdgeInsets.all(16),
+                        suffixText: null, // Remove character counter for dropdown
                       ),
                       items: BookingType.values
                           .map((type) => DropdownMenuItem(
@@ -539,7 +543,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                                   children: [
                                     Icon(_getTypeIcon(type), size: 16),
                                     const SizedBox(width: 8),
-                                    Text(type.name),
+                                    Text(_getTypeDisplayName(type)),
                                   ],
                                 ),
                               ))
@@ -691,8 +695,11 @@ class _BookingFormModalState extends State<BookingFormModal> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: amountController,
-                      decoration: InputDecoration(
+                      decoration: FormValidators.createRequiredInputDecoration(
                         labelText: AppLocalizations.of(context)!.amountCurrency(widget.defaultCurrency),
+                        maxLength: 0, // No character limit for amount
+                        context: context,
+                      ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -703,6 +710,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                           borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
                         ),
                         contentPadding: const EdgeInsets.all(16),
+                        suffixText: null, // Remove character counter for amount field
                       ),
                       validator: (value) => FormValidators.validateAmount(value, context),
                       keyboardType: TextInputType.number,
@@ -710,8 +718,11 @@ class _BookingFormModalState extends State<BookingFormModal> {
                     const SizedBox(height: 16),
                     DropdownButtonFormField<BookingStatus>(
                       value: selectedStatus,
-                      decoration: InputDecoration(
+                      decoration: FormValidators.createOptionalInputDecoration(
                         labelText: AppLocalizations.of(context)!.status,
+                        maxLength: 0, // Not applicable for dropdown
+                        context: context,
+                      ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -722,6 +733,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                           borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
                         ),
                         contentPadding: const EdgeInsets.all(16),
+                        suffixText: null, // Remove character counter for dropdown
                       ),
                       items: BookingStatus.values
                           .map((status) => DropdownMenuItem(
@@ -981,7 +993,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(AppLocalizations.of(context)!.failedToAddUpdateBooking(isEdit ? 'update' : 'add', e.toString())),
+                                      content: Text(AppLocalizations.of(context)!.failedToAddUpdateBooking(isEdit ? AppLocalizations.of(context)!.update : AppLocalizations.of(context)!.add, e.toString())),
                                       backgroundColor: AppTheme.error,
                                     ),
                                   );
@@ -1034,6 +1046,24 @@ class _BookingFormModalState extends State<BookingFormModal> {
         return Iconsax.document;
       case BookingType.restaurant:
         return Iconsax.cup;
+    }
+  }
+
+  String _getTypeDisplayName(BookingType type) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (type) {
+      case BookingType.flight:
+        return 'Flight'; // TODO: add l10n.flight when available
+      case BookingType.hotel:
+        return l10n.hotel;
+      case BookingType.transport:
+        return l10n.transport;
+      case BookingType.activity:
+        return l10n.activities;
+      case BookingType.other:
+        return l10n.other;
+      case BookingType.restaurant:
+        return 'Restaurant'; // TODO: add l10n.restaurant when available
     }
   }
 

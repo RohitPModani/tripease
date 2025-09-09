@@ -133,7 +133,7 @@ class _OverviewTabState extends State<OverviewTab> {
               ),
               const SizedBox(height: 20),
               _buildInfoItemWithBadge(
-                'Trip Dates',
+                AppLocalizations.of(context)!.tripDates,
                 _formatDateRange(widget.trip.startDate, widget.trip.endDate),
                 Iconsax.calendar_1,
                 AppTheme.primaryColor,
@@ -142,7 +142,7 @@ class _OverviewTabState extends State<OverviewTab> {
               ),
               const SizedBox(height: 16),
               _buildInfoItem(
-                'Destinations',
+                AppLocalizations.of(context)!.destinations,
                 widget.trip.destinations.join(' • '),
                 Iconsax.location,
                 AppTheme.primaryColor,
@@ -150,7 +150,7 @@ class _OverviewTabState extends State<OverviewTab> {
               if (widget.trip.description.isNotEmpty) ...[
                 const SizedBox(height: 20),
                 Text(
-                  'Description',
+                  AppLocalizations.of(context)!.description,
                   style: Theme.of(
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),

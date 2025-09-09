@@ -696,7 +696,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
                 ),
               ),
               const SizedBox(width: 12),
-              const Text('Delete Activity'),
+              Text(AppLocalizations.of(context)!.deleteActivity),
             ],
           ),
           content: Text(
@@ -727,7 +727,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text('Delete'),
+              child: Text(AppLocalizations.of(context)!.delete),
             ),
           ],
         );
@@ -952,7 +952,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
                               _showEditActivityDialog(activity, day);
                             },
                             icon: const Icon(Iconsax.edit_2),
-                            label: const Text('Edit'),
+                            label: Text(AppLocalizations.of(context)!.edit),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.primaryColor,
                               foregroundColor: Colors.white,
@@ -968,7 +968,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
                               _deleteActivity(activity, day);
                             },
                             icon: const Icon(Iconsax.trash),
-                            label: const Text('Delete'),
+                            label: Text(AppLocalizations.of(context)!.delete),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.error,
                               foregroundColor: Colors.white,

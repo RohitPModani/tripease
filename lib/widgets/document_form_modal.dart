@@ -127,7 +127,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
             _buildFilePickerOption(
               icon: Iconsax.camera,
               title: AppLocalizations.of(context)!.takePhoto,
-              subtitle: 'Capture document with camera',
+              subtitle: AppLocalizations.of(context)!.captureDocumentWithCamera,
               onTap: () {
                 Navigator.pop(context);
                 _pickImageFromCamera();
@@ -137,7 +137,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
             _buildFilePickerOption(
               icon: Iconsax.gallery,
               title: AppLocalizations.of(context)!.chooseFromGallery,
-              subtitle: 'Select from photo library',
+              subtitle: AppLocalizations.of(context)!.selectFromPhotoLibrary,
               onTap: () {
                 Navigator.pop(context);
                 _pickImageFromGallery();
@@ -147,7 +147,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
             _buildFilePickerOption(
               icon: Iconsax.document,
               title: AppLocalizations.of(context)!.chooseFile,
-              subtitle: 'Select PDF or other files',
+              subtitle: AppLocalizations.of(context)!.selectPdfOrOtherFiles,
               onTap: () {
                 Navigator.pop(context);
                 _pickFileFromDevice();
@@ -227,7 +227,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         await _processSelectedFile(image.path, image.name);
       }
     } catch (e) {
-      _showError('Failed to capture image');
+      _showError(AppLocalizations.of(context)!.failedToCaptureImage);
     }
   }
 
@@ -240,7 +240,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         await _processSelectedFile(image.path, image.name);
       }
     } catch (e) {
-      _showError('Failed to select image');
+      _showError(AppLocalizations.of(context)!.failedToSelectImage);
     }
   }
 
@@ -256,7 +256,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         await _processSelectedFile(file.path!, file.name);
       }
     } catch (e) {
-      _showError('Failed to select file');
+      _showError(AppLocalizations.of(context)!.failedToSelectFile);
     }
   }
 
@@ -291,9 +291,13 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
     if (!_formKey.currentState!.validate()) return;
     
     if (selectedFilePath == null && widget.document == null) {
-      setState(() {
-        fileError = 'Please select a file';
-      });
+      // Prompt user to select a file (using existing localized label)
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.selectDocument),
+          backgroundColor: AppTheme.error,
+        ),
+      );
       return;
     }
 
@@ -321,7 +325,9 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              widget.document == null ? 'Document added successfully' : 'Document updated successfully',
+              widget.document == null
+                  ? AppLocalizations.of(context)!.documentAddedSuccessfully
+                  : AppLocalizations.of(context)!.documentUpdatedSuccessfully,
             ),
             backgroundColor: AppTheme.success,
           ),
@@ -332,7 +338,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to save document'),
+            content: Text(AppLocalizations.of(context)!.failedToSaveDocument),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -448,7 +454,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         });
       },
       decoration: FormValidators.createRequiredInputDecoration(
-        labelText: 'Document Title',
+        labelText: AppLocalizations.of(context)!.documentTitle,
         maxLength: FormValidators.titleLimit,
         context: context,
       ).copyWith(
@@ -536,7 +542,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
     return DropdownButtonFormField<DocumentType>(
       value: selectedType,
       decoration: FormValidators.createRequiredInputDecoration(
-        labelText: 'Document Category',
+        labelText: AppLocalizations.of(context)!.documentCategory,
         maxLength: 0, // Not applicable for dropdown
         context: context,
       ).copyWith(

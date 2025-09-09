@@ -367,8 +367,8 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                   });
                 },
                 decoration:
-                    FormValidators.createOptionalInputDecoration(
-                      labelText: 'Destinations',
+                    FormValidators.createRequiredInputDecoration(
+                      labelText: AppLocalizations.of(context)!.destinations,
                       maxLength: FormValidators.locationLimit,
                       context: context,
                     ).copyWith(
@@ -594,8 +594,11 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   Widget _buildCurrencyField() {
     return DropdownButtonFormField<String>(
       value: _selectedCurrency,
-      decoration: InputDecoration(
-        labelText: 'Currency',
+      decoration: FormValidators.createOptionalInputDecoration(
+        labelText: AppLocalizations.of(context)!.currency,
+        maxLength: 0, // Not applicable for dropdown
+        context: context,
+      ).copyWith(
         labelStyle: TextStyle(color: AppTheme.textSecondary),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -608,6 +611,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
           borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
         ),
         contentPadding: const EdgeInsets.all(16),
+        suffixText: null, // Remove character counter for dropdown
       ),
       items: _currencies.map((currency) {
         return DropdownMenuItem(

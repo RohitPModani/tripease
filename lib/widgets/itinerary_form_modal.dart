@@ -302,8 +302,11 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                     const SizedBox(height: 16),
                     DropdownButtonFormField<ActivityType>(
                       value: selectedType,
-                      decoration: InputDecoration(
+                      decoration: FormValidators.createOptionalInputDecoration(
                         labelText: AppLocalizations.of(context)!.activityType,
+                        maxLength: 0, // Not applicable for dropdown
+                        context: context,
+                      ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -314,6 +317,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                           borderSide: const BorderSide(color: AppTheme.warning, width: 2),
                         ),
                         contentPadding: const EdgeInsets.all(16),
+                        suffixText: null, // Remove character counter for dropdown
                       ),
                       items: ActivityType.values
                           .map((type) => DropdownMenuItem(

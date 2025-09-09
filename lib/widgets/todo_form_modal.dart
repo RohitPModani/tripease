@@ -179,8 +179,11 @@ class _TodoFormModalState extends State<TodoFormModal> {
                       });
                     },
                     validator: (value) => FormValidators.validateTitle(value, context),
-                    decoration: InputDecoration(
+                    decoration: FormValidators.createRequiredInputDecoration(
                       labelText: AppLocalizations.of(context)!.taskTitle,
+                      maxLength: FormValidators.titleLimit,
+                      context: context,
+                    ).copyWith(
                       labelStyle: TextStyle(color: AppTheme.textSecondary),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -238,10 +241,11 @@ class _TodoFormModalState extends State<TodoFormModal> {
                       });
                     },
                     validator: (value) => FormValidators.validateDescription(value, context),
-                    decoration: InputDecoration(
-                      labelText: AppLocalizations.of(
-                        context,
-                      )!.descriptionOptional,
+                    decoration: FormValidators.createOptionalInputDecoration(
+                      labelText: AppLocalizations.of(context)!.description,
+                      maxLength: FormValidators.descriptionLimit,
+                      context: context,
+                    ).copyWith(
                       labelStyle: TextStyle(color: AppTheme.textSecondary),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -289,8 +293,11 @@ class _TodoFormModalState extends State<TodoFormModal> {
                   const SizedBox(height: 16),
                   DropdownButtonFormField<Priority>(
                     value: selectedPriority,
-                    decoration: InputDecoration(
+                    decoration: FormValidators.createOptionalInputDecoration(
                       labelText: AppLocalizations.of(context)!.priority,
+                      maxLength: 0, // Not applicable for dropdown
+                      context: context,
+                    ).copyWith(
                       labelStyle: TextStyle(color: AppTheme.textSecondary),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -306,6 +313,7 @@ class _TodoFormModalState extends State<TodoFormModal> {
                         ),
                       ),
                       contentPadding: const EdgeInsets.all(16),
+                      suffixText: null, // Remove character counter for dropdown
                     ),
                     items: Priority.values
                         .map(

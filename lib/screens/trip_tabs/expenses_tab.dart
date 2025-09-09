@@ -81,7 +81,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  AppLocalizations.of(context)!.failedToLoad + ' expenses',
+                  AppLocalizations.of(context)!.failedToLoad,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
@@ -177,12 +177,15 @@ class _ExpensesTabState extends State<ExpensesTab> {
           ),
         ],
       ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
+      child: SizedBox(
+        height: 40,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          child: Row(
           children: [
             FilterChip(
-              label: Text('All (${expenses.length})'),
+              label: Text(AppLocalizations.of(context)!.allWithCount(expenses.length)),
               selected: _selectedCategory == null,
               onSelected: (selected) {
                 setState(() {
@@ -221,6 +224,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
               );
             }).toList(),
           ],
+        ),
         ),
       ),
     );
@@ -589,7 +593,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          'Paid by ${expense.paidBy}',
+                          '${AppLocalizations.of(context)!.paidBy}: ${expense.paidBy}',
                           style: TextStyle(
                             fontSize: 12,
                             color: Theme.of(context).brightness == Brightness.dark
@@ -629,7 +633,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    '${expense.date.day} ${_getShortMonthName(expense.date.month)} ${expense.date.year}',
+                    _formatDate(expense.date),
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
                     ? AppTheme.textSecondaryDark
@@ -646,12 +650,23 @@ class _ExpensesTabState extends State<ExpensesTab> {
     );
   }
 
-  String _getShortMonthName(int month) {
-    const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'
+  String _formatDate(DateTime date) {
+    final l10n = AppLocalizations.of(context)!;
+    final months = [
+      l10n.january,
+      l10n.february,
+      l10n.march,
+      l10n.april,
+      l10n.may,
+      l10n.june,
+      l10n.july,
+      l10n.august,
+      l10n.september,
+      l10n.october,
+      l10n.november,
+      l10n.december,
     ];
-    return months[month - 1];
+    return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
 
   void _showExpenseDetailsBottomSheet(Expense expense, ExpenseProvider expenseProvider) {
@@ -788,7 +803,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                                   ),
                                   const SizedBox(width: 6),
                                   Text(
-                                    '${expense.date.day} ${_getShortMonthName(expense.date.month)} ${expense.date.year}',
+                                    _formatDate(expense.date),
                                     style: TextStyle(
                                       color: Theme.of(context).brightness == Brightness.dark
                               ? AppTheme.textSecondaryDark
@@ -873,7 +888,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                           ),
                           const SizedBox(width: 6),
                           Text(
-                            'Split ${expense.splits.length} ways',
+                            '${expense.splits.length}',
                             style: TextStyle(
                               color: Theme.of(context).brightness == Brightness.dark
                               ? AppTheme.textSecondaryDark
@@ -894,7 +909,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                               ExpenseFormModal.show(context, widget.trip.id, widget.trip.defaultCurrency, expense: expense);
                             },
                             icon: const Icon(Iconsax.edit_2),
-                            label: const Text('Edit'),
+                            label: Text(AppLocalizations.of(context)!.edit),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.accentColor,
                               foregroundColor: Colors.white,
@@ -910,7 +925,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                               await expenseProvider.deleteExpense(expense.id);
                             },
                             icon: const Icon(Iconsax.trash),
-                            label: const Text('Delete'),
+                            label: Text(AppLocalizations.of(context)!.delete),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.error,
                               foregroundColor: Colors.white,
@@ -967,19 +982,20 @@ class _ExpensesTabState extends State<ExpensesTab> {
   }
 
   String _getCategoryDisplayName(ExpenseCategory category) {
+    final l10n = AppLocalizations.of(context)!;
     switch (category) {
       case ExpenseCategory.transport:
-        return 'Transport';
+        return l10n.transport;
       case ExpenseCategory.accommodation:
-        return 'Accommodation';
+        return l10n.accommodation;
       case ExpenseCategory.food:
-        return 'Food & Drinks';
+        return l10n.food;
       case ExpenseCategory.activities:
-        return 'Activities';
+        return l10n.activities;
       case ExpenseCategory.shopping:
-        return 'Shopping';
+        return l10n.shopping;
       case ExpenseCategory.other:
-        return 'Other';
+        return l10n.other;
     }
   }
 
@@ -1007,18 +1023,18 @@ class _ExpensesTabState extends State<ExpensesTab> {
                 ),
               ),
               const SizedBox(width: 12),
-              const Text('Delete Expense'),
+              Text(AppLocalizations.of(context)!.deleteExpense),
             ],
           ),
           content: Text(
-            'Are you sure you want to delete "${expense.title}"? This action cannot be undone.',
+            AppLocalizations.of(context)!.deleteTaskConfirmation(expense.title),
             style: const TextStyle(height: 1.4),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
               child: Text(
-                'Cancel',
+                AppLocalizations.of(context)!.cancel,
                 style: TextStyle(
                   color: Theme.of(context).brightness == Brightness.dark
                       ? AppTheme.textSecondaryDark
@@ -1038,7 +1054,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text('Delete'),
+              child: Text(AppLocalizations.of(context)!.delete),
             ),
           ],
         );
@@ -1068,13 +1084,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'By Person:',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                ),
-              ),
+              // Section label intentionally omitted to avoid hardcoded text
               const SizedBox(height: 8),
               ...personTotals.entries.map((entry) => Padding(
                     padding: const EdgeInsets.only(bottom: 8),
@@ -1095,11 +1105,10 @@ class _ExpensesTabState extends State<ExpensesTab> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+            child: Text(AppLocalizations.of(context)!.close),
           ),
         ],
       ),
     );
   }
 }
-

@@ -128,7 +128,7 @@ class _TripDetailScreenState extends State<TripDetailScreen>
                     const SizedBox(height: 24),
                     ElevatedButton(
                       onPressed: () => tripProvider.loadTrip(widget.tripId),
-                      child: const Text('Retry'),
+                      child: Text(AppLocalizations.of(context)!.retry),
                     ),
                   ],
                 ),

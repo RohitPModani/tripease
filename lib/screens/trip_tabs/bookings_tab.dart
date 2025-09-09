@@ -137,56 +137,54 @@ class _BookingsTabState extends State<BookingsTab> {
           ),
         ],
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
+      child: SizedBox(
+        height: 40,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          child: Row(
+            children: [
+              FilterChip(
+                label: Text(AppLocalizations.of(context)!.allWithCount(bookings.length)),
+                selected: _selectedType == null,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedType = null;
+                  });
+                },
+                selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                checkmarkColor: AppTheme.primaryColor,
+                labelStyle: TextStyle(
+                  color: _selectedType == null ? AppTheme.primaryColor : null,
+                  fontWeight: _selectedType == null ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+              const SizedBox(width: 8),
+              ...BookingType.values.expand((type) {
+                final isSelected = _selectedType == type;
+                final count = bookings.where((b) => b.type == type).length;
+                return [
                   FilterChip(
-                    label: Text(AppLocalizations.of(context)!.allWithCount(bookings.length)),
-                    selected: _selectedType == null,
+                    label: Text('${type.getDisplayName(AppLocalizations.of(context)!)} ($count)'),
+                    selected: isSelected,
                     onSelected: (selected) {
                       setState(() {
-                        _selectedType = null;
+                        _selectedType = selected ? type : null;
                       });
                     },
                     selectedColor: AppTheme.primaryColor.withOpacity(0.2),
                     checkmarkColor: AppTheme.primaryColor,
                     labelStyle: TextStyle(
-                      color: _selectedType == null ? AppTheme.primaryColor : null,
-                      fontWeight: _selectedType == null ? FontWeight.w600 : FontWeight.w400,
+                      color: isSelected ? AppTheme.primaryColor : null,
+                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                     ),
                   ),
                   const SizedBox(width: 8),
-                  ...BookingType.values.map((type) {
-                    final isSelected = _selectedType == type;
-                    final count = bookings.where((b) => b.type == type).length;
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: FilterChip(
-                        label: Text('${type.getDisplayName(AppLocalizations.of(context)!)} ($count)'),
-                        selected: isSelected,
-                        onSelected: (selected) {
-                          setState(() {
-                            _selectedType = selected ? type : null;
-                          });
-                        },
-                        selectedColor: AppTheme.primaryColor.withOpacity(0.2),
-                        checkmarkColor: AppTheme.primaryColor,
-                        labelStyle: TextStyle(
-                          color: isSelected ? AppTheme.primaryColor : null,
-                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ],
-              ),
-            ),
+                ];
+              }).toList(),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -877,8 +875,8 @@ class _BookingsTabState extends State<BookingsTab> {
       final file = File(attachment.filePath);
       if (!await file.exists()) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('File not found'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.fileNotFound),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -895,7 +893,7 @@ class _BookingsTabState extends State<BookingsTab> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error downloading file: $e'),
+          content: Text(AppLocalizations.of(context)!.errorDownloadingFile(e.toString())),
           backgroundColor: AppTheme.error,
         ),
       );
@@ -925,7 +923,7 @@ class _BookingsTabState extends State<BookingsTab> {
             ),
             SizedBox(height: 24),
             Text(
-              'Save Image',
+              AppLocalizations.of(context)!.download,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             SizedBox(height: 24),
@@ -938,8 +936,8 @@ class _BookingsTabState extends State<BookingsTab> {
                 ),
                 child: Icon(Iconsax.gallery, color: AppTheme.primaryColor),
               ),
-              title: Text('Save to Photos'),
-              subtitle: Text('Save directly to your photo gallery'),
+              title: Text(AppLocalizations.of(context)!.saveToPhotos),
+              subtitle: Text(AppLocalizations.of(context)!.saveToPhotosDescription),
               onTap: () async {
                 Navigator.pop(context);
                 await _saveToGallery(attachment, file);
@@ -955,8 +953,8 @@ class _BookingsTabState extends State<BookingsTab> {
                 ),
                 child: Icon(Iconsax.folder, color: AppTheme.secondaryColor),
               ),
-              title: Text('Save to Files'),
-              subtitle: Text('Choose a specific folder to save'),
+              title: Text(AppLocalizations.of(context)!.saveToFiles),
+              subtitle: Text(AppLocalizations.of(context)!.saveToFilesDescription),
               onTap: () async {
                 Navigator.pop(context);
                 await _saveFileWithDialog(attachment, file);
@@ -975,7 +973,7 @@ class _BookingsTabState extends State<BookingsTab> {
         await Gal.putImage(attachment.filePath);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Image saved to Photos'),
+            content: Text(AppLocalizations.of(context)!.imageSavedToPhotos),
             backgroundColor: AppTheme.success,
           ),
         );
@@ -983,7 +981,7 @@ class _BookingsTabState extends State<BookingsTab> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error saving to Photos: $e'),
+          content: Text(AppLocalizations.of(context)!.errorSavingToPhotos(e.toString())),
           backgroundColor: AppTheme.error,
         ),
       );
@@ -994,7 +992,7 @@ class _BookingsTabState extends State<BookingsTab> {
     try {
       // Use FilePicker to let user choose save location
       String? outputFile = await FilePicker.platform.saveFile(
-        dialogTitle: 'Save ${attachment.fileName}',
+        dialogTitle: AppLocalizations.of(context)!.saveToFiles,
         fileName: attachment.fileName,
         type: FileType.any,
       );
@@ -1009,10 +1007,10 @@ class _BookingsTabState extends State<BookingsTab> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('File saved successfully'),
+          content: Text(AppLocalizations.of(context)!.fileSavedSuccessfully),
           backgroundColor: AppTheme.success,
           action: SnackBarAction(
-            label: 'Open',
+            label: AppLocalizations.of(context)!.open,
             textColor: Colors.white,
             onPressed: () {
               Share.shareXFiles([XFile(outputFile)]);
@@ -1023,7 +1021,7 @@ class _BookingsTabState extends State<BookingsTab> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error saving file: $e'),
+          content: Text(AppLocalizations.of(context)!.errorSavingFile(e.toString())),
           backgroundColor: AppTheme.error,
         ),
       );
@@ -1041,8 +1039,8 @@ class _BookingsTabState extends State<BookingsTab> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('File not found'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.fileNotFound),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -1050,7 +1048,7 @@ class _BookingsTabState extends State<BookingsTab> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error sharing file: $e'),
+          content: Text(AppLocalizations.of(context)!.errorSharingFile(e.toString())),
           backgroundColor: AppTheme.error,
         ),
       );
@@ -1093,18 +1091,18 @@ class _BookingsTabState extends State<BookingsTab> {
                 ),
               ),
               const SizedBox(width: 12),
-              const Text('Delete Booking'),
+              Text(AppLocalizations.of(context)!.deleteBooking),
             ],
           ),
           content: Text(
-            'Are you sure you want to delete "${booking.title}"? This action cannot be undone.',
+            AppLocalizations.of(context)!.deleteDocumentConfirmation(booking.title),
             style: const TextStyle(height: 1.4),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
               child: Text(
-                'Cancel',
+                AppLocalizations.of(context)!.cancel,
                 style: TextStyle(
                   color: Theme.of(context).brightness == Brightness.dark
                       ? AppTheme.textSecondaryDark
@@ -1124,7 +1122,7 @@ class _BookingsTabState extends State<BookingsTab> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text('Delete'),
+              child: Text(AppLocalizations.of(context)!.delete),
             ),
           ],
         );

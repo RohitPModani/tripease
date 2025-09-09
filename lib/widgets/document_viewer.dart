@@ -343,7 +343,7 @@ class DocumentViewer extends StatelessWidget {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error downloading file: $e'),
+          content: Text(AppLocalizations.of(context)!.errorDownloadingFile(e.toString())),
           backgroundColor: AppTheme.error,
         ),
       );
@@ -371,7 +371,7 @@ class DocumentViewer extends StatelessWidget {
             ),
             SizedBox(height: 24),
             Text(
-              'Save Image',
+              AppLocalizations.of(context)!.download,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             SizedBox(height: 24),
@@ -384,8 +384,8 @@ class DocumentViewer extends StatelessWidget {
                 ),
                 child: Icon(Iconsax.gallery, color: AppTheme.primaryColor),
               ),
-              title: Text('Save to Photos'),
-              subtitle: Text('Save directly to your photo gallery'),
+              title: Text(AppLocalizations.of(context)!.saveToPhotos),
+              subtitle: Text(AppLocalizations.of(context)!.saveToPhotosDescription),
               onTap: () async {
                 Navigator.pop(context);
                 await _saveToGallery(context, file);
@@ -401,8 +401,8 @@ class DocumentViewer extends StatelessWidget {
                 ),
                 child: Icon(Iconsax.folder, color: AppTheme.secondaryColor),
               ),
-              title: Text('Save to Files'),
-              subtitle: Text('Choose a specific folder to save'),
+              title: Text(AppLocalizations.of(context)!.saveToFiles),
+              subtitle: Text(AppLocalizations.of(context)!.saveToFilesDescription),
               onTap: () async {
                 Navigator.pop(context);
                 await _saveFileWithDialog(context, file);
@@ -421,7 +421,7 @@ class DocumentViewer extends StatelessWidget {
         await Gal.putImage(attachment.filePath);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Image saved to Photos'),
+            content: Text(AppLocalizations.of(context)!.imageSavedToPhotos),
             backgroundColor: AppTheme.success,
           ),
         );
@@ -429,7 +429,7 @@ class DocumentViewer extends StatelessWidget {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error saving to Photos: $e'),
+          content: Text(AppLocalizations.of(context)!.errorSavingToPhotos(e.toString())),
           backgroundColor: AppTheme.error,
         ),
       );
@@ -440,7 +440,7 @@ class DocumentViewer extends StatelessWidget {
     try {
       // Use FilePicker to let user choose save location
       String? outputFile = await FilePicker.platform.saveFile(
-        dialogTitle: 'Save ${attachment.fileName}',
+        dialogTitle: AppLocalizations.of(context)!.saveToFiles,
         fileName: attachment.fileName,
         type: FileType.any,
       );
@@ -455,10 +455,10 @@ class DocumentViewer extends StatelessWidget {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('File saved successfully'),
+          content: Text(AppLocalizations.of(context)!.fileSavedSuccessfully),
           backgroundColor: AppTheme.success,
           action: SnackBarAction(
-            label: 'Open',
+            label: AppLocalizations.of(context)!.open,
             textColor: Colors.white,
             onPressed: () async {
               try {
@@ -474,7 +474,7 @@ class DocumentViewer extends StatelessWidget {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error saving file: $e'),
+          content: Text(AppLocalizations.of(context)!.errorSavingFile(e.toString())),
           backgroundColor: AppTheme.error,
         ),
       );

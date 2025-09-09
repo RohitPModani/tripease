@@ -307,7 +307,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     });
                   },
                   icon: const Icon(Iconsax.refresh),
-                  label: const Text('Clear search'),
+                  label: Text(AppLocalizations.of(context)!.clearSearch),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primaryColor,
                     foregroundColor: Colors.white,
@@ -366,7 +366,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Document "${document.title}" deleted successfully'),
+                  content: Text(AppLocalizations.of(context)!.documentDeletedSuccessfully(document.title)),
                   backgroundColor: AppTheme.success,
                 ),
               );
@@ -375,7 +375,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Failed to delete document: $e'),
+                  content: Text(AppLocalizations.of(context)!.failedToDeleteDocument(e.toString())),
                   backgroundColor: AppTheme.error,
                 ),
               );
@@ -573,12 +573,12 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
     return await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Document'),
-        content: Text('Are you sure you want to delete "${document.title}"? This action cannot be undone.'),
+        title: Text(AppLocalizations.of(context)!.deleteDocument),
+        content: Text(AppLocalizations.of(context)!.deleteDocumentConfirmation(document.title)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           TextButton(
             onPressed: () async {
@@ -587,7 +587,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
             style: TextButton.styleFrom(
               foregroundColor: AppTheme.error,
             ),
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
       ),
@@ -886,7 +886,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                               DocumentFormModal.show(context, document: document);
                             },
                             icon: const Icon(Iconsax.edit_2),
-                            label: const Text('Edit'),
+                            label: Text(AppLocalizations.of(context)!.edit),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.primaryColor,
                               foregroundColor: Colors.white,
@@ -902,7 +902,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                               _showDeleteConfirmationDialog(document);
                             },
                             icon: const Icon(Iconsax.trash),
-                            label: const Text('Delete'),
+                            label: Text(AppLocalizations.of(context)!.delete),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.error,
                               foregroundColor: Colors.white,
@@ -979,7 +979,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       if (!await file.exists()) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('File not found: ${document.fileName}'),
+            content: Text(AppLocalizations.of(context)!.fileNotFound),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -997,7 +997,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error downloading file: $e'),
+            content: Text(AppLocalizations.of(context)!.errorDownloadingFile(e.toString())),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -1017,7 +1017,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('File not found: ${document.fileName}'),
+            content: Text(AppLocalizations.of(context)!.fileNotFound),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -1026,7 +1026,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error sharing file: $e'),
+            content: Text(AppLocalizations.of(context)!.errorSharingFile(e.toString())),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -1061,7 +1061,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
             const SizedBox(height: 16),
             ListTile(
               leading: const Icon(Iconsax.gallery),
-              title: const Text('Save to Gallery'),
+              title: Text(AppLocalizations.of(context)!.saveToGallery),
               onTap: () async {
                 Navigator.pop(context);
                 try {
@@ -1069,7 +1069,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Image saved to gallery'),
+                        content: Text(AppLocalizations.of(context)!.imageSavedToPhotos),
                         backgroundColor: AppTheme.success,
                       ),
                     );
@@ -1078,7 +1078,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Error saving to gallery: $e'),
+                        content: Text(AppLocalizations.of(context)!.errorSavingToPhotos(e.toString())),
                         backgroundColor: AppTheme.error,
                       ),
                     );
@@ -1088,7 +1088,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
             ),
             ListTile(
               leading: const Icon(Iconsax.folder),
-              title: const Text('Save to Files'),
+              title: Text(AppLocalizations.of(context)!.saveToFiles),
               onTap: () async {
                 Navigator.pop(context);
                 await _saveFileWithDialog(document, file);
@@ -1111,7 +1111,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       if (result != null && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('File saved successfully'),
+            content: Text(AppLocalizations.of(context)!.fileSavedSuccessfully),
             backgroundColor: AppTheme.success,
           ),
         );
@@ -1120,7 +1120,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error saving file: $e'),
+            content: Text(AppLocalizations.of(context)!.errorSavingFile(e.toString())),
             backgroundColor: AppTheme.error,
           ),
         );
@@ -1190,12 +1190,15 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
         final insuranceDocs = documents.where((doc) => doc.type == DocumentType.insurance).length;
         final otherDocs = documents.where((doc) => doc.type == DocumentType.other).length;
 
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
+        return SizedBox(
+          height: 40,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            child: Row(
             children: [
               FilterChip(
-                label: Text('All (${documents.length})'),
+                label: Text(AppLocalizations.of(context)!.allWithCount(documents.length)),
                 selected: _selectedFilter == DocumentFilter.all,
                 onSelected: (selected) {
                   setState(() {
@@ -1211,7 +1214,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               ),
               const SizedBox(width: 8),
               FilterChip(
-                label: Text('Passport ($passportDocs)'),
+                label: Text('${AppLocalizations.of(context)!.passport} ($passportDocs)'),
                 selected: _selectedFilter == DocumentFilter.passport,
                 onSelected: (selected) {
                   setState(() {
@@ -1227,7 +1230,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               ),
               const SizedBox(width: 8),
               FilterChip(
-                label: Text('Visa ($visaDocs)'),
+                label: Text('${AppLocalizations.of(context)!.visa} ($visaDocs)'),
                 selected: _selectedFilter == DocumentFilter.visa,
                 onSelected: (selected) {
                   setState(() {
@@ -1243,7 +1246,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               ),
               const SizedBox(width: 8),
               FilterChip(
-                label: Text('Insurance ($insuranceDocs)'),
+                label: Text('${AppLocalizations.of(context)!.insurance} ($insuranceDocs)'),
                 selected: _selectedFilter == DocumentFilter.insurance,
                 onSelected: (selected) {
                   setState(() {
@@ -1259,7 +1262,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               ),
               const SizedBox(width: 8),
               FilterChip(
-                label: Text('Other ($otherDocs)'),
+                label: Text('${AppLocalizations.of(context)!.other} ($otherDocs)'),
                 selected: _selectedFilter == DocumentFilter.other,
                 onSelected: (selected) {
                   setState(() {
@@ -1274,6 +1277,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                 ),
               ),
             ],
+          ),
           ),
         );
       },

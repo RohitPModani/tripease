@@ -145,8 +145,8 @@ class FormValidators {
           : Text(labelText),
       helperText: helperText,
       counterText: '', // Hide default counter
-      suffixText: l10n.maxCharacters(maxLength),
-      suffixStyle: const TextStyle(fontSize: 12),
+      suffixText: maxLength > 0 ? l10n.maxCharacters(maxLength) : null,
+      suffixStyle: maxLength > 0 ? const TextStyle(fontSize: 12) : null,
     );
   }
 

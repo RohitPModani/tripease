@@ -227,8 +227,11 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: amountController,
-                      decoration: InputDecoration(
+                      decoration: FormValidators.createRequiredInputDecoration(
                         labelText: AppLocalizations.of(context)!.amountCurrency(widget.defaultCurrency),
+                        maxLength: 0, // No character limit for amount
+                        context: context,
+                      ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -244,6 +247,7 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                           ),
                         ),
                         contentPadding: const EdgeInsets.all(16),
+                        suffixText: null, // Remove character counter for amount field
                       ),
                       validator: (value) => FormValidators.validateAmount(value, context),
                       keyboardType: TextInputType.number,
@@ -251,8 +255,11 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                     const SizedBox(height: 16),
                     DropdownButtonFormField<ExpenseCategory>(
                       value: selectedCategory,
-                      decoration: InputDecoration(
+                      decoration: FormValidators.createOptionalInputDecoration(
                         labelText: AppLocalizations.of(context)!.category,
+                        maxLength: 0, // Not applicable for dropdown
+                        context: context,
+                      ).copyWith(
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -268,6 +275,7 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                           ),
                         ),
                         contentPadding: const EdgeInsets.all(16),
+                        suffixText: null, // Remove character counter for dropdown
                       ),
                       items: ExpenseCategory.values
                           .map(
