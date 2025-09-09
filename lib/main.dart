@@ -21,6 +21,7 @@ import 'screens/edit_trip_screen.dart';
 import 'providers/localization_provider.dart';
 import 'providers/theme_provider.dart';
 import 'l10n/app_localizations.dart';
+import 'package:intl/intl.dart' as intl;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,6 +61,8 @@ class TripeaseApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<ThemeProvider, LocalizationProvider>(
       builder: (context, themeProvider, localizationProvider, child) {
+        // Keep intl package aligned with current locale for date/number formatting
+        intl.Intl.defaultLocale = localizationProvider.currentLocale.toString();
         // Set system UI overlay style based on current theme
         final isDark = themeProvider.isCurrentlyDark(context);
         SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -71,7 +74,7 @@ class TripeaseApp extends StatelessWidget {
         ));
 
         return MaterialApp(
-          title: 'Tripease', // App title - not localized as it's the app name
+          title: 'Voythrix', // App title - not localized as it's the app name
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,

@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "Tripease",
+  "appTitle": "Voythrix",
   "@appTitle": {
     "description": "The title of the application"
   },
@@ -1824,4 +1824,109 @@
   "@addActivity": {
     "description": "Add activity button text"
   }
+  ,
+  "confirmActionWarning": "This action cannot be undone!",
+  "@confirmActionWarning": {"description": "Generic irreversible action warning"},
+
+  "finalConfirmationTitle": "Final Confirmation",
+  "@finalConfirmationTitle": {"description": "Title for final confirmation dialog"},
+
+  "finalConfirmationPrompt": "Type {word} in the box below to confirm:",
+  "@finalConfirmationPrompt": {
+    "description": "Prompt to type a word to confirm",
+    "placeholders": {"word": {"type": "String", "example": "DELETE"}}
+  },
+
+  "deletingAllData": "Deleting all data...",
+  "@deletingAllData": {"description": "Progress message while clearing all data"},
+
+  "pleaseWait": "Please wait, this may take a moment.",
+  "@pleaseWait": {"description": "Generic please wait message"},
+
+  "dataClearedTitle": "Data Cleared",
+  "@dataClearedTitle": {"description": "Success title after clearing data"},
+
+  "dataClearedMessage": "All your data has been successfully deleted. The app has been reset to its initial state.",
+  "@dataClearedMessage": {"description": "Success message after clearing data"},
+
+  "errorTitle": "Error",
+  "@errorTitle": {"description": "Generic error title"},
+
+  "failedToClearAllData": "Failed to clear all data: {error}",
+  "@failedToClearAllData": {
+    "description": "Error clearing all data",
+    "placeholders": {"error": {"type": "String", "example": "Disk full"}}
+  },
+
+  "exportIntroTitle": "Create a secure backup of all your Voythrix data:",
+  "@exportIntroTitle": {"description": "Title for export intro"},
+
+  "exportEncryptionInfo": "Your data will be encrypted and compressed into a .tripe file.",
+  "@exportEncryptionInfo": {"description": "Export encryption info"},
+
+  "backupPasswordTitle": "Backup Password (Optional)",
+  "@backupPasswordTitle": {"description": "Title for optional backup password"},
+
+  "backupPasswordHint": "Enter password (optional)",
+  "@backupPasswordHint": {"description": "Hint for backup password field"},
+
+  "confirmPasswordHint": "Confirm password",
+  "@confirmPasswordHint": {"description": "Hint for confirm password field"},
+
+  "passwordsMatch": "Passwords match",
+  "@passwordsMatch": {"description": "Password match helper"},
+
+  "passwordsDoNotMatch": "Passwords do not match",
+  "@passwordsDoNotMatch": {"description": "Password mismatch helper"},
+
+  "creatingBackup": "Creating backup...",
+  "@creatingBackup": {"description": "Progress message while creating backup"},
+
+  "collectingAndEncrypting": "Collecting and encrypting your data...",
+  "@collectingAndEncrypting": {"description": "Sub progress message for export"},
+
+  "backupCreatedTitle": "Backup Created",
+  "@backupCreatedTitle": {"description": "Title after backup is created"},
+
+  "backupCreatedMessage": "Your backup has been created successfully!",
+  "@backupCreatedMessage": {"description": "Success message after backup"},
+
+  "fileInfoLabel": "File Info:",
+  "@fileInfoLabel": {"description": "Label for file info section"},
+
+  "fileInfoFormat": "• Format: Encrypted .tripe file",
+  "@fileInfoFormat": {"description": "File format line"},
+
+  "fileInfoSecurityPassword": "• Security: Password protected",
+  "@fileInfoSecurityPassword": {"description": "File security line for password protected"},
+
+  "fileInfoSecurityStandard": "• Security: Standard encryption",
+  "@fileInfoSecurityStandard": {"description": "File security line for standard encryption"},
+
+  "fileInfoCompression": "• Compression: GZip compressed",
+  "@fileInfoCompression": {"description": "Compression line"},
+
+  "keepFileSafeNote": "Keep this file safe — you'll need it to restore your data!",
+  "@keepFileSafeNote": {"description": "Safety note after export"},
+
+  "exportFailedTitle": "Export Failed",
+  "@exportFailedTitle": {"description": "Title when export fails"},
+
+  "failedToCreateBackup": "Failed to create backup: {error}",
+  "@failedToCreateBackup": {
+    "description": "Error creating backup",
+    "placeholders": {"error": {"type": "String", "example": "Permission denied"}}
+  },
+
+  "continueAction": "Continue",
+  "@continueAction": {"description": "Generic Continue button"},
+
+  "deleteEverything": "Delete Everything",
+  "@deleteEverything": {"description": "Delete everything button"},
+
+  "createBackup": "Create Backup",
+  "@createBackup": {"description": "Create backup button"},
+
+  "ok": "OK",
+  "@ok": {"description": "OK button label"}
 }

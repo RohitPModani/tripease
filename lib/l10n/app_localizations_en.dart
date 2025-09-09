@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Tripease';
+  String get appTitle => 'Voythrix';
 
   @override
   String get trips => 'Trips';
@@ -1027,4 +1027,112 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveToGallery => 'Save to Gallery';
+
+  @override
+  String get confirmActionWarning => 'This action cannot be undone!';
+
+  @override
+  String get finalConfirmationTitle => 'Final Confirmation';
+
+  @override
+  String finalConfirmationPrompt(String word) {
+    return 'Type $word in the box below to confirm:';
+  }
+
+  @override
+  String get deletingAllData => 'Deleting all data...';
+
+  @override
+  String get pleaseWait => 'Please wait, this may take a moment.';
+
+  @override
+  String get dataClearedTitle => 'Data Cleared';
+
+  @override
+  String get dataClearedMessage =>
+      'All your data has been successfully deleted. The app has been reset to its initial state.';
+
+  @override
+  String get errorTitle => 'Error';
+
+  @override
+  String failedToClearAllData(String error) {
+    return 'Failed to clear all data: $error';
+  }
+
+  @override
+  String get exportIntroTitle =>
+      'Create a secure backup of all your Voythrix data:';
+
+  @override
+  String get exportEncryptionInfo =>
+      'Your data will be encrypted and compressed into a .tripe file.';
+
+  @override
+  String get backupPasswordTitle => 'Backup Password (Optional)';
+
+  @override
+  String get backupPasswordHint => 'Enter password (optional)';
+
+  @override
+  String get confirmPasswordHint => 'Confirm password';
+
+  @override
+  String get passwordsMatch => 'Passwords match';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get creatingBackup => 'Creating backup...';
+
+  @override
+  String get collectingAndEncrypting =>
+      'Collecting and encrypting your data...';
+
+  @override
+  String get backupCreatedTitle => 'Backup Created';
+
+  @override
+  String get backupCreatedMessage =>
+      'Your backup has been created successfully!';
+
+  @override
+  String get fileInfoLabel => 'File Info:';
+
+  @override
+  String get fileInfoFormat => '• Format: Encrypted .tripe file';
+
+  @override
+  String get fileInfoSecurityPassword => '• Security: Password protected';
+
+  @override
+  String get fileInfoSecurityStandard => '• Security: Standard encryption';
+
+  @override
+  String get fileInfoCompression => '• Compression: GZip compressed';
+
+  @override
+  String get keepFileSafeNote =>
+      'Keep this file safe — you\'ll need it to restore your data!';
+
+  @override
+  String get exportFailedTitle => 'Export Failed';
+
+  @override
+  String failedToCreateBackup(String error) {
+    return 'Failed to create backup: $error';
+  }
+
+  @override
+  String get continueAction => 'Continue';
+
+  @override
+  String get deleteEverything => 'Delete Everything';
+
+  @override
+  String get createBackup => 'Create Backup';
+
+  @override
+  String get ok => 'OK';
 }

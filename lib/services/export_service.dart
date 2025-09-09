@@ -94,7 +94,7 @@ class ExportService {
       final metadata = {
         'version': '1.0',
         'created': DateTime.now().toIso8601String(),
-        'app': 'TripEase',
+        'app': 'Voythrix',
         'encrypted': password != null,
         'compressed': true,
         'checksum': _generateChecksum(jsonString),
@@ -148,7 +148,7 @@ class ExportService {
       
       // Generate filename with timestamp
       final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-').split('.')[0];
-      final filename = 'tripease_backup_${timestamp}$_fileExtension';
+      final filename = 'voythrix_backup_${timestamp}$_fileExtension';
       
       // Save to temporary directory
       print('Export: Saving to file: $filename');
@@ -172,8 +172,8 @@ class ExportService {
     if (await file.exists()) {
       await Share.shareXFiles(
         [XFile(filePath)],
-        subject: 'TripEase Backup',
-        text: 'Your TripEase data backup file. Keep this safe!',
+        subject: 'Voythrix Backup',
+        text: 'Your Voythrix data backup file. Keep this safe!',
       );
     } else {
       throw Exception('Export file not found');
@@ -213,7 +213,7 @@ class ExportService {
   }
   
   static String _deriveKeyFromPassword(String password) {
-    final salt = 'tripease_salt_2024'; // In production, use random salt
+    final salt = 'voythrix_salt_2024'; // In production, use random salt
     final bytes = utf8.encode(password + salt);
     final digest = sha256.convert(bytes);
     return base64.encode(digest.bytes);

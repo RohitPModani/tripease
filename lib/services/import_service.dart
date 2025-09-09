@@ -82,9 +82,12 @@ class ImportService {
       print('Import: Version: ${metadata['version']}');
       print('Import: Encrypted: ${metadata['encrypted']}');
       
-      // Verify this is a TripEase backup
-      if (metadata['app'] != 'TripEase') {
-        throw Exception('This backup file is not from TripEase');
+      // Verify this is a Voythrix or legacy TripEase backup
+      final appTag = metadata['app']?.toString() ?? '';
+      final isVoythrix = appTag == 'Voythrix';
+      final isTripEase = appTag == 'TripEase';
+      if (!isVoythrix && !isTripEase) {
+        throw Exception('This backup file is not from Voythrix');
       }
       
       // Decrypt data if needed
@@ -101,7 +104,9 @@ class ImportService {
         print('Import: Decrypting data...');
         try {
           final iv = IV.fromBase64(encryptionInfo['iv']);
-          final passwordKey = Key.fromBase64(_deriveKeyFromPassword(password));
+          // Use salt compatible with the backup source (Voythrix or TripEase)
+          final salt = isVoythrix ? 'voythrix_salt_2024' : 'tripease_salt_2024';
+          final passwordKey = Key.fromBase64(_deriveKeyFromPassword(password, salt: salt));
           final encrypter = Encrypter(AES(passwordKey));
           final encrypted = Encrypted.fromBase64(dataContent);
           jsonData = encrypter.decrypt(encrypted, iv: iv);
@@ -256,8 +261,7 @@ class ImportService {
     return sha256.convert(utf8.encode(data)).toString();
   }
   
-  static String _deriveKeyFromPassword(String password) {
-    final salt = 'tripease_salt_2024'; // Same salt as export
+  static String _deriveKeyFromPassword(String password, {required String salt}) {
     final bytes = utf8.encode(password + salt);
     final digest = sha256.convert(bytes);
     return base64.encode(digest.bytes);

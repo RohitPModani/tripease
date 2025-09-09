@@ -411,7 +411,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   title: Text(
-                    localizationProvider.getLanguageDisplayName(locale),
+                    _localizedLanguageName(context, locale),
                     style: TextStyle(
                       fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                       color: isSelected ? AppTheme.primaryColor : null,
@@ -438,6 +438,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
     );
+  }
+
+  String _localizedLanguageName(BuildContext context, Locale locale) {
+    final l = AppLocalizations.of(context)!;
+    switch (locale.languageCode) {
+      case 'en':
+        return l.english;
+      case 'zh':
+        return l.mandarin;
+      case 'ja':
+        return l.japanese;
+      case 'ko':
+        return l.korean;
+      case 'es':
+        return l.spanish;
+      case 'fr':
+        return l.french;
+      case 'de':
+        return l.german;
+      case 'it':
+        return l.italian;
+      case 'pt':
+        return l.portuguese;
+      case 'ru':
+        return l.russian;
+      case 'ar':
+        return l.arabic;
+      case 'hi':
+        return l.hindi;
+      case 'nl':
+        return l.dutch;
+      default:
+        return l.english;
+    }
   }
 
   String _getLanguageFlag(String languageCode) {
@@ -532,7 +566,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'This action cannot be undone!',
+                      AppLocalizations.of(context)!.confirmActionWarning,
                       style: TextStyle(
                         color: AppTheme.error,
                         fontSize: 12,
@@ -562,7 +596,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: Text('Continue'),
+            child: Text(AppLocalizations.of(context)!.continueAction),
           ),
         ],
       ),
@@ -617,7 +651,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  'Final Confirmation',
+                  AppLocalizations.of(context)!.finalConfirmationTitle,
                   style: TextStyle(
                     color: AppTheme.error,
                     fontWeight: FontWeight.w700,
@@ -631,14 +665,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Are you absolutely sure you want to delete all your data?',
+                AppLocalizations.of(context)!.clearAllDataConfirmation,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 16),
               Text(
-                'Type DELETE in the box below to confirm:',
+                AppLocalizations.of(context)!.finalConfirmationPrompt('DELETE'),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 12),
@@ -685,7 +719,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: Text('Delete Everything'),
+              child: Text(AppLocalizations.of(context)!.deleteEverything),
             ),
           ],
         ),
@@ -711,12 +745,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Deleting all data...',
+                AppLocalizations.of(context)!.deletingAllData,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 8),
               Text(
-                'Please wait, this may take a moment.',
+                AppLocalizations.of(context)!.pleaseWait,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.outline,
                 ),
@@ -781,12 +815,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Text('Data Cleared'),
+                Text(AppLocalizations.of(context)!.dataClearedTitle),
               ],
             ),
-            content: const Text(
-              'All your data has been successfully deleted. The app has been reset to its initial state.',
-            ),
+            content: Text(AppLocalizations.of(context)!.dataClearedMessage),
             actions: [
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),
@@ -797,7 +829,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: const Text('OK'),
+                child: Text(AppLocalizations.of(context)!.ok),
               ),
             ],
           ),
@@ -830,12 +862,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Text('Error'),
+                Text(AppLocalizations.of(context)!.errorTitle),
               ],
             ),
-            content: Text(
-              'Failed to clear all data: ${e.toString()}',
-            ),
+            content: Text(AppLocalizations.of(context)!.failedToClearAllData(e.toString())),
             actions: [
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),
@@ -846,7 +876,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: const Text('OK'),
+                child: Text(AppLocalizations.of(context)!.ok),
               ),
             ],
           ),
@@ -892,7 +922,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Create a secure backup of all your TripEase data:',
+                  AppLocalizations.of(context)!.exportIntroTitle,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -919,7 +949,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          'Your data will be encrypted and compressed into a .tripe file.',
+                          AppLocalizations.of(context)!.exportEncryptionInfo,
                           style: TextStyle(
                             color: AppTheme.accentColor,
                             fontSize: 12,
@@ -932,14 +962,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Backup Password (Optional)',
+                  AppLocalizations.of(context)!.backupPasswordTitle,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Add a password for extra security:',
+                  AppLocalizations.of(context)!.exportEncryptionInfo,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(height: 12),
@@ -948,7 +978,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   obscureText: _obscurePassword,
                   onChanged: (value) => setState(() {}),
                   decoration: InputDecoration(
-                    hintText: 'Enter password (optional)',
+                    hintText: AppLocalizations.of(context)!.backupPasswordHint,
                     prefixIcon: const Icon(Iconsax.lock),
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -973,7 +1003,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     obscureText: _obscureConfirmPassword,
                     onChanged: (value) => setState(() {}),
                     decoration: InputDecoration(
-                      hintText: 'Confirm password',
+                      hintText: AppLocalizations.of(context)!.confirmPasswordHint,
                       prefixIcon: const Icon(Iconsax.lock),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -1010,7 +1040,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        _passwordsMatch() ? 'Passwords match' : 'Passwords do not match',
+                        _passwordsMatch() ? AppLocalizations.of(context)!.passwordsMatch : AppLocalizations.of(context)!.passwordsDoNotMatch,
                         style: TextStyle(
                           fontSize: 12,
                           color: _passwordsMatch() ? Colors.green : AppTheme.error,
@@ -1041,7 +1071,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   const Icon(Iconsax.export, size: 16),
                   const SizedBox(width: 6),
-                  Text('Create Backup'),
+                  Text(AppLocalizations.of(context)!.createBackup),
                 ],
               ),
             ),
@@ -1100,12 +1130,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Creating backup...',
+                AppLocalizations.of(context)!.creatingBackup,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 8),
               Text(
-                'Collecting and encrypting your data...',
+                AppLocalizations.of(context)!.collectingAndEncrypting,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.outline,
                 ),
@@ -1160,7 +1190,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Text('Backup Created'),
+                Text(AppLocalizations.of(context)!.backupCreatedTitle),
               ],
             ),
             content: Column(
@@ -1168,7 +1198,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Your backup has been created successfully!',
+                  AppLocalizations.of(context)!.backupCreatedMessage,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -1187,22 +1217,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'File Info:',
+                        AppLocalizations.of(context)!.fileInfoLabel,
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        '• Format: Encrypted .tripe file',
+                        AppLocalizations.of(context)!.fileInfoFormat,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Text(
-                        '• Security: ${password != null ? 'Password protected' : 'Standard encryption'}',
+                        password != null ? AppLocalizations.of(context)!.fileInfoSecurityPassword : AppLocalizations.of(context)!.fileInfoSecurityStandard,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Text(
-                        '• Compression: GZip compressed',
+                        AppLocalizations.of(context)!.fileInfoCompression,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
@@ -1210,7 +1240,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'Keep this file safe - you\'ll need it to restore your data!',
+                  AppLocalizations.of(context)!.keepFileSafeNote,
                   style: TextStyle(
                     color: AppTheme.accentColor,
                     fontSize: 12,
@@ -1222,7 +1252,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
+                child: Text(AppLocalizations.of(context)!.ok),
               ),
               ElevatedButton.icon(
                 onPressed: () async {
@@ -1230,7 +1260,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   await ExportService.shareExportFile(filePath);
                 },
                 icon: const Icon(Iconsax.share, size: 16),
-                label: const Text('Share'),
+                label: Text(AppLocalizations.of(context)!.share),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.primaryColor,
                   foregroundColor: Colors.white,
@@ -1270,12 +1300,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Text('Export Failed'),
+                Text(AppLocalizations.of(context)!.exportFailedTitle),
               ],
             ),
-            content: Text(
-              'Failed to create backup: ${e.toString()}',
-            ),
+            content: Text(AppLocalizations.of(context)!.failedToCreateBackup(e.toString())),
             actions: [
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),
@@ -1286,7 +1314,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: const Text('OK'),
+                child: Text(AppLocalizations.of(context)!.ok),
               ),
             ],
           ),

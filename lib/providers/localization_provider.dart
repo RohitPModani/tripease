@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../l10n/app_localizations.dart';
 
 class LocalizationProvider extends ChangeNotifier {
   static const String _languageKey = 'selected_language';
@@ -6,36 +8,45 @@ class LocalizationProvider extends ChangeNotifier {
 
   Locale get currentLocale => _currentLocale;
 
-  final List<Locale> supportedLocales = const [
-    Locale('en'), // English
-    Locale('zh'), // Mandarin Chinese
-    Locale('ja'), // Japanese
-    Locale('ko'), // Korean
-    Locale('es'), // Spanish
-    Locale('fr'), // French
-    Locale('de'), // German
-    Locale('it'), // Italian
-    Locale('pt'), // Portuguese
-    Locale('ru'), // Russian
-    Locale('ar'), // Arabic
-    Locale('hi'), // Hindi
-    Locale('nl'), // Dutch
-  ];
+  // Single source of truth from generated localizations
+  final List<Locale> supportedLocales = AppLocalizations.supportedLocales;
 
   LocalizationProvider() {
     _loadSavedLanguage();
   }
 
-  void _loadSavedLanguage() {
-    // For now, just use default language
-    // TODO: Implement persistent storage for language setting
+  void _loadSavedLanguage() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final saved = prefs.getString(_languageKey);
+      if (saved != null && saved.isNotEmpty) {
+        final parts = saved.split('_');
+        _currentLocale = parts.length > 1 ? Locale(parts[0], parts[1]) : Locale(parts[0]);
+        notifyListeners();
+        return;
+      }
+      // Fallback to device locale if supported, else keep default 'en'
+      final device = WidgetsBinding.instance.platformDispatcher.locale;
+      final deviceBase = Locale(device.languageCode);
+      if (supportedLocales.contains(device) || supportedLocales.contains(deviceBase)) {
+        _currentLocale = supportedLocales.contains(device) ? device : deviceBase;
+        notifyListeners();
+      }
+    } catch (_) {
+      // Ignore and keep default
+    }
   }
 
   Future<void> setLocale(Locale locale) async {
     if (!supportedLocales.contains(locale)) return;
     
     _currentLocale = locale;
-    // TODO: Save to persistent storage
+    // Persist selection
+    final prefs = await SharedPreferences.getInstance();
+    final code = locale.countryCode == null || locale.countryCode!.isEmpty
+        ? locale.languageCode
+        : '${locale.languageCode}_${locale.countryCode}';
+    await prefs.setString(_languageKey, code);
     notifyListeners();
   }
 

@@ -123,7 +123,7 @@ abstract class AppLocalizations {
   /// The title of the application
   ///
   /// In en, this message translates to:
-  /// **'Tripease'**
+  /// **'Voythrix'**
   String get appTitle;
 
   /// Trips tab title
@@ -1997,6 +1997,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save to Gallery'**
   String get saveToGallery;
+
+  /// Generic irreversible action warning
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone!'**
+  String get confirmActionWarning;
+
+  /// Title for final confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Final Confirmation'**
+  String get finalConfirmationTitle;
+
+  /// Prompt to type a word to confirm
+  ///
+  /// In en, this message translates to:
+  /// **'Type {word} in the box below to confirm:'**
+  String finalConfirmationPrompt(String word);
+
+  /// Progress message while clearing all data
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting all data...'**
+  String get deletingAllData;
+
+  /// Generic please wait message
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait, this may take a moment.'**
+  String get pleaseWait;
+
+  /// Success title after clearing data
+  ///
+  /// In en, this message translates to:
+  /// **'Data Cleared'**
+  String get dataClearedTitle;
+
+  /// Success message after clearing data
+  ///
+  /// In en, this message translates to:
+  /// **'All your data has been successfully deleted. The app has been reset to its initial state.'**
+  String get dataClearedMessage;
+
+  /// Generic error title
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get errorTitle;
+
+  /// Error clearing all data
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to clear all data: {error}'**
+  String failedToClearAllData(String error);
+
+  /// Title for export intro
+  ///
+  /// In en, this message translates to:
+  /// **'Create a secure backup of all your Voythrix data:'**
+  String get exportIntroTitle;
+
+  /// Export encryption info
+  ///
+  /// In en, this message translates to:
+  /// **'Your data will be encrypted and compressed into a .tripe file.'**
+  String get exportEncryptionInfo;
+
+  /// Title for optional backup password
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Password (Optional)'**
+  String get backupPasswordTitle;
+
+  /// Hint for backup password field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter password (optional)'**
+  String get backupPasswordHint;
+
+  /// Hint for confirm password field
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get confirmPasswordHint;
+
+  /// Password match helper
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords match'**
+  String get passwordsMatch;
+
+  /// Password mismatch helper
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordsDoNotMatch;
+
+  /// Progress message while creating backup
+  ///
+  /// In en, this message translates to:
+  /// **'Creating backup...'**
+  String get creatingBackup;
+
+  /// Sub progress message for export
+  ///
+  /// In en, this message translates to:
+  /// **'Collecting and encrypting your data...'**
+  String get collectingAndEncrypting;
+
+  /// Title after backup is created
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Created'**
+  String get backupCreatedTitle;
+
+  /// Success message after backup
+  ///
+  /// In en, this message translates to:
+  /// **'Your backup has been created successfully!'**
+  String get backupCreatedMessage;
+
+  /// Label for file info section
+  ///
+  /// In en, this message translates to:
+  /// **'File Info:'**
+  String get fileInfoLabel;
+
+  /// File format line
+  ///
+  /// In en, this message translates to:
+  /// **'• Format: Encrypted .tripe file'**
+  String get fileInfoFormat;
+
+  /// File security line for password protected
+  ///
+  /// In en, this message translates to:
+  /// **'• Security: Password protected'**
+  String get fileInfoSecurityPassword;
+
+  /// File security line for standard encryption
+  ///
+  /// In en, this message translates to:
+  /// **'• Security: Standard encryption'**
+  String get fileInfoSecurityStandard;
+
+  /// Compression line
+  ///
+  /// In en, this message translates to:
+  /// **'• Compression: GZip compressed'**
+  String get fileInfoCompression;
+
+  /// Safety note after export
+  ///
+  /// In en, this message translates to:
+  /// **'Keep this file safe — you\'ll need it to restore your data!'**
+  String get keepFileSafeNote;
+
+  /// Title when export fails
+  ///
+  /// In en, this message translates to:
+  /// **'Export Failed'**
+  String get exportFailedTitle;
+
+  /// Error creating backup
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create backup: {error}'**
+  String failedToCreateBackup(String error);
+
+  /// Generic Continue button
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueAction;
+
+  /// Delete everything button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Everything'**
+  String get deleteEverything;
+
+  /// Create backup button
+  ///
+  /// In en, this message translates to:
+  /// **'Create Backup'**
+  String get createBackup;
+
+  /// OK button label
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
 }
 
 class _AppLocalizationsDelegate
