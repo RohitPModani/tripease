@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import '../models/booking.dart';
@@ -114,6 +115,158 @@ class _BookingFormModalState extends State<BookingFormModal> {
   }
 
   Future<void> _pickFile() async {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppTheme.surfaceDark
+              : AppTheme.surfaceLight,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppTheme.textSecondary.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              AppLocalizations.of(context)!.selectDocument,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 24),
+            _buildFilePickerOption(
+              icon: Iconsax.camera,
+              title: AppLocalizations.of(context)!.takePhoto,
+              subtitle: 'Capture document with camera',
+              onTap: () {
+                Navigator.pop(context);
+                _pickImageFromCamera();
+              },
+            ),
+            const SizedBox(height: 16),
+            _buildFilePickerOption(
+              icon: Iconsax.gallery,
+              title: AppLocalizations.of(context)!.chooseFromGallery,
+              subtitle: 'Select from photo library',
+              onTap: () {
+                Navigator.pop(context);
+                _pickImageFromGallery();
+              },
+            ),
+            const SizedBox(height: 16),
+            _buildFilePickerOption(
+              icon: Iconsax.document,
+              title: AppLocalizations.of(context)!.chooseFile,
+              subtitle: 'Select PDF or other files',
+              onTap: () {
+                Navigator.pop(context);
+                _pickFileFromDevice();
+              },
+            ),
+            const SizedBox(height: 24),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFilePickerOption({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      decoration: Theme.of(context).brightness == Brightness.dark
+          ? AppTheme.pixieCardDecorationDark
+          : AppTheme.pixieCardDecoration,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(icon, color: AppTheme.primaryColor, size: 24),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(
+                  Iconsax.arrow_right_3,
+                  color: AppTheme.textSecondary,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickImageFromCamera() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.camera);
+      
+      if (image != null) {
+        await _processSelectedFile(image.path, image.name);
+      }
+    } catch (e) {
+      _showError(AppLocalizations.of(context)!.failedToPickFile('Failed to capture image'));
+    }
+  }
+
+  Future<void> _pickImageFromGallery() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      
+      if (image != null) {
+        await _processSelectedFile(image.path, image.name);
+      }
+    } catch (e) {
+      _showError(AppLocalizations.of(context)!.failedToPickFile('Failed to select image'));
+    }
+  }
+
+  Future<void> _pickFileFromDevice() async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: false,
@@ -128,23 +281,13 @@ class _BookingFormModalState extends State<BookingFormModal> {
         
         // Check if file has data
         if (file.bytes == null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(AppLocalizations.of(context)!.failedToReadFile),
-              backgroundColor: AppTheme.error,
-            ),
-          );
+          _showError(AppLocalizations.of(context)!.failedToReadFile);
           return;
         }
         
         // Check file size (5MB limit)
         if (file.size > 5 * 1024 * 1024) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(AppLocalizations.of(context)!.fileSizeMustBeLess),
-              backgroundColor: AppTheme.error,
-            ),
-          );
+          _showError(AppLocalizations.of(context)!.fileSizeMustBeLess);
           return;
         }
 
@@ -180,14 +323,63 @@ class _BookingFormModalState extends State<BookingFormModal> {
         );
       }
     } catch (e) {
-      print('File picker error: $e'); // Debug print
+      _showError(AppLocalizations.of(context)!.failedToPickFile(e.toString()));
+    }
+  }
+
+  Future<void> _processSelectedFile(String filePath, String fileName) async {
+    try {
+      final file = File(filePath);
+      final fileSize = await file.length();
+      
+      // Check file size (5MB limit)
+      if (fileSize > 5 * 1024 * 1024) {
+        _showError(AppLocalizations.of(context)!.fileSizeMustBeLess);
+        return;
+      }
+
+      // Copy file to app documents directory
+      final appDir = await getApplicationDocumentsDirectory();
+      final attachmentsDir = Directory(p.join(appDir.path, 'attachments'));
+      if (!await attachmentsDir.exists()) {
+        await attachmentsDir.create(recursive: true);
+      }
+
+      final newFileName = '${const Uuid().v4()}_$fileName';
+      final newFile = File(p.join(attachmentsDir.path, newFileName));
+      await newFile.copy(filePath);
+
+      final attachment = BookingAttachment(
+        id: const Uuid().v4(),
+        fileName: fileName,
+        filePath: newFile.path,
+        mimeType: _getMimeType(p.extension(fileName)),
+        fileSize: fileSize,
+        uploadedAt: DateTime.now(),
+      );
+
+      setState(() {
+        attachments.add(attachment);
+      });
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.failedToPickFile(e.toString())),
-          backgroundColor: AppTheme.error,
+          content: Text(AppLocalizations.of(context)!.fileAttachedSuccessfully(fileName)),
+          backgroundColor: AppTheme.success,
         ),
       );
+    } catch (e) {
+      _showError(AppLocalizations.of(context)!.failedToPickFile(e.toString()));
     }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: AppTheme.error,
+      ),
+    );
   }
 
   String _getMimeType(String extension) {

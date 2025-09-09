@@ -14,6 +14,8 @@ import '../providers/document_provider.dart';
 import '../models/document.dart';
 import '../models/attachment.dart';
 
+enum DocumentFilter { all, passport, visa, insurance, other }
+
 class DocumentsScreen extends StatefulWidget {
   const DocumentsScreen({super.key});
 
@@ -23,6 +25,7 @@ class DocumentsScreen extends StatefulWidget {
 
 class _DocumentsScreenState extends State<DocumentsScreen> {
   String _searchQuery = '';
+  DocumentFilter _selectedFilter = DocumentFilter.all;
   
   @override
   void initState() {
@@ -33,17 +36,39 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   }
 
   List<Document> _getFilteredDocuments(List<Document> documents) {
-    if (_searchQuery.isEmpty) {
-      return documents;
+    List<Document> filteredDocuments = documents;
+    
+    // Apply filter by document type/category
+    switch (_selectedFilter) {
+      case DocumentFilter.all:
+        // Show all documents
+        break;
+      case DocumentFilter.passport:
+        filteredDocuments = filteredDocuments.where((doc) => doc.type == DocumentType.passport).toList();
+        break;
+      case DocumentFilter.visa:
+        filteredDocuments = filteredDocuments.where((doc) => doc.type == DocumentType.visa).toList();
+        break;
+      case DocumentFilter.insurance:
+        filteredDocuments = filteredDocuments.where((doc) => doc.type == DocumentType.insurance).toList();
+        break;
+      case DocumentFilter.other:
+        filteredDocuments = filteredDocuments.where((doc) => doc.type == DocumentType.other).toList();
+        break;
     }
     
-    final query = _searchQuery.toLowerCase();
-    return documents.where((document) {
-      return document.title.toLowerCase().contains(query) ||
-             document.description.toLowerCase().contains(query) ||
-             document.fileName.toLowerCase().contains(query) ||
-             _getDocumentTypeDisplayName(document.type).toLowerCase().contains(query);
-    }).toList();
+    // Apply search query filter
+    if (_searchQuery.isNotEmpty) {
+      final query = _searchQuery.toLowerCase();
+      filteredDocuments = filteredDocuments.where((document) {
+        return document.title.toLowerCase().contains(query) ||
+               document.description.toLowerCase().contains(query) ||
+               document.fileName.toLowerCase().contains(query) ||
+               _getDocumentTypeDisplayName(document.type).toLowerCase().contains(query);
+      }).toList();
+    }
+    
+    return filteredDocuments;
   }
 
   @override
@@ -73,6 +98,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
                     _buildSearchBar(),
+                    const SizedBox(height: 16),
+                    _buildFilterChips(),
+                    const SizedBox(height: 8),
                   ]),
                 ),
               ),
@@ -479,8 +507,10 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                       children: [
                         Text(
                           _getDocumentTypeDisplayName(document.type),
-                          style: const TextStyle(
-                            color: AppTheme.textSecondary,
+                          style: TextStyle(
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.textSecondaryDark
+                                : AppTheme.textSecondary,
                             fontSize: 12,
                           ),
                         ),
@@ -488,14 +518,18 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                         Icon(
                           Iconsax.calendar_1,
                           size: 12,
-                          color: AppTheme.textSecondary,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondary,
                         ),
                         const SizedBox(width: 4),
                         Text(
                           'Created: ${_formatDate(document.createdAt)}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
-                            color: AppTheme.textSecondary,
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.textSecondaryDark
+                                : AppTheme.textSecondary,
                           ),
                         ),
                       ],
@@ -506,16 +540,22 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AppTheme.textSecondary.withOpacity(0.1),
+                  color: (Theme.of(context).brightness == Brightness.dark
+                      ? AppTheme.textSecondaryDark
+                      : AppTheme.textSecondary).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: AppTheme.textSecondary.withOpacity(0.3),
+                    color: (Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary).withOpacity(0.3),
                   ),
                 ),
                 child: Text(
                   _formatFileSize(document.fileSize),
                   style: TextStyle(
-                    color: AppTheme.textSecondary,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppTheme.textSecondaryDark
+                        : AppTheme.textSecondary,
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
@@ -571,10 +611,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
         return 'Passport';
       case DocumentType.visa:
         return 'Visa';
-      case DocumentType.ticket:
-        return 'Ticket';
-      case DocumentType.hotel:
-        return 'Hotel';
       case DocumentType.insurance:
         return 'Insurance';
       case DocumentType.other:
@@ -607,7 +643,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: (Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary).withOpacity(0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -678,7 +716,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                       Text(
                         document.description,
                         style: TextStyle(
-                          color: AppTheme.textSecondary,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textSecondaryDark
+                              : AppTheme.textSecondary,
                           height: 1.4,
                         ),
                       ),
@@ -702,7 +742,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                   Icon(
                                     Iconsax.calendar_1,
                                     size: 16,
-                                    color: AppTheme.textSecondary,
+                                    color: Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.textSecondaryDark
+                                : AppTheme.textSecondary,
                                   ),
                                   const SizedBox(width: 6),
                                   Text(
@@ -795,7 +837,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                                   _formatFileSize(document.fileSize),
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: AppTheme.textSecondary,
+                                    color: Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.textSecondaryDark
+                                : AppTheme.textSecondary,
                                   ),
                                 ),
                               ],
@@ -1106,13 +1150,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   Color _getDocumentTypeColor(String type) {
     switch (type.toLowerCase()) {
       case 'passport':
-        return AppTheme.primaryColor;
+        return AppTheme.warning;
       case 'visa':
         return AppTheme.secondaryColor;
-      case 'ticket':
-        return AppTheme.accentColor;
-      case 'hotel':
-        return AppTheme.warning;
       case 'insurance':
         return AppTheme.success;
       case 'other':
@@ -1139,6 +1179,105 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       default:
         return Iconsax.document;
     }
+  }
+
+  Widget _buildFilterChips() {
+    return Consumer<DocumentProvider>(
+      builder: (context, documentProvider, child) {
+        final documents = documentProvider.personalDocuments;
+        final passportDocs = documents.where((doc) => doc.type == DocumentType.passport).length;
+        final visaDocs = documents.where((doc) => doc.type == DocumentType.visa).length;
+        final insuranceDocs = documents.where((doc) => doc.type == DocumentType.insurance).length;
+        final otherDocs = documents.where((doc) => doc.type == DocumentType.other).length;
+
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              FilterChip(
+                label: Text('All (${documents.length})'),
+                selected: _selectedFilter == DocumentFilter.all,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedFilter = DocumentFilter.all;
+                  });
+                },
+                selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                checkmarkColor: AppTheme.primaryColor,
+                labelStyle: TextStyle(
+                  color: _selectedFilter == DocumentFilter.all ? AppTheme.primaryColor : null,
+                  fontWeight: _selectedFilter == DocumentFilter.all ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+              const SizedBox(width: 8),
+              FilterChip(
+                label: Text('Passport ($passportDocs)'),
+                selected: _selectedFilter == DocumentFilter.passport,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedFilter = DocumentFilter.passport;
+                  });
+                },
+                selectedColor: _getDocumentTypeColor('passport').withOpacity(0.2),
+                checkmarkColor: _getDocumentTypeColor('passport'),
+                labelStyle: TextStyle(
+                  color: _selectedFilter == DocumentFilter.passport ? _getDocumentTypeColor('passport') : null,
+                  fontWeight: _selectedFilter == DocumentFilter.passport ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+              const SizedBox(width: 8),
+              FilterChip(
+                label: Text('Visa ($visaDocs)'),
+                selected: _selectedFilter == DocumentFilter.visa,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedFilter = DocumentFilter.visa;
+                  });
+                },
+                selectedColor: _getDocumentTypeColor('visa').withOpacity(0.2),
+                checkmarkColor: _getDocumentTypeColor('visa'),
+                labelStyle: TextStyle(
+                  color: _selectedFilter == DocumentFilter.visa ? _getDocumentTypeColor('visa') : null,
+                  fontWeight: _selectedFilter == DocumentFilter.visa ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+              const SizedBox(width: 8),
+              FilterChip(
+                label: Text('Insurance ($insuranceDocs)'),
+                selected: _selectedFilter == DocumentFilter.insurance,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedFilter = DocumentFilter.insurance;
+                  });
+                },
+                selectedColor: _getDocumentTypeColor('insurance').withOpacity(0.2),
+                checkmarkColor: _getDocumentTypeColor('insurance'),
+                labelStyle: TextStyle(
+                  color: _selectedFilter == DocumentFilter.insurance ? _getDocumentTypeColor('insurance') : null,
+                  fontWeight: _selectedFilter == DocumentFilter.insurance ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+              const SizedBox(width: 8),
+              FilterChip(
+                label: Text('Other ($otherDocs)'),
+                selected: _selectedFilter == DocumentFilter.other,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedFilter = DocumentFilter.other;
+                  });
+                },
+                selectedColor: _getDocumentTypeColor('other').withOpacity(0.2),
+                checkmarkColor: _getDocumentTypeColor('other'),
+                labelStyle: TextStyle(
+                  color: _selectedFilter == DocumentFilter.other ? _getDocumentTypeColor('other') : null,
+                  fontWeight: _selectedFilter == DocumentFilter.other ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
 

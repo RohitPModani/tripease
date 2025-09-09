@@ -1,6 +1,6 @@
 import '../database/database.dart';
 
-enum DocumentType { passport, visa, ticket, hotel, insurance, other }
+enum DocumentType { passport, visa, insurance, other }
 
 class Document {
   final String id;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
+import '../themes/app_theme.dart';
 
 /// Centralized form validation utilities for character limits and field validation
 class FormValidators {
@@ -126,7 +127,22 @@ class FormValidators {
   }) {
     final l10n = AppLocalizations.of(context)!;
     return InputDecoration(
-      labelText: isRequired ? labelText : l10n.fieldOptional(labelText),
+      label: isRequired 
+          ? RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: labelText,
+                    style: const TextStyle(color: Color(0xFF6B7280)),
+                  ),
+                  const TextSpan(
+                    text: ' *',
+                    style: TextStyle(color: AppTheme.error),
+                  ),
+                ],
+              ),
+            )
+          : Text(labelText),
       helperText: helperText,
       counterText: '', // Hide default counter
       suffixText: l10n.maxCharacters(maxLength),

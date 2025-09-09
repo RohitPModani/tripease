@@ -447,19 +447,11 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
           titleError = FormValidators.validateTitle(value, context);
         });
       },
-      decoration: InputDecoration(
-        label: RichText(
-          text: TextSpan(
-            style: TextStyle(color: AppTheme.textSecondary),
-            children: [
-              const TextSpan(text: 'Document Title '),
-              TextSpan(
-                text: '*',
-                style: TextStyle(color: AppTheme.error),
-              ),
-            ],
-          ),
-        ),
+      decoration: FormValidators.createRequiredInputDecoration(
+        labelText: 'Document Title',
+        maxLength: FormValidators.titleLimit,
+        context: context,
+      ).copyWith(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
@@ -543,19 +535,11 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
   Widget _buildCategoryField() {
     return DropdownButtonFormField<DocumentType>(
       value: selectedType,
-      decoration: InputDecoration(
-        label: RichText(
-          text: TextSpan(
-            style: TextStyle(color: AppTheme.textSecondary),
-            children: [
-              const TextSpan(text: 'Document Category '),
-              TextSpan(
-                text: '*',
-                style: TextStyle(color: AppTheme.error),
-              ),
-            ],
-          ),
-        ),
+      decoration: FormValidators.createRequiredInputDecoration(
+        labelText: 'Document Category',
+        maxLength: 0, // Not applicable for dropdown
+        context: context,
+      ).copyWith(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
@@ -565,6 +549,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
           borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
         ),
         contentPadding: const EdgeInsets.all(16),
+        suffixText: null, // Remove character counter for dropdown
       ),
       items: DocumentType.values.map((type) {
         return DropdownMenuItem(
@@ -589,83 +574,136 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
   }
 
   Widget _buildFileField() {
-    return InkWell(
-      onTap: _pickFile,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: fileError != null 
-                ? AppTheme.error 
-                : AppTheme.textSecondary.withOpacity(0.3),
-          ),
-          borderRadius: BorderRadius.circular(12),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: fileError != null 
+              ? AppTheme.error 
+              : AppTheme.textSecondary.withOpacity(0.3),
         ),
-        child: Column(
-          children: [
-            Icon(
-              selectedFilePath != null ? Iconsax.document_text : Iconsax.document_upload,
-              color: AppTheme.primaryColor,
-              size: 32,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              selectedFilePath != null ? AppLocalizations.of(context)!.changeDocument : AppLocalizations.of(context)!.uploadDocument,
-              style: TextStyle(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Iconsax.document_upload,
                 color: AppTheme.primaryColor,
-                fontWeight: FontWeight.w600,
+                size: 20,
               ),
-            ),
-            if (selectedFileName != null) ...[
-              const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: AppTheme.primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: AppTheme.primaryColor.withOpacity(0.3),
-                  ),
+              const SizedBox(width: 8),
+              Text(
+                AppLocalizations.of(context)!.uploadDocument,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: AppTheme.primaryColor,
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Iconsax.document,
-                      size: 16,
-                      color: AppTheme.primaryColor,
-                    ),
-                    const SizedBox(width: 8),
-                    Flexible(
-                      child: Text(
-                        selectedFileName!,
-                        style: TextStyle(
-                          color: AppTheme.primaryColor,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    if (selectedFileSize != null) ...[
-                      const SizedBox(width: 8),
-                      Text(
-                        _formatFileSize(selectedFileSize!),
-                        style: TextStyle(
-                          color: AppTheme.textSecondary,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ],
+              ),
+              const Spacer(),
+              TextButton.icon(
+                onPressed: _pickFile,
+                icon: const Icon(Iconsax.add_circle, size: 18),
+                label: Text(selectedFilePath != null ? AppLocalizations.of(context)!.changeDocument : AppLocalizations.of(context)!.addFile),
+                style: TextButton.styleFrom(
+                  foregroundColor: AppTheme.primaryColor,
                 ),
               ),
             ],
+          ),
+          if (selectedFileName != null) ...[
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppTheme.primaryColor.withOpacity(0.05),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: AppTheme.primaryColor.withOpacity(0.2),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    selectedFileName!.toLowerCase().endsWith('.pdf') ? Iconsax.document_text :
+                    _isImageFile(selectedFileName!) ? Iconsax.image :
+                    Iconsax.document,
+                    color: AppTheme.primaryColor,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          selectedFileName!,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        if (selectedFileSize != null)
+                          Text(
+                            _formatFileSize(selectedFileSize!),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppTheme.textSecondary,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        selectedFilePath = null;
+                        selectedFileName = null;
+                        selectedFileSize = null;
+                        fileError = null;
+                      });
+                    },
+                    icon: Icon(
+                      Iconsax.trash,
+                      color: AppTheme.error,
+                      size: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ] else
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Text(
+                AppLocalizations.of(context)!.maxFileSizeSupported,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppTheme.textSecondary,
+                ),
+              ),
+            ),
+          if (fileError != null) ...[
+            const SizedBox(height: 8),
+            Text(
+              fileError!,
+              style: TextStyle(
+                fontSize: 12,
+                color: AppTheme.error,
+              ),
+            ),
           ],
-        ),
+        ],
       ),
     );
+  }
+
+  bool _isImageFile(String fileName) {
+    final extension = fileName.toLowerCase().split('.').last;
+    return ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].contains(extension);
   }
 
   Widget _buildButtons() {
@@ -732,10 +770,6 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         return l10n.passport;
       case DocumentType.visa:
         return l10n.visa;
-      case DocumentType.ticket:
-        return l10n.ticket;
-      case DocumentType.hotel:
-        return l10n.hotel;
       case DocumentType.insurance:
         return l10n.insurance;
       case DocumentType.other:
@@ -749,10 +783,6 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         return Iconsax.card;
       case DocumentType.visa:
         return Iconsax.card_pos;
-      case DocumentType.ticket:
-        return Iconsax.ticket;
-      case DocumentType.hotel:
-        return Iconsax.building_4;
       case DocumentType.insurance:
         return Iconsax.shield_tick;
       case DocumentType.other:
