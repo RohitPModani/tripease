@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../l10n/app_localizations.dart';
 import '../themes/app_theme.dart';
 import '../providers/localization_provider.dart';
 import '../providers/theme_provider.dart';
+import '../providers/trip_provider.dart';
+import '../providers/todo_provider.dart';
+import '../providers/booking_provider.dart';
+import '../providers/expense_provider.dart';
+import '../providers/document_provider.dart';
+import '../database/database.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -14,6 +21,13 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  final TextEditingController _deleteController = TextEditingController();
+
+  @override
+  void dispose() {
+    _deleteController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,14 +133,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       title: l10n.appSettings,
       children: [
         _buildActionTile(
-          icon: Iconsax.cloud,
-          title: l10n.backupAndSync,
-          subtitle: l10n.manageYourDataBackup,
-          onTap: () {
-            // TODO: Implement backup settings
-          },
-        ),
-        _buildActionTile(
           icon: Iconsax.import,
           title: l10n.importData,
           subtitle: l10n.importTripsFromOtherApps,
@@ -203,7 +209,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: l10n.clearAllData,
           subtitle: l10n.removeAllTripsAndDocuments,
           onTap: () {
-            _showClearDataDialog();
+            _showFirstConfirmationDialog();
           },
           isDestructive: true,
         ),
@@ -361,7 +367,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 24),
-            ...localizationProvider.supportedLocales.map((locale) {
+            Flexible(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: localizationProvider.supportedLocales.map((locale) {
               final isSelected = locale == localizationProvider.currentLocale;
               return Container(
                 margin: const EdgeInsets.only(bottom: 8),
@@ -408,7 +417,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   },
                 ),
               );
-            }).toList(),
+                  }).toList(),
+                ),
+              ),
+            ),
             const SizedBox(height: 24),
           ],
         ),
@@ -449,30 +461,385 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  void _showClearDataDialog() {
+  void _showFirstConfirmationDialog() {
     final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: Text(l10n.clearAllData),
-        content: Text(l10n.clearAllDataConfirmation),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppTheme.error.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Iconsax.warning_2,
+                color: AppTheme.error,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(child: Text(l10n.clearAllData)),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'This action will permanently delete:',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 12),
+            ..._buildDataList(),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppTheme.error.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: AppTheme.error.withOpacity(0.3),
+                ),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Iconsax.info_circle,
+                    color: AppTheme.error,
+                    size: 16,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'This action cannot be undone!',
+                      style: TextStyle(
+                        color: AppTheme.error,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(l10n.cancel),
           ),
-          TextButton(
+          ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
-              // TODO: Implement clear all data
+              _showSecondConfirmationDialog();
             },
-            style: TextButton.styleFrom(
-              foregroundColor: AppTheme.error,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.error,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
-            child: Text(l10n.clearAll),
+            child: Text('Continue'),
           ),
         ],
       ),
     );
+  }
+
+  List<Widget> _buildDataList() {
+    final items = [
+      '• All trips and itineraries',
+      '• All tasks and todo items', 
+      '• All bookings and reservations',
+      '• All expenses and receipts',
+      '• All documents and attachments',
+      '• All app settings and preferences',
+    ];
+    
+    return items.map((item) => Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Text(
+        item,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+    )).toList();
+  }
+
+  void _showSecondConfirmationDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    _deleteController.clear();
+    
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppTheme.error.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  Iconsax.shield_cross,
+                  color: AppTheme.error,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  'Final Confirmation',
+                  style: TextStyle(
+                    color: AppTheme.error,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Are you absolutely sure you want to delete all your data?',
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Type DELETE in the box below to confirm:',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 12),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: AppTheme.error.withOpacity(0.5),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: TextField(
+                  controller: _deleteController,
+                  onChanged: (value) => setState(() {}),
+                  decoration: const InputDecoration(
+                    hintText: 'DELETE',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(12),
+                  ),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: _deleteController.text.trim() == 'DELETE'
+                  ? () async {
+                      Navigator.pop(context);
+                      await _performClearAllData();
+                    }
+                  : null,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.error,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text('Delete Everything'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _performClearAllData() async {
+    try {
+      // Show loading dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(
+                color: AppTheme.primaryColor,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Deleting all data...',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Please wait, this may take a moment.',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.outline,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+
+      // Clear database
+      final database = AppDatabase();
+      await database.clearDatabase();
+      await database.close();
+      
+      // Clear SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+      
+      // Reset providers to initial state
+      if (mounted) {
+        final tripProvider = Provider.of<TripProvider>(context, listen: false);
+        final todoProvider = Provider.of<TodoProvider>(context, listen: false);
+        final bookingProvider = Provider.of<BookingProvider>(context, listen: false);
+        final expenseProvider = Provider.of<ExpenseProvider>(context, listen: false);
+        final documentProvider = Provider.of<DocumentProvider>(context, listen: false);
+        final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+        final localizationProvider = Provider.of<LocalizationProvider>(context, listen: false);
+        
+        // Reset providers
+        await tripProvider.loadTrips();
+        await documentProvider.loadPersonalDocuments();
+        
+        // Reset theme and language to defaults
+        themeProvider.toggleDarkMode(); // This will reset to system preference
+        localizationProvider.setLocale(const Locale('en'));
+      }
+      
+      // Close loading dialog
+      if (mounted) {
+        Navigator.pop(context);
+        
+        // Show success dialog
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            title: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.green.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Iconsax.tick_circle,
+                    color: Colors.green,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text('Data Cleared'),
+              ],
+            ),
+            content: const Text(
+              'All your data has been successfully deleted. The app has been reset to its initial state.',
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.primaryColor,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      // Close loading dialog if open
+      if (mounted) Navigator.pop(context);
+      
+      // Show error dialog
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            title: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppTheme.error.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Iconsax.warning_2,
+                    color: AppTheme.error,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text('Error'),
+              ],
+            ),
+            content: Text(
+              'Failed to clear all data: ${e.toString()}',
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.error,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    }
   }
 }
