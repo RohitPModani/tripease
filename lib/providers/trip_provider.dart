@@ -17,6 +17,7 @@ class TripProvider extends ChangeNotifier {
   Trip? get currentTrip => _currentTrip;
   bool get isLoading => _isLoading;
   String? get error => _error;
+  TripRepository get tripRepository => _repository;
 
   List<Trip> get activeTrips => _trips.where((trip) => trip.isActive).toList();
   List<Trip> get upcomingTrips => _trips.where((trip) => trip.daysUntilStart > 0).toList();

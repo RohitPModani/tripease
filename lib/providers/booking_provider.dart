@@ -14,6 +14,7 @@ class BookingProvider extends ChangeNotifier {
   List<Booking> get bookings => _bookings;
   bool get isLoading => _isLoading;
   String? get error => _error;
+  BookingRepository get bookingRepository => _repository;
 
   Future<void> loadBookings(String tripId) async {
     _setLoading(true);

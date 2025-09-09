@@ -14,6 +14,7 @@ class TodoProvider extends ChangeNotifier {
   List<TodoItem> get todos => _todos;
   bool get isLoading => _isLoading;
   String? get error => _error;
+  TodoRepository get todoRepository => _repository;
 
   Future<void> loadTodos(String tripId) async {
     _setLoading(true);

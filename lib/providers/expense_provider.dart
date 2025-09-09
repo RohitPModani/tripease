@@ -14,6 +14,7 @@ class ExpenseProvider extends ChangeNotifier {
   List<Expense> get expenses => _expenses;
   bool get isLoading => _isLoading;
   String? get error => _error;
+  ExpenseRepository get expenseRepository => _repository;
 
   Future<void> loadExpenses(String tripId) async {
     _setLoading(true);

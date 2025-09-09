@@ -16,6 +16,7 @@ class DocumentProvider extends ChangeNotifier {
   List<Document> get personalDocuments => _personalDocuments;
   bool get isLoading => _isLoading;
   String? get error => _error;
+  DocumentRepository get documentRepository => _repository;
 
   Future<void> loadDocuments(String tripId) async {
     _setLoading(true);

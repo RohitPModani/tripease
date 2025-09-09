@@ -12,6 +12,12 @@ import '../providers/booking_provider.dart';
 import '../providers/expense_provider.dart';
 import '../providers/document_provider.dart';
 import '../database/database.dart';
+import '../services/export_service.dart';
+import '../repositories/trip_repository.dart';
+import '../repositories/todo_repository.dart';
+import '../repositories/booking_repository.dart';
+import '../repositories/expense_repository.dart';
+import '../repositories/document_repository.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -22,10 +28,16 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final TextEditingController _deleteController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   void dispose() {
     _deleteController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -145,7 +157,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: l10n.exportData,
           subtitle: l10n.exportYourTripData,
           onTap: () {
-            // TODO: Implement data export
+            _showExportDialog();
           },
         ),
       ],
@@ -823,6 +835,446 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             content: Text(
               'Failed to clear all data: ${e.toString()}',
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.error,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+  }
+
+  void _showExportDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    _passwordController.clear();
+    _confirmPasswordController.clear();
+    
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  Iconsax.export,
+                  color: AppTheme.primaryColor,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(child: Text(l10n.exportData)),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Create a secure backup of all your TripEase data:',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ..._buildExportDataList(),
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.accentColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: AppTheme.accentColor.withOpacity(0.3),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Iconsax.shield_tick,
+                        color: AppTheme.accentColor,
+                        size: 16,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Your data will be encrypted and compressed into a .tripe file.',
+                          style: TextStyle(
+                            color: AppTheme.accentColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Backup Password (Optional)',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Add a password for extra security:',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
+                  onChanged: (value) => setState(() {}),
+                  decoration: InputDecoration(
+                    hintText: 'Enter password (optional)',
+                    prefixIcon: const Icon(Iconsax.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword ? Iconsax.eye_slash : Iconsax.eye,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    contentPadding: const EdgeInsets.all(12),
+                  ),
+                ),
+                if (_passwordController.text.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: _confirmPasswordController,
+                    obscureText: _obscureConfirmPassword,
+                    onChanged: (value) => setState(() {}),
+                    decoration: InputDecoration(
+                      hintText: 'Confirm password',
+                      prefixIcon: const Icon(Iconsax.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureConfirmPassword ? Iconsax.eye_slash : Iconsax.eye,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureConfirmPassword = !_obscureConfirmPassword;
+                          });
+                        },
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(
+                          color: _passwordsMatch() ? Colors.green : AppTheme.error,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(
+                          color: _passwordsMatch() ? Colors.green : AppTheme.error,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.all(12),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(
+                        _passwordsMatch() ? Iconsax.tick_circle : Iconsax.close_circle,
+                        size: 16,
+                        color: _passwordsMatch() ? Colors.green : AppTheme.error,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        _passwordsMatch() ? 'Passwords match' : 'Passwords do not match',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: _passwordsMatch() ? Colors.green : AppTheme.error,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: _canExport() ? () => _performExport() : null,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryColor,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Iconsax.export, size: 16),
+                  const SizedBox(width: 6),
+                  Text('Create Backup'),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildExportDataList() {
+    final items = [
+      '• All trips and itineraries',
+      '• All tasks and todo items', 
+      '• All bookings and reservations',
+      '• All expenses and receipts',
+      '• All documents and attachments',
+      '• All app settings and preferences',
+    ];
+    
+    return items.map((item) => Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Text(
+        item,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+    )).toList();
+  }
+
+  bool _passwordsMatch() {
+    return _passwordController.text.isEmpty || 
+           _passwordController.text == _confirmPasswordController.text;
+  }
+
+  bool _canExport() {
+    if (_passwordController.text.isEmpty) return true;
+    return _passwordController.text.isNotEmpty && _passwordsMatch();
+  }
+
+  Future<void> _performExport() async {
+    try {
+      Navigator.pop(context); // Close export dialog
+      
+      // Show loading dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(
+                color: AppTheme.primaryColor,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Creating backup...',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Collecting and encrypting your data...',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.outline,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+
+      // Get repositories from providers
+      final tripProvider = Provider.of<TripProvider>(context, listen: false);
+      final todoProvider = Provider.of<TodoProvider>(context, listen: false);
+      final bookingProvider = Provider.of<BookingProvider>(context, listen: false);
+      final expenseProvider = Provider.of<ExpenseProvider>(context, listen: false);
+      final documentProvider = Provider.of<DocumentProvider>(context, listen: false);
+      
+      // Create export
+      final password = _passwordController.text.isEmpty ? null : _passwordController.text;
+      final filePath = await ExportService.exportAllData(
+        tripRepository: tripProvider.tripRepository,
+        todoRepository: todoProvider.todoRepository,
+        bookingRepository: bookingProvider.bookingRepository,
+        expenseRepository: expenseProvider.expenseRepository,
+        documentRepository: documentProvider.documentRepository,
+        password: password,
+      );
+      
+      // Close loading dialog
+      if (mounted) Navigator.pop(context);
+      
+      // Show success dialog
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            title: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.green.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Iconsax.tick_circle,
+                    color: Colors.green,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text('Backup Created'),
+              ],
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Your backup has been created successfully!',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'File Info:',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        '• Format: Encrypted .tripe file',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      Text(
+                        '• Security: ${password != null ? 'Password protected' : 'Standard encryption'}',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      Text(
+                        '• Compression: GZip compressed',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Keep this file safe - you\'ll need it to restore your data!',
+                  style: TextStyle(
+                    color: AppTheme.accentColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+              ElevatedButton.icon(
+                onPressed: () async {
+                  Navigator.pop(context);
+                  await ExportService.shareExportFile(filePath);
+                },
+                icon: const Icon(Iconsax.share, size: 16),
+                label: const Text('Share'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.primaryColor,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      // Close loading dialog if open
+      if (mounted) Navigator.pop(context);
+      
+      // Show error dialog
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            title: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppTheme.error.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Iconsax.warning_2,
+                    color: AppTheme.error,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text('Export Failed'),
+              ],
+            ),
+            content: Text(
+              'Failed to create backup: ${e.toString()}',
             ),
             actions: [
               ElevatedButton(
