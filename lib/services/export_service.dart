@@ -178,7 +178,6 @@ class ExportService {
       await Share.shareXFiles(
         [XFile(filePath)],
         subject: 'Voythrix Backup',
-        text: 'Your Voythrix data backup file. Keep this safe!',
       );
     } else {
       throw Exception('Export file not found');
