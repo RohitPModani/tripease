@@ -13,6 +13,7 @@ import '../widgets/document_viewer.dart';
 import '../providers/document_provider.dart';
 import '../models/document.dart';
 import '../models/attachment.dart';
+import '../utils/snackbar.dart';
 
 enum DocumentFilter { all, passport, visa, insurance, other }
 
@@ -376,20 +377,18 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                 .deleteDocument(document.id);
             
             if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(AppLocalizations.of(context)!.documentDeletedSuccessfully(document.title)),
-                  backgroundColor: AppTheme.success,
-                ),
+              showAppSnackBar(
+                context,
+                AppLocalizations.of(context)!.documentDeletedSuccessfully(document.title),
+                type: SnackBarType.success,
               );
             }
           } catch (e) {
             if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(AppLocalizations.of(context)!.failedToDeleteDocument(e.toString())),
-                  backgroundColor: AppTheme.error,
-                ),
+              showAppSnackBar(
+                context,
+                AppLocalizations.of(context)!.failedToDeleteDocument(e.toString()),
+                type: SnackBarType.error,
               );
             }
           }
@@ -989,12 +988,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
     try {
       final file = File(document.filePath);
       if (!await file.exists()) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.fileNotFound),
-            backgroundColor: AppTheme.error,
-          ),
-        );
+        showAppSnackBar(context, AppLocalizations.of(context)!.fileNotFound, type: SnackBarType.error);
         return;
       }
 
@@ -1007,11 +1001,10 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.errorDownloadingFile(e.toString())),
-            backgroundColor: AppTheme.error,
-          ),
+        showAppSnackBar(
+          context,
+          AppLocalizations.of(context)!.errorDownloadingFile(e.toString()),
+          type: SnackBarType.error,
         );
       }
     }
@@ -1027,20 +1020,14 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
           text: document.description.isNotEmpty ? document.description : null,
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.fileNotFound),
-            backgroundColor: AppTheme.error,
-          ),
-        );
+        showAppSnackBar(context, AppLocalizations.of(context)!.fileNotFound, type: SnackBarType.error);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.errorSharingFile(e.toString())),
-            backgroundColor: AppTheme.error,
-          ),
+        showAppSnackBar(
+          context,
+          AppLocalizations.of(context)!.errorSharingFile(e.toString()),
+          type: SnackBarType.error,
         );
       }
     }
@@ -1079,20 +1066,18 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                 try {
                   await Gal.putImage(document.filePath);
                   if (mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(AppLocalizations.of(context)!.imageSavedToPhotos),
-                        backgroundColor: AppTheme.success,
-                      ),
+                    showAppSnackBar(
+                      context,
+                      AppLocalizations.of(context)!.imageSavedToPhotos,
+                      type: SnackBarType.success,
                     );
                   }
                 } catch (e) {
                   if (mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(AppLocalizations.of(context)!.errorSavingToPhotos(e.toString())),
-                        backgroundColor: AppTheme.error,
-                      ),
+                    showAppSnackBar(
+                      context,
+                      AppLocalizations.of(context)!.errorSavingToPhotos(e.toString()),
+                      type: SnackBarType.error,
                     );
                   }
                 }
@@ -1121,20 +1106,18 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       );
       
       if (result != null && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.fileSavedSuccessfully),
-            backgroundColor: AppTheme.success,
-          ),
+        showAppSnackBar(
+          context,
+          AppLocalizations.of(context)!.fileSavedSuccessfully,
+          type: SnackBarType.success,
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.errorSavingFile(e.toString())),
-            backgroundColor: AppTheme.error,
-          ),
+        showAppSnackBar(
+          context,
+          AppLocalizations.of(context)!.errorSavingFile(e.toString()),
+          type: SnackBarType.error,
         );
       }
     }

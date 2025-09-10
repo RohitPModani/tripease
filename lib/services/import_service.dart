@@ -5,6 +5,8 @@ import 'package:archive/archive.dart';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 import '../models/export_data.dart';
 import '../models/trip.dart';
 import '../models/todo_item.dart';
@@ -18,7 +20,7 @@ import '../repositories/expense_repository.dart';
 import '../repositories/document_repository.dart';
 
 class ImportService {
-  static const String _fileExtension = '.tripe';
+  static const String _fileExtension = '.voy';
 
   static Future<ExportData> importAllData({
     required String filePath,
@@ -39,7 +41,7 @@ class ImportService {
       }
       
       if (!filePath.endsWith(_fileExtension)) {
-        throw Exception('Invalid file format. Expected .tripe file');
+        throw Exception('Invalid file format. Expected .voy file');
       }
       
       print('Import: Reading compressed data...');
@@ -57,15 +59,19 @@ class ImportService {
       
       for (final file in archive) {
         final fileName = file.name;
-        final content = utf8.decode(file.content);
         
+        // Only decode text files as UTF-8, skip binary files (documents)
         if (fileName == 'metadata.json') {
+          final content = utf8.decode(file.content);
           metadata = jsonDecode(content);
         } else if (fileName == 'encryption.json') {
+          final content = utf8.decode(file.content);
           encryptionInfo = jsonDecode(content);
         } else if (fileName == 'data.json') {
+          final content = utf8.decode(file.content);
           dataContent = content;
         }
+        // Skip document files - they will be handled separately during extraction
       }
       
       if (metadata == null) {
@@ -82,11 +88,10 @@ class ImportService {
       print('Import: Version: ${metadata['version']}');
       print('Import: Encrypted: ${metadata['encrypted']}');
       
-      // Verify this is a Voythrix or legacy TripEase backup
+      // Verify this is a Voythrix backup
       final appTag = metadata['app']?.toString() ?? '';
       final isVoythrix = appTag == 'Voythrix';
-      final isTripEase = appTag == 'TripEase';
-      if (!isVoythrix && !isTripEase) {
+      if (!isVoythrix) {
         throw Exception('This backup file is not from Voythrix');
       }
       
@@ -104,8 +109,8 @@ class ImportService {
         print('Import: Decrypting data...');
         try {
           final iv = IV.fromBase64(encryptionInfo['iv']);
-          // Use salt compatible with the backup source (Voythrix or TripEase)
-          final salt = isVoythrix ? 'voythrix_salt_2024' : 'tripease_salt_2024';
+          // Use Voythrix salt for decryption
+          final salt = 'voythrix_salt_2024';
           final passwordKey = Key.fromBase64(_deriveKeyFromPassword(password, salt: salt));
           final encrypter = Encrypter(AES(passwordKey));
           final encrypted = Encrypted.fromBase64(dataContent);
@@ -137,9 +142,25 @@ class ImportService {
       print('  Documents: ${exportData.documents.length}');
       print('  Settings: ${exportData.settings.length} items');
       
+      // Extract document files first
+      print('Import: Extracting document files...');
+      final updatedDocuments = await _extractDocumentFiles(archive, exportData.documents);
+      
+      // Update export data with new file paths
+      final updatedExportData = ExportData(
+        exportDate: exportData.exportDate,
+        appVersion: exportData.appVersion,
+        trips: exportData.trips,
+        todos: exportData.todos,
+        bookings: exportData.bookings,
+        expenses: exportData.expenses,
+        documents: updatedDocuments,
+        settings: exportData.settings,
+      );
+      
       // Import all data
       await _importDataToDatabase(
-        exportData,
+        updatedExportData,
         tripRepository,
         todoRepository,
         bookingRepository,
@@ -151,7 +172,7 @@ class ImportService {
       await _importAppSettings(exportData.settings);
       
       print('Import: Import completed successfully');
-      return exportData;
+      return updatedExportData;
       
     } catch (e, stackTrace) {
       print('Import error: $e');
@@ -170,55 +191,93 @@ class ImportService {
   ) async {
     print('Import: Starting database import...');
     
-    // Import trips first
+    // Import trips first with duplicate ID handling
     print('Import: Importing ${exportData.trips.length} trips...');
     for (final trip in exportData.trips) {
       try {
-        await tripRepository.createTrip(trip);
+        final existingTrip = await tripRepository.getTripById(trip.id);
+        if (existingTrip != null) {
+          await tripRepository.updateTrip(trip);
+          print('Import: Updated existing trip ${trip.id}');
+        } else {
+          await tripRepository.createTrip(trip);
+          print('Import: Created new trip ${trip.id}');
+        }
       } catch (e) {
         print('Import: Warning - Failed to import trip ${trip.id}: $e');
         // Continue with other trips
       }
     }
     
-    // Import todos
+    // Import todos with duplicate ID handling
     print('Import: Importing ${exportData.todos.length} todos...');
     for (final todo in exportData.todos) {
       try {
-        await todoRepository.createTodo(todo);
+        final existingTodo = await todoRepository.getTodoById(todo.id);
+        if (existingTodo != null) {
+          await todoRepository.updateTodo(todo);
+          print('Import: Updated existing todo ${todo.id}');
+        } else {
+          await todoRepository.createTodo(todo);
+          print('Import: Created new todo ${todo.id}');
+        }
       } catch (e) {
         print('Import: Warning - Failed to import todo ${todo.id}: $e');
         // Continue with other todos
       }
     }
     
-    // Import bookings
+    // Import bookings with duplicate ID handling
     print('Import: Importing ${exportData.bookings.length} bookings...');
     for (final booking in exportData.bookings) {
       try {
-        await bookingRepository.createBooking(booking);
+        final existingBooking = await bookingRepository.getBookingById(booking.id);
+        if (existingBooking != null) {
+          await bookingRepository.updateBooking(booking);
+          print('Import: Updated existing booking ${booking.id}');
+        } else {
+          await bookingRepository.createBooking(booking);
+          print('Import: Created new booking ${booking.id}');
+        }
       } catch (e) {
         print('Import: Warning - Failed to import booking ${booking.id}: $e');
         // Continue with other bookings
       }
     }
     
-    // Import expenses
+    // Import expenses with duplicate ID handling
     print('Import: Importing ${exportData.expenses.length} expenses...');
     for (final expense in exportData.expenses) {
       try {
-        await expenseRepository.createExpense(expense);
+        final existingExpense = await expenseRepository.getExpenseById(expense.id);
+        if (existingExpense != null) {
+          await expenseRepository.updateExpense(expense);
+          print('Import: Updated existing expense ${expense.id}');
+        } else {
+          await expenseRepository.createExpense(expense);
+          print('Import: Created new expense ${expense.id}');
+        }
       } catch (e) {
         print('Import: Warning - Failed to import expense ${expense.id}: $e');
         // Continue with other expenses
       }
     }
     
-    // Import documents (note: this will only import metadata, not actual files)
+    // Import documents with duplicate ID handling
     print('Import: Importing ${exportData.documents.length} document records...');
     for (final document in exportData.documents) {
       try {
-        await documentRepository.createDocument(document);
+        // Check if document with this ID already exists
+        final existingDocument = await documentRepository.getDocumentById(document.id);
+        if (existingDocument != null) {
+          // Document exists, update it instead of creating
+          await documentRepository.updateDocument(document);
+          print('Import: Updated existing document ${document.id}');
+        } else {
+          // Document doesn't exist, create new one
+          await documentRepository.createDocument(document);
+          print('Import: Created new document ${document.id}');
+        }
       } catch (e) {
         print('Import: Warning - Failed to import document ${document.id}: $e');
         // Continue with other documents
@@ -265,6 +324,52 @@ class ImportService {
     final bytes = utf8.encode(password + salt);
     final digest = sha256.convert(bytes);
     return base64.encode(digest.bytes);
+  }
+  
+  static Future<List<Document>> _extractDocumentFiles(Archive archive, List<Document> documents) async {
+    final appDir = await getApplicationDocumentsDirectory();
+    final documentsDir = Directory(path.join(appDir.path, 'documents'));
+    
+    // Create documents directory if it doesn't exist
+    if (!await documentsDir.exists()) {
+      await documentsDir.create(recursive: true);
+    }
+    
+    final updatedDocuments = <Document>[];
+    int extractedFiles = 0;
+    
+    for (final document in documents) {
+      try {
+        // Look for the document file in the archive
+        final archiveFileName = 'documents/${document.id}_${path.basename(document.filePath)}';
+        final archiveFile = archive.files.firstWhere(
+          (file) => file.name == archiveFileName,
+          orElse: () => throw Exception('Document file not found in archive'),
+        );
+        
+        // Create new file path in the app documents directory
+        final newFileName = '${document.id}_${document.fileName}';
+        final newFilePath = path.join(documentsDir.path, newFileName);
+        
+        // Extract and write the file
+        final file = File(newFilePath);
+        await file.writeAsBytes(archiveFile.content);
+        
+        // Create updated document with new file path
+        final updatedDocument = document.copyWith(filePath: newFilePath);
+        updatedDocuments.add(updatedDocument);
+        
+        extractedFiles++;
+        print('Import: Extracted document file: ${document.fileName}');
+      } catch (e) {
+        print('Import: Warning - Could not extract document file ${document.fileName}: $e');
+        // Add document with original path (might not exist, but metadata is preserved)
+        updatedDocuments.add(document);
+      }
+    }
+    
+    print('Import: Extracted $extractedFiles document files');
+    return updatedDocuments;
   }
   
   static Future<Map<String, dynamic>> getBackupInfo(String filePath) async {

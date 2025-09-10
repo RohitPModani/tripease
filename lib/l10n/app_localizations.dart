@@ -2061,7 +2061,7 @@ abstract class AppLocalizations {
   /// Export encryption info
   ///
   /// In en, this message translates to:
-  /// **'Your data will be encrypted and compressed into a .tripe file.'**
+  /// **'Your data will be encrypted and compressed into a .voy file.'**
   String get exportEncryptionInfo;
 
   /// Title for optional backup password
@@ -2127,7 +2127,7 @@ abstract class AppLocalizations {
   /// File format line
   ///
   /// In en, this message translates to:
-  /// **'• Format: Encrypted .tripe file'**
+  /// **'• Format: Encrypted .voy file'**
   String get fileInfoFormat;
 
   /// File security line for password protected

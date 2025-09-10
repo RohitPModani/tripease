@@ -1066,7 +1066,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exportEncryptionInfo =>
-      'Your data will be encrypted and compressed into a .tripe file.';
+      'Your data will be encrypted and compressed into a .voy file.';
 
   @override
   String get backupPasswordTitle => 'Backup Password (Optional)';
@@ -1101,7 +1101,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fileInfoLabel => 'File Info:';
 
   @override
-  String get fileInfoFormat => '• Format: Encrypted .tripe file';
+  String get fileInfoFormat => '• Format: Encrypted .voy file';
 
   @override
   String get fileInfoSecurityPassword => '• Security: Password protected';

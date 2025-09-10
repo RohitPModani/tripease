@@ -10,6 +10,7 @@ import '../themes/app_theme.dart';
 import '../providers/document_provider.dart';
 import '../utils/form_validators.dart';
 import '../l10n/app_localizations.dart';
+import '../utils/snackbar.dart';
 
 class DocumentFormModal extends StatefulWidget {
   final Document? document;
@@ -273,12 +274,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
   }
 
   void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: AppTheme.error,
-      ),
-    );
+    showAppSnackBar(context, message, type: SnackBarType.error);
   }
 
   String _formatFileSize(int bytes) {
@@ -292,11 +288,10 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
     
     if (selectedFilePath == null && widget.document == null) {
       // Prompt user to select a file (using existing localized label)
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.selectDocument),
-          backgroundColor: AppTheme.error,
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.selectDocument,
+        type: SnackBarType.error,
       );
       return;
     }
@@ -319,28 +314,32 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         updatedAt: DateTime.now(),
       );
 
-      await Provider.of<DocumentProvider>(context, listen: false).createDocument(document);
+      final provider = Provider.of<DocumentProvider>(context, listen: false);
+      
+      if (widget.document == null) {
+        // Creating new document
+        await provider.createDocument(document);
+      } else {
+        // Updating existing document
+        await provider.updateDocument(document);
+      }
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              widget.document == null
-                  ? AppLocalizations.of(context)!.documentAddedSuccessfully
-                  : AppLocalizations.of(context)!.documentUpdatedSuccessfully,
-            ),
-            backgroundColor: AppTheme.success,
-          ),
+        showAppSnackBar(
+          context,
+          widget.document == null
+              ? AppLocalizations.of(context)!.documentAddedSuccessfully
+              : AppLocalizations.of(context)!.documentUpdatedSuccessfully,
+          type: SnackBarType.success,
         );
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.failedToSaveDocument),
-            backgroundColor: AppTheme.error,
-          ),
+        showAppSnackBar(
+          context,
+          AppLocalizations.of(context)!.failedToSaveDocument,
+          type: SnackBarType.error,
         );
       }
     } finally {
@@ -612,7 +611,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
               TextButton.icon(
                 onPressed: _pickFile,
                 icon: const Icon(Iconsax.add_circle, size: 18),
-                label: Text(selectedFilePath != null ? AppLocalizations.of(context)!.changeDocument : AppLocalizations.of(context)!.addFile),
+                label: Text(AppLocalizations.of(context)!.addFile),
                 style: TextButton.styleFrom(
                   foregroundColor: AppTheme.primaryColor,
                 ),

@@ -7,6 +7,7 @@ import '../themes/app_theme.dart';
 import '../providers/expense_provider.dart';
 import '../utils/form_validators.dart';
 import '../l10n/app_localizations.dart';
+import '../utils/snackbar.dart';
 
 class ExpenseFormModal extends StatefulWidget {
   final String tripId;
@@ -535,13 +536,10 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                                   }
                                   Navigator.pop(context);
                                 } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Failed to ${isEdit ? 'update' : 'add'} expense: $e',
-                                      ),
-                                      backgroundColor: AppTheme.error,
-                                    ),
+                                  showAppSnackBar(
+                                    context,
+                                    'Failed to ${isEdit ? 'update' : 'add'} expense: $e',
+                                    type: SnackBarType.error,
                                   );
                                 }
                               },

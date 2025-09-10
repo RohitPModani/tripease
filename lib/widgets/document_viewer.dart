@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:tripease/utils/snackbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:gal/gal.dart';
 import '../models/attachment.dart';
 import '../themes/app_theme.dart';
+import '../utils/snackbar.dart';
 import '../l10n/app_localizations.dart';
 
 class DocumentViewer extends StatelessWidget {
@@ -324,12 +326,7 @@ class DocumentViewer extends StatelessWidget {
     try {
       final file = File(attachment.filePath);
       if (!await file.exists()) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.fileNotFound),
-            backgroundColor: AppTheme.error,
-          ),
-        );
+        showAppSnackBar(context, AppLocalizations.of(context)!.fileNotFound, type: SnackBarType.error);
         return;
       }
 
@@ -341,11 +338,10 @@ class DocumentViewer extends StatelessWidget {
         await _saveFileWithDialog(context, file);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.errorDownloadingFile(e.toString())),
-          backgroundColor: AppTheme.error,
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.errorDownloadingFile(e.toString()),
+        type: SnackBarType.error,
       );
     }
   }
@@ -419,19 +415,17 @@ class DocumentViewer extends StatelessWidget {
     try {
       if (attachment.isImage) {
         await Gal.putImage(attachment.filePath);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.imageSavedToPhotos),
-            backgroundColor: AppTheme.success,
-          ),
+        showAppSnackBar(
+          context,
+          AppLocalizations.of(context)!.imageSavedToPhotos,
+          type: SnackBarType.success,
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.errorSavingToPhotos(e.toString())),
-          backgroundColor: AppTheme.error,
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.errorSavingToPhotos(e.toString()),
+        type: SnackBarType.error,
       );
     }
   }
@@ -453,30 +447,24 @@ class DocumentViewer extends StatelessWidget {
       // Copy the file to chosen location
       await file.copy(outputFile);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.fileSavedSuccessfully),
-          backgroundColor: AppTheme.success,
-          action: SnackBarAction(
-            label: AppLocalizations.of(context)!.open,
-            textColor: Colors.white,
-            onPressed: () async {
-              try {
-                await _openFile(outputFile);
-              } catch (e) {
-                // If opening fails, offer to share instead
-                Share.shareXFiles([XFile(outputFile)]);
-              }
-            },
-          ),
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.fileSavedSuccessfully,
+        type: SnackBarType.success,
+        actionLabel: AppLocalizations.of(context)!.open,
+        onAction: () async {
+          try {
+            await _openFile(outputFile);
+          } catch (e) {
+            Share.shareXFiles([XFile(outputFile)]);
+          }
+        },
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.errorSavingFile(e.toString())),
-          backgroundColor: AppTheme.error,
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.errorSavingFile(e.toString()),
+        type: SnackBarType.error,
       );
     }
   }
@@ -491,19 +479,13 @@ class DocumentViewer extends StatelessWidget {
           subject: attachment.fileName,
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.fileNotFound),
-            backgroundColor: AppTheme.error,
-          ),
-        );
+        showAppSnackBar(context, AppLocalizations.of(context)!.fileNotFound, type: SnackBarType.error);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.errorSharingFile(e.toString())),
-          backgroundColor: AppTheme.error,
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.errorSharingFile(e.toString()),
+        type: SnackBarType.error,
       );
     }
   }

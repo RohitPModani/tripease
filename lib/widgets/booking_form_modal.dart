@@ -13,6 +13,7 @@ import '../themes/app_theme.dart';
 import '../providers/booking_provider.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/form_validators.dart';
+import '../utils/snackbar.dart';
 
 class BookingFormModal extends StatefulWidget {
   final String tripId;
@@ -315,11 +316,10 @@ class _BookingFormModalState extends State<BookingFormModal> {
           attachments.add(attachment);
         });
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.fileAttachedSuccessfully(file.name)),
-            backgroundColor: AppTheme.success,
-          ),
+        showAppSnackBar(
+          context,
+          AppLocalizations.of(context)!.fileAttachedSuccessfully(file.name),
+          type: SnackBarType.success,
         );
       }
     } catch (e) {
@@ -362,11 +362,10 @@ class _BookingFormModalState extends State<BookingFormModal> {
         attachments.add(attachment);
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.fileAttachedSuccessfully(fileName)),
-          backgroundColor: AppTheme.success,
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.fileAttachedSuccessfully(fileName),
+        type: SnackBarType.success,
       );
     } catch (e) {
       _showError(AppLocalizations.of(context)!.failedToPickFile(e.toString()));
@@ -374,11 +373,10 @@ class _BookingFormModalState extends State<BookingFormModal> {
   }
 
   void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: AppTheme.error,
-      ),
+    showAppSnackBar(
+      context,
+      message,
+      type: SnackBarType.error,
     );
   }
 
@@ -991,11 +989,13 @@ class _BookingFormModalState extends State<BookingFormModal> {
                                   }
                                   Navigator.pop(context);
                                 } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(AppLocalizations.of(context)!.failedToAddUpdateBooking(isEdit ? AppLocalizations.of(context)!.update : AppLocalizations.of(context)!.add, e.toString())),
-                                      backgroundColor: AppTheme.error,
+                                  showAppSnackBar(
+                                    context,
+                                    AppLocalizations.of(context)!.failedToAddUpdateBooking(
+                                      isEdit ? AppLocalizations.of(context)!.update : AppLocalizations.of(context)!.add,
+                                      e.toString(),
                                     ),
+                                    type: SnackBarType.error,
                                   );
                                 }
                               },

@@ -11,6 +11,7 @@ import 'trip_tabs/bookings_tab.dart';
 import 'trip_tabs/expenses_tab.dart';
 import 'trip_tabs/itinerary_tab.dart';
 import 'edit_trip_screen.dart';
+import '../utils/snackbar.dart';
 
 class TripDetailScreen extends StatefulWidget {
   final String tripId;
@@ -325,21 +326,19 @@ class _TripDetailScreenState extends State<TripDetailScreen>
                     .deleteTrip(trip.id);
                 
                 if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.tripDeletedSuccessfully),
-                      backgroundColor: AppTheme.success,
-                    ),
+                  showAppSnackBar(
+                    context,
+                    l10n.tripDeletedSuccessfully,
+                    type: SnackBarType.success,
                   );
                   Navigator.pop(context); // Go back to previous screen
                 }
               } catch (e) {
                 if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.failedToDeleteTrip),
-                      backgroundColor: AppTheme.error,
-                    ),
+                  showAppSnackBar(
+                    context,
+                    l10n.failedToDeleteTrip,
+                    type: SnackBarType.error,
                   );
                 }
               }

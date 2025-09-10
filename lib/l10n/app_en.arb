@@ -1861,7 +1861,7 @@
   "exportIntroTitle": "Create a secure backup of all your Voythrix data:",
   "@exportIntroTitle": {"description": "Title for export intro"},
 
-  "exportEncryptionInfo": "Your data will be encrypted and compressed into a .tripe file.",
+  "exportEncryptionInfo": "Your data will be encrypted and compressed into a .voy file.",
   "@exportEncryptionInfo": {"description": "Export encryption info"},
 
   "backupPasswordTitle": "Backup Password (Optional)",
@@ -1894,7 +1894,7 @@
   "fileInfoLabel": "File Info:",
   "@fileInfoLabel": {"description": "Label for file info section"},
 
-  "fileInfoFormat": "• Format: Encrypted .tripe file",
+  "fileInfoFormat": "• Format: Encrypted .voy file",
   "@fileInfoFormat": {"description": "File format line"},
 
   "fileInfoSecurityPassword": "• Security: Password protected",

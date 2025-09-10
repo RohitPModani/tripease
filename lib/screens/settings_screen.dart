@@ -13,11 +13,8 @@ import '../providers/expense_provider.dart';
 import '../providers/document_provider.dart';
 import '../database/database.dart';
 import '../services/export_service.dart';
-import '../repositories/trip_repository.dart';
-import '../repositories/todo_repository.dart';
-import '../repositories/booking_repository.dart';
-import '../repositories/expense_repository.dart';
-import '../repositories/document_repository.dart';
+import '../services/import_service.dart';
+import 'package:file_picker/file_picker.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -30,14 +27,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final TextEditingController _deleteController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _importPasswordController = TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  bool _obscureImportPassword = true;
 
   @override
   void dispose() {
     _deleteController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _importPasswordController.dispose();
     super.dispose();
   }
 
@@ -149,7 +149,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: l10n.importData,
           subtitle: l10n.importTripsFromOtherApps,
           onTap: () {
-            // TODO: Implement data import
+            _showImportDialog();
           },
         ),
         _buildActionTile(
@@ -784,9 +784,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         await tripProvider.loadTrips();
         await documentProvider.loadPersonalDocuments();
         
-        // Reset theme and language to defaults
-        themeProvider.toggleDarkMode(); // This will reset to system preference
-        localizationProvider.setLocale(const Locale('en'));
+        // Reload theme and language from cleared preferences (will use system defaults)
+        await themeProvider.reloadTheme();
+        await localizationProvider.reloadLanguage();
       }
       
       // Close loading dialog
@@ -1321,5 +1321,528 @@ class _SettingsScreenState extends State<SettingsScreen> {
         );
       }
     }
+  }
+
+  void _showImportDialog() async {
+    final l10n = AppLocalizations.of(context)!;
+    
+    // Show instruction dialog first
+    final shouldProceed = await _showFileSelectionInstructions();
+    if (!shouldProceed) return;
+    
+    // Pick file - use any file type for better compatibility
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.any,
+      dialogTitle: 'Select Backup File',
+      allowCompression: false,
+    );
+    
+    if (result != null && result.files.single.path != null) {
+      final filePath = result.files.single.path!;
+      
+      // Check if file has .voy extension (case insensitive) 
+      final fileName = filePath.toLowerCase();
+      if (!fileName.endsWith('.voy')) {
+        _showImportErrorDialog('Please select a valid .voy backup file.\n\nSelected: ${filePath.split('/').last}');
+        return;
+      }
+      
+      try {
+        // Get backup info
+        final backupInfo = await ImportService.getBackupInfo(filePath);
+        _showImportConfirmationDialog(filePath, backupInfo);
+      } catch (e) {
+        _showImportErrorDialog('Failed to read backup file: $e');
+      }
+    }
+  }
+
+  Future<bool> _showFileSelectionInstructions() async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppTheme.accentColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Iconsax.info_circle,
+                color: AppTheme.accentColor,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(child: Text('Select Backup File')),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Please select a backup file with the .voy extension.',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text('Backup files typically have names like:'),
+            const SizedBox(height: 6),
+            Text('• voythrix_backup_2024-01-01.voy'),
+            Text('• my_trip_data_2024-01-01.voy'),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppTheme.accentColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: AppTheme.accentColor.withOpacity(0.3),
+                ),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Iconsax.document,
+                    color: AppTheme.accentColor,
+                    size: 16,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'If you can\'t see .voy files, try changing the file type filter to "All Files" in the file picker.',
+                      style: TextStyle(
+                        color: AppTheme.accentColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primaryColor,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: Text('Select File'),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
+  }
+
+  void _showImportConfirmationDialog(String filePath, Map<String, dynamic> backupInfo) {
+    final l10n = AppLocalizations.of(context)!;
+    _importPasswordController.clear();
+    
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  Iconsax.import,
+                  color: AppTheme.primaryColor,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(child: Text(l10n.importData)),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Backup File Information',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildInfoRow('App', backupInfo['app'] ?? 'Unknown'),
+                      _buildInfoRow('Created', backupInfo['created'] ?? 'Unknown'),
+                      _buildInfoRow('Version', backupInfo['version'] ?? 'Unknown'),
+                      _buildInfoRow('Encrypted', backupInfo['encrypted'] == true ? 'Yes' : 'No'),
+                      _buildInfoRow('File Size', '${((backupInfo['fileSize'] ?? 0) / 1024).round()} KB'),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.error.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: AppTheme.error.withOpacity(0.3),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Iconsax.warning_2,
+                        color: AppTheme.error,
+                        size: 16,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'This will import data and merge it with your existing data. This action cannot be undone.',
+                          style: TextStyle(
+                            color: AppTheme.error,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (backupInfo['encrypted'] == true) ...[
+                  const SizedBox(height: 16),
+                  Text(
+                    'Backup Password',
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'This backup is encrypted. Please enter the password.',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: _importPasswordController,
+                    obscureText: _obscureImportPassword,
+                    onChanged: (value) => setState(() {}),
+                    decoration: InputDecoration(
+                      hintText: 'Enter backup password',
+                      prefixIcon: const Icon(Iconsax.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureImportPassword ? Iconsax.eye_slash : Iconsax.eye,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureImportPassword = !_obscureImportPassword;
+                          });
+                        },
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      contentPadding: const EdgeInsets.all(12),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: (backupInfo['encrypted'] == true && _importPasswordController.text.isEmpty) 
+                  ? null 
+                  : () => _performImport(filePath),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryColor,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Iconsax.import, size: 16),
+                  const SizedBox(width: 6),
+                  Text('Import Backup'),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 80,
+            child: Text(
+              '$label:',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _performImport(String filePath) async {
+    try {
+      Navigator.pop(context); // Close import dialog
+      
+      // Show loading dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(
+                color: AppTheme.primaryColor,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Importing backup...',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Decrypting and restoring your data...',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.outline,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+
+      // Get repositories from providers
+      final tripProvider = Provider.of<TripProvider>(context, listen: false);
+      final todoProvider = Provider.of<TodoProvider>(context, listen: false);
+      final bookingProvider = Provider.of<BookingProvider>(context, listen: false);
+      final expenseProvider = Provider.of<ExpenseProvider>(context, listen: false);
+      final documentProvider = Provider.of<DocumentProvider>(context, listen: false);
+      
+      // Perform import
+      final password = _importPasswordController.text.isEmpty ? null : _importPasswordController.text;
+      final exportData = await ImportService.importAllData(
+        filePath: filePath,
+        tripRepository: tripProvider.tripRepository,
+        todoRepository: todoProvider.todoRepository,
+        bookingRepository: bookingProvider.bookingRepository,
+        expenseRepository: expenseProvider.expenseRepository,
+        documentRepository: documentProvider.documentRepository,
+        password: password,
+      );
+      
+      // Refresh providers to show imported data
+      await tripProvider.loadTrips();
+      await documentProvider.loadPersonalDocuments();
+      
+      // Close loading dialog first
+      if (mounted) Navigator.pop(context);
+      
+      // Give a short delay to ensure all SharedPreferences writes are completed
+      await Future.delayed(const Duration(milliseconds: 100));
+      
+      // Reload settings providers to apply imported settings
+      final localizationProvider = Provider.of<LocalizationProvider>(context, listen: false);
+      final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+      await localizationProvider.reloadLanguage();
+      await themeProvider.reloadTheme();
+      
+      // Show success dialog
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            title: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.green.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Iconsax.tick_circle,
+                    color: Colors.green,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text('Import Successful'),
+              ],
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Your backup has been successfully imported.',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Imported data:',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text('• ${exportData.trips.length} trips'),
+                Text('• ${exportData.todos.length} todos'),
+                Text('• ${exportData.bookings.length} bookings'),
+                Text('• ${exportData.expenses.length} expenses'),
+                Text('• ${exportData.documents.length} documents'),
+                Text('• ${exportData.settings.length} settings'),
+                const SizedBox(height: 12),
+                Text(
+                  'The imported data has been merged with your existing data.',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.primaryColor,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Text(AppLocalizations.of(context)!.ok),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      // Close loading dialog if open
+      if (mounted) Navigator.pop(context);
+      
+      // Show error dialog
+      _showImportErrorDialog(e.toString());
+    }
+  }
+
+  void _showImportErrorDialog(String error) {
+    if (!mounted) return;
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppTheme.error.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Iconsax.warning_2,
+                color: AppTheme.error,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text('Import Failed'),
+          ],
+        ),
+        content: Text(
+          'Failed to import backup:\n\n$error',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.error,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: Text(AppLocalizations.of(context)!.ok),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -51,6 +51,20 @@ class AppTheme {
         background: backgroundLight,
         onBackground: textPrimary,
       ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: textPrimary, // Dark surface for contrast in light mode
+        contentTextStyle: GoogleFonts.poppins(
+          color: textLight,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+        actionTextColor: textLight,
+        elevation: 8,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+        ),
+      ),
       textTheme: GoogleFonts.poppinsTextTheme().copyWith(
         displayLarge: GoogleFonts.poppins(
           fontSize: 32,
@@ -243,6 +257,20 @@ class AppTheme {
         onSurface: textLight,
         background: backgroundDark,
         onBackground: textLight,
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: surfaceDark,
+        contentTextStyle: GoogleFonts.poppins(
+          color: textLight,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+        actionTextColor: textLight,
+        elevation: 8,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+        ),
       ),
       textTheme: GoogleFonts.poppinsTextTheme().copyWith(
         displayLarge: GoogleFonts.poppins(

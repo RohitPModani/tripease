@@ -9,6 +9,7 @@ import '../providers/trip_provider.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/currency_formatter.dart';
 import '../utils/form_validators.dart';
+import '../utils/snackbar.dart';
 
 class CreateTripScreen extends StatefulWidget {
   const CreateTripScreen({super.key});
@@ -96,13 +97,10 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     if (destination.isNotEmpty && !_destinations.contains(destination)) {
       // Validate destination length
       if (destination.length > FormValidators.locationLimit) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Destination must be ${FormValidators.locationLimit} characters or less',
-            ),
-            backgroundColor: AppTheme.error,
-          ),
+        showAppSnackBar(
+          context,
+          'Destination must be ${FormValidators.locationLimit} characters or less',
+          type: SnackBarType.error,
         );
         return;
       }
@@ -148,23 +146,19 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     if (_destinations.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.addAtLeastOneDestination),
-          backgroundColor: AppTheme.error,
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.addAtLeastOneDestination,
+        type: SnackBarType.error,
       );
       return;
     }
 
     if (_startDate == null || _endDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            AppLocalizations.of(context)!.selectBothStartAndEndDates,
-          ),
-          backgroundColor: AppTheme.error,
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.selectBothStartAndEndDates,
+        type: SnackBarType.error,
       );
       return;
     }
@@ -185,23 +179,19 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       await Provider.of<TripProvider>(context, listen: false).createTrip(trip);
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              AppLocalizations.of(context)!.tripCreatedSuccessfully,
-            ),
-            backgroundColor: AppTheme.success,
-          ),
+        showAppSnackBar(
+          context,
+          AppLocalizations.of(context)!.tripCreatedSuccessfully,
+          type: SnackBarType.success,
         );
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.failedToCreateTrip),
-            backgroundColor: AppTheme.error,
-          ),
+        showAppSnackBar(
+          context,
+          AppLocalizations.of(context)!.failedToCreateTrip,
+          type: SnackBarType.error,
         );
       }
     }

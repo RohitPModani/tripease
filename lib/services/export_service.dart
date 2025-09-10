@@ -7,6 +7,7 @@ import 'package:encrypt/encrypt.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:path/path.dart' as path;
 import '../models/export_data.dart';
 import '../models/trip.dart';
 import '../models/todo_item.dart';
@@ -21,7 +22,7 @@ import '../repositories/document_repository.dart';
 
 class ExportService {
   static const String _appVersion = '1.0.0';
-  static const String _fileExtension = '.tripe';
+  static const String _fileExtension = '.voy';
   
   // Encryption will be generated per export
 
@@ -122,6 +123,10 @@ class ExportService {
       final dataBytes = utf8.encode(dataToCompress);
       archive.addFile(ArchiveFile('data.json', dataBytes.length, dataBytes));
       
+      // Add document files
+      print('Export: Adding document files...');
+      await _addDocumentFilesToArchive(archive, documents);
+      
       // Add encryption info if password provided
       if (password != null && usedIV != null) {
         final encryptionInfo = {
@@ -219,6 +224,27 @@ class ExportService {
     return base64.encode(digest.bytes);
   }
   
+  static Future<void> _addDocumentFilesToArchive(Archive archive, List<Document> documents) async {
+    int addedFiles = 0;
+    for (final document in documents) {
+      try {
+        final file = File(document.filePath);
+        if (await file.exists()) {
+          final fileBytes = await file.readAsBytes();
+          final archiveFileName = 'documents/${document.id}_${path.basename(document.filePath)}';
+          archive.addFile(ArchiveFile(archiveFileName, fileBytes.length, fileBytes));
+          addedFiles++;
+          print('Export: Added document file: ${document.fileName}');
+        } else {
+          print('Export: Warning - Document file not found: ${document.filePath}');
+        }
+      } catch (e) {
+        print('Export: Error adding document file ${document.fileName}: $e');
+      }
+    }
+    print('Export: Added $addedFiles document files to archive');
+  }
+
   static Future<void> cleanupTempFiles() async {
     try {
       final tempDir = await getTemporaryDirectory();

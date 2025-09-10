@@ -14,6 +14,7 @@ import '../../widgets/booking_form_modal.dart';
 import '../../widgets/document_viewer.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/currency_formatter.dart';
+import '../../utils/snackbar.dart';
 
 class BookingsTab extends StatefulWidget {
   final Trip trip;
@@ -833,12 +834,7 @@ class _BookingsTabState extends State<BookingsTab> {
     try {
       final file = File(attachment.filePath);
       if (!await file.exists()) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.fileNotFound),
-            backgroundColor: AppTheme.error,
-          ),
-        );
+        showAppSnackBar(context, AppLocalizations.of(context)!.fileNotFound, type: SnackBarType.error);
         return;
       }
 
@@ -850,11 +846,10 @@ class _BookingsTabState extends State<BookingsTab> {
         await _saveFileWithDialog(attachment, file);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.errorDownloadingFile(e.toString())),
-          backgroundColor: AppTheme.error,
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.errorDownloadingFile(e.toString()),
+        type: SnackBarType.error,
       );
     }
   }
@@ -930,19 +925,17 @@ class _BookingsTabState extends State<BookingsTab> {
     try {
       if (attachment.isImage) {
         await Gal.putImage(attachment.filePath);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.imageSavedToPhotos),
-            backgroundColor: AppTheme.success,
-          ),
+        showAppSnackBar(
+          context,
+          AppLocalizations.of(context)!.imageSavedToPhotos,
+          type: SnackBarType.success,
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.errorSavingToPhotos(e.toString())),
-          backgroundColor: AppTheme.error,
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.errorSavingToPhotos(e.toString()),
+        type: SnackBarType.error,
       );
     }
   }
@@ -964,25 +957,20 @@ class _BookingsTabState extends State<BookingsTab> {
       // Copy the file to chosen location
       await file.copy(outputFile);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.fileSavedSuccessfully),
-          backgroundColor: AppTheme.success,
-          action: SnackBarAction(
-            label: AppLocalizations.of(context)!.open,
-            textColor: Colors.white,
-            onPressed: () {
-              Share.shareXFiles([XFile(outputFile)]);
-            },
-          ),
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.fileSavedSuccessfully,
+        type: SnackBarType.success,
+        actionLabel: AppLocalizations.of(context)!.open,
+        onAction: () {
+          Share.shareXFiles([XFile(outputFile)]);
+        },
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.errorSavingFile(e.toString())),
-          backgroundColor: AppTheme.error,
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.errorSavingFile(e.toString()),
+        type: SnackBarType.error,
       );
     }
   }
@@ -997,19 +985,13 @@ class _BookingsTabState extends State<BookingsTab> {
           subject: attachment.fileName,
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.fileNotFound),
-            backgroundColor: AppTheme.error,
-          ),
-        );
+        showAppSnackBar(context, AppLocalizations.of(context)!.fileNotFound, type: SnackBarType.error);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.errorSharingFile(e.toString())),
-          backgroundColor: AppTheme.error,
-        ),
+      showAppSnackBar(
+        context,
+        AppLocalizations.of(context)!.errorSharingFile(e.toString()),
+        type: SnackBarType.error,
       );
     }
   }

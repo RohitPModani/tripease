@@ -15,7 +15,12 @@ class LocalizationProvider extends ChangeNotifier {
     _loadSavedLanguage();
   }
 
-  void _loadSavedLanguage() async {
+  /// Reloads the saved language from SharedPreferences
+  Future<void> reloadLanguage() async {
+    await _loadSavedLanguage();
+  }
+
+  Future<void> _loadSavedLanguage() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final saved = prefs.getString(_languageKey);

@@ -9,6 +9,7 @@ import '../models/trip.dart';
 import '../l10n/app_localizations.dart';
 import 'edit_trip_screen.dart';
 import 'create_trip_screen.dart';
+import '../utils/snackbar.dart';
 
 class TripsScreen extends StatefulWidget {
   const TripsScreen({super.key});
@@ -540,20 +541,18 @@ class _TripsScreenState extends State<TripsScreen> {
                     .deleteTrip(trip.id);
                 
                 if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.tripDeletedSuccessfully),
-                      backgroundColor: AppTheme.success,
-                    ),
+                  showAppSnackBar(
+                    context,
+                    l10n.tripDeletedSuccessfully,
+                    type: SnackBarType.success,
                   );
                 }
               } catch (e) {
                 if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.failedToDeleteTrip),
-                      backgroundColor: AppTheme.error,
-                    ),
+                  showAppSnackBar(
+                    context,
+                    l10n.failedToDeleteTrip,
+                    type: SnackBarType.error,
                   );
                 }
               }

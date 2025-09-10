@@ -14,6 +14,7 @@ import '../../widgets/expense_form_modal.dart';
 import '../../widgets/itinerary_form_modal.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/currency_formatter.dart';
+import '../../utils/snackbar.dart';
 
 class OverviewTab extends StatefulWidget {
   final Trip trip;
@@ -474,13 +475,10 @@ class _OverviewTabState extends State<OverviewTab> {
                       context,
                       widget.trip.id,
                       (activity, date) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Activity "${activity.title}" added for ${date.day}/${date.month}/${date.year}',
-                            ),
-                            backgroundColor: AppTheme.success,
-                          ),
+                        showAppSnackBar(
+                          context,
+                          'Activity "${activity.title}" added for ${date.day}/${date.month}/${date.year}',
+                          type: SnackBarType.success,
                         );
                       },
                       selectedDate:

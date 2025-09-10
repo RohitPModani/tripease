@@ -7,6 +7,7 @@ import '../themes/app_theme.dart';
 import '../providers/todo_provider.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/form_validators.dart';
+import '../utils/snackbar.dart';
 
 class TodoFormModal extends StatefulWidget {
   final String tripId;
@@ -498,21 +499,16 @@ class _TodoFormModalState extends State<TodoFormModal> {
                                 }
                                 Navigator.pop(context);
                               } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.failedToAddUpdateTask(
-                                        isEdit ? 'update' : 'add',
-                                        e.toString(),
-                                      ),
-                                    ),
-                                    backgroundColor: AppTheme.error,
+                                showAppSnackBar(
+                                  context,
+                                  AppLocalizations.of(context)!.failedToAddUpdateTask(
+                                    isEdit ? 'update' : 'add',
+                                    e.toString(),
                                   ),
+                                  type: SnackBarType.error,
                                 );
                               }
-                            },
+                    },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               shadowColor: Colors.transparent,
