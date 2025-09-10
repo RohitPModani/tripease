@@ -31,9 +31,9 @@ void showAppSnackBar(
       icon = Icons.error_rounded;
       break;
     case SnackBarType.info:
-    default:
       background = null; // Use themed default (snackBarTheme)
       icon = Icons.info_rounded;
+      break;
   }
 
   final textStyle = Theme.of(context).snackBarTheme.contentTextStyle;

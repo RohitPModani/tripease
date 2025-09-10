@@ -1029,6 +1029,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get saveToGallery => 'Save to Gallery';
 
   @override
+  String get flight => 'Рейс';
+
+  @override
+  String get restaurant => 'Ресторан';
+
+  @override
+  String get bookingLimitReached =>
+      'Достигнут лимит бронирований. Вы можете добавить только 15 бронирований на поездку.';
+
+  @override
+  String get documentLimitReached =>
+      'Достигнут лимит документов. Вы можете добавить только 10 документов всего.';
+
+  @override
   String get confirmActionWarning => 'This action cannot be undone!';
 
   @override

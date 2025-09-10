@@ -1029,6 +1029,20 @@ class AppLocalizationsHi extends AppLocalizations {
   String get saveToGallery => 'Save to Gallery';
 
   @override
+  String get flight => 'फ्लाइट';
+
+  @override
+  String get restaurant => 'रेस्टोरेंट';
+
+  @override
+  String get bookingLimitReached =>
+      'बुकिंग सीमा पूरी हो गई। आप प्रति यात्रा केवल 15 बुकिंग जोड़ सकते हैं।';
+
+  @override
+  String get documentLimitReached =>
+      'दस्तावेज़ सीमा पूरी हो गई। आप कुल मिलाकर केवल 10 दस्तावेज़ जोड़ सकते हैं।';
+
+  @override
   String get confirmActionWarning => 'This action cannot be undone!';
 
   @override

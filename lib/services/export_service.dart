@@ -32,6 +32,7 @@ class ExportService {
     required ExpenseRepository expenseRepository,
     required DocumentRepository documentRepository,
     String? password,
+    String? saveDirectory,
   }) async {
     try {
       developer.log('Export started: Collecting data...');
@@ -141,7 +142,7 @@ class ExportService {
       // Compress archive
       developer.log('Export: Compressing data...');
       final tarBytes = TarEncoder().encode(archive);
-      if (tarBytes == null) {
+      if (tarBytes.isEmpty) {
         throw Exception('Failed to create TAR archive');
       }
       
@@ -152,12 +153,18 @@ class ExportService {
       
       // Generate filename with timestamp
       final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-').split('.')[0];
-      final filename = 'voythrix_backup_${timestamp}$_fileExtension';
+      final filename = 'voythrix_backup_$timestamp$_fileExtension';
       
-      // Save to temporary directory
+      // Save to specified directory or temporary directory
       developer.log('Export: Saving to file: $filename');
-      final tempDir = await getTemporaryDirectory();
-      final file = File('${tempDir.path}/$filename');
+      final Directory targetDir;
+      if (saveDirectory != null) {
+        targetDir = Directory(saveDirectory);
+      } else {
+        targetDir = await getTemporaryDirectory();
+      }
+      
+      final file = File('${targetDir.path}/$filename');
       await file.writeAsBytes(gzipBytes);
       developer.log('Export: File saved successfully at: ${file.path}');
       

@@ -1021,6 +1021,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get saveToGallery => 'Save to Gallery';
 
   @override
+  String get flight => '航班';
+
+  @override
+  String get restaurant => '餐厅';
+
+  @override
+  String get bookingLimitReached => '预订限制已达到。每次旅行最多只能添加15个预订。';
+
+  @override
+  String get documentLimitReached => '文档限制已达到。总共最多只能添加10个文档。';
+
+  @override
   String get confirmActionWarning => 'This action cannot be undone!';
 
   @override

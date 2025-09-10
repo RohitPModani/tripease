@@ -33,7 +33,10 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<DocumentProvider>(context, listen: false).loadPersonalDocuments();
+      final provider = Provider.of<DocumentProvider>(context, listen: false);
+      provider.loadPersonalDocuments();
+      // Note: If trip documents were implemented, we'd also need to load them here
+      // provider.loadDocuments(currentTripId);
     });
   }
 
@@ -119,24 +122,24 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
           ),
         ),
       ),
-      floatingActionButton: Container(
-        decoration: AppTheme.glowingButtonDecoration,
-        child: FloatingActionButton.extended(
-          heroTag: "add_document_fab",
-          onPressed: () {
-            DocumentFormModal.show(context);
-          },
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          icon: const Icon(
-            Iconsax.add,
-            color: Colors.white,
-          ),
-          label: Text(
-            AppLocalizations.of(context)!.addDocument,
-            style: const TextStyle(
+      floatingActionButton: Consumer<DocumentProvider>(
+        builder: (context, documentProvider, child) => Container(
+          decoration: AppTheme.glowingButtonDecoration,
+          child: FloatingActionButton.extended(
+            heroTag: "add_document_fab",
+            onPressed: () => _showAddDocumentDialog(documentProvider),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            icon: const Icon(
+              Iconsax.add,
               color: Colors.white,
-              fontWeight: FontWeight.w600,
+            ),
+            label: Text(
+              AppLocalizations.of(context)!.addDocument,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),
@@ -988,6 +991,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
     try {
       final file = File(document.filePath);
       if (!await file.exists()) {
+        if (!mounted) return;
         showAppSnackBar(context, AppLocalizations.of(context)!.fileNotFound, type: SnackBarType.error);
         return;
       }
@@ -1020,6 +1024,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
           text: document.description.isNotEmpty ? document.description : null,
         );
       } else {
+        if (!mounted) return;
         showAppSnackBar(context, AppLocalizations.of(context)!.fileNotFound, type: SnackBarType.error);
       }
     } catch (e) {
@@ -1034,6 +1039,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   }
 
   Future<void> _showImageDownloadOptions(Document document, File file) async {
+    final parentContext = context;
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -1065,21 +1071,19 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                 Navigator.pop(context);
                 try {
                   await Gal.putImage(document.filePath);
-                  if (mounted) {
-                    showAppSnackBar(
-                      context,
-                      AppLocalizations.of(context)!.imageSavedToPhotos,
-                      type: SnackBarType.success,
-                    );
-                  }
+                  if (!parentContext.mounted) return;
+                  showAppSnackBar(
+                    parentContext,
+                    AppLocalizations.of(parentContext)!.imageSavedToPhotos,
+                    type: SnackBarType.success,
+                  );
                 } catch (e) {
-                  if (mounted) {
-                    showAppSnackBar(
-                      context,
-                      AppLocalizations.of(context)!.errorSavingToPhotos(e.toString()),
-                      type: SnackBarType.error,
-                    );
-                  }
+                  if (!parentContext.mounted) return;
+                  showAppSnackBar(
+                    parentContext,
+                    AppLocalizations.of(parentContext)!.errorSavingToPhotos(e.toString()),
+                    type: SnackBarType.error,
+                  );
                 }
               },
             ),
@@ -1279,5 +1283,18 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
     );
   }
 
-
+  void _showAddDocumentDialog(DocumentProvider documentProvider) {
+    // Check if document limit is reached (10 total)
+    if (documentProvider.personalDocuments.length >= 10) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.documentLimitReached),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+    
+    DocumentFormModal.show(context);
+  }
 }

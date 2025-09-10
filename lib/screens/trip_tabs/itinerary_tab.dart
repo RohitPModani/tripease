@@ -385,7 +385,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
           leading: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
+              SizedBox(
                 width: 50,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

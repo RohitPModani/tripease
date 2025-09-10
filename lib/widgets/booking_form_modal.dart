@@ -250,7 +250,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
         await _processSelectedFile(image.path, image.name);
       }
     } catch (e) {
-      _showError(AppLocalizations.of(context)!.failedToCaptureImage);
+      _showError((l10n) => l10n.failedToCaptureImage);
     }
   }
 
@@ -263,7 +263,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
         await _processSelectedFile(image.path, image.name);
       }
     } catch (e) {
-      _showError(AppLocalizations.of(context)!.failedToSelectImage);
+      _showError((l10n) => l10n.failedToSelectImage);
     }
   }
 
@@ -282,13 +282,13 @@ class _BookingFormModalState extends State<BookingFormModal> {
         
         // Check if file has data
         if (file.bytes == null) {
-          _showError(AppLocalizations.of(context)!.failedToReadFile);
+          _showError((l10n) => l10n.failedToReadFile);
           return;
         }
         
         // Check file size (5MB limit)
         if (file.size > 5 * 1024 * 1024) {
-          _showError(AppLocalizations.of(context)!.fileSizeMustBeLess);
+          _showError((l10n) => l10n.fileSizeMustBeLess);
           return;
         }
 
@@ -316,14 +316,16 @@ class _BookingFormModalState extends State<BookingFormModal> {
           attachments.add(attachment);
         });
 
+        if (!mounted) return;
+        final l10n = AppLocalizations.of(context)!;
         showAppSnackBar(
           context,
-          AppLocalizations.of(context)!.fileAttachedSuccessfully(file.name),
+          l10n.fileAttachedSuccessfully(file.name),
           type: SnackBarType.success,
         );
       }
     } catch (e) {
-      _showError(AppLocalizations.of(context)!.failedToPickFile(e.toString()));
+      _showError((l10n) => l10n.failedToPickFile(e.toString()));
     }
   }
 
@@ -334,7 +336,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
       
       // Check file size (5MB limit)
       if (fileSize > 5 * 1024 * 1024) {
-        _showError(AppLocalizations.of(context)!.fileSizeMustBeLess);
+        _showError((l10n) => l10n.fileSizeMustBeLess);
         return;
       }
 
@@ -362,20 +364,24 @@ class _BookingFormModalState extends State<BookingFormModal> {
         attachments.add(attachment);
       });
 
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       showAppSnackBar(
         context,
-        AppLocalizations.of(context)!.fileAttachedSuccessfully(fileName),
+        l10n.fileAttachedSuccessfully(fileName),
         type: SnackBarType.success,
       );
     } catch (e) {
-      _showError(AppLocalizations.of(context)!.failedToPickFile(e.toString()));
+      _showError((l10n) => l10n.failedToPickFile(e.toString()));
     }
   }
 
-  void _showError(String message) {
+  void _showError(String Function(AppLocalizations) messageProvider) {
+    if (!context.mounted) return;
+    final l10n = AppLocalizations.of(context)!;
     showAppSnackBar(
       context,
-      message,
+      messageProvider(l10n),
       type: SnackBarType.error,
     );
   }
@@ -979,24 +985,47 @@ class _BookingFormModalState extends State<BookingFormModal> {
                                   updatedAt: DateTime.now(),
                                 );
 
+                                final l10n = AppLocalizations.of(context)!;
+                                final actionText = isEdit ? l10n.update : l10n.add;
+                                final navigatorContext = context;
+                                
                                 try {
                                   if (isEdit) {
                                     await Provider.of<BookingProvider>(context, listen: false)
                                         .updateBooking(bookingItem);
                                   } else {
-                                    await Provider.of<BookingProvider>(context, listen: false)
-                                        .createBooking(bookingItem);
+                                    // Check booking limit before creating new booking (15 per trip)
+                                    final bookingProvider = Provider.of<BookingProvider>(context, listen: false);
+                                    if (bookingProvider.bookings.length >= 15) {
+                                      if (mounted && navigatorContext.mounted) {
+                                        showAppSnackBar(
+                                          navigatorContext,
+                                          l10n.bookingLimitReached,
+                                          type: SnackBarType.error,
+                                        );
+                                      }
+                                      return;
+                                    }
+                                    
+                                    await bookingProvider.createBooking(bookingItem);
                                   }
-                                  Navigator.pop(context);
+                                  
+                                  if (!mounted) return;
+                                  if (navigatorContext.mounted) {
+                                    Navigator.pop(navigatorContext);
+                                  }
                                 } catch (e) {
-                                  showAppSnackBar(
-                                    context,
-                                    AppLocalizations.of(context)!.failedToAddUpdateBooking(
-                                      isEdit ? AppLocalizations.of(context)!.update : AppLocalizations.of(context)!.add,
-                                      e.toString(),
-                                    ),
-                                    type: SnackBarType.error,
-                                  );
+                                  if (!mounted) return;
+                                  if (navigatorContext.mounted) {
+                                    showAppSnackBar(
+                                      navigatorContext,
+                                      l10n.failedToAddUpdateBooking(
+                                        actionText,
+                                        e.toString(),
+                                      ),
+                                      type: SnackBarType.error,
+                                    );
+                                  }
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -1053,7 +1082,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
     final l10n = AppLocalizations.of(context)!;
     switch (type) {
       case BookingType.flight:
-        return 'Flight'; // TODO: add l10n.flight when available
+        return l10n.flight;
       case BookingType.hotel:
         return l10n.hotel;
       case BookingType.transport:
@@ -1063,7 +1092,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
       case BookingType.other:
         return l10n.other;
       case BookingType.restaurant:
-        return 'Restaurant'; // TODO: add l10n.restaurant when available
+        return l10n.restaurant;
     }
   }
 

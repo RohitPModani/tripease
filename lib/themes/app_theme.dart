@@ -48,8 +48,6 @@ class AppTheme {
         secondary: secondaryColor,
         surface: surfaceLight,
         onSurface: textPrimary,
-        background: backgroundLight,
-        onBackground: textPrimary,
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: textPrimary, // Dark surface for contrast in light mode
@@ -255,8 +253,6 @@ class AppTheme {
         secondary: secondaryColor,
         surface: surfaceDark,
         onSurface: textLight,
-        background: backgroundDark,
-        onBackground: textLight,
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: surfaceDark,

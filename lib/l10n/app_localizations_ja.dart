@@ -1022,6 +1022,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get saveToGallery => 'Save to Gallery';
 
   @override
+  String get flight => 'フライト';
+
+  @override
+  String get restaurant => 'レストラン';
+
+  @override
+  String get bookingLimitReached => '予約制限に達しました。1回の旅行につき15件までしか予約を追加できません。';
+
+  @override
+  String get documentLimitReached => 'ドキュメント制限に達しました。合計10件までしかドキュメントを追加できません。';
+
+  @override
   String get confirmActionWarning => 'This action cannot be undone!';
 
   @override

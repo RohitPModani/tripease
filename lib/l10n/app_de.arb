@@ -240,5 +240,9 @@
   "continueAction": "Continue",
   "deleteEverything": "Delete Everything",
   "createBackup": "Create Backup",
-  "ok": "OK"
+  "ok": "OK",
+  "flight": "Flug",
+  "restaurant": "Restaurant",
+  "bookingLimitReached": "Buchungslimit erreicht. Sie können nur bis zu 15 Buchungen pro Reise hinzufügen.",
+  "documentLimitReached": "Dokumentenlimit erreicht. Sie können nur bis zu 10 Dokumente insgesamt hinzufügen."
 }

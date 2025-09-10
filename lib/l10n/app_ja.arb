@@ -241,5 +241,9 @@
   "continueAction": "Continue",
   "deleteEverything": "Delete Everything",
   "createBackup": "Create Backup",
-  "ok": "OK"
+  "ok": "OK",
+  "flight": "フライト",
+  "restaurant": "レストラン",
+  "bookingLimitReached": "予約制限に達しました。1回の旅行につき15件までしか予約を追加できません。",
+  "documentLimitReached": "ドキュメント制限に達しました。合計10件までしかドキュメントを追加できません。"
 }

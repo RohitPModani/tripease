@@ -325,22 +325,20 @@ class _TripDetailScreenState extends State<TripDetailScreen>
                 await Provider.of<TripProvider>(context, listen: false)
                     .deleteTrip(trip.id);
                 
-                if (mounted) {
-                  showAppSnackBar(
-                    context,
-                    l10n.tripDeletedSuccessfully,
-                    type: SnackBarType.success,
-                  );
-                  Navigator.pop(context); // Go back to previous screen
-                }
+                if (!context.mounted) return;
+                showAppSnackBar(
+                  context,
+                  l10n.tripDeletedSuccessfully,
+                  type: SnackBarType.success,
+                );
+                Navigator.pop(context); // Go back to previous screen
               } catch (e) {
-                if (mounted) {
-                  showAppSnackBar(
-                    context,
-                    l10n.failedToDeleteTrip,
-                    type: SnackBarType.error,
-                  );
-                }
+                if (!context.mounted) return;
+                showAppSnackBar(
+                  context,
+                  l10n.failedToDeleteTrip,
+                  type: SnackBarType.error,
+                );
               }
             },
             style: TextButton.styleFrom(

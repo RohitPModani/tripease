@@ -241,5 +241,9 @@
   "continueAction": "Continue",
   "deleteEverything": "Delete Everything",
   "createBackup": "Create Backup",
-  "ok": "OK"
+  "ok": "OK",
+  "flight": "航班",
+  "restaurant": "餐厅",
+  "bookingLimitReached": "预订限制已达到。每次旅行最多只能添加15个预订。",
+  "documentLimitReached": "文档限制已达到。总共最多只能添加10个文档。"
 }

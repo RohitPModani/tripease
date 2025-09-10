@@ -534,8 +534,10 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                                       listen: false,
                                     ).createExpense(expenseItem);
                                   }
+                                  if (!context.mounted) return;
                                   Navigator.pop(context);
                                 } catch (e) {
+                                  if (!context.mounted) return;
                                   showAppSnackBar(
                                     context,
                                     'Failed to ${isEdit ? 'update' : 'add'} expense: $e',

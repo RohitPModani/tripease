@@ -1998,6 +1998,30 @@ abstract class AppLocalizations {
   /// **'Save to Gallery'**
   String get saveToGallery;
 
+  /// Flight booking type
+  ///
+  /// In en, this message translates to:
+  /// **'Flight'**
+  String get flight;
+
+  /// Restaurant booking type
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurant'**
+  String get restaurant;
+
+  /// Message shown when user tries to add more than 15 bookings to a trip
+  ///
+  /// In en, this message translates to:
+  /// **'Booking limit reached. You can only add up to 15 bookings per trip.'**
+  String get bookingLimitReached;
+
+  /// Message shown when user tries to add more than 10 documents
+  ///
+  /// In en, this message translates to:
+  /// **'Document limit reached. You can only add up to 10 documents total.'**
+  String get documentLimitReached;
+
   /// Generic irreversible action warning
   ///
   /// In en, this message translates to:

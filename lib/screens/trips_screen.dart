@@ -320,7 +320,7 @@ class _TripsScreenState extends State<TripsScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    AppLocalizations.of(context)!.failedToLoad + ' trips',
+                    '${AppLocalizations.of(context)!.failedToLoad} trips',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 8),
@@ -540,7 +540,7 @@ class _TripsScreenState extends State<TripsScreen> {
                 await Provider.of<TripProvider>(context, listen: false)
                     .deleteTrip(trip.id);
                 
-                if (mounted) {
+                if (mounted && context.mounted) {
                   showAppSnackBar(
                     context,
                     l10n.tripDeletedSuccessfully,
@@ -548,7 +548,7 @@ class _TripsScreenState extends State<TripsScreen> {
                   );
                 }
               } catch (e) {
-                if (mounted) {
+                if (mounted && context.mounted) {
                   showAppSnackBar(
                     context,
                     l10n.failedToDeleteTrip,

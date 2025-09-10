@@ -228,6 +228,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         await _processSelectedFile(image.path, image.name);
       }
     } catch (e) {
+      if (!mounted) return;
       _showError(AppLocalizations.of(context)!.failedToCaptureImage);
     }
   }
@@ -241,6 +242,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         await _processSelectedFile(image.path, image.name);
       }
     } catch (e) {
+      if (!mounted) return;
       _showError(AppLocalizations.of(context)!.failedToSelectImage);
     }
   }
@@ -257,6 +259,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         await _processSelectedFile(file.path!, file.name);
       }
     } catch (e) {
+      if (!mounted) return;
       _showError(AppLocalizations.of(context)!.failedToSelectFile);
     }
   }
@@ -317,6 +320,18 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
       final provider = Provider.of<DocumentProvider>(context, listen: false);
       
       if (widget.document == null) {
+        // Check document limit before creating new document (10 total)
+        if (provider.personalDocuments.length >= 10) {
+          if (mounted) {
+            showAppSnackBar(
+              context,
+              AppLocalizations.of(context)!.documentLimitReached,
+              type: SnackBarType.error,
+            );
+          }
+          return;
+        }
+        
         // Creating new document
         await provider.createDocument(document);
       } else {

@@ -240,5 +240,9 @@
   "continueAction": "Continue",
   "deleteEverything": "Delete Everything",
   "createBackup": "Create Backup",
-  "ok": "OK"
+  "ok": "OK",
+  "flight": "Vlucht",
+  "restaurant": "Restaurant",
+  "bookingLimitReached": "Boekingslimiet bereikt. Je kunt slechts 15 boekingen per reis toevoegen.",
+  "documentLimitReached": "Documentlimiet bereikt. Je kunt slechts 10 documenten in totaal toevoegen."
 }

@@ -1023,6 +1023,19 @@ class AppLocalizationsKo extends AppLocalizations {
   String get saveToGallery => 'Save to Gallery';
 
   @override
+  String get flight => '항공편';
+
+  @override
+  String get restaurant => '레스토랑';
+
+  @override
+  String get bookingLimitReached =>
+      '예약 한도에 도달했습니다. 여행당 최대 15개의 예약만 추가할 수 있습니다.';
+
+  @override
+  String get documentLimitReached => '문서 한도에 도달했습니다. 총 최대 10개의 문서만 추가할 수 있습니다.';
+
+  @override
   String get confirmActionWarning => 'This action cannot be undone!';
 
   @override

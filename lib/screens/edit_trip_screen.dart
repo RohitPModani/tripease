@@ -49,7 +49,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
   DateTime? _endDate;
   final DateRangePickerController _dateRangeController = DateRangePickerController();
   String _selectedCurrency = 'USD';
-  bool _isLoading = false;
+  final bool _isLoading = false;
   bool _showDatePicker = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 

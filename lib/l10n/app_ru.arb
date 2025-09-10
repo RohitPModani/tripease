@@ -240,5 +240,9 @@
   "continueAction": "Continue",
   "deleteEverything": "Delete Everything",
   "createBackup": "Create Backup",
-  "ok": "OK"
+  "ok": "OK",
+  "flight": "Рейс",
+  "restaurant": "Ресторан",
+  "bookingLimitReached": "Достигнут лимит бронирований. Вы можете добавить только 15 бронирований на поездку.",
+  "documentLimitReached": "Достигнут лимит документов. Вы можете добавить только 10 документов всего."
 }

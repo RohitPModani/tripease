@@ -497,20 +497,18 @@ class _TodoFormModalState extends State<TodoFormModal> {
                                     listen: false,
                                   ).createTodo(todoItem);
                                 }
-                                if (mounted) {
-                                  Navigator.pop(context);
-                                }
+                                if (!context.mounted) return;
+                                Navigator.pop(context);
                               } catch (e) {
-                                if (mounted) {
-                                  showAppSnackBar(
-                                    context,
-                                    AppLocalizations.of(context)!.failedToAddUpdateTask(
-                                      isEdit ? 'update' : 'add',
-                                      e.toString(),
-                                    ),
-                                    type: SnackBarType.error,
-                                  );
-                                }
+                                if (!context.mounted) return;
+                                showAppSnackBar(
+                                  context,
+                                  AppLocalizations.of(context)!.failedToAddUpdateTask(
+                                    isEdit ? 'update' : 'add',
+                                    e.toString(),
+                                  ),
+                                  type: SnackBarType.error,
+                                );
                               }
                     },
                             style: ElevatedButton.styleFrom(

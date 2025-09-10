@@ -834,6 +834,7 @@ class _BookingsTabState extends State<BookingsTab> {
     try {
       final file = File(attachment.filePath);
       if (!await file.exists()) {
+        if (!mounted) return;
         showAppSnackBar(context, AppLocalizations.of(context)!.fileNotFound, type: SnackBarType.error);
         return;
       }
@@ -846,6 +847,7 @@ class _BookingsTabState extends State<BookingsTab> {
         await _saveFileWithDialog(attachment, file);
       }
     } catch (e) {
+      if (!mounted) return;
       showAppSnackBar(
         context,
         AppLocalizations.of(context)!.errorDownloadingFile(e.toString()),
@@ -925,6 +927,7 @@ class _BookingsTabState extends State<BookingsTab> {
     try {
       if (attachment.isImage) {
         await Gal.putImage(attachment.filePath);
+        if (!mounted) return;
         showAppSnackBar(
           context,
           AppLocalizations.of(context)!.imageSavedToPhotos,
@@ -932,6 +935,7 @@ class _BookingsTabState extends State<BookingsTab> {
         );
       }
     } catch (e) {
+      if (!mounted) return;
       showAppSnackBar(
         context,
         AppLocalizations.of(context)!.errorSavingToPhotos(e.toString()),
@@ -957,6 +961,7 @@ class _BookingsTabState extends State<BookingsTab> {
       // Copy the file to chosen location
       await file.copy(outputFile);
 
+      if (!mounted) return;
       showAppSnackBar(
         context,
         AppLocalizations.of(context)!.fileSavedSuccessfully,
@@ -967,6 +972,7 @@ class _BookingsTabState extends State<BookingsTab> {
         },
       );
     } catch (e) {
+      if (!mounted) return;
       showAppSnackBar(
         context,
         AppLocalizations.of(context)!.errorSavingFile(e.toString()),
@@ -985,9 +991,11 @@ class _BookingsTabState extends State<BookingsTab> {
           subject: attachment.fileName,
         );
       } else {
+        if (!mounted) return;
         showAppSnackBar(context, AppLocalizations.of(context)!.fileNotFound, type: SnackBarType.error);
       }
     } catch (e) {
+      if (!mounted) return;
       showAppSnackBar(
         context,
         AppLocalizations.of(context)!.errorSharingFile(e.toString()),
@@ -997,6 +1005,17 @@ class _BookingsTabState extends State<BookingsTab> {
   }
 
   void _showAddBookingDialog(BookingProvider bookingProvider) {
+    // Check if booking limit is reached (15 per trip)
+    if (bookingProvider.bookings.length >= 15) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.bookingLimitReached),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+    
     BookingFormModal.show(context, widget.trip.id, widget.trip.defaultCurrency);
   }
 
@@ -1313,7 +1332,7 @@ extension BookingTypeExtension on BookingType {
   String getDisplayName(AppLocalizations l10n) {
     switch (this) {
       case BookingType.flight:
-        return 'Flight'; // TODO: Add l10n.flight when available
+        return l10n.flight;
       case BookingType.hotel:
         return l10n.hotel;
       case BookingType.activity:
@@ -1321,7 +1340,7 @@ extension BookingTypeExtension on BookingType {
       case BookingType.transport:
         return l10n.transport;
       case BookingType.restaurant:
-        return 'Restaurant'; // TODO: Add l10n.restaurant when available
+        return l10n.restaurant;
       case BookingType.other:
         return l10n.other;
     }

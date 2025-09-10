@@ -15,6 +15,7 @@ import '../database/database.dart';
 import '../services/export_service.dart';
 import '../services/import_service.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -179,33 +180,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
           icon: Iconsax.heart,
           title: l10n.rateApp,
           subtitle: l10n.leaveAReviewOnTheAppStore,
-          onTap: () {
-            // TODO: Open app store for rating
-          },
+          onTap: () => _openAppStore(),
         ),
         _buildActionTile(
           icon: Iconsax.message_question,
           title: l10n.helpAndSupport,
           subtitle: l10n.faqsAndContactInformation,
-          onTap: () {
-            // TODO: Open help section
-          },
+          onTap: () => _openHelpSection(),
         ),
         _buildActionTile(
           icon: Iconsax.document_text,
           title: l10n.privacyPolicy,
           subtitle: l10n.readOurPrivacyPolicy,
-          onTap: () {
-            // TODO: Open privacy policy
-          },
+          onTap: () => _openPrivacyPolicy(),
         ),
         _buildActionTile(
           icon: Iconsax.shield_tick,
           title: l10n.termsOfService,
           subtitle: l10n.readOurTermsAndConditions,
-          onTap: () {
-            // TODO: Open terms of service
-          },
+          onTap: () => _openTermsOfService(),
         ),
       ],
     );
@@ -1111,7 +1104,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     try {
       Navigator.pop(context); // Close export dialog
       
+      // Ask user to choose save location
+      String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+      if (selectedDirectory == null) {
+        // User cancelled folder selection
+        return;
+      }
+      
       // Show loading dialog
+      if (!mounted) return;
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -1144,6 +1145,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       );
 
       // Get repositories from providers
+      if (!mounted) return;
       final tripProvider = Provider.of<TripProvider>(context, listen: false);
       final todoProvider = Provider.of<TodoProvider>(context, listen: false);
       final bookingProvider = Provider.of<BookingProvider>(context, listen: false);
@@ -1159,6 +1161,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         expenseRepository: expenseProvider.expenseRepository,
         documentRepository: documentProvider.documentRepository,
         password: password,
+        saveDirectory: selectedDirectory,
       );
       
       // Close loading dialog
@@ -1704,6 +1707,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       await Future.delayed(const Duration(milliseconds: 100));
       
       // Reload settings providers to apply imported settings
+      if (!mounted) return;
       final localizationProvider = Provider.of<LocalizationProvider>(context, listen: false);
       final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
       await localizationProvider.reloadLanguage();
@@ -1839,5 +1843,89 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ],
       ),
     );
+  }
+
+  void _openAppStore() async {
+    try {
+      final uri = Uri.parse('https://apps.apple.com/app/id1234567890'); // Replace with actual app ID when available
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not open app store')),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error opening app store: $e')),
+        );
+      }
+    }
+  }
+
+  void _openHelpSection() async {
+    try {
+      final uri = Uri.parse('https://voythrix.com/help'); // Replace with actual help URL
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.inAppWebView);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not open help section')),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error opening help section: $e')),
+        );
+      }
+    }
+  }
+
+  void _openPrivacyPolicy() async {
+    try {
+      final uri = Uri.parse('https://voythrix.com/privacy'); // Replace with actual privacy policy URL
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.inAppWebView);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not open privacy policy')),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error opening privacy policy: $e')),
+        );
+      }
+    }
+  }
+
+  void _openTermsOfService() async {
+    try {
+      final uri = Uri.parse('https://voythrix.com/terms'); // Replace with actual terms URL
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.inAppWebView);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not open terms of service')),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error opening terms of service: $e')),
+        );
+      }
+    }
   }
 }

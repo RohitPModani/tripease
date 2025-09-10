@@ -284,7 +284,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     ],
                   ),
                 );
-              }).toList(),
+              }),
             ],
           ],
         ),
@@ -1198,7 +1198,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                         ),
                       ],
                     ),
-                  )).toList(),
+                  )),
             ],
           ),
         ),

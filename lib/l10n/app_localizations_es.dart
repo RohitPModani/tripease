@@ -1036,6 +1036,20 @@ class AppLocalizationsEs extends AppLocalizations {
   String get saveToGallery => 'Guardar en Galería';
 
   @override
+  String get flight => 'Vuelo';
+
+  @override
+  String get restaurant => 'Restaurante';
+
+  @override
+  String get bookingLimitReached =>
+      'Límite de reservas alcanzado. Solo puedes agregar hasta 15 reservas por viaje.';
+
+  @override
+  String get documentLimitReached =>
+      'Límite de documentos alcanzado. Solo puedes agregar hasta 10 documentos en total.';
+
+  @override
   String get confirmActionWarning => 'This action cannot be undone!';
 
   @override

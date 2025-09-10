@@ -445,10 +445,8 @@ class _OverviewTabState extends State<OverviewTab> {
                     'Booking',
                     Iconsax.airplane,
                     AppTheme.secondaryColor,
-                    () => BookingFormModal.show(
-                      context,
-                      widget.trip.id,
-                      widget.trip.defaultCurrency,
+                    () => _handleAddBooking(
+                      Provider.of<BookingProvider>(context, listen: false),
                     ),
                   ),
                 ),
@@ -738,6 +736,25 @@ class _OverviewTabState extends State<OverviewTab> {
     }
 
     return '${formatDate(startDate)} - ${formatDate(endDate)}';
+  }
+
+  void _handleAddBooking(BookingProvider bookingProvider) {
+    // Check if booking limit is reached (15 per trip)
+    if (bookingProvider.bookings.length >= 15) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.bookingLimitReached),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+    
+    BookingFormModal.show(
+      context,
+      widget.trip.id,
+      widget.trip.defaultCurrency,
+    );
   }
 }
 

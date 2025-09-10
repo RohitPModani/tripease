@@ -1823,8 +1823,28 @@
   "addActivity": "Add Activity",
   "@addActivity": {
     "description": "Add activity button text"
-  }
-  ,
+  },
+
+  "flight": "Flight",
+  "@flight": {
+    "description": "Flight booking type"
+  },
+
+  "restaurant": "Restaurant",
+  "@restaurant": {
+    "description": "Restaurant booking type"
+  },
+
+  "bookingLimitReached": "Booking limit reached. You can only add up to 15 bookings per trip.",
+  "@bookingLimitReached": {
+    "description": "Message shown when user tries to add more than 15 bookings to a trip"
+  },
+
+  "documentLimitReached": "Document limit reached. You can only add up to 10 documents total.",
+  "@documentLimitReached": {
+    "description": "Message shown when user tries to add more than 10 documents"
+  },
+
   "confirmActionWarning": "This action cannot be undone!",
   "@confirmActionWarning": {"description": "Generic irreversible action warning"},
 

@@ -1029,6 +1029,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get saveToGallery => 'Save to Gallery';
 
   @override
+  String get flight => 'طائرة';
+
+  @override
+  String get restaurant => 'مطعم';
+
+  @override
+  String get bookingLimitReached =>
+      'تم الوصول لحد الحجوزات. يمكنك إضافة 15 حجز فقط لكل رحلة.';
+
+  @override
+  String get documentLimitReached =>
+      'تم الوصول لحد المستندات. يمكنك إضافة 10 مستندات فقط في المجموع.';
+
+  @override
   String get confirmActionWarning => 'This action cannot be undone!';
 
   @override

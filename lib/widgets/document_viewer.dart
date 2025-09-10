@@ -325,18 +325,22 @@ class DocumentViewer extends StatelessWidget {
     try {
       final file = File(attachment.filePath);
       if (!await file.exists()) {
+        if (!context.mounted) return;
         showAppSnackBar(context, AppLocalizations.of(context)!.fileNotFound, type: SnackBarType.error);
         return;
       }
 
       // For images, offer choice between gallery and file save
       if (attachment.isImage) {
+        if (!context.mounted) return;
         await _showImageDownloadOptions(context, file);
       } else {
         // For documents, use file save dialog
+        if (!context.mounted) return;
         await _saveFileWithDialog(context, file);
       }
     } catch (e) {
+      if (!context.mounted) return;
       showAppSnackBar(
         context,
         AppLocalizations.of(context)!.errorDownloadingFile(e.toString()),
@@ -414,6 +418,7 @@ class DocumentViewer extends StatelessWidget {
     try {
       if (attachment.isImage) {
         await Gal.putImage(attachment.filePath);
+        if (!context.mounted) return;
         showAppSnackBar(
           context,
           AppLocalizations.of(context)!.imageSavedToPhotos,
@@ -421,6 +426,7 @@ class DocumentViewer extends StatelessWidget {
         );
       }
     } catch (e) {
+      if (!context.mounted) return;
       showAppSnackBar(
         context,
         AppLocalizations.of(context)!.errorSavingToPhotos(e.toString()),
@@ -446,6 +452,8 @@ class DocumentViewer extends StatelessWidget {
       // Copy the file to chosen location
       await file.copy(outputFile);
 
+      if (!context.mounted) return;
+
       showAppSnackBar(
         context,
         AppLocalizations.of(context)!.fileSavedSuccessfully,
@@ -460,6 +468,7 @@ class DocumentViewer extends StatelessWidget {
         },
       );
     } catch (e) {
+      if (!context.mounted) return;
       showAppSnackBar(
         context,
         AppLocalizations.of(context)!.errorSavingFile(e.toString()),
@@ -478,9 +487,11 @@ class DocumentViewer extends StatelessWidget {
           subject: attachment.fileName,
         );
       } else {
+        if (!context.mounted) return;
         showAppSnackBar(context, AppLocalizations.of(context)!.fileNotFound, type: SnackBarType.error);
       }
     } catch (e) {
+      if (!context.mounted) return;
       showAppSnackBar(
         context,
         AppLocalizations.of(context)!.errorSharingFile(e.toString()),
@@ -497,7 +508,7 @@ class DocumentViewer extends StatelessWidget {
       }
     } catch (e) {
       // Fallback to sharing if opening externally fails
-      if (ctx != null) {
+      if (ctx != null && ctx.mounted) {
         _shareAttachment(ctx);
       }
     }

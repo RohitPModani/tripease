@@ -240,5 +240,9 @@
   "continueAction": "Continue",
   "deleteEverything": "Delete Everything",
   "createBackup": "Create Backup",
-  "ok": "OK"
+  "ok": "OK",
+  "flight": "طائرة",
+  "restaurant": "مطعم",
+  "bookingLimitReached": "تم الوصول لحد الحجوزات. يمكنك إضافة 15 حجز فقط لكل رحلة.",
+  "documentLimitReached": "تم الوصول لحد المستندات. يمكنك إضافة 10 مستندات فقط في المجموع."
 }
