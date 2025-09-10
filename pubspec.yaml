@@ -115,7 +115,7 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: assets/icons/tripease.png
+  image_path: assets/icons/voythrix.png
   min_sdk_android: 21
 
   # An image asset can refer to one or more resolution-specific "variants", see
