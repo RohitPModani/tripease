@@ -99,7 +99,7 @@ class _OverviewTabState extends State<OverviewTab> {
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           width: 1.5,
-          color: AppTheme.primaryColor.withOpacity(0.2),
+          color: AppTheme.primaryColor.withValues(alpha: 0.2),
         ),
       ),
       child: Container(
@@ -110,11 +110,11 @@ class _OverviewTabState extends State<OverviewTab> {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             width: 1,
-            color: AppTheme.primaryColor.withOpacity(0.2),
+            color: AppTheme.primaryColor.withValues(alpha: 0.2),
           ),
           boxShadow: [
             BoxShadow(
-              color: AppTheme.primaryColor.withOpacity(0.08),
+              color: AppTheme.primaryColor.withValues(alpha: 0.08),
               offset: const Offset(0, 12),
               blurRadius: 32,
               spreadRadius: 0,
@@ -184,19 +184,19 @@ class _OverviewTabState extends State<OverviewTab> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [color.withOpacity(0.08), color.withOpacity(0.03)],
+          colors: [color.withValues(alpha: 0.08), color.withValues(alpha: 0.03)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.2), width: 1),
+        border: Border.all(color: color.withValues(alpha: 0.2), width: 1),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(icon, size: 18, color: color),
@@ -284,11 +284,11 @@ class _OverviewTabState extends State<OverviewTab> {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           width: 1,
-          color: AppTheme.primaryColor.withOpacity(0.3),
+          color: AppTheme.primaryColor.withValues(alpha: 0.3),
         ),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryColor.withOpacity(0.1),
+            color: AppTheme.primaryColor.withValues(alpha: 0.1),
             offset: const Offset(0, 8),
             blurRadius: 24,
             spreadRadius: 0,
@@ -305,7 +305,7 @@ class _OverviewTabState extends State<OverviewTab> {
                 Container(
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
+                    color: color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Icon(icon, color: color, size: 16),
@@ -335,7 +335,7 @@ class _OverviewTabState extends State<OverviewTab> {
                 borderRadius: BorderRadius.circular(4),
                 child: LinearProgressIndicator(
                   value: progress,
-                  backgroundColor: color.withOpacity(0.1),
+                  backgroundColor: color.withValues(alpha: 0.1),
                   valueColor: AlwaysStoppedAnimation<Color>(color),
                   minHeight: 4,
                 ),
@@ -356,11 +356,11 @@ class _OverviewTabState extends State<OverviewTab> {
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
           width: 1,
-          color: AppTheme.primaryColor.withOpacity(0.2),
+          color: AppTheme.primaryColor.withValues(alpha: 0.2),
         ),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryColor.withOpacity(0.08),
+            color: AppTheme.primaryColor.withValues(alpha: 0.08),
             offset: const Offset(0, 12),
             blurRadius: 32,
             spreadRadius: 0,
@@ -379,15 +379,15 @@ class _OverviewTabState extends State<OverviewTab> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppTheme.primaryColor.withOpacity(0.15),
-                        AppTheme.primaryColor.withOpacity(0.05),
+                        AppTheme.primaryColor.withValues(alpha: 0.15),
+                        AppTheme.primaryColor.withValues(alpha: 0.05),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: AppTheme.primaryColor.withOpacity(0.2),
+                      color: AppTheme.primaryColor.withValues(alpha: 0.2),
                       width: 1,
                     ),
                   ),
@@ -505,15 +505,15 @@ class _OverviewTabState extends State<OverviewTab> {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [color.withOpacity(0.1), color.withOpacity(0.05)],
+          colors: [color.withValues(alpha: 0.1), color.withValues(alpha: 0.05)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.3), width: 1.5),
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.15),
+            color: color.withValues(alpha: 0.15),
             offset: const Offset(0, 4),
             blurRadius: 12,
             spreadRadius: 0,
@@ -525,8 +525,8 @@ class _OverviewTabState extends State<OverviewTab> {
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
           onTap: onTap,
-          splashColor: color.withOpacity(0.1),
-          highlightColor: color.withOpacity(0.05),
+          splashColor: color.withValues(alpha: 0.1),
+          highlightColor: color.withValues(alpha: 0.05),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
             child: Column(
@@ -564,19 +564,19 @@ class _OverviewTabState extends State<OverviewTab> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [color.withOpacity(0.08), color.withOpacity(0.03)],
+          colors: [color.withValues(alpha: 0.08), color.withValues(alpha: 0.03)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.2), width: 1),
+        border: Border.all(color: color.withValues(alpha: 0.2), width: 1),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(icon, size: 18, color: color),
@@ -608,37 +608,37 @@ class _OverviewTabState extends State<OverviewTab> {
                         gradient: LinearGradient(
                           colors: daysLeft > 0
                               ? [
-                                  AppTheme.accentColor.withOpacity(0.2),
-                                  AppTheme.accentColor.withOpacity(0.1),
+                                  AppTheme.accentColor.withValues(alpha: 0.2),
+                                  AppTheme.accentColor.withValues(alpha: 0.1),
                                 ]
                               : isActive
                               ? [
-                                  AppTheme.success.withOpacity(0.2),
-                                  AppTheme.success.withOpacity(0.1),
+                                  AppTheme.success.withValues(alpha: 0.2),
+                                  AppTheme.success.withValues(alpha: 0.1),
                                 ]
                               : [
                                   (Theme.of(context).brightness ==
                                               Brightness.dark
                                           ? AppTheme.textSecondaryDark
                                           : AppTheme.textSecondary)
-                                      .withOpacity(0.2),
+                                      .withValues(alpha: 0.2),
                                   (Theme.of(context).brightness ==
                                               Brightness.dark
                                           ? AppTheme.textSecondaryDark
                                           : AppTheme.textSecondary)
-                                      .withOpacity(0.1),
+                                      .withValues(alpha: 0.1),
                                 ],
                         ),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: daysLeft > 0
-                              ? AppTheme.accentColor.withOpacity(0.3)
+                              ? AppTheme.accentColor.withValues(alpha: 0.3)
                               : isActive
-                              ? AppTheme.success.withOpacity(0.3)
+                              ? AppTheme.success.withValues(alpha: 0.3)
                               : (Theme.of(context).brightness == Brightness.dark
                                         ? AppTheme.textSecondaryDark
                                         : AppTheme.textSecondary)
-                                    .withOpacity(0.3),
+                                    .withValues(alpha: 0.3),
                           width: 1,
                         ),
                       ),

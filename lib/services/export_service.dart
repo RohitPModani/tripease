@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:archive/archive.dart';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
@@ -9,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:path/path.dart' as path;
 import '../models/export_data.dart';
-import '../models/trip.dart';
 import '../models/todo_item.dart';
 import '../models/booking.dart';
 import '../models/expense.dart';
@@ -35,17 +34,17 @@ class ExportService {
     String? password,
   }) async {
     try {
-      print('Export started: Collecting data...');
+      developer.log('Export started: Collecting data...');
       // Collect all data from repositories
-      print('Export: Loading trips...');
+      developer.log('Export: Loading trips...');
       final trips = await tripRepository.getAllTrips();
-      print('Export: Found ${trips.length} trips');
+      developer.log('Export: Found ${trips.length} trips');
       final allTodos = <TodoItem>[];
       final allBookings = <Booking>[];
       final allExpenses = <Expense>[];
       
       // Collect todos, bookings, and expenses for all trips
-      print('Export: Loading todos, bookings, expenses...');
+      developer.log('Export: Loading todos, bookings, expenses...');
       for (final trip in trips) {
         try {
           final todos = await todoRepository.getTodosByTripId(trip.id);
@@ -56,25 +55,25 @@ class ExportService {
           allBookings.addAll(bookings);
           allExpenses.addAll(expenses);
         } catch (e) {
-          print('Export: Error loading data for trip ${trip.id}: $e');
+          developer.log('Export: Error loading data for trip ${trip.id}: $e');
           // Continue with other trips
         }
       }
       
-      print('Export: Found ${allTodos.length} todos, ${allBookings.length} bookings, ${allExpenses.length} expenses');
+      developer.log('Export: Found ${allTodos.length} todos, ${allBookings.length} bookings, ${allExpenses.length} expenses');
       
       // Get personal documents
-      print('Export: Loading personal documents...');
+      developer.log('Export: Loading personal documents...');
       final documents = await documentRepository.getPersonalDocuments();
-      print('Export: Found ${documents.length} documents');
+      developer.log('Export: Found ${documents.length} documents');
       
       // Get app settings
-      print('Export: Loading app settings...');
+      developer.log('Export: Loading app settings...');
       final settings = await _collectAppSettings();
-      print('Export: Loaded ${settings.length} settings');
+      developer.log('Export: Loaded ${settings.length} settings');
       
       // Create export data structure
-      print('Export: Creating export data structure...');
+      developer.log('Export: Creating export data structure...');
       final exportData = ExportData(
         exportDate: DateTime.now(),
         appVersion: _appVersion,
@@ -87,9 +86,9 @@ class ExportService {
       );
       
       // Convert to JSON string
-      print('Export: Converting to JSON...');
+      developer.log('Export: Converting to JSON...');
       final jsonString = exportData.toJsonString();
-      print('Export: JSON size: ${jsonString.length} characters');
+      developer.log('Export: JSON size: ${jsonString.length} characters');
       
       // Create metadata
       final metadata = {
@@ -124,7 +123,7 @@ class ExportService {
       archive.addFile(ArchiveFile('data.json', dataBytes.length, dataBytes));
       
       // Add document files
-      print('Export: Adding document files...');
+      developer.log('Export: Adding document files...');
       await _addDocumentFilesToArchive(archive, documents);
       
       // Add encryption info if password provided
@@ -140,7 +139,7 @@ class ExportService {
       }
       
       // Compress archive
-      print('Export: Compressing data...');
+      developer.log('Export: Compressing data...');
       final tarBytes = TarEncoder().encode(archive);
       if (tarBytes == null) {
         throw Exception('Failed to create TAR archive');
@@ -156,18 +155,18 @@ class ExportService {
       final filename = 'voythrix_backup_${timestamp}$_fileExtension';
       
       // Save to temporary directory
-      print('Export: Saving to file: $filename');
+      developer.log('Export: Saving to file: $filename');
       final tempDir = await getTemporaryDirectory();
       final file = File('${tempDir.path}/$filename');
       await file.writeAsBytes(gzipBytes);
-      print('Export: File saved successfully at: ${file.path}');
+      developer.log('Export: File saved successfully at: ${file.path}');
       
-      print('Export: Export completed successfully');
+      developer.log('Export: Export completed successfully');
       return file.path;
       
     } catch (e, stackTrace) {
-      print('Export error: $e');
-      print('Stack trace: $stackTrace');
+      developer.log('Export error: $e');
+      developer.log('Stack trace: $stackTrace');
       throw Exception('Export failed: $e');
     }
   }
@@ -233,15 +232,15 @@ class ExportService {
           final archiveFileName = 'documents/${document.id}_${path.basename(document.filePath)}';
           archive.addFile(ArchiveFile(archiveFileName, fileBytes.length, fileBytes));
           addedFiles++;
-          print('Export: Added document file: ${document.fileName}');
+          developer.log('Export: Added document file: ${document.fileName}');
         } else {
-          print('Export: Warning - Document file not found: ${document.filePath}');
+          developer.log('Export: Warning - Document file not found: ${document.filePath}');
         }
       } catch (e) {
-        print('Export: Error adding document file ${document.fileName}: $e');
+        developer.log('Export: Error adding document file ${document.fileName}: $e');
       }
     }
-    print('Export: Added $addedFiles document files to archive');
+    developer.log('Export: Added $addedFiles document files to archive');
   }
 
   static Future<void> cleanupTempFiles() async {

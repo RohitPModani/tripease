@@ -60,7 +60,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: AppTheme.primaryColor.withOpacity(0.1),
+              color: AppTheme.primaryColor.withValues(alpha: 0.1),
               offset: const Offset(0, 4),
               blurRadius: 12,
               spreadRadius: 0,

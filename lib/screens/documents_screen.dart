@@ -92,8 +92,8 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                   ? AppTheme.backgroundDark
                   : AppTheme.backgroundLight,
               Theme.of(context).brightness == Brightness.dark
-                  ? AppTheme.surfaceDark.withOpacity(0.8)
-                  : AppTheme.surfaceLight.withOpacity(0.8),
+                  ? AppTheme.surfaceDark.withValues(alpha: 0.8)
+                  : AppTheme.surfaceLight.withValues(alpha: 0.8),
             ],
           ),
         ),
@@ -179,7 +179,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryColor.withOpacity(0.1),
+            color: AppTheme.primaryColor.withValues(alpha: 0.1),
             offset: const Offset(0, 4),
             blurRadius: 12,
             spreadRadius: 0,
@@ -235,7 +235,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  AppLocalizations.of(context)!.failedToLoad + ' documents',
+                  '${AppLocalizations.of(context)!.failedToLoad} documents',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
@@ -466,12 +466,12 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               : AppTheme.surfaceLight,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: _getDocumentTypeColor(document.type.name).withOpacity(0.3),
+            color: _getDocumentTypeColor(document.type.name).withValues(alpha: 0.3),
             width: 1.5,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               offset: const Offset(0, 2),
               blurRadius: 8,
               spreadRadius: 0,
@@ -490,7 +490,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: _getDocumentTypeColor(document.type.name).withOpacity(0.1),
+                  color: _getDocumentTypeColor(document.type.name).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -553,12 +553,12 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                 decoration: BoxDecoration(
                   color: (Theme.of(context).brightness == Brightness.dark
                       ? AppTheme.textSecondaryDark
-                      : AppTheme.textSecondary).withOpacity(0.1),
+                      : AppTheme.textSecondary).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
                     color: (Theme.of(context).brightness == Brightness.dark
                     ? AppTheme.textSecondaryDark
-                    : AppTheme.textSecondary).withOpacity(0.3),
+                    : AppTheme.textSecondary).withValues(alpha: 0.3),
                   ),
                 ),
                 child: Text(
@@ -656,7 +656,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               decoration: BoxDecoration(
                 color: (Theme.of(context).brightness == Brightness.dark
                     ? AppTheme.textSecondaryDark
-                    : AppTheme.textSecondary).withOpacity(0.3),
+                    : AppTheme.textSecondary).withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -671,7 +671,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: _getDocumentTypeColor(document.type.name).withOpacity(0.1),
+                            color: _getDocumentTypeColor(document.type.name).withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Icon(
@@ -818,10 +818,10 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: AppTheme.primaryColor.withOpacity(0.05),
+                        color: AppTheme.primaryColor.withValues(alpha: 0.05),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: AppTheme.primaryColor.withOpacity(0.2),
+                          color: AppTheme.primaryColor.withValues(alpha: 0.2),
                         ),
                       ),
                       child: Row(
@@ -1200,7 +1200,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     _selectedFilter = DocumentFilter.all;
                   });
                 },
-                selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                selectedColor: AppTheme.primaryColor.withValues(alpha: 0.2),
                 checkmarkColor: AppTheme.primaryColor,
                 labelStyle: TextStyle(
                   color: _selectedFilter == DocumentFilter.all ? AppTheme.primaryColor : null,
@@ -1216,7 +1216,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     _selectedFilter = DocumentFilter.passport;
                   });
                 },
-                selectedColor: _getDocumentTypeColor('passport').withOpacity(0.2),
+                selectedColor: _getDocumentTypeColor('passport').withValues(alpha: 0.2),
                 checkmarkColor: _getDocumentTypeColor('passport'),
                 labelStyle: TextStyle(
                   color: _selectedFilter == DocumentFilter.passport ? _getDocumentTypeColor('passport') : null,
@@ -1232,7 +1232,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     _selectedFilter = DocumentFilter.visa;
                   });
                 },
-                selectedColor: _getDocumentTypeColor('visa').withOpacity(0.2),
+                selectedColor: _getDocumentTypeColor('visa').withValues(alpha: 0.2),
                 checkmarkColor: _getDocumentTypeColor('visa'),
                 labelStyle: TextStyle(
                   color: _selectedFilter == DocumentFilter.visa ? _getDocumentTypeColor('visa') : null,
@@ -1248,7 +1248,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     _selectedFilter = DocumentFilter.insurance;
                   });
                 },
-                selectedColor: _getDocumentTypeColor('insurance').withOpacity(0.2),
+                selectedColor: _getDocumentTypeColor('insurance').withValues(alpha: 0.2),
                 checkmarkColor: _getDocumentTypeColor('insurance'),
                 labelStyle: TextStyle(
                   color: _selectedFilter == DocumentFilter.insurance ? _getDocumentTypeColor('insurance') : null,
@@ -1264,7 +1264,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     _selectedFilter = DocumentFilter.other;
                   });
                 },
-                selectedColor: _getDocumentTypeColor('other').withOpacity(0.2),
+                selectedColor: _getDocumentTypeColor('other').withValues(alpha: 0.2),
                 checkmarkColor: _getDocumentTypeColor('other'),
                 labelStyle: TextStyle(
                   color: _selectedFilter == DocumentFilter.other ? _getDocumentTypeColor('other') : null,

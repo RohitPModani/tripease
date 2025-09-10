@@ -75,8 +75,8 @@ class _TripsScreenState extends State<TripsScreen> {
                   ? AppTheme.backgroundDark
                   : AppTheme.backgroundLight,
               Theme.of(context).brightness == Brightness.dark
-                  ? AppTheme.surfaceDark.withOpacity(0.8)
-                  : AppTheme.surfaceLight.withOpacity(0.8),
+                  ? AppTheme.surfaceDark.withValues(alpha: 0.8)
+                  : AppTheme.surfaceLight.withValues(alpha: 0.8),
             ],
           ),
         ),
@@ -146,7 +146,7 @@ class _TripsScreenState extends State<TripsScreen> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryColor.withOpacity(0.1),
+            color: AppTheme.primaryColor.withValues(alpha: 0.1),
             offset: const Offset(0, 4),
             blurRadius: 12,
             spreadRadius: 0,
@@ -201,7 +201,7 @@ class _TripsScreenState extends State<TripsScreen> {
                       _selectedFilter = TripFilter.all;
                     });
                   },
-                  selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                  selectedColor: AppTheme.primaryColor.withValues(alpha: 0.2),
                   checkmarkColor: AppTheme.primaryColor,
                   labelStyle: TextStyle(
                     color: _selectedFilter == TripFilter.all ? AppTheme.primaryColor : null,
@@ -217,7 +217,7 @@ class _TripsScreenState extends State<TripsScreen> {
                       _selectedFilter = TripFilter.upcoming;
                     });
                   },
-                  selectedColor: AppTheme.accentColor.withOpacity(0.2),
+                  selectedColor: AppTheme.accentColor.withValues(alpha: 0.2),
                   checkmarkColor: AppTheme.accentColor,
                   labelStyle: TextStyle(
                     color: _selectedFilter == TripFilter.upcoming ? AppTheme.accentColor : null,
@@ -233,7 +233,7 @@ class _TripsScreenState extends State<TripsScreen> {
                       _selectedFilter = TripFilter.active;
                     });
                   },
-                  selectedColor: AppTheme.success.withOpacity(0.2),
+                  selectedColor: AppTheme.success.withValues(alpha: 0.2),
                   checkmarkColor: AppTheme.success,
                   labelStyle: TextStyle(
                     color: _selectedFilter == TripFilter.active ? AppTheme.success : null,
@@ -249,7 +249,7 @@ class _TripsScreenState extends State<TripsScreen> {
                       _selectedFilter = TripFilter.completed;
                     });
                   },
-                  selectedColor: AppTheme.textSecondary.withOpacity(0.2),
+                  selectedColor: AppTheme.textSecondary.withValues(alpha: 0.2),
                   checkmarkColor: AppTheme.textSecondary,
                   labelStyle: TextStyle(
                     color: _selectedFilter == TripFilter.completed ? AppTheme.textSecondary : null,
@@ -276,7 +276,7 @@ class _TripsScreenState extends State<TripsScreen> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: AppTheme.primaryColor.withOpacity(0.1),
+            color: AppTheme.primaryColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Consumer<TripProvider>(

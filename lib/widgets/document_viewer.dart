@@ -1,11 +1,10 @@
 import 'dart:io';
+import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:tripease/utils/snackbar.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:gal/gal.dart';
 import '../models/attachment.dart';
@@ -47,7 +46,7 @@ class DocumentViewer extends StatelessWidget {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppTheme.textSecondary.withOpacity(0.3),
+              color: AppTheme.textSecondary.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -186,7 +185,7 @@ class DocumentViewer extends StatelessWidget {
 
   Widget _buildImageViewer() {
     return InteractiveViewer(
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: Image.file(
@@ -231,10 +230,10 @@ class DocumentViewer extends StatelessWidget {
       fitPolicy: FitPolicy.BOTH,
       preventLinkNavigation: false,
       onError: (error) {
-        print('PDF Error: $error');
+        developer.log('PDF Error: $error');
       },
       onPageError: (page, error) {
-        print('PDF Page Error: $page - $error');
+        developer.log('PDF Page Error: $page - $error');
       },
     );
   }
@@ -249,7 +248,7 @@ class DocumentViewer extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.primaryColor.withOpacity(0.1),
+                color: AppTheme.primaryColor.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -361,7 +360,7 @@ class DocumentViewer extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: AppTheme.textSecondary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -375,7 +374,7 @@ class DocumentViewer extends StatelessWidget {
               leading: Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryColor.withOpacity(0.1),
+                  color: AppTheme.primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(Iconsax.gallery, color: AppTheme.primaryColor),
@@ -392,7 +391,7 @@ class DocumentViewer extends StatelessWidget {
               leading: Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppTheme.secondaryColor.withOpacity(0.1),
+                  color: AppTheme.secondaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(Iconsax.folder, color: AppTheme.secondaryColor),

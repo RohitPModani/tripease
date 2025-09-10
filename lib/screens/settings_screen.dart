@@ -55,8 +55,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ? AppTheme.backgroundDark
                   : AppTheme.backgroundLight,
               Theme.of(context).brightness == Brightness.dark
-                  ? AppTheme.surfaceDark.withOpacity(0.8)
-                  : AppTheme.surfaceLight.withOpacity(0.8),
+                  ? AppTheme.surfaceDark.withValues(alpha: 0.8)
+                  : AppTheme.surfaceLight.withValues(alpha: 0.8),
             ],
           ),
         ),
@@ -258,7 +258,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   if (index < children.length - 1)
                     Divider(
                       height: 1,
-                      color: AppTheme.textSecondary.withOpacity(0.1),
+                      color: AppTheme.textSecondary.withValues(alpha: 0.1),
                     ),
                 ],
               );
@@ -283,7 +283,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: AppTheme.primaryColor.withOpacity(0.1),
+          color: AppTheme.primaryColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Icon(
@@ -317,8 +317,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         height: 40,
         decoration: BoxDecoration(
           color: isDestructive
-              ? AppTheme.error.withOpacity(0.1)
-              : AppTheme.primaryColor.withOpacity(0.1),
+              ? AppTheme.error.withValues(alpha: 0.1)
+              : AppTheme.primaryColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Icon(
@@ -369,7 +369,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: AppTheme.textSecondary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -388,7 +388,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 margin: const EdgeInsets.only(bottom: 8),
                 decoration: BoxDecoration(
                   color: isSelected 
-                      ? AppTheme.primaryColor.withOpacity(0.1)
+                      ? AppTheme.primaryColor.withValues(alpha: 0.1)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(12),
                   border: isSelected 
@@ -400,7 +400,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryColor.withOpacity(0.1),
+                      color: AppTheme.primaryColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
@@ -521,7 +521,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppTheme.error.withOpacity(0.1),
+                color: AppTheme.error.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
@@ -550,10 +550,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppTheme.error.withOpacity(0.1),
+                color: AppTheme.error.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: AppTheme.error.withOpacity(0.3),
+                  color: AppTheme.error.withValues(alpha: 0.3),
                 ),
               ),
               child: Row(
@@ -639,7 +639,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppTheme.error.withOpacity(0.1),
+                  color: AppTheme.error.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -679,7 +679,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: AppTheme.error.withOpacity(0.5),
+                    color: AppTheme.error.withValues(alpha: 0.5),
                     width: 2,
                   ),
                   borderRadius: BorderRadius.circular(8),
@@ -773,9 +773,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       // Reset providers to initial state
       if (mounted) {
         final tripProvider = Provider.of<TripProvider>(context, listen: false);
-        final todoProvider = Provider.of<TodoProvider>(context, listen: false);
-        final bookingProvider = Provider.of<BookingProvider>(context, listen: false);
-        final expenseProvider = Provider.of<ExpenseProvider>(context, listen: false);
         final documentProvider = Provider.of<DocumentProvider>(context, listen: false);
         final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
         final localizationProvider = Provider.of<LocalizationProvider>(context, listen: false);
@@ -805,7 +802,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.1),
+                    color: Colors.green.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(
@@ -852,7 +849,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppTheme.error.withOpacity(0.1),
+                    color: AppTheme.error.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(
@@ -903,7 +900,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryColor.withOpacity(0.1),
+                  color: AppTheme.primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -933,10 +930,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppTheme.accentColor.withOpacity(0.1),
+                    color: AppTheme.accentColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: AppTheme.accentColor.withOpacity(0.3),
+                      color: AppTheme.accentColor.withValues(alpha: 0.3),
                     ),
                   ),
                   child: Row(
@@ -1180,7 +1177,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.1),
+                    color: Colors.green.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(
@@ -1210,7 +1207,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+                      color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
                     ),
                   ),
                   child: Column(
@@ -1290,7 +1287,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppTheme.error.withOpacity(0.1),
+                    color: AppTheme.error.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(
@@ -1324,8 +1321,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _showImportDialog() async {
-    final l10n = AppLocalizations.of(context)!;
-    
     // Show instruction dialog first
     final shouldProceed = await _showFileSelectionInstructions();
     if (!shouldProceed) return;
@@ -1369,7 +1364,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppTheme.accentColor.withOpacity(0.1),
+                color: AppTheme.accentColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
@@ -1401,10 +1396,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppTheme.accentColor.withOpacity(0.1),
+                color: AppTheme.accentColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: AppTheme.accentColor.withOpacity(0.3),
+                  color: AppTheme.accentColor.withValues(alpha: 0.3),
                 ),
               ),
               child: Row(
@@ -1469,7 +1464,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryColor.withOpacity(0.1),
+                  color: AppTheme.primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -1500,7 +1495,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+                      color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
                     ),
                   ),
                   child: Column(
@@ -1518,10 +1513,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppTheme.error.withOpacity(0.1),
+                    color: AppTheme.error.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: AppTheme.error.withOpacity(0.3),
+                      color: AppTheme.error.withValues(alpha: 0.3),
                     ),
                   ),
                   child: Row(
@@ -1727,7 +1722,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.1),
+                    color: Colors.green.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(
@@ -1812,7 +1807,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppTheme.error.withOpacity(0.1),
+                color: AppTheme.error.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(

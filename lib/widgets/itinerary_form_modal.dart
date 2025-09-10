@@ -216,7 +216,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: AppTheme.textSecondary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -234,7 +234,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: AppTheme.warning.withOpacity(0.1),
+                            color: AppTheme.warning.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Icon(
@@ -271,7 +271,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -310,7 +310,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -358,7 +358,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -430,7 +430,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                         width: double.infinity,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          border: Border.all(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(
@@ -479,7 +479,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                             child: Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
+                                border: Border.all(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Row(
@@ -548,7 +548,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                             child: Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
+                                border: Border.all(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Row(
@@ -610,7 +610,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -646,7 +646,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                             onPressed: () => Navigator.pop(context),
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              side: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                              side: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),

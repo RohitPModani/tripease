@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:archive/archive.dart';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
@@ -8,10 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import '../models/export_data.dart';
-import '../models/trip.dart';
-import '../models/todo_item.dart';
-import '../models/booking.dart';
-import '../models/expense.dart';
 import '../models/document.dart';
 import '../repositories/trip_repository.dart';
 import '../repositories/todo_repository.dart';
@@ -32,7 +28,7 @@ class ImportService {
     String? password,
   }) async {
     try {
-      print('Import started: Reading file...');
+      developer.log('Import started: Reading file...');
       
       // Read the file
       final file = File(filePath);
@@ -44,11 +40,11 @@ class ImportService {
         throw Exception('Invalid file format. Expected .voy file');
       }
       
-      print('Import: Reading compressed data...');
+      developer.log('Import: Reading compressed data...');
       final compressedBytes = await file.readAsBytes();
       
       // Decompress the data
-      print('Import: Decompressing data...');
+      developer.log('Import: Decompressing data...');
       final tarBytes = GZipDecoder().decodeBytes(compressedBytes);
       final archive = TarDecoder().decodeBytes(tarBytes);
       
@@ -82,11 +78,11 @@ class ImportService {
         throw Exception('Invalid backup file: Missing data');
       }
       
-      print('Import: Validating backup file...');
-      print('Import: Backup created: ${metadata['created']}');
-      print('Import: App: ${metadata['app']}');
-      print('Import: Version: ${metadata['version']}');
-      print('Import: Encrypted: ${metadata['encrypted']}');
+      developer.log('Import: Validating backup file...');
+      developer.log('Import: Backup created: ${metadata['created']}');
+      developer.log('Import: App: ${metadata['app']}');
+      developer.log('Import: Version: ${metadata['version']}');
+      developer.log('Import: Encrypted: ${metadata['encrypted']}');
       
       // Verify this is a Voythrix backup
       final appTag = metadata['app']?.toString() ?? '';
@@ -106,7 +102,7 @@ class ImportService {
           throw Exception('Invalid backup file: Missing encryption information');
         }
         
-        print('Import: Decrypting data...');
+        developer.log('Import: Decrypting data...');
         try {
           final iv = IV.fromBase64(encryptionInfo['iv']);
           // Use Voythrix salt for decryption
@@ -127,23 +123,23 @@ class ImportService {
         if (expectedChecksum != actualChecksum) {
           throw Exception('Backup file is corrupted. Checksum verification failed.');
         }
-        print('Import: Checksum verified successfully');
+        developer.log('Import: Checksum verified successfully');
       }
       
       // Parse the JSON data
-      print('Import: Parsing backup data...');
+      developer.log('Import: Parsing backup data...');
       final exportData = ExportData.fromJsonString(jsonData);
       
-      print('Import: Found data:');
-      print('  Trips: ${exportData.trips.length}');
-      print('  Todos: ${exportData.todos.length}');
-      print('  Bookings: ${exportData.bookings.length}');
-      print('  Expenses: ${exportData.expenses.length}');
-      print('  Documents: ${exportData.documents.length}');
-      print('  Settings: ${exportData.settings.length} items');
+      developer.log('Import: Found data:');
+      developer.log('  Trips: ${exportData.trips.length}');
+      developer.log('  Todos: ${exportData.todos.length}');
+      developer.log('  Bookings: ${exportData.bookings.length}');
+      developer.log('  Expenses: ${exportData.expenses.length}');
+      developer.log('  Documents: ${exportData.documents.length}');
+      developer.log('  Settings: ${exportData.settings.length} items');
       
       // Extract document files first
-      print('Import: Extracting document files...');
+      developer.log('Import: Extracting document files...');
       final updatedDocuments = await _extractDocumentFiles(archive, exportData.documents);
       
       // Update export data with new file paths
@@ -171,12 +167,12 @@ class ImportService {
       // Import app settings
       await _importAppSettings(exportData.settings);
       
-      print('Import: Import completed successfully');
+      developer.log('Import: Import completed successfully');
       return updatedExportData;
       
     } catch (e, stackTrace) {
-      print('Import error: $e');
-      print('Stack trace: $stackTrace');
+      developer.log('Import error: $e');
+      developer.log('Stack trace: $stackTrace');
       throw Exception('Import failed: $e');
     }
   }
@@ -189,82 +185,82 @@ class ImportService {
     ExpenseRepository expenseRepository,
     DocumentRepository documentRepository,
   ) async {
-    print('Import: Starting database import...');
+    developer.log('Import: Starting database import...');
     
     // Import trips first with duplicate ID handling
-    print('Import: Importing ${exportData.trips.length} trips...');
+    developer.log('Import: Importing ${exportData.trips.length} trips...');
     for (final trip in exportData.trips) {
       try {
         final existingTrip = await tripRepository.getTripById(trip.id);
         if (existingTrip != null) {
           await tripRepository.updateTrip(trip);
-          print('Import: Updated existing trip ${trip.id}');
+          developer.log('Import: Updated existing trip ${trip.id}');
         } else {
           await tripRepository.createTrip(trip);
-          print('Import: Created new trip ${trip.id}');
+          developer.log('Import: Created new trip ${trip.id}');
         }
       } catch (e) {
-        print('Import: Warning - Failed to import trip ${trip.id}: $e');
+        developer.log('Import: Warning - Failed to import trip ${trip.id}: $e');
         // Continue with other trips
       }
     }
     
     // Import todos with duplicate ID handling
-    print('Import: Importing ${exportData.todos.length} todos...');
+    developer.log('Import: Importing ${exportData.todos.length} todos...');
     for (final todo in exportData.todos) {
       try {
         final existingTodo = await todoRepository.getTodoById(todo.id);
         if (existingTodo != null) {
           await todoRepository.updateTodo(todo);
-          print('Import: Updated existing todo ${todo.id}');
+          developer.log('Import: Updated existing todo ${todo.id}');
         } else {
           await todoRepository.createTodo(todo);
-          print('Import: Created new todo ${todo.id}');
+          developer.log('Import: Created new todo ${todo.id}');
         }
       } catch (e) {
-        print('Import: Warning - Failed to import todo ${todo.id}: $e');
+        developer.log('Import: Warning - Failed to import todo ${todo.id}: $e');
         // Continue with other todos
       }
     }
     
     // Import bookings with duplicate ID handling
-    print('Import: Importing ${exportData.bookings.length} bookings...');
+    developer.log('Import: Importing ${exportData.bookings.length} bookings...');
     for (final booking in exportData.bookings) {
       try {
         final existingBooking = await bookingRepository.getBookingById(booking.id);
         if (existingBooking != null) {
           await bookingRepository.updateBooking(booking);
-          print('Import: Updated existing booking ${booking.id}');
+          developer.log('Import: Updated existing booking ${booking.id}');
         } else {
           await bookingRepository.createBooking(booking);
-          print('Import: Created new booking ${booking.id}');
+          developer.log('Import: Created new booking ${booking.id}');
         }
       } catch (e) {
-        print('Import: Warning - Failed to import booking ${booking.id}: $e');
+        developer.log('Import: Warning - Failed to import booking ${booking.id}: $e');
         // Continue with other bookings
       }
     }
     
     // Import expenses with duplicate ID handling
-    print('Import: Importing ${exportData.expenses.length} expenses...');
+    developer.log('Import: Importing ${exportData.expenses.length} expenses...');
     for (final expense in exportData.expenses) {
       try {
         final existingExpense = await expenseRepository.getExpenseById(expense.id);
         if (existingExpense != null) {
           await expenseRepository.updateExpense(expense);
-          print('Import: Updated existing expense ${expense.id}');
+          developer.log('Import: Updated existing expense ${expense.id}');
         } else {
           await expenseRepository.createExpense(expense);
-          print('Import: Created new expense ${expense.id}');
+          developer.log('Import: Created new expense ${expense.id}');
         }
       } catch (e) {
-        print('Import: Warning - Failed to import expense ${expense.id}: $e');
+        developer.log('Import: Warning - Failed to import expense ${expense.id}: $e');
         // Continue with other expenses
       }
     }
     
     // Import documents with duplicate ID handling
-    print('Import: Importing ${exportData.documents.length} document records...');
+    developer.log('Import: Importing ${exportData.documents.length} document records...');
     for (final document in exportData.documents) {
       try {
         // Check if document with this ID already exists
@@ -272,23 +268,23 @@ class ImportService {
         if (existingDocument != null) {
           // Document exists, update it instead of creating
           await documentRepository.updateDocument(document);
-          print('Import: Updated existing document ${document.id}');
+          developer.log('Import: Updated existing document ${document.id}');
         } else {
           // Document doesn't exist, create new one
           await documentRepository.createDocument(document);
-          print('Import: Created new document ${document.id}');
+          developer.log('Import: Created new document ${document.id}');
         }
       } catch (e) {
-        print('Import: Warning - Failed to import document ${document.id}: $e');
+        developer.log('Import: Warning - Failed to import document ${document.id}: $e');
         // Continue with other documents
       }
     }
     
-    print('Import: Database import completed');
+    developer.log('Import: Database import completed');
   }
   
   static Future<void> _importAppSettings(Map<String, dynamic> settings) async {
-    print('Import: Importing app settings...');
+    developer.log('Import: Importing app settings...');
     final prefs = await SharedPreferences.getInstance();
     
     for (final entry in settings.entries) {
@@ -308,12 +304,12 @@ class ImportService {
           await prefs.setStringList(key, value);
         }
       } catch (e) {
-        print('Import: Warning - Failed to import setting ${entry.key}: $e');
+        developer.log('Import: Warning - Failed to import setting ${entry.key}: $e');
         // Continue with other settings
       }
     }
     
-    print('Import: App settings imported');
+    developer.log('Import: App settings imported');
   }
   
   static String _generateChecksum(String data) {
@@ -360,15 +356,15 @@ class ImportService {
         updatedDocuments.add(updatedDocument);
         
         extractedFiles++;
-        print('Import: Extracted document file: ${document.fileName}');
+        developer.log('Import: Extracted document file: ${document.fileName}');
       } catch (e) {
-        print('Import: Warning - Could not extract document file ${document.fileName}: $e');
+        developer.log('Import: Warning - Could not extract document file ${document.fileName}: $e');
         // Add document with original path (might not exist, but metadata is preserved)
         updatedDocuments.add(document);
       }
     }
     
-    print('Import: Extracted $extractedFiles document files');
+    developer.log('Import: Extracted $extractedFiles document files');
     return updatedDocuments;
   }
   

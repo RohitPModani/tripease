@@ -34,8 +34,8 @@ class TripCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: isDark 
-                ? Colors.black.withOpacity(0.3)
-                : AppTheme.primaryColor.withOpacity(0.1),
+                ? Colors.black.withValues(alpha: 0.3)
+                : AppTheme.primaryColor.withValues(alpha: 0.1),
             offset: const Offset(0, 8),
             blurRadius: 24,
             spreadRadius: 0,
@@ -135,7 +135,7 @@ class TripCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppTheme.primaryColor.withOpacity(0.1),
+              color: AppTheme.primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: const Icon(
@@ -159,10 +159,10 @@ class TripCard extends StatelessWidget {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: color.withOpacity(0.3),
+              color: color.withValues(alpha: 0.3),
               width: 1,
             ),
           ),
@@ -190,7 +190,7 @@ class TripCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: AppTheme.textSecondary.withOpacity(0.1),
+              color: AppTheme.textSecondary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
@@ -214,7 +214,7 @@ class TripCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppTheme.secondaryColor.withOpacity(0.1),
+        color: AppTheme.secondaryColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -237,7 +237,7 @@ class TripCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-              color: AppTheme.secondaryColor.withOpacity(0.2),
+              color: AppTheme.secondaryColor.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
@@ -259,7 +259,7 @@ class TripCard extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: AppTheme.success.withOpacity(0.1),
+          color: AppTheme.success.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
@@ -288,7 +288,7 @@ class TripCard extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: AppTheme.textSecondary.withOpacity(0.1),
+          color: AppTheme.textSecondary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
@@ -314,7 +314,7 @@ class TripCard extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: AppTheme.accentColor.withOpacity(0.1),
+          color: AppTheme.accentColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
@@ -346,16 +346,16 @@ class TripCard extends StatelessWidget {
   Color _getBorderColor(bool isDark) {
     if (trip.isActive) {
       // Active trips - green border
-      return AppTheme.success.withOpacity(isDark ? 0.6 : 0.4);
+      return AppTheme.success.withValues(alpha: isDark ? 0.6 : 0.4);
     } else if (trip.isCompleted) {
       // Completed trips - gray border
-      return AppTheme.textSecondary.withOpacity(isDark ? 0.4 : 0.3);
+      return AppTheme.textSecondary.withValues(alpha: isDark ? 0.4 : 0.3);
     } else if (trip.daysUntilStart <= 7) {
       // Upcoming trips (within 7 days) - accent color border
-      return AppTheme.accentColor.withOpacity(isDark ? 0.6 : 0.4);
+      return AppTheme.accentColor.withValues(alpha: isDark ? 0.6 : 0.4);
     } else {
       // Other upcoming trips - primary color border
-      return AppTheme.primaryColor.withOpacity(isDark ? 0.4 : 0.3);
+      return AppTheme.primaryColor.withValues(alpha: isDark ? 0.4 : 0.3);
     }
   }
 

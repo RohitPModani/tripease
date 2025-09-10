@@ -183,7 +183,7 @@ class _TodoTabState extends State<TodoTab> {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.primaryColor.withOpacity(0.1),
+                color: AppTheme.primaryColor.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -321,12 +321,12 @@ class _TodoTabState extends State<TodoTab> {
               : AppTheme.surfaceLight,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: _getPriorityColor(todo.priority).withOpacity(0.3),
+            color: _getPriorityColor(todo.priority).withValues(alpha: 0.3),
             width: 1.5,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               offset: const Offset(0, 2),
               blurRadius: 8,
               spreadRadius: 0,
@@ -367,10 +367,10 @@ class _TodoTabState extends State<TodoTab> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: _getPriorityColor(todo.priority).withOpacity(0.1),
+                    color: _getPriorityColor(todo.priority).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: _getPriorityColor(todo.priority).withOpacity(0.3),
+                      color: _getPriorityColor(todo.priority).withValues(alpha: 0.3),
                     ),
                   ),
                   child: Text(
@@ -434,7 +434,7 @@ class _TodoTabState extends State<TodoTab> {
               decoration: BoxDecoration(
                 color: (Theme.of(context).brightness == Brightness.dark
                     ? AppTheme.textSecondaryDark
-                    : AppTheme.textSecondary).withOpacity(0.3),
+                    : AppTheme.textSecondary).withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -449,7 +449,7 @@ class _TodoTabState extends State<TodoTab> {
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: AppTheme.primaryColor.withOpacity(0.1),
+                              color: AppTheme.primaryColor.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: const Icon(
@@ -529,10 +529,10 @@ class _TodoTabState extends State<TodoTab> {
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                   decoration: BoxDecoration(
-                                    color: _getPriorityColor(todo.priority).withOpacity(0.1),
+                                    color: _getPriorityColor(todo.priority).withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(
-                                      color: _getPriorityColor(todo.priority).withOpacity(0.3),
+                                      color: _getPriorityColor(todo.priority).withValues(alpha: 0.3),
                                     ),
                                   ),
                                   child: Text(
@@ -724,7 +724,7 @@ class _TodoTabState extends State<TodoTab> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryColor.withOpacity(0.1),
+            color: AppTheme.primaryColor.withValues(alpha: 0.1),
             offset: const Offset(0, 4),
             blurRadius: 12,
             spreadRadius: 0,
@@ -780,7 +780,7 @@ class _TodoTabState extends State<TodoTab> {
                   _selectedPriority = null;
                 });
               },
-              selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+              selectedColor: AppTheme.primaryColor.withValues(alpha: 0.2),
               checkmarkColor: AppTheme.primaryColor,
               labelStyle: TextStyle(
                 color: _selectedPriority == null ? AppTheme.primaryColor : null,
@@ -796,7 +796,7 @@ class _TodoTabState extends State<TodoTab> {
                   _selectedPriority = selected ? Priority.urgent : null;
                 });
               },
-              selectedColor: _getPriorityColor(Priority.urgent).withOpacity(0.2),
+              selectedColor: _getPriorityColor(Priority.urgent).withValues(alpha: 0.2),
               checkmarkColor: _getPriorityColor(Priority.urgent),
               labelStyle: TextStyle(
                 color: _selectedPriority == Priority.urgent ? _getPriorityColor(Priority.urgent) : null,
@@ -812,7 +812,7 @@ class _TodoTabState extends State<TodoTab> {
                   _selectedPriority = selected ? Priority.high : null;
                 });
               },
-              selectedColor: _getPriorityColor(Priority.high).withOpacity(0.2),
+              selectedColor: _getPriorityColor(Priority.high).withValues(alpha: 0.2),
               checkmarkColor: _getPriorityColor(Priority.high),
               labelStyle: TextStyle(
                 color: _selectedPriority == Priority.high ? _getPriorityColor(Priority.high) : null,
@@ -828,7 +828,7 @@ class _TodoTabState extends State<TodoTab> {
                   _selectedPriority = selected ? Priority.medium : null;
                 });
               },
-              selectedColor: _getPriorityColor(Priority.medium).withOpacity(0.2),
+              selectedColor: _getPriorityColor(Priority.medium).withValues(alpha: 0.2),
               checkmarkColor: _getPriorityColor(Priority.medium),
               labelStyle: TextStyle(
                 color: _selectedPriority == Priority.medium ? _getPriorityColor(Priority.medium) : null,
@@ -844,7 +844,7 @@ class _TodoTabState extends State<TodoTab> {
                   _selectedPriority = selected ? Priority.low : null;
                 });
               },
-              selectedColor: _getPriorityColor(Priority.low).withOpacity(0.2),
+              selectedColor: _getPriorityColor(Priority.low).withValues(alpha: 0.2),
               checkmarkColor: _getPriorityColor(Priority.low),
               labelStyle: TextStyle(
                 color: _selectedPriority == Priority.low ? _getPriorityColor(Priority.low) : null,
@@ -917,7 +917,7 @@ class _TodoTabState extends State<TodoTab> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppTheme.error.withOpacity(0.1),
+                  color: AppTheme.error.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(

@@ -137,7 +137,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: AppTheme.textSecondary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -206,7 +206,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: AppTheme.primaryColor.withOpacity(0.1),
+                    color: AppTheme.primaryColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(icon, color: AppTheme.primaryColor, size: 24),
@@ -432,7 +432,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: AppTheme.textSecondary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -450,7 +450,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: AppTheme.secondaryColor.withOpacity(0.1),
+                            color: AppTheme.secondaryColor.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Icon(
@@ -486,7 +486,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -525,7 +525,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -572,7 +572,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -618,7 +618,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -663,7 +663,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -701,7 +701,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -724,7 +724,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         labelStyle: TextStyle(color: AppTheme.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -789,7 +789,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         width: double.infinity,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
+                          border: Border.all(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(
@@ -831,7 +831,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
+                        border: Border.all(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Column(
@@ -872,10 +872,10 @@ class _BookingFormModalState extends State<BookingFormModal> {
                                 margin: const EdgeInsets.only(bottom: 8),
                                 padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
-                                  color: AppTheme.primaryColor.withOpacity(0.05),
+                                  color: AppTheme.primaryColor.withValues(alpha: 0.05),
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                    color: AppTheme.primaryColor.withOpacity(0.2),
+                                    color: AppTheme.primaryColor.withValues(alpha: 0.2),
                                   ),
                                 ),
                                 child: Row(
@@ -921,7 +921,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                                   ],
                                 ),
                               );
-                            }).toList(),
+                            }),
                           ] else
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8),
@@ -944,7 +944,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                             onPressed: () => Navigator.pop(context),
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              side: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                              side: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),

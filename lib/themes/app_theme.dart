@@ -144,7 +144,7 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         elevation: 8,
-        shadowColor: primaryColor.withOpacity(0.1),
+        shadowColor: primaryColor.withValues(alpha: 0.1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -155,7 +155,7 @@ class AppTheme {
           backgroundColor: primaryColor,
           foregroundColor: textLight,
           elevation: 6,
-          shadowColor: primaryColor.withOpacity(0.3),
+          shadowColor: primaryColor.withValues(alpha: 0.3),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -171,11 +171,11 @@ class AppTheme {
         fillColor: surfaceLight,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: textSecondary.withOpacity(0.3)),
+          borderSide: BorderSide(color: textSecondary.withValues(alpha: 0.3)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: textSecondary.withOpacity(0.3)),
+          borderSide: BorderSide(color: textSecondary.withValues(alpha: 0.3)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -222,10 +222,10 @@ class AppTheme {
         type: BottomNavigationBarType.fixed,
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: primaryColor.withOpacity(0.1),
+        backgroundColor: primaryColor.withValues(alpha: 0.1),
         selectedColor: primaryColor,
         deleteIconColor: textSecondaryDark,
-        disabledColor: textSecondaryDark.withOpacity(0.3),
+        disabledColor: textSecondaryDark.withValues(alpha: 0.3),
         labelStyle: GoogleFonts.poppins(
           fontSize: 12,
           fontWeight: FontWeight.w500,
@@ -351,7 +351,7 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         elevation: 8,
-        shadowColor: Colors.black.withOpacity(0.3),
+        shadowColor: Colors.black.withValues(alpha: 0.3),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -362,7 +362,7 @@ class AppTheme {
           backgroundColor: primaryColor,
           foregroundColor: textLight,
           elevation: 6,
-          shadowColor: primaryColor.withOpacity(0.3),
+          shadowColor: primaryColor.withValues(alpha: 0.3),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -378,11 +378,11 @@ class AppTheme {
         fillColor: surfaceDark,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: textSecondary.withOpacity(0.3)),
+          borderSide: BorderSide(color: textSecondary.withValues(alpha: 0.3)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: textSecondary.withOpacity(0.3)),
+          borderSide: BorderSide(color: textSecondary.withValues(alpha: 0.3)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -429,10 +429,10 @@ class AppTheme {
         type: BottomNavigationBarType.fixed,
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: primaryColor.withOpacity(0.1),
+        backgroundColor: primaryColor.withValues(alpha: 0.1),
         selectedColor: primaryColor,
         deleteIconColor: textSecondaryDark,
-        disabledColor: textSecondaryDark.withOpacity(0.3),
+        disabledColor: textSecondaryDark.withValues(alpha: 0.3),
         labelStyle: GoogleFonts.poppins(
           fontSize: 12,
           fontWeight: FontWeight.w500,
@@ -456,7 +456,7 @@ class AppTheme {
     borderRadius: BorderRadius.circular(16),
     boxShadow: [
       BoxShadow(
-        color: primaryColor.withOpacity(0.1),
+        color: primaryColor.withValues(alpha: 0.1),
         offset: const Offset(0, 8),
         blurRadius: 24,
         spreadRadius: 0,
@@ -469,7 +469,7 @@ class AppTheme {
     borderRadius: BorderRadius.circular(16),
     boxShadow: [
       BoxShadow(
-        color: Colors.black.withOpacity(0.3),
+        color: Colors.black.withValues(alpha: 0.3),
         offset: const Offset(0, 8),
         blurRadius: 24,
         spreadRadius: 0,
@@ -482,7 +482,7 @@ class AppTheme {
     borderRadius: BorderRadius.circular(12),
     boxShadow: [
       BoxShadow(
-        color: primaryColor.withOpacity(0.4),
+        color: primaryColor.withValues(alpha: 0.4),
         offset: const Offset(0, 4),
         blurRadius: 16,
         spreadRadius: 0,

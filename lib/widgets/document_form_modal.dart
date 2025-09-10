@@ -115,7 +115,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: AppTheme.textSecondary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -184,7 +184,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: AppTheme.primaryColor.withOpacity(0.1),
+                    color: AppTheme.primaryColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(icon, color: AppTheme.primaryColor, size: 24),
@@ -278,7 +278,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
   }
 
   String _formatFileSize(int bytes) {
-    if (bytes < 1024) return '${bytes} B';
+    if (bytes < 1024) return '$bytes B';
     if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(1)} KB';
     return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
   }
@@ -379,7 +379,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppTheme.textSecondary.withOpacity(0.3),
+                    color: AppTheme.textSecondary.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -422,7 +422,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: AppTheme.primaryColor.withOpacity(0.1),
+            color: AppTheme.primaryColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(
@@ -459,7 +459,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
       ).copyWith(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -507,7 +507,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         labelStyle: TextStyle(color: AppTheme.textSecondary),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -547,7 +547,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
       ).copyWith(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -585,7 +585,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         border: Border.all(
           color: fileError != null 
               ? AppTheme.error 
-              : AppTheme.textSecondary.withOpacity(0.3),
+              : AppTheme.textSecondary.withValues(alpha: 0.3),
         ),
         borderRadius: BorderRadius.circular(12),
       ),
@@ -623,10 +623,10 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppTheme.primaryColor.withOpacity(0.05),
+                color: AppTheme.primaryColor.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: AppTheme.primaryColor.withOpacity(0.2),
+                  color: AppTheme.primaryColor.withValues(alpha: 0.2),
                 ),
               ),
               child: Row(
@@ -719,7 +719,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
             onPressed: () => Navigator.pop(context),
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 16),
-              side: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+              side: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),

@@ -22,7 +22,7 @@ class QuickStatsCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppTheme.primaryColor.withOpacity(0.1),
+                    color: AppTheme.primaryColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
@@ -55,7 +55,7 @@ class QuickStatsCard extends StatelessWidget {
                 Container(
                   width: 1,
                   height: 40,
-                  color: AppTheme.textSecondary.withOpacity(0.2),
+                  color: AppTheme.textSecondary.withValues(alpha: 0.2),
                 ),
                 Expanded(
                   child: _buildStatItem(
@@ -69,7 +69,7 @@ class QuickStatsCard extends StatelessWidget {
                 Container(
                   width: 1,
                   height: 40,
-                  color: AppTheme.textSecondary.withOpacity(0.2),
+                  color: AppTheme.textSecondary.withValues(alpha: 0.2),
                 ),
                 Expanded(
                   child: _buildStatItem(
@@ -86,7 +86,7 @@ class QuickStatsCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppTheme.accentColor.withOpacity(0.1),
+                color: AppTheme.accentColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(

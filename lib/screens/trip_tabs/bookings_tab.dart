@@ -159,7 +159,7 @@ class _BookingsTabState extends State<BookingsTab> {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.secondaryColor.withOpacity(0.1),
+                color: AppTheme.secondaryColor.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -297,12 +297,12 @@ class _BookingsTabState extends State<BookingsTab> {
               : AppTheme.surfaceLight,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: _getTypeColor(booking.type).withOpacity(0.3),
+            color: _getTypeColor(booking.type).withValues(alpha: 0.3),
             width: 1.5,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               offset: const Offset(0, 2),
               blurRadius: 8,
               spreadRadius: 0,
@@ -319,7 +319,7 @@ class _BookingsTabState extends State<BookingsTab> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: _getTypeColor(booking.type).withOpacity(0.1),
+                    color: _getTypeColor(booking.type).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
@@ -386,10 +386,10 @@ class _BookingsTabState extends State<BookingsTab> {
                       Container(
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                          color: AppTheme.primaryColor.withOpacity(0.1),
+                          color: AppTheme.primaryColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(6),
                           border: Border.all(
-                            color: AppTheme.primaryColor.withOpacity(0.3),
+                            color: AppTheme.primaryColor.withValues(alpha: 0.3),
                           ),
                         ),
                         child: Icon(
@@ -403,10 +403,10 @@ class _BookingsTabState extends State<BookingsTab> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: _getStatusColor(booking.status).withOpacity(0.1),
+                        color: _getStatusColor(booking.status).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: _getStatusColor(booking.status).withOpacity(0.3),
+                          color: _getStatusColor(booking.status).withValues(alpha: 0.3),
                         ),
                       ),
                       child: Text(
@@ -455,7 +455,7 @@ class _BookingsTabState extends State<BookingsTab> {
               decoration: BoxDecoration(
                 color: (Theme.of(context).brightness == Brightness.dark
                     ? AppTheme.textSecondaryDark
-                    : AppTheme.textSecondary).withOpacity(0.3),
+                    : AppTheme.textSecondary).withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -470,7 +470,7 @@ class _BookingsTabState extends State<BookingsTab> {
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: _getTypeColor(booking.type).withOpacity(0.1),
+                            color: _getTypeColor(booking.type).withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Icon(
@@ -550,10 +550,10 @@ class _BookingsTabState extends State<BookingsTab> {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                 decoration: BoxDecoration(
-                                  color: _getStatusColor(booking.status).withOpacity(0.1),
+                                  color: _getStatusColor(booking.status).withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                    color: _getStatusColor(booking.status).withOpacity(0.3),
+                                    color: _getStatusColor(booking.status).withValues(alpha: 0.3),
                                   ),
                                 ),
                                 child: Text(
@@ -660,10 +660,10 @@ class _BookingsTabState extends State<BookingsTab> {
                           margin: const EdgeInsets.only(bottom: 8),
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: AppTheme.primaryColor.withOpacity(0.05),
+                            color: AppTheme.primaryColor.withValues(alpha: 0.05),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: AppTheme.primaryColor.withOpacity(0.2),
+                              color: AppTheme.primaryColor.withValues(alpha: 0.2),
                             ),
                           ),
                           child: Row(
@@ -730,7 +730,7 @@ class _BookingsTabState extends State<BookingsTab> {
                             ],
                           ),
                         );
-                      }).toList(),
+                      }),
                     ],
                     const SizedBox(height: 24),
                     Row(
@@ -871,7 +871,7 @@ class _BookingsTabState extends State<BookingsTab> {
               decoration: BoxDecoration(
                 color: (Theme.of(context).brightness == Brightness.dark
                     ? AppTheme.textSecondaryDark
-                    : AppTheme.textSecondary).withOpacity(0.3),
+                    : AppTheme.textSecondary).withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -885,7 +885,7 @@ class _BookingsTabState extends State<BookingsTab> {
               leading: Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryColor.withOpacity(0.1),
+                  color: AppTheme.primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(Iconsax.gallery, color: AppTheme.primaryColor),
@@ -902,7 +902,7 @@ class _BookingsTabState extends State<BookingsTab> {
               leading: Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppTheme.secondaryColor.withOpacity(0.1),
+                  color: AppTheme.secondaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(Iconsax.folder, color: AppTheme.secondaryColor),
@@ -1031,7 +1031,7 @@ class _BookingsTabState extends State<BookingsTab> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryColor.withOpacity(0.1),
+            color: AppTheme.primaryColor.withValues(alpha: 0.1),
             offset: const Offset(0, 4),
             blurRadius: 12,
             spreadRadius: 0,
@@ -1089,7 +1089,7 @@ class _BookingsTabState extends State<BookingsTab> {
                   _selectedType = null;
                 });
               },
-              selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+              selectedColor: AppTheme.primaryColor.withValues(alpha: 0.2),
               checkmarkColor: AppTheme.primaryColor,
               labelStyle: TextStyle(
                 color: _selectedType == null ? AppTheme.primaryColor : null,
@@ -1105,7 +1105,7 @@ class _BookingsTabState extends State<BookingsTab> {
                   _selectedType = selected ? BookingType.flight : null;
                 });
               },
-              selectedColor: _getTypeColor(BookingType.flight).withOpacity(0.2),
+              selectedColor: _getTypeColor(BookingType.flight).withValues(alpha: 0.2),
               checkmarkColor: _getTypeColor(BookingType.flight),
               labelStyle: TextStyle(
                 color: _selectedType == BookingType.flight ? _getTypeColor(BookingType.flight) : null,
@@ -1121,7 +1121,7 @@ class _BookingsTabState extends State<BookingsTab> {
                   _selectedType = selected ? BookingType.hotel : null;
                 });
               },
-              selectedColor: _getTypeColor(BookingType.hotel).withOpacity(0.2),
+              selectedColor: _getTypeColor(BookingType.hotel).withValues(alpha: 0.2),
               checkmarkColor: _getTypeColor(BookingType.hotel),
               labelStyle: TextStyle(
                 color: _selectedType == BookingType.hotel ? _getTypeColor(BookingType.hotel) : null,
@@ -1137,7 +1137,7 @@ class _BookingsTabState extends State<BookingsTab> {
                   _selectedType = selected ? BookingType.activity : null;
                 });
               },
-              selectedColor: _getTypeColor(BookingType.activity).withOpacity(0.2),
+              selectedColor: _getTypeColor(BookingType.activity).withValues(alpha: 0.2),
               checkmarkColor: _getTypeColor(BookingType.activity),
               labelStyle: TextStyle(
                 color: _selectedType == BookingType.activity ? _getTypeColor(BookingType.activity) : null,
@@ -1153,7 +1153,7 @@ class _BookingsTabState extends State<BookingsTab> {
                   _selectedType = selected ? BookingType.transport : null;
                 });
               },
-              selectedColor: _getTypeColor(BookingType.transport).withOpacity(0.2),
+              selectedColor: _getTypeColor(BookingType.transport).withValues(alpha: 0.2),
               checkmarkColor: _getTypeColor(BookingType.transport),
               labelStyle: TextStyle(
                 color: _selectedType == BookingType.transport ? _getTypeColor(BookingType.transport) : null,
@@ -1169,7 +1169,7 @@ class _BookingsTabState extends State<BookingsTab> {
                   _selectedType = selected ? BookingType.restaurant : null;
                 });
               },
-              selectedColor: _getTypeColor(BookingType.restaurant).withOpacity(0.2),
+              selectedColor: _getTypeColor(BookingType.restaurant).withValues(alpha: 0.2),
               checkmarkColor: _getTypeColor(BookingType.restaurant),
               labelStyle: TextStyle(
                 color: _selectedType == BookingType.restaurant ? _getTypeColor(BookingType.restaurant) : null,
@@ -1185,7 +1185,7 @@ class _BookingsTabState extends State<BookingsTab> {
                   _selectedType = selected ? BookingType.other : null;
                 });
               },
-              selectedColor: _getTypeColor(BookingType.other).withOpacity(0.2),
+              selectedColor: _getTypeColor(BookingType.other).withValues(alpha: 0.2),
               checkmarkColor: _getTypeColor(BookingType.other),
               labelStyle: TextStyle(
                 color: _selectedType == BookingType.other ? _getTypeColor(BookingType.other) : null,
@@ -1258,7 +1258,7 @@ class _BookingsTabState extends State<BookingsTab> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppTheme.error.withOpacity(0.1),
+                  color: AppTheme.error.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(

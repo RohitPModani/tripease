@@ -95,16 +95,16 @@ class _MainScreenState extends State<MainScreen> {
           boxShadow: [
             BoxShadow(
               color: isDark 
-                  ? Colors.black.withOpacity(0.4)
-                  : AppTheme.primaryColor.withOpacity(0.08),
+                  ? Colors.black.withValues(alpha: 0.4)
+                  : AppTheme.primaryColor.withValues(alpha: 0.08),
               offset: const Offset(0, -8),
               blurRadius: 32,
               spreadRadius: 0,
             ),
             BoxShadow(
               color: isDark 
-                  ? Colors.black.withOpacity(0.2)
-                  : AppTheme.primaryColor.withOpacity(0.04),
+                  ? Colors.black.withValues(alpha: 0.2)
+                  : AppTheme.primaryColor.withValues(alpha: 0.04),
               offset: const Offset(0, -2),
               blurRadius: 8,
               spreadRadius: 0,
@@ -142,20 +142,20 @@ class _MainScreenState extends State<MainScreen> {
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      AppTheme.primaryColor.withOpacity(0.15),
-                                      AppTheme.primaryColor.withOpacity(0.08),
+                                      AppTheme.primaryColor.withValues(alpha: 0.15),
+                                      AppTheme.primaryColor.withValues(alpha: 0.08),
                                     ],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                   ),
                                   borderRadius: BorderRadius.circular(16),
                                   border: Border.all(
-                                    color: AppTheme.primaryColor.withOpacity(0.2),
+                                    color: AppTheme.primaryColor.withValues(alpha: 0.2),
                                     width: 1,
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: AppTheme.primaryColor.withOpacity(0.2),
+                                      color: AppTheme.primaryColor.withValues(alpha: 0.2),
                                       offset: const Offset(0, 2),
                                       blurRadius: 8,
                                       spreadRadius: 0,
@@ -203,7 +203,7 @@ class _MainScreenState extends State<MainScreen> {
                                   child: Icon(
                                     _icons[index],
                                     size: 26,
-                                    color: color.withOpacity(0.7),
+                                    color: color.withValues(alpha: 0.7),
                                   ),
                                 ),
                               ),

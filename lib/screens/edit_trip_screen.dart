@@ -44,10 +44,10 @@ class _EditTripScreenState extends State<EditTripScreen> {
   late final FocusNode _descriptionFocusNode;
   late final FocusNode _destinationFocusNode;
 
-  List<String> _destinations = [];
+  late List<String> _destinations;
   DateTime? _startDate;
   DateTime? _endDate;
-  DateRangePickerController _dateRangeController = DateRangePickerController();
+  final DateRangePickerController _dateRangeController = DateRangePickerController();
   String _selectedCurrency = 'USD';
   bool _isLoading = false;
   bool _showDatePicker = false;
@@ -238,7 +238,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppTheme.textSecondary.withOpacity(0.3),
+                  color: AppTheme.textSecondary.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -282,7 +282,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: AppTheme.primaryColor.withOpacity(0.1),
+            color: AppTheme.primaryColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
           ),
           child: const Icon(
@@ -323,7 +323,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: AppTheme.textSecondary.withValues(alpha: 0.3),
               ),
             ),
             focusedBorder: OutlineInputBorder(
@@ -383,7 +383,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(
-                          color: AppTheme.textSecondary.withOpacity(0.3),
+                          color: AppTheme.textSecondary.withValues(alpha: 0.3),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -448,7 +448,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
               border: Border.all(
                 color: _showDatePicker
                     ? AppTheme.primaryColor
-                    : AppTheme.textSecondary.withOpacity(0.3),
+                    : AppTheme.textSecondary.withValues(alpha: 0.3),
                 width: _showDatePicker ? 2 : 1,
               ),
               borderRadius: BorderRadius.circular(12),
@@ -507,7 +507,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
           const SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: AppTheme.primaryColor.withOpacity(0.2)),
+              border: Border.all(color: AppTheme.primaryColor.withValues(alpha: 0.2)),
               borderRadius: BorderRadius.circular(12),
             ),
             child: ClipRRect(
@@ -518,7 +518,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                 selectionMode: DateRangePickerSelectionMode.range,
                 startRangeSelectionColor: AppTheme.primaryColor,
                 endRangeSelectionColor: AppTheme.primaryColor,
-                rangeSelectionColor: AppTheme.primaryColor.withOpacity(0.1),
+                rangeSelectionColor: AppTheme.primaryColor.withValues(alpha: 0.1),
                 todayHighlightColor: AppTheme.primaryColor,
                 selectionTextStyle: const TextStyle(
                   color: Colors.white,
@@ -548,7 +548,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                     fontWeight: FontWeight.w600,
                   ),
                   disabledDatesTextStyle: TextStyle(
-                    color: AppTheme.textSecondary.withOpacity(0.5),
+                    color: AppTheme.textSecondary.withValues(alpha: 0.5),
                   ),
                 ),
                 headerStyle: DateRangePickerHeaderStyle(
@@ -567,10 +567,10 @@ class _EditTripScreenState extends State<EditTripScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryColor.withOpacity(0.1),
+                  color: AppTheme.primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: AppTheme.primaryColor.withOpacity(0.3),
+                    color: AppTheme.primaryColor.withValues(alpha: 0.3),
                   ),
                 ),
                 child: Row(
@@ -602,9 +602,9 @@ class _EditTripScreenState extends State<EditTripScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: AppTheme.primaryColor.withOpacity(0.1),
+        color: AppTheme.primaryColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppTheme.primaryColor.withOpacity(0.3)),
+        border: Border.all(color: AppTheme.primaryColor.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -644,7 +644,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: AppTheme.textSecondary.withOpacity(0.3),
+            color: AppTheme.textSecondary.withValues(alpha: 0.3),
           ),
         ),
         focusedBorder: OutlineInputBorder(
@@ -691,7 +691,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
-                color: AppTheme.textSecondary.withOpacity(0.3),
+                color: AppTheme.textSecondary.withValues(alpha: 0.3),
               ),
             ),
             focusedBorder: OutlineInputBorder(
@@ -734,7 +734,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
             onPressed: () => Navigator.pop(context),
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 16),
-              side: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+              side: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),

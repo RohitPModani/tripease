@@ -133,7 +133,7 @@ class _TodoFormModalState extends State<TodoFormModal> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppTheme.textSecondary.withOpacity(0.3),
+              color: AppTheme.textSecondary.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -149,7 +149,7 @@ class _TodoFormModalState extends State<TodoFormModal> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: AppTheme.primaryColor.withOpacity(0.1),
+                          color: AppTheme.primaryColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Icon(
@@ -189,7 +189,7 @@ class _TodoFormModalState extends State<TodoFormModal> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(
-                          color: AppTheme.textSecondary.withOpacity(0.3),
+                          color: AppTheme.textSecondary.withValues(alpha: 0.3),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -251,7 +251,7 @@ class _TodoFormModalState extends State<TodoFormModal> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(
-                          color: AppTheme.textSecondary.withOpacity(0.3),
+                          color: AppTheme.textSecondary.withValues(alpha: 0.3),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -303,7 +303,7 @@ class _TodoFormModalState extends State<TodoFormModal> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(
-                          color: AppTheme.textSecondary.withOpacity(0.3),
+                          color: AppTheme.textSecondary.withValues(alpha: 0.3),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -376,7 +376,7 @@ class _TodoFormModalState extends State<TodoFormModal> {
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: AppTheme.textSecondary.withOpacity(0.3),
+                          color: AppTheme.textSecondary.withValues(alpha: 0.3),
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -431,7 +431,7 @@ class _TodoFormModalState extends State<TodoFormModal> {
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             side: BorderSide(
-                              color: AppTheme.textSecondary.withOpacity(0.3),
+                              color: AppTheme.textSecondary.withValues(alpha: 0.3),
                             ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -497,16 +497,20 @@ class _TodoFormModalState extends State<TodoFormModal> {
                                     listen: false,
                                   ).createTodo(todoItem);
                                 }
-                                Navigator.pop(context);
+                                if (mounted) {
+                                  Navigator.pop(context);
+                                }
                               } catch (e) {
-                                showAppSnackBar(
-                                  context,
-                                  AppLocalizations.of(context)!.failedToAddUpdateTask(
-                                    isEdit ? 'update' : 'add',
-                                    e.toString(),
-                                  ),
-                                  type: SnackBarType.error,
-                                );
+                                if (mounted) {
+                                  showAppSnackBar(
+                                    context,
+                                    AppLocalizations.of(context)!.failedToAddUpdateTask(
+                                      isEdit ? 'update' : 'add',
+                                      e.toString(),
+                                    ),
+                                    type: SnackBarType.error,
+                                  );
+                                }
                               }
                     },
                             style: ElevatedButton.styleFrom(

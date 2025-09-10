@@ -170,7 +170,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             offset: const Offset(0, 4),
             blurRadius: 12,
             spreadRadius: 0,
@@ -200,7 +200,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppTheme.accentColor.withOpacity(0.1),
+                    color: AppTheme.accentColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
@@ -304,7 +304,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.accentColor.withOpacity(0.1),
+                color: AppTheme.accentColor.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -442,12 +442,12 @@ class _ExpensesTabState extends State<ExpensesTab> {
               : AppTheme.surfaceLight,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: _getCategoryColor(expense.category).withOpacity(0.3),
+            color: _getCategoryColor(expense.category).withValues(alpha: 0.3),
             width: 1.5,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               offset: const Offset(0, 2),
               blurRadius: 8,
               spreadRadius: 0,
@@ -460,7 +460,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
           leading: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: _getCategoryColor(expense.category).withOpacity(0.1),
+              color: _getCategoryColor(expense.category).withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
@@ -484,10 +484,10 @@ class _ExpensesTabState extends State<ExpensesTab> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: _getCategoryColor(expense.category).withOpacity(0.1),
+                    color: _getCategoryColor(expense.category).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: _getCategoryColor(expense.category).withOpacity(0.3),
+                      color: _getCategoryColor(expense.category).withValues(alpha: 0.3),
                     ),
                   ),
                   child: Text(
@@ -616,7 +616,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
               decoration: BoxDecoration(
                 color: (Theme.of(context).brightness == Brightness.dark
                     ? AppTheme.textSecondaryDark
-                    : AppTheme.textSecondary).withOpacity(0.3),
+                    : AppTheme.textSecondary).withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -631,7 +631,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: _getCategoryColor(expense.category).withOpacity(0.1),
+                            color: _getCategoryColor(expense.category).withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Icon(
@@ -933,7 +933,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppTheme.error.withOpacity(0.1),
+                  color: AppTheme.error.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -1008,7 +1008,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     _selectedCategory = null;
                   });
                 },
-                selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                selectedColor: AppTheme.primaryColor.withValues(alpha: 0.2),
                 checkmarkColor: AppTheme.primaryColor,
                 labelStyle: TextStyle(
                   color: _selectedCategory == null ? AppTheme.primaryColor : null,
@@ -1024,7 +1024,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     _selectedCategory = selected ? ExpenseCategory.transport : null;
                   });
                 },
-                selectedColor: _getCategoryColor(ExpenseCategory.transport).withOpacity(0.2),
+                selectedColor: _getCategoryColor(ExpenseCategory.transport).withValues(alpha: 0.2),
                 checkmarkColor: _getCategoryColor(ExpenseCategory.transport),
                 labelStyle: TextStyle(
                   color: _selectedCategory == ExpenseCategory.transport ? _getCategoryColor(ExpenseCategory.transport) : null,
@@ -1040,7 +1040,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     _selectedCategory = selected ? ExpenseCategory.accommodation : null;
                   });
                 },
-                selectedColor: _getCategoryColor(ExpenseCategory.accommodation).withOpacity(0.2),
+                selectedColor: _getCategoryColor(ExpenseCategory.accommodation).withValues(alpha: 0.2),
                 checkmarkColor: _getCategoryColor(ExpenseCategory.accommodation),
                 labelStyle: TextStyle(
                   color: _selectedCategory == ExpenseCategory.accommodation ? _getCategoryColor(ExpenseCategory.accommodation) : null,
@@ -1056,7 +1056,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     _selectedCategory = selected ? ExpenseCategory.food : null;
                   });
                 },
-                selectedColor: _getCategoryColor(ExpenseCategory.food).withOpacity(0.2),
+                selectedColor: _getCategoryColor(ExpenseCategory.food).withValues(alpha: 0.2),
                 checkmarkColor: _getCategoryColor(ExpenseCategory.food),
                 labelStyle: TextStyle(
                   color: _selectedCategory == ExpenseCategory.food ? _getCategoryColor(ExpenseCategory.food) : null,
@@ -1072,7 +1072,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     _selectedCategory = selected ? ExpenseCategory.activities : null;
                   });
                 },
-                selectedColor: _getCategoryColor(ExpenseCategory.activities).withOpacity(0.2),
+                selectedColor: _getCategoryColor(ExpenseCategory.activities).withValues(alpha: 0.2),
                 checkmarkColor: _getCategoryColor(ExpenseCategory.activities),
                 labelStyle: TextStyle(
                   color: _selectedCategory == ExpenseCategory.activities ? _getCategoryColor(ExpenseCategory.activities) : null,
@@ -1088,7 +1088,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     _selectedCategory = selected ? ExpenseCategory.shopping : null;
                   });
                 },
-                selectedColor: _getCategoryColor(ExpenseCategory.shopping).withOpacity(0.2),
+                selectedColor: _getCategoryColor(ExpenseCategory.shopping).withValues(alpha: 0.2),
                 checkmarkColor: _getCategoryColor(ExpenseCategory.shopping),
                 labelStyle: TextStyle(
                   color: _selectedCategory == ExpenseCategory.shopping ? _getCategoryColor(ExpenseCategory.shopping) : null,
@@ -1104,7 +1104,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     _selectedCategory = selected ? ExpenseCategory.other : null;
                   });
                 },
-                selectedColor: _getCategoryColor(ExpenseCategory.other).withOpacity(0.2),
+                selectedColor: _getCategoryColor(ExpenseCategory.other).withValues(alpha: 0.2),
                 checkmarkColor: _getCategoryColor(ExpenseCategory.other),
                 labelStyle: TextStyle(
                   color: _selectedCategory == ExpenseCategory.other ? _getCategoryColor(ExpenseCategory.other) : null,

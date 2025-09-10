@@ -68,8 +68,8 @@ class _TripDetailScreenState extends State<TripDetailScreen>
                         ? AppTheme.backgroundDark
                         : AppTheme.backgroundLight,
                     Theme.of(context).brightness == Brightness.dark
-                        ? AppTheme.surfaceDark.withOpacity(0.8)
-                        : AppTheme.surfaceLight.withOpacity(0.8),
+                        ? AppTheme.surfaceDark.withValues(alpha: 0.8)
+                        : AppTheme.surfaceLight.withValues(alpha: 0.8),
                   ],
                 ),
               ),
@@ -99,8 +99,8 @@ class _TripDetailScreenState extends State<TripDetailScreen>
                         ? AppTheme.backgroundDark
                         : AppTheme.backgroundLight,
                     Theme.of(context).brightness == Brightness.dark
-                        ? AppTheme.surfaceDark.withOpacity(0.8)
-                        : AppTheme.surfaceLight.withOpacity(0.8),
+                        ? AppTheme.surfaceDark.withValues(alpha: 0.8)
+                        : AppTheme.surfaceLight.withValues(alpha: 0.8),
                   ],
                 ),
               ),
@@ -158,8 +158,8 @@ class _TripDetailScreenState extends State<TripDetailScreen>
                         ? AppTheme.backgroundDark
                         : AppTheme.backgroundLight,
                     Theme.of(context).brightness == Brightness.dark
-                        ? AppTheme.surfaceDark.withOpacity(0.8)
-                        : AppTheme.surfaceLight.withOpacity(0.8),
+                        ? AppTheme.surfaceDark.withValues(alpha: 0.8)
+                        : AppTheme.surfaceLight.withValues(alpha: 0.8),
                   ],
                 ),
               ),
@@ -184,8 +184,8 @@ class _TripDetailScreenState extends State<TripDetailScreen>
                       ? AppTheme.backgroundDark
                       : AppTheme.backgroundLight,
                   Theme.of(context).brightness == Brightness.dark
-                      ? AppTheme.surfaceDark.withOpacity(0.8)
-                      : AppTheme.surfaceLight.withOpacity(0.8),
+                      ? AppTheme.surfaceDark.withValues(alpha: 0.8)
+                      : AppTheme.surfaceLight.withValues(alpha: 0.8),
                 ],
               ),
             ),
