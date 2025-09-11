@@ -1265,223 +1265,267 @@ class _ExpensesTabState extends State<ExpensesTab> {
               ),
             ),
             
-            // Content
+            // Tabs: Category and Person
             Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
+              child: DefaultTabController(
+                length: 2,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Category Breakdown Section with Pie Chart
-                    if (categoryTotals.isNotEmpty) ...[
-                      Text(
-                        'Expenses by Category',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: TabBar(
+                        labelColor: AppTheme.primaryColor,
+                        unselectedLabelColor: Theme.of(context).textTheme.bodyMedium?.color,
+                        indicatorColor: AppTheme.primaryColor,
+                        tabs: const [
+                          Tab(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Iconsax.category, size: 18),
+                                SizedBox(width: 8),
+                                Text('Category'),
+                              ],
+                            ),
+                          ),
+                          Tab(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Iconsax.people, size: 18),
+                                SizedBox(width: 8),
+                                Text('Person'),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 20),
-                      
-                      // Pie Chart (outer container removed)
-                      SizedBox(
-                        height: 240,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              PieChart(
-                                PieChartData(
-                                  sectionsSpace: 2,
-                                  centerSpaceRadius: 68,
-                                  sections: _buildPieChartSections(categoryTotals),
-                                ),
-                              ),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          // Category tab
+                          SingleChildScrollView(
+                            padding: const EdgeInsets.all(24),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (categoryTotals.isNotEmpty) ...[
                                   Text(
-                                    CurrencyFormatter.formatAmount(totalExp, widget.trip.defaultCurrency),
+                                    'Expenses by Category',
                                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                          fontWeight: FontWeight.w700,
-                                          color: AppTheme.accentColor,
-                                        ) ?? const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          color: AppTheme.accentColor,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                   ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    AppLocalizations.of(context)!.totalExpenses,
-                                    style: TextStyle(
-                                      color: Theme.of(context).brightness == Brightness.dark
-                                          ? AppTheme.textSecondaryDark
-                                          : AppTheme.textSecondary,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
+                                  const SizedBox(height: 20),
+                                  SizedBox(
+                                    height: 240,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          PieChart(
+                                            PieChartData(
+                                              sectionsSpace: 2,
+                                              centerSpaceRadius: 68,
+                                              sections: _buildPieChartSections(categoryTotals),
+                                            ),
+                                          ),
+                                          Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                CurrencyFormatter.formatAmount(totalExp, widget.trip.defaultCurrency),
+                                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                                      fontWeight: FontWeight.w700,
+                                                      color: AppTheme.accentColor,
+                                                    ) ?? const TextStyle(
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 16,
+                                                      color: AppTheme.accentColor,
+                                                    ),
+                                              ),
+                                              const SizedBox(height: 2),
+                                              Text(
+                                                AppLocalizations.of(context)!.totalExpenses,
+                                                style: TextStyle(
+                                                  color: Theme.of(context).brightness == Brightness.dark
+                                                      ? AppTheme.textSecondaryDark
+                                                      : AppTheme.textSecondary,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
+                                  const SizedBox(height: 20),
+                                  ...categoryTotals.entries.map((entry) {
+                                    final totalExpLocal = _getTotalExpenses(expenses);
+                                    final percentage = totalExpLocal > 0 ? (entry.value / totalExpLocal) : 0.0;
+                                    return Container(
+                                      margin: const EdgeInsets.only(bottom: 12),
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).colorScheme.surface,
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                          color: _getCategoryColor(entry.key).withValues(alpha: 0.3),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Container(
+                                                padding: const EdgeInsets.all(8),
+                                                decoration: BoxDecoration(
+                                                  color: _getCategoryColor(entry.key).withValues(alpha: 0.1),
+                                                  borderRadius: BorderRadius.circular(8),
+                                                ),
+                                                child: Icon(
+                                                  _getCategoryIcon(entry.key),
+                                                  color: _getCategoryColor(entry.key),
+                                                  size: 16,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 12),
+                                              Expanded(
+                                                child: Text(
+                                                  _getCategoryDisplayName(entry.key),
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    CurrencyFormatter.formatAmount(entry.value, widget.trip.defaultCurrency),
+                                                    style: const TextStyle(
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '${(percentage * 100).toInt()}%',
+                                                    style: TextStyle(
+                                                      color: _getCategoryColor(entry.key),
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 10),
+                                          _buildProgressBar(percentage, _getCategoryColor(entry.key)),
+                                        ],
+                                      ),
+                                    );
+                                  }),
                                 ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      
-                      const SizedBox(height: 20),
-                      
-                      // Category Legend with progress
-                      ...categoryTotals.entries.map((entry) {
-                        final totalExp = _getTotalExpenses(expenses);
-                        final percentage = totalExp > 0 ? (entry.value / totalExp) : 0.0;
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surface,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: _getCategoryColor(entry.key).withValues(alpha: 0.3),
+                              ],
                             ),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: _getCategoryColor(entry.key).withValues(alpha: 0.1),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Icon(
-                                      _getCategoryIcon(entry.key),
-                                      color: _getCategoryColor(entry.key),
-                                      size: 16,
-                                    ),
+                          // Person tab
+                          SingleChildScrollView(
+                            padding: const EdgeInsets.all(24),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (personTotals.isNotEmpty) ...[
+                                  Text(
+                                    'Expense per Person',
+                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                   ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Text(
-                                      _getCategoryDisplayName(entry.key),
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        CurrencyFormatter.formatAmount(entry.value, widget.trip.defaultCurrency),
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14,
+                                  const SizedBox(height: 16),
+                                  ...personTotals.entries.map((entry) {
+                                    final totalAll = personTotals.values.fold(0.0, (sum, v) => sum + v);
+                                    final percentage = totalAll > 0 ? (entry.value / totalAll) : 0.0;
+                                    return Container(
+                                      margin: const EdgeInsets.only(bottom: 12),
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).colorScheme.surface,
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                          color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
                                         ),
                                       ),
-                                      Text(
-                                        '${(percentage * 100).toInt()}%',
-                                        style: TextStyle(
-                                          color: _getCategoryColor(entry.key),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor: AppTheme.primaryColor.withValues(alpha: 0.1),
+                                                child: Text(
+                                                  entry.key[0].toUpperCase(),
+                                                  style: const TextStyle(
+                                                    color: AppTheme.primaryColor,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 16),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      entry.key,
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 4),
+                                                    Text(
+                                                      '${(percentage * 100).toInt()}% of total',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context).brightness == Brightness.dark
+                                                            ? AppTheme.textSecondaryDark
+                                                            : AppTheme.textSecondary,
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Text(
+                                                CurrencyFormatter.formatAmount(entry.value, widget.trip.defaultCurrency),
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 16,
+                                                  color: AppTheme.accentColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 10),
+                                          _buildProgressBar(percentage, AppTheme.primaryColor),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    );
+                                  }),
                                 ],
-                              ),
-                              const SizedBox(height: 10),
-                              _buildProgressBar(percentage, _getCategoryColor(entry.key)),
-                            ],
-                          ),
-                        );
-                      }),
-                    ],
-                    
-                    // Person Breakdown Section  
-                    if (personTotals.isNotEmpty) ...[
-                      const SizedBox(height: 24),
-                      Text(
-                        'Expense per Person',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      ...personTotals.entries.map((entry) {
-                        final totalAll = personTotals.values.fold(0.0, (sum, v) => sum + v);
-                        final percentage = totalAll > 0 ? (entry.value / totalAll) : 0.0;
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surface,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
+                              ],
                             ),
                           ),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: AppTheme.primaryColor.withValues(alpha: 0.1),
-                                    child: Text(
-                                      entry.key[0].toUpperCase(),
-                                      style: const TextStyle(
-                                        color: AppTheme.primaryColor,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          entry.key,
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          '${(percentage * 100).toInt()}% of total',
-                                          style: TextStyle(
-                                            color: Theme.of(context).brightness == Brightness.dark
-                                                ? AppTheme.textSecondaryDark
-                                                : AppTheme.textSecondary,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Text(
-                                    CurrencyFormatter.formatAmount(entry.value, widget.trip.defaultCurrency),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: AppTheme.accentColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                              _buildProgressBar(percentage, AppTheme.primaryColor),
-                            ],
-                          ),
-                        );
-                      }),
-                    ],
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
