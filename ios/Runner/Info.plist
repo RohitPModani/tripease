@@ -52,5 +52,14 @@
 	<string>This app needs access to camera to take photos for bookings.</string>
 	<key>NSDocumentsFolderUsageDescription</key>
 	<string>This app needs access to documents to attach files to bookings.</string>
+	<!-- URL schemes for url_launcher -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>mailto</string>
+		<string>tel</string>
+		<string>sms</string>
+		<string>http</string>
+		<string>https</string>
+	</array>
 </dict>
 </plist>

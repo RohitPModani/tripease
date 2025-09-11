@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -203,15 +204,60 @@ class HtmlContentModal extends StatelessWidget {
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: () async {
-                        final mailto = Uri(
-                          scheme: 'mailto',
-                          path: supportEmail,
-                          query: Uri(queryParameters: {
-                            'subject': 'Voythrix Support',
-                          }).query,
-                        );
-                        if (await canLaunchUrl(mailto)) {
-                          await launchUrl(mailto, mode: LaunchMode.externalApplication);
+                        final scaffoldMessenger = ScaffoldMessenger.of(context);
+                        
+                        try {
+                          final mailto = Uri(
+                            scheme: 'mailto',
+                            path: supportEmail,
+                            queryParameters: {
+                              'subject': 'Voythrix Support Request',
+                            },
+                          );
+                          
+                          // Debug: print('Attempting to launch: $mailto');
+                          
+                          bool launched = false;
+                          
+                          // First, check if we can handle mailto URLs
+                          if (await canLaunchUrl(mailto)) {
+                            try {
+                              launched = await launchUrl(mailto, mode: LaunchMode.externalApplication);
+                            } catch (e) {
+                              // If external application mode fails, try default mode
+                              try {
+                                launched = await launchUrl(mailto, mode: LaunchMode.platformDefault);
+                              } catch (e2) {
+                                launched = false;
+                              }
+                            }
+                          }
+                          
+                          if (!launched) {
+                            throw Exception('Could not launch email client');
+                          }
+                        } catch (e) {
+                          // Debug: print('Error launching email: $e');
+                          // Show a snackbar or alert to user
+                          scaffoldMessenger.showSnackBar(
+                            SnackBar(
+                              content: Text('Could not open email app. Please contact us at $supportEmail'),
+                              duration: const Duration(seconds: 4),
+                              action: SnackBarAction(
+                                label: 'Copy Email',
+                                onPressed: () async {
+                                  await Clipboard.setData(ClipboardData(text: supportEmail ?? ''));
+                                  // Show a brief confirmation
+                                  scaffoldMessenger.showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Email address copied to clipboard'),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          );
                         }
                       },
                       icon: const Icon(Iconsax.message_question),
@@ -219,7 +265,7 @@ class HtmlContentModal extends StatelessWidget {
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppTheme.primaryColor,
                         side: BorderSide(color: AppTheme.primaryColor.withValues(alpha: 0.6), width: 1.5),
-                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                     ),
