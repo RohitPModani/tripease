@@ -560,7 +560,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
       case ActivityType.meal:
         return 'Meal';
       case ActivityType.transport:
-        return 'Transport';
+        return AppLocalizations.of(context)!.transport;
       case ActivityType.accommodation:
         return 'Accommodation';
       case ActivityType.shopping:
@@ -568,7 +568,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
       case ActivityType.entertainment:
         return 'Entertainment';
       case ActivityType.other:
-        return 'Other';
+        return AppLocalizations.of(context)!.other;
     }
   }
 
@@ -707,7 +707,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
               child: Text(
-                'Cancel',
+                AppLocalizations.of(context)!.cancel,
                 style: TextStyle(
                   color: Theme.of(context).brightness == Brightness.dark
                       ? AppTheme.textSecondaryDark
@@ -811,7 +811,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'Title',
+                      AppLocalizations.of(context)!.title,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -824,7 +824,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
                     if (activity.description.isNotEmpty) ...[
                       const SizedBox(height: 20),
                       Text(
-                        'Description',
+                        AppLocalizations.of(context)!.description,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -843,7 +843,7 @@ class _ItineraryTabState extends State<ItineraryTab> {
                     if (activity.location.isNotEmpty) ...[
                       const SizedBox(height: 20),
                       Text(
-                        'Location',
+                        AppLocalizations.of(context)!.location,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),

@@ -127,7 +127,7 @@ class _OverviewTabState extends State<OverviewTab> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildInfoItem(
-                'Duration',
+                AppLocalizations.of(context)!.duration,
                 '$duration days',
                 Iconsax.clock,
                 AppTheme.primaryColor,
@@ -403,7 +403,7 @@ class _OverviewTabState extends State<OverviewTab> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Quick Actions',
+                        AppLocalizations.of(context)!.quickActions,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.w700,
                           color: AppTheme.primaryColor,
@@ -411,7 +411,7 @@ class _OverviewTabState extends State<OverviewTab> {
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        'Add new items to your trip',
+                        AppLocalizations.of(context)!.addNewItemsToTrip,
                         style: TextStyle(
                           color: Theme.of(context).brightness == Brightness.dark
                               ? AppTheme.textSecondaryDark
@@ -433,7 +433,7 @@ class _OverviewTabState extends State<OverviewTab> {
               children: [
                 Expanded(
                   child: _buildQuickActionButton(
-                    'Task',
+                    AppLocalizations.of(context)!.task,
                     Iconsax.task_square,
                     AppTheme.primaryColor,
                     () => TodoFormModal.show(context, widget.trip.id),
@@ -442,7 +442,7 @@ class _OverviewTabState extends State<OverviewTab> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _buildQuickActionButton(
-                    'Booking',
+                    AppLocalizations.of(context)!.booking,
                     Iconsax.airplane,
                     AppTheme.secondaryColor,
                     () => _handleAddBooking(
@@ -453,7 +453,7 @@ class _OverviewTabState extends State<OverviewTab> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _buildQuickActionButton(
-                    'Expense',
+                    AppLocalizations.of(context)!.expense,
                     Iconsax.dollar_circle,
                     AppTheme.accentColor,
                     () => ExpenseFormModal.show(
@@ -466,7 +466,7 @@ class _OverviewTabState extends State<OverviewTab> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _buildQuickActionButton(
-                    'Itinerary',
+                    AppLocalizations.of(context)!.itinerary,
                     Iconsax.location,
                     AppTheme.warning,
                     () => ItineraryFormModal.show(
@@ -707,11 +707,11 @@ class _OverviewTabState extends State<OverviewTab> {
     final tripEndDate = DateTime(endDate.year, endDate.month, endDate.day);
 
     if (today.isAfter(tripEndDate)) {
-      return 'Completed';
+      return AppLocalizations.of(context)!.completed;
     } else if (isActive) {
-      return 'Active';
+      return AppLocalizations.of(context)!.activeStatus;
     } else {
-      return '$daysLeft days to go';
+      return AppLocalizations.of(context)!.daysToGo(daysLeft);
     }
   }
 

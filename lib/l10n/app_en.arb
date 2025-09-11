@@ -1845,6 +1845,241 @@
     "description": "Message shown when user tries to add more than 10 documents"
   },
 
+  "clearFilters": "Clear Filters",
+  "@clearFilters": {
+    "description": "Button text to clear all filters"
+  },
+
+  "travelDates": "Travel Dates",
+  "@travelDates": {
+    "description": "Form section header for travel dates"
+  },
+
+  "selectDateRange": "Select date range",
+  "@selectDateRange": {
+    "description": "Placeholder text for date range picker"
+  },
+
+  "expenseDetails": "Expense Details",
+  "@expenseDetails": {
+    "description": "Form header for expense details"
+  },
+
+  "activityDetails": "Activity Details",
+  "@activityDetails": {
+    "description": "Form header for activity details"
+  },
+
+  "documentDetails": "Document Details",
+  "@documentDetails": {
+    "description": "Form header for document details"
+  },
+
+  "splitDetails": "Split Details",
+  "@splitDetails": {
+    "description": "Form section header for expense splitting"
+  },
+
+  "quickActions": "Quick Actions",
+  "@quickActions": {
+    "description": "Section header for quick action buttons"
+  },
+
+  "addNewItemsToTrip": "Add new items to your trip",
+  "@addNewItemsToTrip": {
+    "description": "Description text for quick actions section"
+  },
+
+  "task": "Task",
+  "@task": {
+    "description": "Quick action button for adding task"
+  },
+
+  "booking": "Booking",
+  "@booking": {
+    "description": "Quick action button for adding booking"
+  },
+
+  "expense": "Expense",
+  "@expense": {
+    "description": "Quick action button for adding expense"
+  },
+
+  "itinerary": "Itinerary",
+  "@itinerary": {
+    "description": "Quick action button for adding itinerary"
+  },
+
+  "duration": "Duration",
+  "@duration": {
+    "description": "Label for trip duration"
+  },
+
+  "noExpensesFound": "No expenses found",
+  "@noExpensesFound": {
+    "description": "Empty state message for expenses"
+  },
+
+  "noExpensesFoundForCategory": "No expenses found for this category",
+  "@noExpensesFoundForCategory": {
+    "description": "Empty state message for filtered expenses"
+  },
+
+  "noTasksFound": "No tasks found",
+  "@noTasksFound": {
+    "description": "Empty state message for tasks"
+  },
+
+  "noBookingsFound": "No bookings found",
+  "@noBookingsFound": {
+    "description": "Empty state message for bookings"
+  },
+
+  "noDocumentsFound": "No documents found",
+  "@noDocumentsFound": {
+    "description": "Empty state message for documents"
+  },
+
+  "noDocumentsYet": "No documents yet",
+  "@noDocumentsYet": {
+    "description": "Empty state message when no documents exist"
+  },
+
+  "noTripsFound": "No trips found",
+  "@noTripsFound": {
+    "description": "Empty state message for trips"
+  },
+
+  "tryAdjustingFilters": "Try adjusting your search terms or filters",
+  "@tryAdjustingFilters": {
+    "description": "Helper text for empty states"
+  },
+
+  "searchTasks": "Search tasks...",
+  "@searchTasks": {
+    "description": "Placeholder for task search input"
+  },
+
+  "searchBookings": "Search bookings...",
+  "@searchBookings": {
+    "description": "Placeholder for booking search input"
+  },
+
+  "urgentPriority": "Urgent",
+  "@urgentPriority": {
+    "description": "Urgent priority level"
+  },
+
+  "highPriority": "High",
+  "@highPriority": {
+    "description": "High priority level"
+  },
+
+  "mediumPriority": "Medium",
+  "@mediumPriority": {
+    "description": "Medium priority level"
+  },
+
+  "lowPriority": "Low",
+  "@lowPriority": {
+    "description": "Low priority level"
+  },
+
+  "overdue": "Overdue",
+  "@overdue": {
+    "description": "Task status: overdue"
+  },
+
+  "dueToday": "Due today",
+  "@dueToday": {
+    "description": "Task status: due today"
+  },
+
+  "dueTomorrow": "Due tomorrow",
+  "@dueTomorrow": {
+    "description": "Task status: due tomorrow"
+  },
+
+  "completed": "Completed",
+  "@completed": {
+    "description": "Status: completed"
+  },
+
+  "activeStatus": "Active",
+  "@activeStatus": {
+    "description": "Status: active"
+  },
+
+  "sightseeing": "Sightseeing",
+  "@sightseeing": {
+    "description": "Activity type: sightseeing"
+  },
+
+  "meal": "Meal",
+  "@meal": {
+    "description": "Activity type: meal"
+  },
+
+  "accommodation": "Accommodation",
+  "@accommodation": {
+    "description": "Activity type: accommodation"
+  },
+
+  "shopping": "Shopping",
+  "@shopping": {
+    "description": "Activity type: shopping"
+  },
+
+  "entertainment": "Entertainment",
+  "@entertainment": {
+    "description": "Activity type: entertainment"
+  },
+
+  "selectBackupFile": "Select Backup File",
+  "@selectBackupFile": {
+    "description": "Dialog title for backup file selection"
+  },
+
+  "selectFile": "Select File",
+  "@selectFile": {
+    "description": "Button text to select file"
+  },
+
+  "importBackup": "Import Backup",
+  "@importBackup": {
+    "description": "Dialog title for import confirmation"
+  },
+
+  "importSuccessful": "Import Successful",
+  "@importSuccessful": {
+    "description": "Success message for import"
+  },
+
+  "importFailed": "Import Failed",
+  "@importFailed": {
+    "description": "Error message for failed import"
+  },
+
+  "couldNotOpenAppStore": "Could not open app store",
+  "@couldNotOpenAppStore": {
+    "description": "Error message when app store can't be opened"
+  },
+
+  "couldNotOpenHelpSection": "Could not open help section",
+  "@couldNotOpenHelpSection": {
+    "description": "Error message when help section can't be opened"
+  },
+
+  "couldNotOpenPrivacyPolicy": "Could not open privacy policy",
+  "@couldNotOpenPrivacyPolicy": {
+    "description": "Error message when privacy policy can't be opened"
+  },
+
+  "couldNotOpenTermsOfService": "Could not open terms of service",
+  "@couldNotOpenTermsOfService": {
+    "description": "Error message when terms of service can't be opened"
+  },
+
   "confirmActionWarning": "This action cannot be undone!",
   "@confirmActionWarning": {"description": "Generic irreversible action warning"},
 

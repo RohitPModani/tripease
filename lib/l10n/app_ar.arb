@@ -4,42 +4,34 @@
   "@appTitle": {
     "description": "The title of the application"
   },
-  
   "trips": "الرحلات",
   "@trips": {
     "description": "Trips tab title"
   },
-  
   "documents": "الوثائق",
   "@documents": {
     "description": "Documents tab title"
   },
-  
   "settings": "الإعدادات",
   "@settings": {
     "description": "Settings tab title"
   },
-  
   "quickStats": "إحصائيات سريعة",
   "@quickStats": {
     "description": "Quick stats card title"
   },
-  
   "activeTrips": "الرحلات النشطة",
   "@activeTrips": {
     "description": "Active trips label"
   },
-  
   "pendingTasks": "المهام المعلقة",
   "@pendingTasks": {
     "description": "Pending tasks label"
   },
-  
   "totalBudget": "الميزانية الإجمالية",
   "@totalBudget": {
     "description": "Total budget label"
   },
-  
   "nextTripStartsIn": "تبدأ الرحلة التالية خلال {days} أيام",
   "@nextTripStartsIn": {
     "description": "Next trip countdown message",
@@ -50,52 +42,42 @@
       }
     }
   },
-  
   "yourTrips": "رحلاتك",
   "@yourTrips": {
     "description": "Your trips section title"
   },
-  
   "searchTrips": "البحث عن الرحلات...",
   "@searchTrips": {
     "description": "Search trips placeholder"
   },
-  
   "daysUntilStart": "أيام حتى البداية",
   "@daysUntilStart": {
     "description": "Sort by days until start"
   },
-  
   "dateCreated": "تاريخ الإنشاء",
   "@dateCreated": {
     "description": "Sort by date created"
   },
-  
   "alphabetical": "أبجدي",
   "@alphabetical": {
     "description": "Sort alphabetically"
   },
-  
   "budget": "الميزانية",
   "@budget": {
     "description": "Budget label"
   },
-  
   "tasks": "المهام",
   "@tasks": {
     "description": "Tasks label"
   },
-  
   "tripInProgress": "رحلة قيد التنفيذ",
   "@tripInProgress": {
     "description": "Trip in progress status"
   },
-  
   "startingToday": "تبدأ اليوم!",
   "@startingToday": {
     "description": "Trip starting today message"
   },
-  
   "daysToGo": "{days} أيام متبقية",
   "@daysToGo": {
     "description": "Days to go message",
@@ -106,7 +88,6 @@
       }
     }
   },
-  
   "active": "{count} نشطة",
   "@active": {
     "description": "Active count label",
@@ -117,57 +98,46 @@
       }
     }
   },
-  
   "searchDocuments": "البحث عن الوثائق...",
   "@searchDocuments": {
     "description": "Search documents placeholder"
   },
-  
   "personal": "شخصي",
   "@personal": {
     "description": "Personal documents tab"
   },
-  
   "tripRelated": "مرتبطة بالرحلة",
   "@tripRelated": {
     "description": "Trip related documents tab"
   },
-  
   "uploadDocument": "رفع وثيقة",
   "@uploadDocument": {
     "description": "Upload document title"
   },
-  
   "takePhoto": "التقاط صورة",
   "@takePhoto": {
     "description": "Take photo option"
   },
-  
   "captureDocumentWithCamera": "التقط الوثيقة بالكاميرا",
   "@captureDocumentWithCamera": {
     "description": "Take photo description"
   },
-  
   "chooseFromGallery": "اختر من المعرض",
   "@chooseFromGallery": {
     "description": "Choose from gallery option"
   },
-  
   "selectFromPhotoLibrary": "اختر من مكتبة الصور",
   "@selectFromPhotoLibrary": {
     "description": "Choose from gallery description"
   },
-  
   "chooseFile": "اختر ملف",
   "@chooseFile": {
     "description": "Choose file option"
   },
-  
   "selectPdfOrOtherFiles": "اختر PDF أو ملفات أخرى",
   "@selectPdfOrOtherFiles": {
     "description": "Choose file description"
   },
-  
   "expires": "تنتهي صلاحيته: {date}",
   "@expires": {
     "description": "Document expiry date",
@@ -178,71 +148,1407 @@
       }
     }
   },
-  
   "view": "عرض",
   "@view": {
     "description": "View action"
   },
-  
   "share": "مشاركة",
   "@share": {
     "description": "Share action"
   },
-  
   "download": "تحميل",
   "@download": {
     "description": "Download action"
   },
-  
   "delete": "حذف",
   "@delete": {
     "description": "Delete action"
   },
-  
   "cancel": "إلغاء",
   "@cancel": {
     "description": "Cancel button"
   },
-  
   "arabic": "العربية",
   "@arabic": {
     "description": "Arabic language"
-  }
-  ,
-  "confirmActionWarning": "This action cannot be undone!",
-  "finalConfirmationTitle": "Final Confirmation",
-  "finalConfirmationPrompt": "Type {word} in the box below to confirm:",
-  "deletingAllData": "Deleting all data...",
-  "pleaseWait": "Please wait, this may take a moment.",
-  "dataClearedTitle": "Data Cleared",
-  "dataClearedMessage": "All your data has been successfully deleted. The app has been reset to its initial state.",
-  "errorTitle": "Error",
-  "failedToClearAllData": "Failed to clear all data: {error}",
-  "exportIntroTitle": "Create a secure backup of all your Voythrix data:",
-  "exportEncryptionInfo": "Your data will be encrypted and compressed into a .tripe file.",
-  "backupPasswordTitle": "Backup Password (Optional)",
-  "backupPasswordHint": "Enter password (optional)",
-  "confirmPasswordHint": "Confirm password",
-  "passwordsMatch": "Passwords match",
-  "passwordsDoNotMatch": "Passwords do not match",
-  "creatingBackup": "Creating backup...",
-  "collectingAndEncrypting": "Collecting and encrypting your data...",
-  "backupCreatedTitle": "Backup Created",
-  "backupCreatedMessage": "Your backup has been created successfully!",
-  "fileInfoLabel": "File Info:",
-  "fileInfoFormat": "• Format: Encrypted .tripe file",
-  "fileInfoSecurityPassword": "• Security: Password protected",
-  "fileInfoSecurityStandard": "• Security: Standard encryption",
-  "fileInfoCompression": "• Compression: GZip compressed",
-  "keepFileSafeNote": "Keep this file safe — you'll need it to restore your data!",
-  "exportFailedTitle": "Export Failed",
-  "failedToCreateBackup": "Failed to create backup: {error}",
-  "continueAction": "Continue",
-  "deleteEverything": "Delete Everything",
-  "createBackup": "Create Backup",
-  "ok": "OK",
+  },
+  "confirmActionWarning": "لا يمكن التراجع عن هذا الإجراء!",
+  "finalConfirmationTitle": "التأكيد النهائي",
+  "finalConfirmationPrompt": "اكتب {word} في المربع أدناه للتأكيد:",
+  "deletingAllData": "حذف جميع البيانات...",
+  "pleaseWait": "يرجى الانتظار، قد يستغرق هذا لحظة.",
+  "dataClearedTitle": "تم محو البيانات",
+  "dataClearedMessage": "تم حذف جميع بياناتك بنجاح. تم إعادة تعيين التطبيق إلى حالته الأولية.",
+  "errorTitle": "خطأ",
+  "failedToClearAllData": "فشل في محو جميع البيانات: {error}",
+  "exportIntroTitle": "إنشاء نسخة احتياطية آمنة لجميع بيانات Voythrix الخاصة بك:",
+  "exportEncryptionInfo": "سيتم تشفير بياناتك وضغطها في ملف .tripe.",
+  "backupPasswordTitle": "كلمة مرور النسخ الاحتياطي (اختياري)",
+  "backupPasswordHint": "أدخل كلمة المرور (اختياري)",
+  "confirmPasswordHint": "تأكيد كلمة المرور",
+  "passwordsMatch": "كلمات المرور متطابقة",
+  "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+  "creatingBackup": "جاري إنشاء النسخة الاحتياطية...",
+  "collectingAndEncrypting": "تجميع وتشفير بياناتك...",
+  "backupCreatedTitle": "تم إنشاء النسخة الاحتياطية",
+  "backupCreatedMessage": "تم إنشاء النسخة الاحتياطية بنجاح!",
+  "fileInfoLabel": "معلومات الملف:",
+  "fileInfoFormat": "• التنسيق: ملف .tripe مشفّر",
+  "fileInfoSecurityPassword": "• الأمان: محمي بكلمة مرور",
+  "fileInfoSecurityStandard": "• الأمان: تشفير قياسي",
+  "fileInfoCompression": "• الضغط: مضغوط GZip",
+  "keepFileSafeNote": "احتفظ بهذا الملف في مكان آمن — ستحتاجه لاستعادة بياناتك!",
+  "exportFailedTitle": "فشل التصدير",
+  "failedToCreateBackup": "فشل في إنشاء النسخة الاحتياطية: {error}",
+  "continueAction": "متابعة",
+  "deleteEverything": "حذف كل شيء",
+  "createBackup": "إنشاء نسخة احتياطية",
+  "ok": "موافق",
   "flight": "طائرة",
   "restaurant": "مطعم",
   "bookingLimitReached": "تم الوصول لحد الحجوزات. يمكنك إضافة 15 حجز فقط لكل رحلة.",
-  "documentLimitReached": "تم الوصول لحد المستندات. يمكنك إضافة 10 مستندات فقط في المجموع."
+  "documentLimitReached": "تم الوصول لحد المستندات. يمكنك إضافة 10 مستندات فقط في المجموع.",
+  "searchBookings": "البحث عن الحجوزات",
+  "searchTasks": "البحث عن المهام",
+  "noBookingsFound": "لم يتم العثور على حجوزات",
+  "noTasksFound": "لم يتم العثور على مهام",
+  "noTripsFound": "لم يتم العثور على رحلات",
+  "noExpensesFound": "لم يتم العثور على مصروفات",
+  "tryAdjustingFilters": "حاول تعديل المرشحات",
+  "clearFilters": "مسح المرشحات",
+  "overdue": "متأخر",
+  "dueToday": "مستحق اليوم",
+  "dueTomorrow": "مستحق غداً",
+  "duration": "المدة",
+  "quickActions": "الإجراءات السريعة",
+  "addNewItemsToTrip": "إضافة عناصر جديدة للرحلة",
+  "booking": "حجز",
+  "expense": "مصروف",
+  "itinerary": "خط السير",
+  "activeStatus": "الحالة النشطة",
+  "documentDetails": "تفاصيل الوثيقة",
+  "fileSize": "حجم الملف",
+  "fileName": "اسم الملف",
+  "noDocumentsYet": "لا توجد وثائق بعد",
+  "noDocumentsFound": "لم يتم العثور على وثائق",
+  "tripDates": "تواريخ الرحلة",
+  "destinations": "الوجهات",
+  "location": "الموقع",
+  "time": "الوقت",
+  "type": "النوع",
+  "failedToLoadTrip": "فشل في تحميل الرحلة",
+  "noDataAvailable": "لا توجد بيانات متاحة",
+  "refreshData": "تحديث البيانات",
+  "errorOccurred": "حدث خطأ",
+  "tryAgain": "حاول مرة أخرى",
+  "loading": "جاري التحميل",
+  "save": "حفظ",
+  "savedSuccessfully": "تم الحفظ بنجاح",
+  "failedToSave": "فشل في الحفظ",
+  "deletedSuccessfully": "تم الحذف بنجاح",
+  "failedToDelete": "فشل في الحذف",
+  "about": "حول",
+  "@about": {
+    "description": "About section title"
+  },
+  "accommodation": "إقامة",
+  "@accommodation": {
+    "description": "Activity type: accommodation"
+  },
+  "activeTripsCount": "{count} نشط",
+  "@activeTripsCount": {
+    "description": "Active trips counter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "activeWithCount": "نشط ({count})",
+  "@activeWithCount": {
+    "description": "Filter option for active trips with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "activities": "أنشطة",
+  "@activities": {
+    "description": "Activities category"
+  },
+  "activityDetails": "تفاصيل النشاط",
+  "@activityDetails": {
+    "description": "Form header for activity details"
+  },
+  "activityDetailsTitle": "تفاصيل النشاط",
+  "@activityDetailsTitle": {
+    "description": "Dialog title for activity details"
+  },
+  "activityTitle": "عنوان النشاط",
+  "@activityTitle": {
+    "description": "Activity title field"
+  },
+  "activityTitleLabel": "عنوان النشاط",
+  "@activityTitleLabel": {
+    "description": "Activity title field label"
+  },
+  "activityType": "نوع النشاط",
+  "@activityType": {
+    "description": "Activity type field"
+  },
+  "activityTypeLabel": "نوع النشاط",
+  "@activityTypeLabel": {
+    "description": "Activity type field label"
+  },
+  "add": "إضافة",
+  "@add": {
+    "description": "Add action"
+  },
+  "addActivity": "إضافة نشاط",
+  "@addActivity": {
+    "description": "Add activity button text"
+  },
+  "addBooking": "إضافة حجز",
+  "@addBooking": {
+    "description": "Add booking button"
+  },
+  "addDocument": "إضافة وثيقة",
+  "@addDocument": {
+    "description": "Add document button"
+  },
+  "addExpense": "إضافة مصروف",
+  "@addExpense": {
+    "description": "Add expense button"
+  },
+  "addFile": "إضافة ملف",
+  "@addFile": {
+    "description": "Add file button"
+  },
+  "addFirstBooking": "إضافة أول حجز",
+  "@addFirstBooking": {
+    "description": "Add first booking button"
+  },
+  "addFirstTask": "إضافة أول مهمة",
+  "@addFirstTask": {
+    "description": "Add first task button"
+  },
+  "addNewActivity": "إضافة نشاط جديد",
+  "@addNewActivity": {
+    "description": "Add new activity title"
+  },
+  "addNewBooking": "إضافة حجز جديد",
+  "@addNewBooking": {
+    "description": "Add new booking title"
+  },
+  "addNewExpense": "إضافة مصروف جديد",
+  "@addNewExpense": {
+    "description": "Add new expense title"
+  },
+  "addNewTask": "إضافة مهمة جديدة",
+  "@addNewTask": {
+    "description": "Add new task title"
+  },
+  "addTask": "إضافة مهمة",
+  "@addTask": {
+    "description": "Add task button"
+  },
+  "allDay": "طوال اليوم",
+  "@allDay": {
+    "description": "All day option"
+  },
+  "allWithCount": "الكل ({count})",
+  "@allWithCount": {
+    "description": "All items with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "allWithTotal": "الكل ({total})",
+  "@allWithTotal": {
+    "description": "Filter option showing all items with count",
+    "placeholders": {
+      "total": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
+  "amount": "المبلغ",
+  "@amount": {
+    "description": "Amount label"
+  },
+  "amountCurrency": "المبلغ ({currency})",
+  "@amountCurrency": {
+    "description": "Amount field with currency",
+    "placeholders": {
+      "currency": {
+        "type": "String",
+        "example": "USD"
+      }
+    }
+  },
+  "amountIsRequired": "المبلغ مطلوب",
+  "@amountIsRequired": {
+    "description": "Validation error when amount is missing"
+  },
+  "amountMustBePositive": "يجب أن يكون المبلغ موجباً",
+  "@amountMustBePositive": {
+    "description": "Validation error when amount is negative or zero"
+  },
+  "appSettings": "إعدادات التطبيق",
+  "@appSettings": {
+    "description": "App settings section title"
+  },
+  "appVersion": "إصدار التطبيق",
+  "@appVersion": {
+    "description": "App version setting"
+  },
+  "appVersionBeta": "1.0.0 (بيتا)",
+  "@appVersionBeta": {
+    "description": "App version with beta label"
+  },
+  "april": "أبريل",
+  "@april": {
+    "description": "April month abbreviation"
+  },
+  "attachments": "مرفقات",
+  "@attachments": {
+    "description": "Attachments label"
+  },
+  "attachmentsOptional": "مرفقات (اختياري)",
+  "@attachmentsOptional": {
+    "description": "Attachments section label"
+  },
+  "august": "أغسطس",
+  "@august": {
+    "description": "August month abbreviation"
+  },
+  "backupAndSync": "النسخ الاحتياطي والمزامنة",
+  "@backupAndSync": {
+    "description": "Backup and sync setting"
+  },
+  "bookingDetails": "تفاصيل الحجز",
+  "@bookingDetails": {
+    "description": "Booking details title"
+  },
+  "bookingType": "نوع الحجز",
+  "@bookingType": {
+    "description": "Activity type for bookings"
+  },
+  "bookingsTabTitle": "الحجوزات",
+  "@bookingsTabTitle": {
+    "description": "Bookings tab title in trip detail screen"
+  },
+  "breakdown": "تفصيل",
+  "@breakdown": {
+    "description": "Breakdown button"
+  },
+  "cancelled": "ملغى",
+  "@cancelled": {
+    "description": "Cancelled status"
+  },
+  "cannotDisplayImage": "لا يمكن عرض الصورة",
+  "@cannotDisplayImage": {
+    "description": "Cannot display image error"
+  },
+  "category": "الفئة",
+  "@category": {
+    "description": "Category field"
+  },
+  "celsius": "مئوية",
+  "@celsius": {
+    "description": "Celsius temperature unit"
+  },
+  "changeDocument": "تغيير الوثيقة",
+  "@changeDocument": {
+    "description": "Button text for changing existing document"
+  },
+  "chooseFileDescription": "اختر PDF أو ملفات أخرى",
+  "@chooseFileDescription": {
+    "description": "Description for file picker option"
+  },
+  "chooseFileTitle": "اختر ملف",
+  "@chooseFileTitle": {
+    "description": "Option title for choosing files"
+  },
+  "chooseFromGalleryDescription": "اختر من مكتبة الصور",
+  "@chooseFromGalleryDescription": {
+    "description": "Description for gallery option"
+  },
+  "chooseFromGalleryTitle": "اختر من المعرض",
+  "@chooseFromGalleryTitle": {
+    "description": "Option title for choosing from gallery"
+  },
+  "clearAll": "مسح الكل",
+  "@clearAll": {
+    "description": "Clear all button"
+  },
+  "clearAllData": "مسح جميع البيانات",
+  "@clearAllData": {
+    "description": "Clear all data setting"
+  },
+  "clearAllDataConfirmation": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع رحلاتك ووثائقك وإعداداتك نهائياً.",
+  "@clearAllDataConfirmation": {
+    "description": "Clear all data confirmation dialog"
+  },
+  "clearSearch": "مسح البحث",
+  "@clearSearch": {
+    "description": "Button to clear search filters"
+  },
+  "close": "إغلاق",
+  "@close": {
+    "description": "Close action"
+  },
+  "completed": "مكتمل",
+  "@completed": {
+    "description": "Status: completed"
+  },
+  "completedStatus": "مكتمل",
+  "@completedStatus": {
+    "description": "Status text for completed items"
+  },
+  "completedWithCount": "مكتمل ({count})",
+  "@completedWithCount": {
+    "description": "Filter option for completed trips with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "7"
+      }
+    }
+  },
+  "confirmed": "مؤكد",
+  "@confirmed": {
+    "description": "Confirmed status"
+  },
+  "confirmationNumber": "رقم التأكيد",
+  "@confirmationNumber": {
+    "description": "Confirmation number label"
+  },
+  "confirmationNumberOptional": "رقم التأكيد (اختياري)",
+  "@confirmationNumberOptional": {
+    "description": "Confirmation number field label"
+  },
+  "confirmationNumberTooLong": "يجب أن يكون رقم التأكيد {limit} حرف أو أقل",
+  "@confirmationNumberTooLong": {
+    "description": "Validation error when confirmation number is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "couldNotOpenAppStore": "لا يمكن فتح متجر التطبيقات",
+  "@couldNotOpenAppStore": {
+    "description": "Error message when app store can't be opened"
+  },
+  "couldNotOpenHelpSection": "لا يمكن فتح قسم المساعدة",
+  "@couldNotOpenHelpSection": {
+    "description": "Error message when help section can't be opened"
+  },
+  "couldNotOpenPrivacyPolicy": "لا يمكن فتح سياسة الخصوصية",
+  "@couldNotOpenPrivacyPolicy": {
+    "description": "Error message when privacy policy can't be opened"
+  },
+  "couldNotOpenTermsOfService": "لا يمكن فتح شروط الخدمة",
+  "@couldNotOpenTermsOfService": {
+    "description": "Error message when terms of service can't be opened"
+  },
+  "createTrip": "إنشاء رحلة",
+  "@createTrip": {
+    "description": "Create trip button"
+  },
+  "currency": "العملة",
+  "@currency": {
+    "description": "Currency field label"
+  },
+  "currencyUsedForNewTrips": "العملة المستخدمة للرحلات الجديدة",
+  "@currencyUsedForNewTrips": {
+    "description": "Default currency description"
+  },
+  "darkMode": "الوضع المظلم",
+  "@darkMode": {
+    "description": "Dark mode setting"
+  },
+  "date": "التاريخ",
+  "@date": {
+    "description": "Date label"
+  },
+  "dateFormat": "تنسيق التاريخ",
+  "@dateFormat": {
+    "description": "Date format setting"
+  },
+  "dateWithDate": "التاريخ: {day}/{month}/{year}",
+  "@dateWithDate": {
+    "description": "Date with specific date format",
+    "placeholders": {
+      "day": {
+        "type": "int",
+        "example": "15"
+      },
+      "month": {
+        "type": "int",
+        "example": "12"
+      },
+      "year": {
+        "type": "int",
+        "example": "2024"
+      }
+    }
+  },
+  "december": "ديسمبر",
+  "@december": {
+    "description": "December month abbreviation"
+  },
+  "defaultCurrency": "العملة الافتراضية",
+  "@defaultCurrency": {
+    "description": "Default currency setting"
+  },
+  "defaultUserEmail": "john.doe@email.com",
+  "@defaultUserEmail": {
+    "description": "Default user email"
+  },
+  "defaultUserName": "جون دو",
+  "@defaultUserName": {
+    "description": "Default user name"
+  },
+  "deleteActivity": "حذف النشاط",
+  "@deleteActivity": {
+    "description": "Dialog title for deleting activity"
+  },
+  "deleteBooking": "حذف الحجز",
+  "@deleteBooking": {
+    "description": "Dialog title for deleting booking"
+  },
+  "deleteDocument": "حذف الوثيقة",
+  "@deleteDocument": {
+    "description": "Dialog title for deleting document"
+  },
+  "deleteDocumentConfirmation": "هل أنت متأكد من رغبتك في حذف \"{title}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+  "@deleteDocumentConfirmation": {
+    "description": "Confirmation message for deleting document",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Passport.pdf"
+      }
+    }
+  },
+  "deleteExpense": "حذف المصروف",
+  "@deleteExpense": {
+    "description": "Delete expense title"
+  },
+  "deleteExpenseConfirmation": "هل أنت متأكد من رغبتك في حذف هذا المصروف؟",
+  "@deleteExpenseConfirmation": {
+    "description": "Delete expense confirmation"
+  },
+  "deleteTask": "حذف المهمة",
+  "@deleteTask": {
+    "description": "Delete task button"
+  },
+  "deleteTaskConfirmation": "هل أنت متأكد من رغبتك في حذف \"{title}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+  "@deleteTaskConfirmation": {
+    "description": "Delete task confirmation message",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Buy souvenirs"
+      }
+    }
+  },
+  "deleteTrip": "حذف الرحلة",
+  "@deleteTrip": {
+    "description": "Delete trip action"
+  },
+  "deleteTripConfirmation": "هل أنت متأكد من رغبتك في حذف هذه الرحلة؟ لا يمكن التراجع عن هذا الإجراء.",
+  "@deleteTripConfirmation": {
+    "description": "Confirmation message for deleting a trip"
+  },
+  "description": "الوصف",
+  "@description": {
+    "description": "Description label"
+  },
+  "descriptionOptional": "الوصف (اختياري)",
+  "@descriptionOptional": {
+    "description": "Optional description field label"
+  },
+  "descriptionTooLong": "يجب أن يكون الوصف {limit} حرف أو أقل",
+  "@descriptionTooLong": {
+    "description": "Validation error when description is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "500"
+      }
+    }
+  },
+  "destinationIsRequired": "الوجهة مطلوبة",
+  "@destinationIsRequired": {
+    "description": "Validation error when destination is missing"
+  },
+  "destinationTooLong": "يجب أن تكون الوجهة {limit} حرف أو أقل",
+  "@destinationTooLong": {
+    "description": "Validation error when destination name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "documentAddedSuccessfully": "تم إضافة الوثيقة بنجاح",
+  "@documentAddedSuccessfully": {
+    "description": "Success message when document is added"
+  },
+  "documentCategory": "فئة الوثيقة",
+  "@documentCategory": {
+    "description": "Document category field"
+  },
+  "documentDeletedSuccessfully": "تم حذف الوثيقة \"{title}\" بنجاح",
+  "@documentDeletedSuccessfully": {
+    "description": "Success message when document is deleted",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Passport.pdf"
+      }
+    }
+  },
+  "documentTitle": "عنوان الوثيقة *",
+  "@documentTitle": {
+    "description": "Required document title field"
+  },
+  "documentUpdatedSuccessfully": "تم تحديث الوثيقة بنجاح",
+  "@documentUpdatedSuccessfully": {
+    "description": "Success message when document is updated"
+  },
+  "documentsTitle": "الوثائق",
+  "@documentsTitle": {
+    "description": "Documents screen title"
+  },
+  "dueDate": "تاريخ الاستحقاق",
+  "@dueDate": {
+    "description": "Due date label"
+  },
+  "dueWithDate": "مستحق: {day}/{month}/{year}",
+  "@dueWithDate": {
+    "description": "Due date with specific date format",
+    "placeholders": {
+      "day": {
+        "type": "int",
+        "example": "15"
+      },
+      "month": {
+        "type": "int",
+        "example": "12"
+      },
+      "year": {
+        "type": "int",
+        "example": "2024"
+      }
+    }
+  },
+  "dutch": "Nederlands",
+  "@dutch": {
+    "description": "Dutch language"
+  },
+  "edit": "تحرير",
+  "@edit": {
+    "description": "Edit action"
+  },
+  "editActivity": "تحرير النشاط",
+  "@editActivity": {
+    "description": "Edit activity title"
+  },
+  "editBooking": "تحرير الحجز",
+  "@editBooking": {
+    "description": "Edit booking title"
+  },
+  "editDocument": "تحرير الوثيقة",
+  "@editDocument": {
+    "description": "Edit document title"
+  },
+  "editExpense": "تحرير المصروف",
+  "@editExpense": {
+    "description": "Edit expense title"
+  },
+  "editTask": "تحرير المهمة",
+  "@editTask": {
+    "description": "Edit task title"
+  },
+  "editTrip": "تحرير الرحلة",
+  "@editTrip": {
+    "description": "Edit trip screen title"
+  },
+  "endTime": "وقت الانتهاء",
+  "@endTime": {
+    "description": "End time field"
+  },
+  "english": "English",
+  "@english": {
+    "description": "English language"
+  },
+  "enterValidAmount": "يرجى إدخال مبلغ صحيح",
+  "@enterValidAmount": {
+    "description": "Validation error when amount format is invalid"
+  },
+  "entertainment": "ترفيه",
+  "@entertainment": {
+    "description": "Activity type: entertainment"
+  },
+  "errorDownloadingFile": "خطأ في تحميل الملف: {error}",
+  "@errorDownloadingFile": {
+    "description": "Error message when file download fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "errorSavingFile": "خطأ في حفظ الملف: {error}",
+  "@errorSavingFile": {
+    "description": "Error message when saving file fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Disk full"
+      }
+    }
+  },
+  "errorSavingToPhotos": "خطأ في الحفظ في الصور: {error}",
+  "@errorSavingToPhotos": {
+    "description": "Error message when saving to photos fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+  "errorSharingFile": "خطأ في مشاركة الملف: {error}",
+  "@errorSharingFile": {
+    "description": "File sharing error message",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "No app found"
+      }
+    }
+  },
+  "expenseBreakdown": "تفصيل المصروفات",
+  "@expenseBreakdown": {
+    "description": "Expense breakdown title"
+  },
+  "expenseDetailsTitle": "تفاصيل المصروف",
+  "@expenseDetailsTitle": {
+    "description": "Dialog title for expense details"
+  },
+  "expenseTitle": "عنوان المصروف",
+  "@expenseTitle": {
+    "description": "Expense title field"
+  },
+  "expenseTitleLabel": "عنوان المصروف",
+  "@expenseTitleLabel": {
+    "description": "Expense title field label"
+  },
+  "expenseType": "مصروف",
+  "@expenseType": {
+    "description": "Activity type for expenses"
+  },
+  "expensesTabTitle": "المصروفات",
+  "@expensesTabTitle": {
+    "description": "Expenses tab title in trip detail screen"
+  },
+  "exportData": "تصدير البيانات",
+  "@exportData": {
+    "description": "Export data setting"
+  },
+  "exportYourTripData": "تصدير بيانات رحلتك",
+  "@exportYourTripData": {
+    "description": "Export data description"
+  },
+  "fahrenheit": "فهرنهايت",
+  "@fahrenheit": {
+    "description": "Fahrenheit temperature unit"
+  },
+  "failedToAddUpdateBooking": "فشل في {action} الحجز: {error}",
+  "@failedToAddUpdateBooking": {
+    "description": "Error message for booking operations",
+    "placeholders": {
+      "action": {
+        "type": "String",
+        "example": "add"
+      },
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "failedToAddUpdateTask": "فشل في {action} المهمة: {error}",
+  "@failedToAddUpdateTask": {
+    "description": "Error message for task operations",
+    "placeholders": {
+      "action": {
+        "type": "String",
+        "example": "add"
+      },
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "failedToCaptureImage": "فشل في التقاط الصورة",
+  "@failedToCaptureImage": {
+    "description": "Error when camera capture fails"
+  },
+  "failedToCreateTrip": "فشل في إنشاء الرحلة",
+  "@failedToCreateTrip": {
+    "description": "Error message when trip creation fails"
+  },
+  "failedToDeleteDocument": "فشل في حذف الوثيقة: {error}",
+  "@failedToDeleteDocument": {
+    "description": "Error message when document deletion fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File in use"
+      }
+    }
+  },
+  "failedToDeleteTrip": "فشل في حذف الرحلة",
+  "@failedToDeleteTrip": {
+    "description": "Error message when trip deletion fails"
+  },
+  "failedToLoad": "فشل في التحميل",
+  "@failedToLoad": {
+    "description": "Failed to load error message"
+  },
+  "failedToLoadTodos": "فشل في تحميل المهام",
+  "@failedToLoadTodos": {
+    "description": "Error message when todos fail to load"
+  },
+  "failedToPickFile": "فشل في اختيار الملف: {error}",
+  "@failedToPickFile": {
+    "description": "File picker error message",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+  "failedToReadFile": "فشل في قراءة بيانات الملف",
+  "@failedToReadFile": {
+    "description": "Failed to read file error"
+  },
+  "failedToSaveDocument": "فشل في حفظ الوثيقة",
+  "@failedToSaveDocument": {
+    "description": "Error message when document save fails"
+  },
+  "failedToSelectFile": "فشل في اختيار الملف",
+  "@failedToSelectFile": {
+    "description": "Error when file selection fails"
+  },
+  "failedToSelectImage": "فشل في اختيار الصورة",
+  "@failedToSelectImage": {
+    "description": "Error when image selection fails"
+  },
+  "failedToUpdateTrip": "فشل في تحديث الرحلة",
+  "@failedToUpdateTrip": {
+    "description": "Error message when trip update fails"
+  },
+  "faqsAndContactInformation": "الأسئلة الشائعة ومعلومات الاتصال",
+  "@faqsAndContactInformation": {
+    "description": "Help and support description"
+  },
+  "february": "فبراير",
+  "@february": {
+    "description": "February month abbreviation"
+  },
+  "fieldIsRequired": "{fieldName} مطلوب",
+  "@fieldIsRequired": {
+    "description": "Generic required field validation error",
+    "placeholders": {
+      "fieldName": {
+        "type": "String",
+        "example": "Destination"
+      }
+    }
+  },
+  "fieldOptional": "{labelText} (اختياري)",
+  "@fieldOptional": {
+    "description": "Label for optional fields",
+    "placeholders": {
+      "labelText": {
+        "type": "String",
+        "example": "Description"
+      }
+    }
+  },
+  "fileAttachedSuccessfully": "تم إرفاق {filename} بنجاح",
+  "@fileAttachedSuccessfully": {
+    "description": "File attachment success message",
+    "placeholders": {
+      "filename": {
+        "type": "String",
+        "example": "document.pdf"
+      }
+    }
+  },
+  "fileMovedOrDeleted": "قد يكون الملف قد تم نقله أو حذفه",
+  "@fileMovedOrDeleted": {
+    "description": "File moved or deleted message"
+  },
+  "fileNotFound": "الملف غير موجود",
+  "@fileNotFound": {
+    "description": "File not found error"
+  },
+  "fileSavedSuccessfully": "تم حفظ الملف بنجاح",
+  "@fileSavedSuccessfully": {
+    "description": "Success message when file is saved"
+  },
+  "fileSizeMustBeLess": "يجب أن يكون حجم الملف أقل من 5 ميجابايت",
+  "@fileSizeMustBeLess": {
+    "description": "File size error message"
+  },
+  "food": "طعام",
+  "@food": {
+    "description": "Food expense category"
+  },
+  "french": "Français",
+  "@french": {
+    "description": "French language"
+  },
+  "german": "Deutsch",
+  "@german": {
+    "description": "German language"
+  },
+  "helpAndSupport": "المساعدة والدعم",
+  "@helpAndSupport": {
+    "description": "Help and support setting"
+  },
+  "high": "عالي",
+  "@high": {
+    "description": "High priority level"
+  },
+  "highPriority": "عالي",
+  "@highPriority": {
+    "description": "High priority level"
+  },
+  "hotel": "فندق",
+  "@hotel": {
+    "description": "Hotel document type"
+  },
+  "howDatesAreDisplayed": "كيفية عرض التواريخ",
+  "@howDatesAreDisplayed": {
+    "description": "Date format description"
+  },
+  "imageSavedToPhotos": "تم حفظ الصورة في الصور",
+  "@imageSavedToPhotos": {
+    "description": "Success message when image is saved to photos"
+  },
+  "importData": "استيراد البيانات",
+  "@importData": {
+    "description": "Import data setting"
+  },
+  "importTripsFromOtherApps": "استيراد الرحلات من تطبيقات أخرى",
+  "@importTripsFromOtherApps": {
+    "description": "Import data description"
+  },
+  "insurance": "تأمين",
+  "@insurance": {
+    "description": "Insurance document type"
+  },
+  "italian": "Italiano",
+  "@italian": {
+    "description": "Italian language"
+  },
+  "january": "يناير",
+  "@january": {
+    "description": "January month abbreviation"
+  },
+  "japanese": "日本語",
+  "@japanese": {
+    "description": "Japanese language"
+  },
+  "july": "يوليو",
+  "@july": {
+    "description": "July month abbreviation"
+  },
+  "june": "يونيو",
+  "@june": {
+    "description": "June month abbreviation"
+  },
+  "keepTrackMessage": "تتبع رحلاتك الجوية وفنادقك وأنشطتك!",
+  "@keepTrackMessage": {
+    "description": "Message encouraging users to add bookings"
+  },
+  "korean": "한국어",
+  "@korean": {
+    "description": "Korean language"
+  },
+  "language": "اللغة",
+  "@language": {
+    "description": "Language setting"
+  },
+  "leaveAReviewOnTheAppStore": "اترك مراجعة في متجر التطبيقات",
+  "@leaveAReviewOnTheAppStore": {
+    "description": "Rate app description"
+  },
+  "locationTooLong": "يجب أن يكون الموقع {limit} حرف أو أقل",
+  "@locationTooLong": {
+    "description": "Validation error when location is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "low": "منخفض",
+  "@low": {
+    "description": "Low priority level"
+  },
+  "lowPriority": "منخفض",
+  "@lowPriority": {
+    "description": "Low priority level"
+  },
+  "mandarin": "中文",
+  "@mandarin": {
+    "description": "Mandarin Chinese language"
+  },
+  "manageYourDataBackup": "إدارة النسخ الاحتياطي للبيانات",
+  "@manageYourDataBackup": {
+    "description": "Backup and sync description"
+  },
+  "march": "مارس",
+  "@march": {
+    "description": "March month abbreviation"
+  },
+  "maxCharacters": "الحد الأقصى {maxLength}",
+  "@maxCharacters": {
+    "description": "Character limit indicator",
+    "placeholders": {
+      "maxLength": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "maxFileSizeSupported": "الحد الأقصى لحجم الملف: 5 ميجابايت\nالتنسيقات المدعومة: PDF, DOC, DOCX, JPG, PNG, GIF",
+  "@maxFileSizeSupported": {
+    "description": "File upload constraints message"
+  },
+  "may": "مايو",
+  "@may": {
+    "description": "May month abbreviation"
+  },
+  "meal": "وجبة",
+  "@meal": {
+    "description": "Activity type: meal"
+  },
+  "medium": "متوسط",
+  "@medium": {
+    "description": "Medium priority level"
+  },
+  "mediumPriority": "متوسط",
+  "@mediumPriority": {
+    "description": "Medium priority level"
+  },
+  "noActivitiesPlanned": "لا توجد أنشطة مخططة",
+  "@noActivitiesPlanned": {
+    "description": "No activities message"
+  },
+  "noDataYet": "لا توجد بيانات بعد",
+  "@noDataYet": {
+    "description": "No data available message"
+  },
+  "noExpensesFoundForCategory": "لم يتم العثور على مصروفات لهذه الفئة",
+  "@noExpensesFoundForCategory": {
+    "description": "Empty state message for filtered expenses"
+  },
+  "noExpensesYet": "لا توجد مصروفات بعد",
+  "@noExpensesYet": {
+    "description": "No expenses message"
+  },
+  "noToDoItems": "لا توجد مهام",
+  "@noToDoItems": {
+    "description": "No to-do items message"
+  },
+  "november": "نوفمبر",
+  "@november": {
+    "description": "November month abbreviation"
+  },
+  "october": "أكتوبر",
+  "@october": {
+    "description": "October month abbreviation"
+  },
+  "open": "فتح",
+  "@open": {
+    "description": "Action to open something"
+  },
+  "openExternally": "فتح خارجياً",
+  "@openExternally": {
+    "description": "Open externally button"
+  },
+  "other": "أخرى",
+  "@other": {
+    "description": "Other category"
+  },
+  "overviewTabTitle": "نظرة عامة",
+  "@overviewTabTitle": {
+    "description": "Overview tab title in trip detail screen"
+  },
+  "paidBy": "دفع بواسطة",
+  "@paidBy": {
+    "description": "Paid by field"
+  },
+  "paidByTooLong": "يجب أن يكون اسم الدافع {limit} حرف أو أقل",
+  "@paidByTooLong": {
+    "description": "Validation error when paid by name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "passport": "جواز سفر",
+  "@passport": {
+    "description": "Passport document type"
+  },
+  "pending": "معلق",
+  "@pending": {
+    "description": "Pending status"
+  },
+  "portuguese": "Português",
+  "@portuguese": {
+    "description": "Portuguese language"
+  },
+  "preferences": "التفضيلات",
+  "@preferences": {
+    "description": "Preferences section title"
+  },
+  "previewNotAvailable": "المعاينة غير متاحة لهذا النوع من الملفات.\nانقر على \"فتح خارجياً\" للعرض مع تطبيق آخر.",
+  "@previewNotAvailable": {
+    "description": "Preview not available message"
+  },
+  "priority": "الأولوية",
+  "@priority": {
+    "description": "Priority label"
+  },
+  "privacyPolicy": "سياسة الخصوصية",
+  "@privacyPolicy": {
+    "description": "Privacy policy setting"
+  },
+  "profile": "الملف الشخصي",
+  "@profile": {
+    "description": "Profile section title"
+  },
+  "rateApp": "قيم التطبيق",
+  "@rateApp": {
+    "description": "Rate app setting"
+  },
+  "readOurPrivacyPolicy": "اقرأ سياسة الخصوصية الخاصة بنا",
+  "@readOurPrivacyPolicy": {
+    "description": "Privacy policy description"
+  },
+  "readOurTermsAndConditions": "اقرأ الشروط والأحكام الخاصة بنا",
+  "@readOurTermsAndConditions": {
+    "description": "Terms of service description"
+  },
+  "removeAllTripsAndDocuments": "إزالة جميع الرحلات والوثائق",
+  "@removeAllTripsAndDocuments": {
+    "description": "Clear all data description"
+  },
+  "retry": "إعادة المحاولة",
+  "@retry": {
+    "description": "Retry button"
+  },
+  "russian": "Русский",
+  "@russian": {
+    "description": "Russian language"
+  },
+  "saveImage": "حفظ الصورة",
+  "@saveImage": {
+    "description": "Dialog title for saving images"
+  },
+  "saveToFiles": "حفظ في الملفات",
+  "@saveToFiles": {
+    "description": "Option to save file to specific location"
+  },
+  "saveToFilesDescription": "اختر مجلد محدد للحفظ",
+  "@saveToFilesDescription": {
+    "description": "Description for save to files option"
+  },
+  "saveToGallery": "حفظ في المعرض",
+  "@saveToGallery": {
+    "description": "Save to gallery option"
+  },
+  "saveToPhotos": "حفظ في الصور",
+  "@saveToPhotos": {
+    "description": "Option to save image to photo gallery"
+  },
+  "saveToPhotosDescription": "حفظ مباشرة في معرض الصور",
+  "@saveToPhotosDescription": {
+    "description": "Description for save to photos option"
+  },
+  "searchTripsPlaceholder": "البحث في الرحلات...",
+  "@searchTripsPlaceholder": {
+    "description": "Search input placeholder for trips"
+  },
+  "selectBackupFile": "اختر ملف النسخ الاحتياطي",
+  "@selectBackupFile": {
+    "description": "Dialog title for backup file selection"
+  },
+  "selectBothStartAndEndDates": "يرجى اختيار تاريخي البداية والنهاية",
+  "@selectBothStartAndEndDates": {
+    "description": "Error when dates are not selected"
+  },
+  "selectDateRange": "اختر نطاق التاريخ",
+  "@selectDateRange": {
+    "description": "Placeholder text for date range picker"
+  },
+  "selectDocument": "اختر وثيقة",
+  "@selectDocument": {
+    "description": "Dialog title for selecting documents"
+  },
+  "selectFile": "اختر ملف",
+  "@selectFile": {
+    "description": "Button text to select file"
+  },
+  "selectStartDateFirst": "يرجى اختيار تاريخ البداية أولاً",
+  "@selectStartDateFirst": {
+    "description": "Error when trying to select end date without start date"
+  },
+  "selectYourPreferredLanguage": "اختر لغتك المفضلة",
+  "@selectYourPreferredLanguage": {
+    "description": "Language description"
+  },
+  "september": "سبتمبر",
+  "@september": {
+    "description": "September month abbreviation"
+  },
+  "setBookingDateOptional": "تحديد تاريخ الحجز (اختياري)",
+  "@setBookingDateOptional": {
+    "description": "Set booking date field label"
+  },
+  "setDueDateOptional": "تحديد تاريخ الاستحقاق (اختياري)",
+  "@setDueDateOptional": {
+    "description": "Set due date field label"
+  },
+  "shopping": "تسوق",
+  "@shopping": {
+    "description": "Activity type: shopping"
+  },
+  "sightseeing": "جولة سياحية",
+  "@sightseeing": {
+    "description": "Activity type: sightseeing"
+  },
+  "spanish": "Español",
+  "@spanish": {
+    "description": "Spanish language"
+  },
+  "startPlanning": "ابدأ التخطيط لمغامرتك القادمة!",
+  "@startPlanning": {
+    "description": "Empty state message for planning"
+  },
+  "startTime": "وقت البداية",
+  "@startTime": {
+    "description": "Start time field"
+  },
+  "stayOrganizedMessage": "ابق منظماً بإضافة مهام لتخطيط رحلتك!",
+  "@stayOrganizedMessage": {
+    "description": "Message encouraging users to add tasks"
+  },
+  "switchBetweenLightAndDarkTheme": "التبديل بين الثيم الفاتح والداكن",
+  "@switchBetweenLightAndDarkTheme": {
+    "description": "Dark mode description"
+  },
+  "task": "مهمة",
+  "@task": {
+    "description": "Quick action button for adding task"
+  },
+  "taskTitle": "عنوان المهمة",
+  "@taskTitle": {
+    "description": "Task title field label"
+  },
+  "temperatureScalePreference": "تفضيل مقياس درجة الحرارة",
+  "@temperatureScalePreference": {
+    "description": "Temperature unit description"
+  },
+  "temperatureUnit": "وحدة درجة الحرارة",
+  "@temperatureUnit": {
+    "description": "Temperature unit setting"
+  },
+  "termsOfService": "شروط الخدمة",
+  "@termsOfService": {
+    "description": "Terms of service setting"
+  },
+  "ticket": "تذكرة",
+  "@ticket": {
+    "description": "Ticket document type"
+  },
+  "title": "العنوان",
+  "@title": {
+    "description": "Title label"
+  },
+  "titleIsRequired": "العنوان مطلوب",
+  "@titleIsRequired": {
+    "description": "Validation error when title is missing"
+  },
+  "titleTooLong": "يجب أن يكون العنوان {limit} حرف أو أقل",
+  "@titleTooLong": {
+    "description": "Validation error when title is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "toDoItems": "قائمة المهام",
+  "@toDoItems": {
+    "description": "To-do items label"
+  },
+  "todoTabTitle": "المهام",
+  "@todoTabTitle": {
+    "description": "To-Do tab title in trip detail screen"
+  },
+  "totalExpenses": "إجمالي المصروفات",
+  "@totalExpenses": {
+    "description": "Total expenses label"
+  },
+  "transport": "نقل",
+  "@transport": {
+    "description": "Transport category"
+  },
+  "travelDates": "تواريخ السفر",
+  "@travelDates": {
+    "description": "Form section header for travel dates"
+  },
+  "tripCreatedSuccessfully": "تم إنشاء الرحلة بنجاح!",
+  "@tripCreatedSuccessfully": {
+    "description": "Success message when trip is created"
+  },
+  "tripDeletedSuccessfully": "تم حذف الرحلة بنجاح",
+  "@tripDeletedSuccessfully": {
+    "description": "Success message when trip is deleted"
+  },
+  "tripInProgressStatus": "الرحلة قيد التقدم",
+  "@tripInProgressStatus": {
+    "description": "Status text for ongoing trips"
+  },
+  "tripNotFound": "الرحلة غير موجودة",
+  "@tripNotFound": {
+    "description": "Error message when trip is not found"
+  },
+  "tripUpdatedSuccessfully": "تم تحديث الرحلة بنجاح",
+  "@tripUpdatedSuccessfully": {
+    "description": "Success message when trip is updated"
+  },
+  "unknown": "غير معروف",
+  "@unknown": {
+    "description": "Unknown value placeholder"
+  },
+  "update": "تحديث",
+  "@update": {
+    "description": "Update action"
+  },
+  "updateActivity": "تحديث النشاط",
+  "@updateActivity": {
+    "description": "Update activity button"
+  },
+  "updateBooking": "تحديث الحجز",
+  "@updateBooking": {
+    "description": "Update booking button"
+  },
+  "updateDocument": "تحديث الوثيقة",
+  "@updateDocument": {
+    "description": "Update document button text"
+  },
+  "updateExpense": "تحديث المصروف",
+  "@updateExpense": {
+    "description": "Update expense button"
+  },
+  "updateTask": "تحديث المهمة",
+  "@updateTask": {
+    "description": "Update task button"
+  },
+  "updateTrip": "تحديث الرحلة",
+  "@updateTrip": {
+    "description": "Update trip button text"
+  },
+  "upcomingWithCount": "قادم ({count})",
+  "@upcomingWithCount": {
+    "description": "Filter option for upcoming trips with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "urgent": "عاجل",
+  "@urgent": {
+    "description": "Urgent priority level"
+  },
+  "urgentPriority": "عاجل",
+  "@urgentPriority": {
+    "description": "Urgent priority level"
+  },
+  "vendor": "البائع",
+  "@vendor": {
+    "description": "Vendor label"
+  },
+  "vendorCompanyOptional": "البائع/الشركة (اختياري)",
+  "@vendorCompanyOptional": {
+    "description": "Vendor/Company field label"
+  },
+  "vendorTooLong": "يجب أن يكون اسم البائع/الشركة {limit} حرف أو أقل",
+  "@vendorTooLong": {
+    "description": "Validation error when vendor name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "visa": "تأشيرة",
+  "@visa": {
+    "description": "Visa document type"
+  },
+  "you": "أنت",
+  "@you": {
+    "description": "You pronoun"
+  },
+  "yourTripsTitle": "رحلاتك",
+  "@yourTripsTitle": {
+    "description": "Section title for user's trips"
+  },
+  "dangerZone": "منطقة الخطر",
+  "hindi": "हिन्दी",
+  "expenseDetails": "تفاصيل المصروف",
+  "bookingTitle": "عنوان الحجز",
+  "status": "الحالة",
+  "splitDetails": "تفاصيل التقسيم",
+  "noBookingsYet": "لا توجد حجوزات بعد",
+  "taskDetails": "تفاصيل المهمة",
+  "addAtLeastOneDestination": "يرجى إضافة وجهة واحدة على الأقل",
+  "itineraryDescriptionTooLong": "يجب أن يكون الوصف {limit} حرف أو أقل",
+  "itineraryTabTitle": "Itinerary",
+  "importBackup": "استيراد النسخة الاحتياطية",
+  "importSuccessful": "نجح الاستيراد",
+  "importFailed": "فشل الاستيراد"
 }

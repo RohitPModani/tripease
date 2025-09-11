@@ -669,357 +669,357 @@ class AppLocalizationsJa extends AppLocalizations {
   String get selectBothStartAndEndDates => '開始日と終了日の両方を選択してください';
 
   @override
-  String get titleIsRequired => 'Title is required';
+  String get titleIsRequired => 'タイトルは必須です';
 
   @override
   String titleTooLong(int limit) {
-    return 'Title must be $limit characters or less';
+    return 'タイトルは$limit文字以下にしてください';
   }
 
   @override
   String descriptionTooLong(int limit) {
-    return 'Description must be $limit characters or less';
+    return '説明は$limit文字以下にしてください';
   }
 
   @override
   String vendorTooLong(int limit) {
-    return 'Vendor/Company must be $limit characters or less';
+    return 'ベンダー/会社は$limit文字以下にしてください';
   }
 
   @override
   String confirmationNumberTooLong(int limit) {
-    return 'Confirmation number must be $limit characters or less';
+    return '確認番号は$limit文字以下にしてください';
   }
 
   @override
   String paidByTooLong(int limit) {
-    return 'Paid by must be $limit characters or less';
+    return '支払者は$limit文字以下にしてください';
   }
 
   @override
   String locationTooLong(int limit) {
-    return 'Location must be $limit characters or less';
+    return '場所は$limit文字以下にしてください';
   }
 
   @override
   String itineraryDescriptionTooLong(int limit) {
-    return 'Description must be $limit characters or less';
+    return '説明は$limit文字以下にしてください';
   }
 
   @override
-  String get amountIsRequired => 'Amount is required';
+  String get amountIsRequired => '金額は必須です';
 
   @override
-  String get enterValidAmount => 'Please enter a valid amount';
+  String get enterValidAmount => '有効な金額を入力してください';
 
   @override
-  String get amountMustBePositive => 'Amount must be positive';
+  String get amountMustBePositive => '金額は正の数にしてください';
 
   @override
   String fieldIsRequired(String fieldName) {
-    return '$fieldName is required';
+    return '$fieldNameは必須です';
   }
 
   @override
-  String get destinationIsRequired => 'Destination is required';
+  String get destinationIsRequired => '目的地は必須です';
 
   @override
   String destinationTooLong(int limit) {
-    return 'Destination must be $limit characters or less';
+    return '目的地は$limit文字以下にしてください';
   }
 
   @override
   String fieldOptional(String labelText) {
-    return '$labelText (Optional)';
+    return '$labelText（任意）';
   }
 
   @override
   String maxCharacters(int maxLength) {
-    return '$maxLength max';
+    return '最大$maxLength文字';
   }
 
   @override
-  String get searchTripsPlaceholder => 'Search trips...';
+  String get searchTripsPlaceholder => '旅行を検索...';
 
   @override
   String allWithTotal(int total) {
-    return 'All ($total)';
+    return 'すべて ($total)';
   }
 
   @override
   String upcomingWithCount(int count) {
-    return 'Upcoming ($count)';
+    return '予定 ($count)';
   }
 
   @override
   String activeWithCount(int count) {
-    return 'Active ($count)';
+    return 'アクティブ ($count)';
   }
 
   @override
   String completedWithCount(int count) {
-    return 'Completed ($count)';
+    return '完了 ($count)';
   }
 
   @override
-  String get yourTripsTitle => 'Your Trips';
+  String get yourTripsTitle => 'あなたの旅行';
 
   @override
   String activeTripsCount(int count) {
-    return '$count Active';
+    return '$count個アクティブ';
   }
 
   @override
-  String get bookingsTabTitle => 'Bookings';
+  String get bookingsTabTitle => '予約';
 
   @override
-  String get expensesTabTitle => 'Expenses';
+  String get expensesTabTitle => '支出';
 
   @override
-  String get overviewTabTitle => 'Overview';
+  String get overviewTabTitle => '概要';
 
   @override
-  String get todoTabTitle => 'To-Do';
+  String get todoTabTitle => 'やることリスト';
 
   @override
-  String get itineraryTabTitle => 'Itinerary';
+  String get itineraryTabTitle => '旅程';
 
   @override
-  String get failedToLoadTrip => 'Failed to load trip';
+  String get failedToLoadTrip => '旅行の読み込みに失敗しました';
 
   @override
-  String get tripNotFound => 'Trip not found';
+  String get tripNotFound => '旅行が見つかりません';
 
   @override
-  String get saveImage => 'Save Image';
+  String get saveImage => '画像を保存';
 
   @override
-  String get saveToPhotos => 'Save to Photos';
+  String get saveToPhotos => '写真に保存';
 
   @override
-  String get saveToPhotosDescription => 'Save directly to your photo gallery';
+  String get saveToPhotosDescription => '写真ギャラリーに直接保存';
 
   @override
-  String get saveToFiles => 'Save to Files';
+  String get saveToFiles => 'ファイルに保存';
 
   @override
-  String get saveToFilesDescription => 'Choose a specific folder to save';
+  String get saveToFilesDescription => '保存する特定のフォルダを選択';
 
   @override
-  String get imageSavedToPhotos => 'Image saved to Photos';
+  String get imageSavedToPhotos => '画像が写真に保存されました';
 
   @override
-  String get fileSavedSuccessfully => 'File saved successfully';
+  String get fileSavedSuccessfully => 'ファイルが正常に保存されました';
 
   @override
-  String get open => 'Open';
+  String get open => '開く';
 
   @override
   String errorDownloadingFile(String error) {
-    return 'Error downloading file: $error';
+    return 'ファイルダウンロードエラー：$error';
   }
 
   @override
   String errorSavingToPhotos(String error) {
-    return 'Error saving to Photos: $error';
+    return '写真保存エラー：$error';
   }
 
   @override
   String errorSavingFile(String error) {
-    return 'Error saving file: $error';
+    return 'ファイル保存エラー：$error';
   }
 
   @override
-  String get selectDocument => 'Select Document';
+  String get selectDocument => '書類を選択';
 
   @override
-  String get chooseFromGalleryTitle => 'Choose from Gallery';
+  String get chooseFromGalleryTitle => 'ギャラリーから選択';
 
   @override
-  String get chooseFromGalleryDescription => 'Select from photo library';
+  String get chooseFromGalleryDescription => 'フォトライブラリから選択';
 
   @override
-  String get chooseFileTitle => 'Choose File';
+  String get chooseFileTitle => 'ファイルを選択';
 
   @override
-  String get chooseFileDescription => 'Select PDF or other files';
+  String get chooseFileDescription => 'PDFまたは他のファイルを選択';
 
   @override
-  String get failedToCaptureImage => 'Failed to capture image';
+  String get failedToCaptureImage => '画像の撮影に失敗しました';
 
   @override
-  String get failedToSelectImage => 'Failed to select image';
+  String get failedToSelectImage => '画像の選択に失敗しました';
 
   @override
-  String get failedToSelectFile => 'Failed to select file';
+  String get failedToSelectFile => 'ファイルの選択に失敗しました';
 
   @override
-  String get documentAddedSuccessfully => 'Document added successfully';
+  String get documentAddedSuccessfully => '書類が正常に追加されました';
 
   @override
-  String get documentUpdatedSuccessfully => 'Document updated successfully';
+  String get documentUpdatedSuccessfully => '書類が正常に更新されました';
 
   @override
-  String get failedToSaveDocument => 'Failed to save document';
+  String get failedToSaveDocument => '書類の保存に失敗しました';
 
   @override
-  String get documentTitle => 'Document Title *';
+  String get documentTitle => '書類タイトル *';
 
   @override
-  String get documentCategory => 'Document Category';
+  String get documentCategory => '書類カテゴリ';
 
   @override
-  String get changeDocument => 'Change Document';
+  String get changeDocument => '書類を変更';
 
   @override
-  String get documentsTitle => 'Documents';
+  String get documentsTitle => '書類';
 
   @override
-  String get noDocumentsYet => 'No documents yet';
+  String get noDocumentsYet => 'まだドキュメントがありません';
 
   @override
-  String get noDocumentsFound => 'No documents found';
+  String get noDocumentsFound => 'ドキュメントが見つかりません';
 
   @override
-  String get clearSearch => 'Clear search';
+  String get clearSearch => '検索をクリア';
 
   @override
-  String get documentDetails => 'Document Details';
+  String get documentDetails => 'ドキュメント詳細';
 
   @override
-  String get fileSize => 'File Size';
+  String get fileSize => 'ファイルサイズ';
 
   @override
-  String get fileName => 'File Name';
+  String get fileName => 'ファイル名';
 
   @override
-  String get deleteDocument => 'Delete Document';
+  String get deleteDocument => '書類を削除';
 
   @override
   String deleteDocumentConfirmation(String title) {
-    return 'Are you sure you want to delete \"$title\"? This action cannot be undone.';
+    return '「$title」を削除しますか？この操作は元に戻せません。';
   }
 
   @override
   String documentDeletedSuccessfully(String title) {
-    return 'Document \"$title\" deleted successfully';
+    return '書類「$title」が正常に削除されました';
   }
 
   @override
   String failedToDeleteDocument(String error) {
-    return 'Failed to delete document: $error';
+    return '書類の削除に失敗しました：$error';
   }
 
   @override
-  String get location => 'Location';
+  String get location => '場所';
 
   @override
-  String get activityTitleLabel => 'Activity Title';
+  String get activityTitleLabel => '活動タイトル';
 
   @override
-  String get activityTypeLabel => 'Activity Type';
+  String get activityTypeLabel => '活動タイプ';
 
   @override
-  String get expenseTitleLabel => 'Expense Title';
+  String get expenseTitleLabel => '支出タイトル';
 
   @override
-  String get destinations => 'Destinations';
+  String get destinations => '目的地';
 
   @override
-  String get currency => 'Currency';
+  String get currency => '通貨';
 
   @override
-  String get tripInProgressStatus => 'Trip in Progress';
+  String get tripInProgressStatus => '旅行進行中';
 
   @override
-  String get completedStatus => 'Completed';
+  String get completedStatus => '完了';
 
   @override
-  String get tripDates => 'Trip Dates';
+  String get tripDates => '旅行日程';
 
   @override
-  String get expenseType => 'Expense';
+  String get expenseType => '支出';
 
   @override
-  String get expenseDetailsTitle => 'Expense Details';
+  String get expenseDetailsTitle => '支出詳細';
 
   @override
-  String get activityDetailsTitle => 'Activity Details';
+  String get activityDetailsTitle => '活動詳細';
 
   @override
-  String get deleteActivity => 'Delete Activity';
+  String get deleteActivity => '活動を削除';
 
   @override
-  String get deleteBooking => 'Delete Booking';
+  String get deleteBooking => '予約を削除';
 
   @override
-  String get january => 'Jan';
+  String get january => '1月';
 
   @override
-  String get february => 'Feb';
+  String get february => '2月';
 
   @override
-  String get march => 'Mar';
+  String get march => '3月';
 
   @override
-  String get april => 'Apr';
+  String get april => '4月';
 
   @override
-  String get may => 'May';
+  String get may => '5月';
 
   @override
-  String get june => 'Jun';
+  String get june => '6月';
 
   @override
-  String get july => 'Jul';
+  String get july => '7月';
 
   @override
-  String get august => 'Aug';
+  String get august => '8月';
 
   @override
-  String get september => 'Sept';
+  String get september => '9月';
 
   @override
-  String get october => 'Oct';
+  String get october => '10月';
 
   @override
-  String get november => 'Nov';
+  String get november => '11月';
 
   @override
-  String get december => 'Dec';
+  String get december => '12月';
 
   @override
-  String get food => 'Food';
+  String get food => '食事';
 
   @override
-  String get confirmed => 'Confirmed';
+  String get confirmed => '確認済み';
 
   @override
-  String get cancelled => 'Cancelled';
+  String get cancelled => 'キャンセル';
 
   @override
-  String get passport => 'Passport';
+  String get passport => 'パスポート';
 
   @override
-  String get visa => 'Visa';
+  String get visa => 'ビザ';
 
   @override
-  String get ticket => 'Ticket';
+  String get ticket => 'チケット';
 
   @override
-  String get hotel => 'Hotel';
+  String get hotel => 'ホテル';
 
   @override
-  String get insurance => 'Insurance';
+  String get insurance => '保険';
 
   @override
-  String get editDocument => 'Edit Document';
+  String get editDocument => '書類を編集';
 
   @override
-  String get updateDocument => 'Update Document';
+  String get updateDocument => '書類を更新';
 
   @override
-  String get saveToGallery => 'Save to Gallery';
+  String get saveToGallery => 'ギャラリーに保存';
 
   @override
   String get flight => 'フライト';
@@ -1032,6 +1032,111 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get documentLimitReached => 'ドキュメント制限に達しました。合計10件までしかドキュメントを追加できません。';
+
+  @override
+  String get clearFilters => 'フィルターをクリア';
+
+  @override
+  String get travelDates => '旅行日程';
+
+  @override
+  String get selectDateRange => '日付範囲を選択';
+
+  @override
+  String get activityDetails => '活動詳細';
+
+  @override
+  String get quickActions => 'クイックアクション';
+
+  @override
+  String get addNewItemsToTrip => '旅行に新しいアイテムを追加';
+
+  @override
+  String get booking => '予約';
+
+  @override
+  String get expense => '支出';
+
+  @override
+  String get itinerary => '旅程';
+
+  @override
+  String get duration => '期間';
+
+  @override
+  String get noExpensesFound => '支出が見つかりません';
+
+  @override
+  String get noExpensesFoundForCategory => 'このカテゴリの支出が見つかりません';
+
+  @override
+  String get noTasksFound => 'タスクが見つかりません';
+
+  @override
+  String get noBookingsFound => '予約が見つかりません';
+
+  @override
+  String get noTripsFound => '旅行が見つかりません';
+
+  @override
+  String get tryAdjustingFilters => 'フィルターを調整してみてください';
+
+  @override
+  String get searchTasks => 'タスクを検索';
+
+  @override
+  String get searchBookings => '予約を検索';
+
+  @override
+  String get urgentPriority => '緊急';
+
+  @override
+  String get highPriority => '高';
+
+  @override
+  String get mediumPriority => '中';
+
+  @override
+  String get lowPriority => '低';
+
+  @override
+  String get overdue => '期限切れ';
+
+  @override
+  String get dueToday => '今日が期限';
+
+  @override
+  String get dueTomorrow => '明日が期限';
+
+  @override
+  String get activeStatus => 'アクティブ状態';
+
+  @override
+  String get selectBackupFile => 'バックアップファイルを選択';
+
+  @override
+  String get selectFile => 'ファイルを選択';
+
+  @override
+  String get importBackup => 'バックアップをインポート';
+
+  @override
+  String get importSuccessful => 'インポート成功';
+
+  @override
+  String get importFailed => 'インポート失敗';
+
+  @override
+  String get couldNotOpenAppStore => 'App Storeを開けませんでした';
+
+  @override
+  String get couldNotOpenHelpSection => 'ヘルプセクションを開けませんでした';
+
+  @override
+  String get couldNotOpenPrivacyPolicy => 'プライバシーポリシーを開けませんでした';
+
+  @override
+  String get couldNotOpenTermsOfService => '利用規約を開けませんでした';
 
   @override
   String get confirmActionWarning => 'This action cannot be undone!';
@@ -1118,25 +1223,24 @@ class AppLocalizationsJa extends AppLocalizations {
   String get fileInfoCompression => '• Compression: GZip compressed';
 
   @override
-  String get keepFileSafeNote =>
-      'Keep this file safe — you\'ll need it to restore your data!';
+  String get keepFileSafeNote => 'このファイルを安全に保管してください—データの復元に必要です！';
 
   @override
-  String get exportFailedTitle => 'Export Failed';
+  String get exportFailedTitle => 'エクスポート失敗';
 
   @override
   String failedToCreateBackup(String error) {
-    return 'Failed to create backup: $error';
+    return 'バックアップ作成に失敗しました：$error';
   }
 
   @override
   String get continueAction => 'Continue';
 
   @override
-  String get deleteEverything => 'Delete Everything';
+  String get deleteEverything => 'すべて削除';
 
   @override
-  String get createBackup => 'Create Backup';
+  String get createBackup => 'バックアップ作成';
 
   @override
   String get ok => 'OK';

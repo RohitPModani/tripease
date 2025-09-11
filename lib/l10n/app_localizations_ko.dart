@@ -670,357 +670,357 @@ class AppLocalizationsKo extends AppLocalizations {
   String get selectBothStartAndEndDates => '시작일과 종료일을 모두 선택해주세요';
 
   @override
-  String get titleIsRequired => 'Title is required';
+  String get titleIsRequired => '제목은 필수입니다';
 
   @override
   String titleTooLong(int limit) {
-    return 'Title must be $limit characters or less';
+    return '제목은 $limit자 이내여야 합니다';
   }
 
   @override
   String descriptionTooLong(int limit) {
-    return 'Description must be $limit characters or less';
+    return '설명은 $limit자 이내여야 합니다';
   }
 
   @override
   String vendorTooLong(int limit) {
-    return 'Vendor/Company must be $limit characters or less';
+    return '공급업체/회사는 $limit자 이내여야 합니다';
   }
 
   @override
   String confirmationNumberTooLong(int limit) {
-    return 'Confirmation number must be $limit characters or less';
+    return '확인 번호는 $limit자 이내여야 합니다';
   }
 
   @override
   String paidByTooLong(int limit) {
-    return 'Paid by must be $limit characters or less';
+    return '결제자는 $limit자 이내여야 합니다';
   }
 
   @override
   String locationTooLong(int limit) {
-    return 'Location must be $limit characters or less';
+    return '위치는 $limit자 이내여야 합니다';
   }
 
   @override
   String itineraryDescriptionTooLong(int limit) {
-    return 'Description must be $limit characters or less';
+    return '설명은 $limit자 이내여야 합니다';
   }
 
   @override
-  String get amountIsRequired => 'Amount is required';
+  String get amountIsRequired => '금액은 필수입니다';
 
   @override
-  String get enterValidAmount => 'Please enter a valid amount';
+  String get enterValidAmount => '유효한 금액을 입력하세요';
 
   @override
-  String get amountMustBePositive => 'Amount must be positive';
+  String get amountMustBePositive => '금액은 양수여야 합니다';
 
   @override
   String fieldIsRequired(String fieldName) {
-    return '$fieldName is required';
+    return '$fieldName은(는) 필수입니다';
   }
 
   @override
-  String get destinationIsRequired => 'Destination is required';
+  String get destinationIsRequired => '목적지는 필수입니다';
 
   @override
   String destinationTooLong(int limit) {
-    return 'Destination must be $limit characters or less';
+    return '목적지는 $limit자 이내여야 합니다';
   }
 
   @override
   String fieldOptional(String labelText) {
-    return '$labelText (Optional)';
+    return '$labelText (선택사항)';
   }
 
   @override
   String maxCharacters(int maxLength) {
-    return '$maxLength max';
+    return '최대 $maxLength자';
   }
 
   @override
-  String get searchTripsPlaceholder => 'Search trips...';
+  String get searchTripsPlaceholder => '여행 검색...';
 
   @override
   String allWithTotal(int total) {
-    return 'All ($total)';
+    return '전체 ($total)';
   }
 
   @override
   String upcomingWithCount(int count) {
-    return 'Upcoming ($count)';
+    return '예정 ($count)';
   }
 
   @override
   String activeWithCount(int count) {
-    return 'Active ($count)';
+    return '활성 ($count)';
   }
 
   @override
   String completedWithCount(int count) {
-    return 'Completed ($count)';
+    return '완료 ($count)';
   }
 
   @override
-  String get yourTripsTitle => 'Your Trips';
+  String get yourTripsTitle => '당신의 여행';
 
   @override
   String activeTripsCount(int count) {
-    return '$count Active';
+    return '$count개 활성';
   }
 
   @override
-  String get bookingsTabTitle => 'Bookings';
+  String get bookingsTabTitle => '예약';
 
   @override
-  String get expensesTabTitle => 'Expenses';
+  String get expensesTabTitle => '지출';
 
   @override
-  String get overviewTabTitle => 'Overview';
+  String get overviewTabTitle => '개요';
 
   @override
-  String get todoTabTitle => 'To-Do';
+  String get todoTabTitle => '할 일';
 
   @override
-  String get itineraryTabTitle => 'Itinerary';
+  String get itineraryTabTitle => '여정';
 
   @override
-  String get failedToLoadTrip => 'Failed to load trip';
+  String get failedToLoadTrip => '여행 로드 실패';
 
   @override
-  String get tripNotFound => 'Trip not found';
+  String get tripNotFound => '여행을 찾을 수 없습니다';
 
   @override
-  String get saveImage => 'Save Image';
+  String get saveImage => '이미지 저장';
 
   @override
-  String get saveToPhotos => 'Save to Photos';
+  String get saveToPhotos => '사진에 저장';
 
   @override
-  String get saveToPhotosDescription => 'Save directly to your photo gallery';
+  String get saveToPhotosDescription => '사진 갤러리에 직접 저장';
 
   @override
-  String get saveToFiles => 'Save to Files';
+  String get saveToFiles => '파일에 저장';
 
   @override
-  String get saveToFilesDescription => 'Choose a specific folder to save';
+  String get saveToFilesDescription => '저장할 특정 폴더 선택';
 
   @override
-  String get imageSavedToPhotos => 'Image saved to Photos';
+  String get imageSavedToPhotos => '이미지가 사진에 저장됨';
 
   @override
-  String get fileSavedSuccessfully => 'File saved successfully';
+  String get fileSavedSuccessfully => '파일이 성공적으로 저장됨';
 
   @override
-  String get open => 'Open';
+  String get open => '열기';
 
   @override
   String errorDownloadingFile(String error) {
-    return 'Error downloading file: $error';
+    return '파일 다운로드 오류: $error';
   }
 
   @override
   String errorSavingToPhotos(String error) {
-    return 'Error saving to Photos: $error';
+    return '사진 저장 오류: $error';
   }
 
   @override
   String errorSavingFile(String error) {
-    return 'Error saving file: $error';
+    return '파일 저장 오류: $error';
   }
 
   @override
-  String get selectDocument => 'Select Document';
+  String get selectDocument => '문서 선택';
 
   @override
-  String get chooseFromGalleryTitle => 'Choose from Gallery';
+  String get chooseFromGalleryTitle => '갤러리에서 선택';
 
   @override
-  String get chooseFromGalleryDescription => 'Select from photo library';
+  String get chooseFromGalleryDescription => '사진 라이브러리에서 선택';
 
   @override
-  String get chooseFileTitle => 'Choose File';
+  String get chooseFileTitle => '파일 선택';
 
   @override
-  String get chooseFileDescription => 'Select PDF or other files';
+  String get chooseFileDescription => 'PDF 또는 기타 파일 선택';
 
   @override
-  String get failedToCaptureImage => 'Failed to capture image';
+  String get failedToCaptureImage => '이미지 촬영 실패';
 
   @override
-  String get failedToSelectImage => 'Failed to select image';
+  String get failedToSelectImage => '이미지 선택 실패';
 
   @override
-  String get failedToSelectFile => 'Failed to select file';
+  String get failedToSelectFile => '파일 선택 실패';
 
   @override
-  String get documentAddedSuccessfully => 'Document added successfully';
+  String get documentAddedSuccessfully => '문서가 성공적으로 추가됨';
 
   @override
-  String get documentUpdatedSuccessfully => 'Document updated successfully';
+  String get documentUpdatedSuccessfully => '문서가 성공적으로 업데이트됨';
 
   @override
-  String get failedToSaveDocument => 'Failed to save document';
+  String get failedToSaveDocument => '문서 저장 실패';
 
   @override
-  String get documentTitle => 'Document Title *';
+  String get documentTitle => '문서 제목 *';
 
   @override
-  String get documentCategory => 'Document Category';
+  String get documentCategory => '문서 카테고리';
 
   @override
-  String get changeDocument => 'Change Document';
+  String get changeDocument => '문서 변경';
 
   @override
-  String get documentsTitle => 'Documents';
+  String get documentsTitle => '문서';
 
   @override
-  String get noDocumentsYet => 'No documents yet';
+  String get noDocumentsYet => '아직 문서가 없습니다';
 
   @override
-  String get noDocumentsFound => 'No documents found';
+  String get noDocumentsFound => '문서를 찾을 수 없습니다';
 
   @override
-  String get clearSearch => 'Clear search';
+  String get clearSearch => '검색 지우기';
 
   @override
-  String get documentDetails => 'Document Details';
+  String get documentDetails => '문서 세부정보';
 
   @override
-  String get fileSize => 'File Size';
+  String get fileSize => '파일 크기';
 
   @override
-  String get fileName => 'File Name';
+  String get fileName => '파일명';
 
   @override
-  String get deleteDocument => 'Delete Document';
+  String get deleteDocument => '문서 삭제';
 
   @override
   String deleteDocumentConfirmation(String title) {
-    return 'Are you sure you want to delete \"$title\"? This action cannot be undone.';
+    return '\"$title\"을(를) 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.';
   }
 
   @override
   String documentDeletedSuccessfully(String title) {
-    return 'Document \"$title\" deleted successfully';
+    return '문서 \"$title\"이(가) 성공적으로 삭제됨';
   }
 
   @override
   String failedToDeleteDocument(String error) {
-    return 'Failed to delete document: $error';
+    return '문서 삭제 실패: $error';
   }
 
   @override
-  String get location => 'Location';
+  String get location => '위치';
 
   @override
-  String get activityTitleLabel => 'Activity Title';
+  String get activityTitleLabel => '활동 제목';
 
   @override
-  String get activityTypeLabel => 'Activity Type';
+  String get activityTypeLabel => '활동 유형';
 
   @override
-  String get expenseTitleLabel => 'Expense Title';
+  String get expenseTitleLabel => '지출 제목';
 
   @override
-  String get destinations => 'Destinations';
+  String get destinations => '목적지';
 
   @override
-  String get currency => 'Currency';
+  String get currency => '통화';
 
   @override
-  String get tripInProgressStatus => 'Trip in Progress';
+  String get tripInProgressStatus => '여행 진행 중';
 
   @override
-  String get completedStatus => 'Completed';
+  String get completedStatus => '완료됨';
 
   @override
-  String get tripDates => 'Trip Dates';
+  String get tripDates => '여행 날짜';
 
   @override
-  String get expenseType => 'Expense';
+  String get expenseType => '지출';
 
   @override
-  String get expenseDetailsTitle => 'Expense Details';
+  String get expenseDetailsTitle => '지출 세부사항';
 
   @override
-  String get activityDetailsTitle => 'Activity Details';
+  String get activityDetailsTitle => '활동 세부사항';
 
   @override
-  String get deleteActivity => 'Delete Activity';
+  String get deleteActivity => '활동 삭제';
 
   @override
-  String get deleteBooking => 'Delete Booking';
+  String get deleteBooking => '예약 삭제';
 
   @override
-  String get january => 'Jan';
+  String get january => '1월';
 
   @override
-  String get february => 'Feb';
+  String get february => '2월';
 
   @override
-  String get march => 'Mar';
+  String get march => '3월';
 
   @override
-  String get april => 'Apr';
+  String get april => '4월';
 
   @override
-  String get may => 'May';
+  String get may => '5월';
 
   @override
-  String get june => 'Jun';
+  String get june => '6월';
 
   @override
-  String get july => 'Jul';
+  String get july => '7월';
 
   @override
-  String get august => 'Aug';
+  String get august => '8월';
 
   @override
-  String get september => 'Sept';
+  String get september => '9월';
 
   @override
-  String get october => 'Oct';
+  String get october => '10월';
 
   @override
-  String get november => 'Nov';
+  String get november => '11월';
 
   @override
-  String get december => 'Dec';
+  String get december => '12월';
 
   @override
-  String get food => 'Food';
+  String get food => '음식';
 
   @override
-  String get confirmed => 'Confirmed';
+  String get confirmed => '확인됨';
 
   @override
-  String get cancelled => 'Cancelled';
+  String get cancelled => '취소됨';
 
   @override
-  String get passport => 'Passport';
+  String get passport => '여권';
 
   @override
-  String get visa => 'Visa';
+  String get visa => '비자';
 
   @override
-  String get ticket => 'Ticket';
+  String get ticket => '티켓';
 
   @override
-  String get hotel => 'Hotel';
+  String get hotel => '호텔';
 
   @override
-  String get insurance => 'Insurance';
+  String get insurance => '보험';
 
   @override
-  String get editDocument => 'Edit Document';
+  String get editDocument => '문서 편집';
 
   @override
-  String get updateDocument => 'Update Document';
+  String get updateDocument => '문서 업데이트';
 
   @override
-  String get saveToGallery => 'Save to Gallery';
+  String get saveToGallery => '갤러리에 저장';
 
   @override
   String get flight => '항공편';
@@ -1034,6 +1034,111 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get documentLimitReached => '문서 한도에 도달했습니다. 총 최대 10개의 문서만 추가할 수 있습니다.';
+
+  @override
+  String get clearFilters => '필터 지우기';
+
+  @override
+  String get travelDates => '여행 날짜';
+
+  @override
+  String get selectDateRange => '날짜 범위 선택';
+
+  @override
+  String get activityDetails => '활동 세부사항';
+
+  @override
+  String get quickActions => '빠른 작업';
+
+  @override
+  String get addNewItemsToTrip => '여행에 새 항목 추가';
+
+  @override
+  String get booking => '예약';
+
+  @override
+  String get expense => '지출';
+
+  @override
+  String get itinerary => '여정';
+
+  @override
+  String get duration => '기간';
+
+  @override
+  String get noExpensesFound => '지출을 찾을 수 없습니다';
+
+  @override
+  String get noExpensesFoundForCategory => '이 카테고리에서 지출을 찾을 수 없습니다';
+
+  @override
+  String get noTasksFound => '작업을 찾을 수 없습니다';
+
+  @override
+  String get noBookingsFound => '예약을 찾을 수 없습니다';
+
+  @override
+  String get noTripsFound => '여행을 찾을 수 없습니다';
+
+  @override
+  String get tryAdjustingFilters => '필터를 조정해 보세요';
+
+  @override
+  String get searchTasks => '작업 검색';
+
+  @override
+  String get searchBookings => '예약 검색';
+
+  @override
+  String get urgentPriority => '긴급';
+
+  @override
+  String get highPriority => '높음';
+
+  @override
+  String get mediumPriority => '보통';
+
+  @override
+  String get lowPriority => '낮음';
+
+  @override
+  String get overdue => '기한 초과';
+
+  @override
+  String get dueToday => '오늘 마감';
+
+  @override
+  String get dueTomorrow => '내일 마감';
+
+  @override
+  String get activeStatus => '활성 상태';
+
+  @override
+  String get selectBackupFile => '백업 파일 선택';
+
+  @override
+  String get selectFile => '파일 선택';
+
+  @override
+  String get importBackup => '백업 가져오기';
+
+  @override
+  String get importSuccessful => '가져오기 성공';
+
+  @override
+  String get importFailed => '가져오기 실패';
+
+  @override
+  String get couldNotOpenAppStore => '앱 스토어를 열 수 없습니다';
+
+  @override
+  String get couldNotOpenHelpSection => '도움말 섹션을 열 수 없습니다';
+
+  @override
+  String get couldNotOpenPrivacyPolicy => '개인정보처리방침을 열 수 없습니다';
+
+  @override
+  String get couldNotOpenTermsOfService => '서비스 약관을 열 수 없습니다';
 
   @override
   String get confirmActionWarning => 'This action cannot be undone!';
@@ -1120,25 +1225,24 @@ class AppLocalizationsKo extends AppLocalizations {
   String get fileInfoCompression => '• Compression: GZip compressed';
 
   @override
-  String get keepFileSafeNote =>
-      'Keep this file safe — you\'ll need it to restore your data!';
+  String get keepFileSafeNote => '이 파일을 안전하게 보관하세요 — 데이터 복원에 필요합니다!';
 
   @override
-  String get exportFailedTitle => 'Export Failed';
+  String get exportFailedTitle => '내보내기 실패';
 
   @override
   String failedToCreateBackup(String error) {
-    return 'Failed to create backup: $error';
+    return '백업 생성 실패: $error';
   }
 
   @override
   String get continueAction => 'Continue';
 
   @override
-  String get deleteEverything => 'Delete Everything';
+  String get deleteEverything => '모두 삭제';
 
   @override
-  String get createBackup => 'Create Backup';
+  String get createBackup => '백업 생성';
 
   @override
   String get ok => 'OK';

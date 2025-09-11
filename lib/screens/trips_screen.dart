@@ -161,7 +161,7 @@ class _TripsScreenState extends State<TripsScreen> {
           });
         },
         decoration: InputDecoration(
-          hintText: AppLocalizations.of(context)!.searchTripsPlaceholder,
+          hintText: AppLocalizations.of(context)!.searchTrips,
           prefixIcon: const Icon(Iconsax.search_normal_1),
           suffixIcon: _searchQuery.isNotEmpty
               ? IconButton(
@@ -268,7 +268,7 @@ class _TripsScreenState extends State<TripsScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          AppLocalizations.of(context)!.yourTripsTitle,
+          AppLocalizations.of(context)!.yourTrips,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),
@@ -389,12 +389,12 @@ class _TripsScreenState extends State<TripsScreen> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'No trips found',
+                      AppLocalizations.of(context)!.noTripsFound,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Try adjusting your search terms or filters',
+                      AppLocalizations.of(context)!.tryAdjustingFilters,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Theme.of(context).colorScheme.outline,
                       ),
@@ -410,7 +410,7 @@ class _TripsScreenState extends State<TripsScreen> {
                         });
                       },
                       icon: const Icon(Iconsax.refresh),
-                      label: Text('Clear Filters'),
+                      label: Text(AppLocalizations.of(context)!.clearFilters),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.primaryColor,
                         foregroundColor: Colors.white,

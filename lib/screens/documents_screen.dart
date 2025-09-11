@@ -160,7 +160,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
         title: Text(
-          'Documents',
+          AppLocalizations.of(context)!.documents,
           style: Theme.of(context).textTheme.displayMedium?.copyWith(
             fontWeight: FontWeight.w700,
             foreground: Paint()
@@ -274,7 +274,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'No documents yet',
+                  AppLocalizations.of(context)!.noDocumentsYet,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
@@ -302,12 +302,12 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'No documents found',
+                  AppLocalizations.of(context)!.noDocumentsFound,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Try adjusting your search terms or filters',
+                  AppLocalizations.of(context)!.tryAdjustingFilters,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.outline,
                   ),
@@ -323,7 +323,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     });
                   },
                   icon: const Icon(Iconsax.refresh),
-                  label: Text('Clear Filters'),
+                  label: Text(AppLocalizations.of(context)!.clearFilters),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primaryColor,
                     foregroundColor: Colors.white,
@@ -622,13 +622,13 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   String _getDocumentTypeDisplayName(DocumentType type) {
     switch (type) {
       case DocumentType.passport:
-        return 'Passport';
+        return AppLocalizations.of(context)!.passport;
       case DocumentType.visa:
-        return 'Visa';
+        return AppLocalizations.of(context)!.visa;
       case DocumentType.insurance:
-        return 'Insurance';
+        return AppLocalizations.of(context)!.insurance;
       case DocumentType.other:
-        return 'Other';
+        return AppLocalizations.of(context)!.other;
     }
   }
 
@@ -689,7 +689,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Document Details',
+                                AppLocalizations.of(context)!.documentDetails,
                                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -708,7 +708,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'Title',
+                      AppLocalizations.of(context)!.title,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -721,7 +721,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     if (document.description.isNotEmpty) ...[
                       const SizedBox(height: 20),
                       Text(
-                        'Description',
+                        AppLocalizations.of(context)!.description,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -778,7 +778,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'File Size',
+                                AppLocalizations.of(context)!.fileSize,
                                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -797,7 +797,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'File Name',
+                      AppLocalizations.of(context)!.fileName,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),

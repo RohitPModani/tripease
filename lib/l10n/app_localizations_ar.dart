@@ -122,117 +122,117 @@ class AppLocalizationsAr extends AppLocalizations {
   String get delete => 'حذف';
 
   @override
-  String get profile => 'Profile';
+  String get profile => 'الملف الشخصي';
 
   @override
-  String get preferences => 'Preferences';
+  String get preferences => 'التفضيلات';
 
   @override
-  String get darkMode => 'Dark Mode';
+  String get darkMode => 'الوضع المظلم';
 
   @override
   String get switchBetweenLightAndDarkTheme =>
-      'Switch between light and dark theme';
+      'التبديل بين الثيم الفاتح والداكن';
 
   @override
-  String get language => 'Language';
+  String get language => 'اللغة';
 
   @override
-  String get selectYourPreferredLanguage => 'Select your preferred language';
+  String get selectYourPreferredLanguage => 'اختر لغتك المفضلة';
 
   @override
-  String get defaultCurrency => 'Default Currency';
+  String get defaultCurrency => 'العملة الافتراضية';
 
   @override
-  String get currencyUsedForNewTrips => 'Currency used for new trips';
+  String get currencyUsedForNewTrips => 'العملة المستخدمة للرحلات الجديدة';
 
   @override
-  String get dateFormat => 'Date Format';
+  String get dateFormat => 'تنسيق التاريخ';
 
   @override
-  String get howDatesAreDisplayed => 'How dates are displayed';
+  String get howDatesAreDisplayed => 'كيفية عرض التواريخ';
 
   @override
-  String get temperatureUnit => 'Temperature Unit';
+  String get temperatureUnit => 'وحدة درجة الحرارة';
 
   @override
-  String get temperatureScalePreference => 'Temperature scale preference';
+  String get temperatureScalePreference => 'تفضيل مقياس درجة الحرارة';
 
   @override
-  String get appSettings => 'App Settings';
+  String get appSettings => 'إعدادات التطبيق';
 
   @override
-  String get backupAndSync => 'Backup & Sync';
+  String get backupAndSync => 'النسخ الاحتياطي والمزامنة';
 
   @override
-  String get manageYourDataBackup => 'Manage your data backup';
+  String get manageYourDataBackup => 'إدارة النسخ الاحتياطي للبيانات';
 
   @override
-  String get importData => 'Import Data';
+  String get importData => 'استيراد البيانات';
 
   @override
-  String get importTripsFromOtherApps => 'Import trips from other apps';
+  String get importTripsFromOtherApps => 'استيراد الرحلات من تطبيقات أخرى';
 
   @override
-  String get exportData => 'Export Data';
+  String get exportData => 'تصدير البيانات';
 
   @override
-  String get exportYourTripData => 'Export your trip data';
+  String get exportYourTripData => 'تصدير بيانات رحلتك';
 
   @override
-  String get about => 'About';
+  String get about => 'حول';
 
   @override
-  String get appVersion => 'App Version';
+  String get appVersion => 'إصدار التطبيق';
 
   @override
-  String get rateApp => 'Rate App';
+  String get rateApp => 'قيم التطبيق';
 
   @override
-  String get leaveAReviewOnTheAppStore => 'Leave a review on the app store';
+  String get leaveAReviewOnTheAppStore => 'اترك مراجعة في متجر التطبيقات';
 
   @override
-  String get helpAndSupport => 'Help & Support';
+  String get helpAndSupport => 'المساعدة والدعم';
 
   @override
-  String get faqsAndContactInformation => 'FAQs and contact information';
+  String get faqsAndContactInformation => 'الأسئلة الشائعة ومعلومات الاتصال';
 
   @override
-  String get privacyPolicy => 'Privacy Policy';
+  String get privacyPolicy => 'سياسة الخصوصية';
 
   @override
-  String get readOurPrivacyPolicy => 'Read our privacy policy';
+  String get readOurPrivacyPolicy => 'اقرأ سياسة الخصوصية الخاصة بنا';
 
   @override
-  String get termsOfService => 'Terms of Service';
+  String get termsOfService => 'شروط الخدمة';
 
   @override
-  String get readOurTermsAndConditions => 'Read our terms and conditions';
+  String get readOurTermsAndConditions => 'اقرأ الشروط والأحكام الخاصة بنا';
 
   @override
-  String get dangerZone => 'Danger Zone';
+  String get dangerZone => 'منطقة الخطر';
 
   @override
-  String get clearAllData => 'Clear All Data';
+  String get clearAllData => 'مسح جميع البيانات';
 
   @override
-  String get removeAllTripsAndDocuments => 'Remove all trips and documents';
+  String get removeAllTripsAndDocuments => 'إزالة جميع الرحلات والوثائق';
 
   @override
   String get clearAllDataConfirmation =>
-      'This action cannot be undone. All your trips, documents, and settings will be permanently deleted.';
+      'لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع رحلاتك ووثائقك وإعداداتك نهائياً.';
 
   @override
   String get cancel => 'إلغاء';
 
   @override
-  String get clearAll => 'Clear All';
+  String get clearAll => 'مسح الكل';
 
   @override
-  String get celsius => 'Celsius';
+  String get celsius => 'مئوية';
 
   @override
-  String get fahrenheit => 'Fahrenheit';
+  String get fahrenheit => 'فهرنهايت';
 
   @override
   String get english => 'English';
@@ -274,759 +274,757 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dutch => 'Nederlands';
 
   @override
-  String get title => 'Title';
+  String get title => 'العنوان';
 
   @override
-  String get description => 'Description';
+  String get description => 'الوصف';
 
   @override
-  String get amount => 'Amount';
+  String get amount => 'المبلغ';
 
   @override
-  String get date => 'Date';
+  String get date => 'التاريخ';
 
   @override
-  String get edit => 'Edit';
+  String get edit => 'تحرير';
 
   @override
-  String get retry => 'Retry';
+  String get retry => 'إعادة المحاولة';
 
   @override
-  String get add => 'Add';
+  String get add => 'إضافة';
 
   @override
-  String get update => 'Update';
+  String get update => 'تحديث';
 
   @override
-  String get close => 'Close';
+  String get close => 'إغلاق';
 
   @override
-  String get failedToLoad => 'Failed to load';
+  String get failedToLoad => 'فشل في التحميل';
 
   @override
-  String get noDataYet => 'No data yet';
+  String get noDataYet => 'لا توجد بيانات بعد';
 
   @override
-  String get startPlanning => 'Start planning your next adventure!';
+  String get startPlanning => 'ابدأ التخطيط لمغامرتك القادمة!';
 
   @override
-  String get createTrip => 'Create Trip';
+  String get createTrip => 'إنشاء رحلة';
 
   @override
-  String get addDocument => 'Add Document';
+  String get addDocument => 'إضافة وثيقة';
 
   @override
-  String get addExpense => 'Add Expense';
+  String get addExpense => 'إضافة مصروف';
 
   @override
-  String get addActivity => 'Add Activity';
+  String get addActivity => 'إضافة نشاط';
 
   @override
-  String get addBooking => 'Add Booking';
+  String get addBooking => 'إضافة حجز';
 
   @override
-  String get totalExpenses => 'Total Expenses';
+  String get totalExpenses => 'إجمالي المصروفات';
 
   @override
-  String get toDoItems => 'To-Do Items';
+  String get toDoItems => 'قائمة المهام';
 
   @override
-  String get expenseDetails => 'Expense Details';
+  String get expenseDetails => 'تفاصيل المصروف';
 
   @override
-  String get expenseTitle => 'Expense Title';
+  String get expenseTitle => 'عنوان المصروف';
 
   @override
-  String get category => 'Category';
+  String get category => 'الفئة';
 
   @override
-  String get paidBy => 'Paid By';
+  String get paidBy => 'دفع بواسطة';
 
   @override
-  String get you => 'You';
+  String get you => 'أنت';
 
   @override
-  String get allDay => 'All Day';
+  String get allDay => 'طوال اليوم';
 
   @override
-  String get startTime => 'Start Time';
+  String get startTime => 'وقت البداية';
 
   @override
-  String get endTime => 'End Time';
+  String get endTime => 'وقت الانتهاء';
 
   @override
-  String get activityTitle => 'Activity Title';
+  String get activityTitle => 'عنوان النشاط';
 
   @override
-  String get activityType => 'Activity Type';
+  String get activityType => 'نوع النشاط';
 
   @override
-  String get bookingTitle => 'Booking Title';
+  String get bookingTitle => 'عنوان الحجز';
 
   @override
-  String get bookingType => 'Booking';
+  String get bookingType => 'نوع الحجز';
 
   @override
-  String get status => 'Status';
+  String get status => 'الحالة';
 
   @override
-  String get addFile => 'Add File';
+  String get addFile => 'إضافة ملف';
 
   @override
-  String get fileNotFound => 'File not found';
+  String get fileNotFound => 'الملف غير موجود';
 
   @override
-  String get fileMovedOrDeleted => 'The file may have been moved or deleted';
+  String get fileMovedOrDeleted => 'قد يكون الملف قد تم نقله أو حذفه';
 
   @override
-  String get cannotDisplayImage => 'Cannot display image';
+  String get cannotDisplayImage => 'لا يمكن عرض الصورة';
 
   @override
-  String get openExternally => 'Open Externally';
+  String get openExternally => 'فتح خارجياً';
 
   @override
-  String get failedToReadFile => 'Failed to read file data';
+  String get failedToReadFile => 'فشل في قراءة بيانات الملف';
 
   @override
-  String get deleteExpense => 'Delete Expense';
+  String get deleteExpense => 'حذف المصروف';
 
   @override
   String get deleteExpenseConfirmation =>
-      'Are you sure you want to delete this expense?';
+      'هل أنت متأكد من رغبتك في حذف هذا المصروف؟';
 
   @override
-  String get expenseBreakdown => 'Expense Breakdown';
+  String get expenseBreakdown => 'تفصيل المصروفات';
 
   @override
-  String get breakdown => 'Breakdown';
+  String get breakdown => 'تفصيل';
 
   @override
-  String get noExpensesYet => 'No Expenses Yet';
+  String get noExpensesYet => 'لا توجد مصروفات بعد';
 
   @override
-  String get noActivitiesPlanned => 'No activities planned';
+  String get noActivitiesPlanned => 'لا توجد أنشطة مخططة';
 
   @override
-  String get splitDetails => 'Split Details';
+  String get splitDetails => 'تفاصيل التقسيم';
 
   @override
-  String get editExpense => 'Edit Expense';
+  String get editExpense => 'تحرير المصروف';
 
   @override
-  String get addNewExpense => 'Add New Expense';
+  String get addNewExpense => 'إضافة مصروف جديد';
 
   @override
-  String get editActivity => 'Edit Activity';
+  String get editActivity => 'تحرير النشاط';
 
   @override
-  String get addNewActivity => 'Add New Activity';
+  String get addNewActivity => 'إضافة نشاط جديد';
 
   @override
-  String get editBooking => 'Edit Booking';
+  String get editBooking => 'تحرير الحجز';
 
   @override
-  String get addNewBooking => 'Add New Booking';
+  String get addNewBooking => 'إضافة حجز جديد';
 
   @override
-  String get updateExpense => 'Update Expense';
+  String get updateExpense => 'تحديث المصروف';
 
   @override
-  String get updateActivity => 'Update Activity';
+  String get updateActivity => 'تحديث النشاط';
 
   @override
-  String get updateBooking => 'Update Booking';
+  String get updateBooking => 'تحديث الحجز';
 
   @override
-  String get transport => 'Transport';
+  String get transport => 'نقل';
 
   @override
-  String get accommodation => 'Accommodation';
+  String get accommodation => 'إقامة';
 
   @override
-  String get activities => 'Activities';
+  String get activities => 'أنشطة';
 
   @override
-  String get shopping => 'Shopping';
+  String get shopping => 'تسوق';
 
   @override
-  String get sightseeing => 'Sightseeing';
+  String get sightseeing => 'جولة سياحية';
 
   @override
-  String get meal => 'Meal';
+  String get meal => 'وجبة';
 
   @override
-  String get entertainment => 'Entertainment';
+  String get entertainment => 'ترفيه';
 
   @override
-  String get other => 'Other';
+  String get other => 'أخرى';
 
   @override
-  String get noBookingsYet => 'No Bookings Yet';
+  String get noBookingsYet => 'لا توجد حجوزات بعد';
 
   @override
-  String get addFirstBooking => 'Add First Booking';
+  String get addFirstBooking => 'إضافة أول حجز';
 
   @override
-  String get bookingDetails => 'Booking Details';
+  String get bookingDetails => 'تفاصيل الحجز';
 
   @override
-  String get vendor => 'Vendor';
+  String get vendor => 'البائع';
 
   @override
-  String get confirmationNumber => 'Confirmation Number';
+  String get confirmationNumber => 'رقم التأكيد';
 
   @override
-  String get attachments => 'Attachments';
+  String get attachments => 'مرفقات';
 
   @override
-  String get failedToLoadTodos => 'Failed to load todos';
+  String get failedToLoadTodos => 'فشل في تحميل المهام';
 
   @override
-  String get task => 'Task';
+  String get task => 'مهمة';
 
   @override
   String allWithCount(int count) {
-    return 'All ($count)';
+    return 'الكل ($count)';
   }
 
   @override
-  String get noToDoItems => 'No To-Do Items';
+  String get noToDoItems => 'لا توجد مهام';
 
   @override
-  String get stayOrganizedMessage =>
-      'Stay organized by adding tasks for your trip planning!';
+  String get stayOrganizedMessage => 'ابق منظماً بإضافة مهام لتخطيط رحلتك!';
 
   @override
-  String get addFirstTask => 'Add First Task';
+  String get addFirstTask => 'إضافة أول مهمة';
 
   @override
-  String get taskDetails => 'Task Details';
+  String get taskDetails => 'تفاصيل المهمة';
 
   @override
-  String get completed => 'Completed';
+  String get completed => 'مكتمل';
 
   @override
-  String get pending => 'Pending';
+  String get pending => 'معلق';
 
   @override
-  String get priority => 'Priority';
+  String get priority => 'الأولوية';
 
   @override
-  String get dueDate => 'Due Date';
+  String get dueDate => 'تاريخ الاستحقاق';
 
   @override
-  String get editTask => 'Edit Task';
+  String get editTask => 'تحرير المهمة';
 
   @override
-  String get addNewTask => 'Add New Task';
+  String get addNewTask => 'إضافة مهمة جديدة';
 
   @override
-  String get updateTask => 'Update Task';
+  String get updateTask => 'تحديث المهمة';
 
   @override
-  String get addTask => 'Add Task';
+  String get addTask => 'إضافة مهمة';
 
   @override
-  String get deleteTask => 'Delete Task';
+  String get deleteTask => 'حذف المهمة';
 
   @override
   String deleteTaskConfirmation(String title) {
-    return 'Are you sure you want to delete \"$title\"? This action cannot be undone.';
+    return 'هل أنت متأكد من رغبتك في حذف \"$title\"؟ لا يمكن التراجع عن هذا الإجراء.';
   }
 
   @override
-  String get keepTrackMessage =>
-      'Keep track of your flights, hotels, and activities!';
+  String get keepTrackMessage => 'تتبع رحلاتك الجوية وفنادقك وأنشطتك!';
 
   @override
   String get previewNotAvailable =>
-      'Preview not available for this file type.\nTap \"Open Externally\" to view with another app.';
+      'المعاينة غير متاحة لهذا النوع من الملفات.\nانقر على \"فتح خارجياً\" للعرض مع تطبيق آخر.';
 
   @override
-  String get appVersionBeta => '1.0.0 (Beta)';
+  String get appVersionBeta => '1.0.0 (بيتا)';
 
   @override
-  String get defaultUserName => 'John Doe';
+  String get defaultUserName => 'جون دو';
 
   @override
   String get defaultUserEmail => 'john.doe@email.com';
 
   @override
-  String get taskTitle => 'Task Title';
+  String get taskTitle => 'عنوان المهمة';
 
   @override
-  String get descriptionOptional => 'Description (Optional)';
+  String get descriptionOptional => 'الوصف (اختياري)';
 
   @override
-  String get setDueDateOptional => 'Set Due Date (Optional)';
+  String get setDueDateOptional => 'تحديد تاريخ الاستحقاق (اختياري)';
 
   @override
   String dueWithDate(int day, int month, int year) {
-    return 'Due: $day/$month/$year';
+    return 'مستحق: $day/$month/$year';
   }
 
   @override
-  String get urgent => 'Urgent';
+  String get urgent => 'عاجل';
 
   @override
-  String get high => 'High';
+  String get high => 'عالي';
 
   @override
-  String get medium => 'Medium';
+  String get medium => 'متوسط';
 
   @override
-  String get low => 'Low';
+  String get low => 'منخفض';
 
   @override
   String failedToAddUpdateTask(String action, String error) {
-    return 'Failed to $action task: $error';
+    return 'فشل في $action المهمة: $error';
   }
 
   @override
-  String get vendorCompanyOptional => 'Vendor/Company (Optional)';
+  String get vendorCompanyOptional => 'البائع/الشركة (اختياري)';
 
   @override
-  String get confirmationNumberOptional => 'Confirmation Number (Optional)';
+  String get confirmationNumberOptional => 'رقم التأكيد (اختياري)';
 
   @override
   String amountCurrency(String currency) {
-    return 'Amount ($currency)';
+    return 'المبلغ ($currency)';
   }
 
   @override
-  String get setBookingDateOptional => 'Set Booking Date (Optional)';
+  String get setBookingDateOptional => 'تحديد تاريخ الحجز (اختياري)';
 
   @override
   String dateWithDate(int day, int month, int year) {
-    return 'Date: $day/$month/$year';
+    return 'التاريخ: $day/$month/$year';
   }
 
   @override
-  String get attachmentsOptional => 'Attachments (Optional)';
+  String get attachmentsOptional => 'مرفقات (اختياري)';
 
   @override
   String get maxFileSizeSupported =>
-      'Max file size: 5MB\nSupported formats: PDF, DOC, DOCX, JPG, PNG, GIF';
+      'الحد الأقصى لحجم الملف: 5 ميجابايت\nالتنسيقات المدعومة: PDF, DOC, DOCX, JPG, PNG, GIF';
 
   @override
   String failedToAddUpdateBooking(String action, String error) {
-    return 'Failed to $action booking: $error';
+    return 'فشل في $action الحجز: $error';
   }
 
   @override
   String fileAttachedSuccessfully(String filename) {
-    return '$filename attached successfully';
+    return 'تم إرفاق $filename بنجاح';
   }
 
   @override
-  String get fileSizeMustBeLess => 'File size must be less than 5MB';
+  String get fileSizeMustBeLess => 'يجب أن يكون حجم الملف أقل من 5 ميجابايت';
 
   @override
   String failedToPickFile(String error) {
-    return 'Failed to pick file: $error';
+    return 'فشل في اختيار الملف: $error';
   }
 
   @override
   String errorSharingFile(String error) {
-    return 'Error sharing file: $error';
+    return 'خطأ في مشاركة الملف: $error';
   }
 
   @override
-  String get unknown => 'Unknown';
+  String get unknown => 'غير معروف';
 
   @override
-  String get editTrip => 'Edit Trip';
+  String get editTrip => 'تحرير الرحلة';
 
   @override
-  String get updateTrip => 'Update Trip';
+  String get updateTrip => 'تحديث الرحلة';
 
   @override
-  String get tripUpdatedSuccessfully => 'Trip updated successfully';
+  String get tripUpdatedSuccessfully => 'تم تحديث الرحلة بنجاح';
 
   @override
-  String get failedToUpdateTrip => 'Failed to update trip';
+  String get failedToUpdateTrip => 'فشل في تحديث الرحلة';
 
   @override
-  String get deleteTrip => 'Delete Trip';
+  String get deleteTrip => 'حذف الرحلة';
 
   @override
   String get deleteTripConfirmation =>
-      'Are you sure you want to delete this trip? This action cannot be undone.';
+      'هل أنت متأكد من رغبتك في حذف هذه الرحلة؟ لا يمكن التراجع عن هذا الإجراء.';
 
   @override
-  String get tripDeletedSuccessfully => 'Trip deleted successfully';
+  String get tripDeletedSuccessfully => 'تم حذف الرحلة بنجاح';
 
   @override
-  String get failedToDeleteTrip => 'Failed to delete trip';
+  String get failedToDeleteTrip => 'فشل في حذف الرحلة';
 
   @override
-  String get tripCreatedSuccessfully => 'Trip created successfully!';
+  String get tripCreatedSuccessfully => 'تم إنشاء الرحلة بنجاح!';
 
   @override
-  String get failedToCreateTrip => 'Failed to create trip';
+  String get failedToCreateTrip => 'فشل في إنشاء الرحلة';
 
   @override
-  String get selectStartDateFirst => 'Please select start date first';
+  String get selectStartDateFirst => 'يرجى اختيار تاريخ البداية أولاً';
 
   @override
-  String get addAtLeastOneDestination => 'Please add at least one destination';
+  String get addAtLeastOneDestination => 'يرجى إضافة وجهة واحدة على الأقل';
 
   @override
   String get selectBothStartAndEndDates =>
-      'Please select both start and end dates';
+      'يرجى اختيار تاريخي البداية والنهاية';
 
   @override
-  String get titleIsRequired => 'Title is required';
+  String get titleIsRequired => 'العنوان مطلوب';
 
   @override
   String titleTooLong(int limit) {
-    return 'Title must be $limit characters or less';
+    return 'يجب أن يكون العنوان $limit حرف أو أقل';
   }
 
   @override
   String descriptionTooLong(int limit) {
-    return 'Description must be $limit characters or less';
+    return 'يجب أن يكون الوصف $limit حرف أو أقل';
   }
 
   @override
   String vendorTooLong(int limit) {
-    return 'Vendor/Company must be $limit characters or less';
+    return 'يجب أن يكون اسم البائع/الشركة $limit حرف أو أقل';
   }
 
   @override
   String confirmationNumberTooLong(int limit) {
-    return 'Confirmation number must be $limit characters or less';
+    return 'يجب أن يكون رقم التأكيد $limit حرف أو أقل';
   }
 
   @override
   String paidByTooLong(int limit) {
-    return 'Paid by must be $limit characters or less';
+    return 'يجب أن يكون اسم الدافع $limit حرف أو أقل';
   }
 
   @override
   String locationTooLong(int limit) {
-    return 'Location must be $limit characters or less';
+    return 'يجب أن يكون الموقع $limit حرف أو أقل';
   }
 
   @override
   String itineraryDescriptionTooLong(int limit) {
-    return 'Description must be $limit characters or less';
+    return 'يجب أن يكون الوصف $limit حرف أو أقل';
   }
 
   @override
-  String get amountIsRequired => 'Amount is required';
+  String get amountIsRequired => 'المبلغ مطلوب';
 
   @override
-  String get enterValidAmount => 'Please enter a valid amount';
+  String get enterValidAmount => 'يرجى إدخال مبلغ صحيح';
 
   @override
-  String get amountMustBePositive => 'Amount must be positive';
+  String get amountMustBePositive => 'يجب أن يكون المبلغ موجباً';
 
   @override
   String fieldIsRequired(String fieldName) {
-    return '$fieldName is required';
+    return '$fieldName مطلوب';
   }
 
   @override
-  String get destinationIsRequired => 'Destination is required';
+  String get destinationIsRequired => 'الوجهة مطلوبة';
 
   @override
   String destinationTooLong(int limit) {
-    return 'Destination must be $limit characters or less';
+    return 'يجب أن تكون الوجهة $limit حرف أو أقل';
   }
 
   @override
   String fieldOptional(String labelText) {
-    return '$labelText (Optional)';
+    return '$labelText (اختياري)';
   }
 
   @override
   String maxCharacters(int maxLength) {
-    return '$maxLength max';
+    return 'الحد الأقصى $maxLength';
   }
 
   @override
-  String get searchTripsPlaceholder => 'Search trips...';
+  String get searchTripsPlaceholder => 'البحث في الرحلات...';
 
   @override
   String allWithTotal(int total) {
-    return 'All ($total)';
+    return 'الكل ($total)';
   }
 
   @override
   String upcomingWithCount(int count) {
-    return 'Upcoming ($count)';
+    return 'قادم ($count)';
   }
 
   @override
   String activeWithCount(int count) {
-    return 'Active ($count)';
+    return 'نشط ($count)';
   }
 
   @override
   String completedWithCount(int count) {
-    return 'Completed ($count)';
+    return 'مكتمل ($count)';
   }
 
   @override
-  String get yourTripsTitle => 'Your Trips';
+  String get yourTripsTitle => 'رحلاتك';
 
   @override
   String activeTripsCount(int count) {
-    return '$count Active';
+    return '$count نشط';
   }
 
   @override
-  String get bookingsTabTitle => 'Bookings';
+  String get bookingsTabTitle => 'الحجوزات';
 
   @override
-  String get expensesTabTitle => 'Expenses';
+  String get expensesTabTitle => 'المصروفات';
 
   @override
-  String get overviewTabTitle => 'Overview';
+  String get overviewTabTitle => 'نظرة عامة';
 
   @override
-  String get todoTabTitle => 'To-Do';
+  String get todoTabTitle => 'المهام';
 
   @override
   String get itineraryTabTitle => 'Itinerary';
 
   @override
-  String get failedToLoadTrip => 'Failed to load trip';
+  String get failedToLoadTrip => 'فشل في تحميل الرحلة';
 
   @override
-  String get tripNotFound => 'Trip not found';
+  String get tripNotFound => 'الرحلة غير موجودة';
 
   @override
-  String get saveImage => 'Save Image';
+  String get saveImage => 'حفظ الصورة';
 
   @override
-  String get saveToPhotos => 'Save to Photos';
+  String get saveToPhotos => 'حفظ في الصور';
 
   @override
-  String get saveToPhotosDescription => 'Save directly to your photo gallery';
+  String get saveToPhotosDescription => 'حفظ مباشرة في معرض الصور';
 
   @override
-  String get saveToFiles => 'Save to Files';
+  String get saveToFiles => 'حفظ في الملفات';
 
   @override
-  String get saveToFilesDescription => 'Choose a specific folder to save';
+  String get saveToFilesDescription => 'اختر مجلد محدد للحفظ';
 
   @override
-  String get imageSavedToPhotos => 'Image saved to Photos';
+  String get imageSavedToPhotos => 'تم حفظ الصورة في الصور';
 
   @override
-  String get fileSavedSuccessfully => 'File saved successfully';
+  String get fileSavedSuccessfully => 'تم حفظ الملف بنجاح';
 
   @override
-  String get open => 'Open';
+  String get open => 'فتح';
 
   @override
   String errorDownloadingFile(String error) {
-    return 'Error downloading file: $error';
+    return 'خطأ في تحميل الملف: $error';
   }
 
   @override
   String errorSavingToPhotos(String error) {
-    return 'Error saving to Photos: $error';
+    return 'خطأ في الحفظ في الصور: $error';
   }
 
   @override
   String errorSavingFile(String error) {
-    return 'Error saving file: $error';
+    return 'خطأ في حفظ الملف: $error';
   }
 
   @override
-  String get selectDocument => 'Select Document';
+  String get selectDocument => 'اختر وثيقة';
 
   @override
-  String get chooseFromGalleryTitle => 'Choose from Gallery';
+  String get chooseFromGalleryTitle => 'اختر من المعرض';
 
   @override
-  String get chooseFromGalleryDescription => 'Select from photo library';
+  String get chooseFromGalleryDescription => 'اختر من مكتبة الصور';
 
   @override
-  String get chooseFileTitle => 'Choose File';
+  String get chooseFileTitle => 'اختر ملف';
 
   @override
-  String get chooseFileDescription => 'Select PDF or other files';
+  String get chooseFileDescription => 'اختر PDF أو ملفات أخرى';
 
   @override
-  String get failedToCaptureImage => 'Failed to capture image';
+  String get failedToCaptureImage => 'فشل في التقاط الصورة';
 
   @override
-  String get failedToSelectImage => 'Failed to select image';
+  String get failedToSelectImage => 'فشل في اختيار الصورة';
 
   @override
-  String get failedToSelectFile => 'Failed to select file';
+  String get failedToSelectFile => 'فشل في اختيار الملف';
 
   @override
-  String get documentAddedSuccessfully => 'Document added successfully';
+  String get documentAddedSuccessfully => 'تم إضافة الوثيقة بنجاح';
 
   @override
-  String get documentUpdatedSuccessfully => 'Document updated successfully';
+  String get documentUpdatedSuccessfully => 'تم تحديث الوثيقة بنجاح';
 
   @override
-  String get failedToSaveDocument => 'Failed to save document';
+  String get failedToSaveDocument => 'فشل في حفظ الوثيقة';
 
   @override
-  String get documentTitle => 'Document Title *';
+  String get documentTitle => 'عنوان الوثيقة *';
 
   @override
-  String get documentCategory => 'Document Category';
+  String get documentCategory => 'فئة الوثيقة';
 
   @override
-  String get changeDocument => 'Change Document';
+  String get changeDocument => 'تغيير الوثيقة';
 
   @override
-  String get documentsTitle => 'Documents';
+  String get documentsTitle => 'الوثائق';
 
   @override
-  String get noDocumentsYet => 'No documents yet';
+  String get noDocumentsYet => 'لا توجد وثائق بعد';
 
   @override
-  String get noDocumentsFound => 'No documents found';
+  String get noDocumentsFound => 'لم يتم العثور على وثائق';
 
   @override
-  String get clearSearch => 'Clear search';
+  String get clearSearch => 'مسح البحث';
 
   @override
-  String get documentDetails => 'Document Details';
+  String get documentDetails => 'تفاصيل الوثيقة';
 
   @override
-  String get fileSize => 'File Size';
+  String get fileSize => 'حجم الملف';
 
   @override
-  String get fileName => 'File Name';
+  String get fileName => 'اسم الملف';
 
   @override
-  String get deleteDocument => 'Delete Document';
+  String get deleteDocument => 'حذف الوثيقة';
 
   @override
   String deleteDocumentConfirmation(String title) {
-    return 'Are you sure you want to delete \"$title\"? This action cannot be undone.';
+    return 'هل أنت متأكد من رغبتك في حذف \"$title\"؟ لا يمكن التراجع عن هذا الإجراء.';
   }
 
   @override
   String documentDeletedSuccessfully(String title) {
-    return 'Document \"$title\" deleted successfully';
+    return 'تم حذف الوثيقة \"$title\" بنجاح';
   }
 
   @override
   String failedToDeleteDocument(String error) {
-    return 'Failed to delete document: $error';
+    return 'فشل في حذف الوثيقة: $error';
   }
 
   @override
-  String get location => 'Location';
+  String get location => 'الموقع';
 
   @override
-  String get activityTitleLabel => 'Activity Title';
+  String get activityTitleLabel => 'عنوان النشاط';
 
   @override
-  String get activityTypeLabel => 'Activity Type';
+  String get activityTypeLabel => 'نوع النشاط';
 
   @override
-  String get expenseTitleLabel => 'Expense Title';
+  String get expenseTitleLabel => 'عنوان المصروف';
 
   @override
-  String get destinations => 'Destinations';
+  String get destinations => 'الوجهات';
 
   @override
-  String get currency => 'Currency';
+  String get currency => 'العملة';
 
   @override
-  String get tripInProgressStatus => 'Trip in Progress';
+  String get tripInProgressStatus => 'الرحلة قيد التقدم';
 
   @override
-  String get completedStatus => 'Completed';
+  String get completedStatus => 'مكتمل';
 
   @override
-  String get tripDates => 'Trip Dates';
+  String get tripDates => 'تواريخ الرحلة';
 
   @override
-  String get expenseType => 'Expense';
+  String get expenseType => 'مصروف';
 
   @override
-  String get expenseDetailsTitle => 'Expense Details';
+  String get expenseDetailsTitle => 'تفاصيل المصروف';
 
   @override
-  String get activityDetailsTitle => 'Activity Details';
+  String get activityDetailsTitle => 'تفاصيل النشاط';
 
   @override
-  String get deleteActivity => 'Delete Activity';
+  String get deleteActivity => 'حذف النشاط';
 
   @override
-  String get deleteBooking => 'Delete Booking';
+  String get deleteBooking => 'حذف الحجز';
 
   @override
-  String get january => 'Jan';
+  String get january => 'يناير';
 
   @override
-  String get february => 'Feb';
+  String get february => 'فبراير';
 
   @override
-  String get march => 'Mar';
+  String get march => 'مارس';
 
   @override
-  String get april => 'Apr';
+  String get april => 'أبريل';
 
   @override
-  String get may => 'May';
+  String get may => 'مايو';
 
   @override
-  String get june => 'Jun';
+  String get june => 'يونيو';
 
   @override
-  String get july => 'Jul';
+  String get july => 'يوليو';
 
   @override
-  String get august => 'Aug';
+  String get august => 'أغسطس';
 
   @override
-  String get september => 'Sept';
+  String get september => 'سبتمبر';
 
   @override
-  String get october => 'Oct';
+  String get october => 'أكتوبر';
 
   @override
-  String get november => 'Nov';
+  String get november => 'نوفمبر';
 
   @override
-  String get december => 'Dec';
+  String get december => 'ديسمبر';
 
   @override
-  String get food => 'Food';
+  String get food => 'طعام';
 
   @override
-  String get confirmed => 'Confirmed';
+  String get confirmed => 'مؤكد';
 
   @override
-  String get cancelled => 'Cancelled';
+  String get cancelled => 'ملغى';
 
   @override
-  String get passport => 'Passport';
+  String get passport => 'جواز سفر';
 
   @override
-  String get visa => 'Visa';
+  String get visa => 'تأشيرة';
 
   @override
-  String get ticket => 'Ticket';
+  String get ticket => 'تذكرة';
 
   @override
-  String get hotel => 'Hotel';
+  String get hotel => 'فندق';
 
   @override
-  String get insurance => 'Insurance';
+  String get insurance => 'تأمين';
 
   @override
-  String get editDocument => 'Edit Document';
+  String get editDocument => 'تحرير الوثيقة';
 
   @override
-  String get updateDocument => 'Update Document';
+  String get updateDocument => 'تحديث الوثيقة';
 
   @override
-  String get saveToGallery => 'Save to Gallery';
+  String get saveToGallery => 'حفظ في المعرض';
 
   @override
   String get flight => 'طائرة';
@@ -1043,110 +1041,213 @@ class AppLocalizationsAr extends AppLocalizations {
       'تم الوصول لحد المستندات. يمكنك إضافة 10 مستندات فقط في المجموع.';
 
   @override
-  String get confirmActionWarning => 'This action cannot be undone!';
+  String get clearFilters => 'مسح المرشحات';
 
   @override
-  String get finalConfirmationTitle => 'Final Confirmation';
+  String get travelDates => 'تواريخ السفر';
+
+  @override
+  String get selectDateRange => 'اختر نطاق التاريخ';
+
+  @override
+  String get activityDetails => 'تفاصيل النشاط';
+
+  @override
+  String get quickActions => 'الإجراءات السريعة';
+
+  @override
+  String get addNewItemsToTrip => 'إضافة عناصر جديدة للرحلة';
+
+  @override
+  String get booking => 'حجز';
+
+  @override
+  String get expense => 'مصروف';
+
+  @override
+  String get itinerary => 'خط السير';
+
+  @override
+  String get duration => 'المدة';
+
+  @override
+  String get noExpensesFound => 'لم يتم العثور على مصروفات';
+
+  @override
+  String get noExpensesFoundForCategory =>
+      'لم يتم العثور على مصروفات لهذه الفئة';
+
+  @override
+  String get noTasksFound => 'لم يتم العثور على مهام';
+
+  @override
+  String get noBookingsFound => 'لم يتم العثور على حجوزات';
+
+  @override
+  String get noTripsFound => 'لم يتم العثور على رحلات';
+
+  @override
+  String get tryAdjustingFilters => 'حاول تعديل المرشحات';
+
+  @override
+  String get searchTasks => 'البحث عن المهام';
+
+  @override
+  String get searchBookings => 'البحث عن الحجوزات';
+
+  @override
+  String get urgentPriority => 'عاجل';
+
+  @override
+  String get highPriority => 'عالي';
+
+  @override
+  String get mediumPriority => 'متوسط';
+
+  @override
+  String get lowPriority => 'منخفض';
+
+  @override
+  String get overdue => 'متأخر';
+
+  @override
+  String get dueToday => 'مستحق اليوم';
+
+  @override
+  String get dueTomorrow => 'مستحق غداً';
+
+  @override
+  String get activeStatus => 'الحالة النشطة';
+
+  @override
+  String get selectBackupFile => 'اختر ملف النسخ الاحتياطي';
+
+  @override
+  String get selectFile => 'اختر ملف';
+
+  @override
+  String get importBackup => 'استيراد النسخة الاحتياطية';
+
+  @override
+  String get importSuccessful => 'نجح الاستيراد';
+
+  @override
+  String get importFailed => 'فشل الاستيراد';
+
+  @override
+  String get couldNotOpenAppStore => 'لا يمكن فتح متجر التطبيقات';
+
+  @override
+  String get couldNotOpenHelpSection => 'لا يمكن فتح قسم المساعدة';
+
+  @override
+  String get couldNotOpenPrivacyPolicy => 'لا يمكن فتح سياسة الخصوصية';
+
+  @override
+  String get couldNotOpenTermsOfService => 'لا يمكن فتح شروط الخدمة';
+
+  @override
+  String get confirmActionWarning => 'لا يمكن التراجع عن هذا الإجراء!';
+
+  @override
+  String get finalConfirmationTitle => 'التأكيد النهائي';
 
   @override
   String finalConfirmationPrompt(String word) {
-    return 'Type $word in the box below to confirm:';
+    return 'اكتب $word في المربع أدناه للتأكيد:';
   }
 
   @override
-  String get deletingAllData => 'Deleting all data...';
+  String get deletingAllData => 'حذف جميع البيانات...';
 
   @override
-  String get pleaseWait => 'Please wait, this may take a moment.';
+  String get pleaseWait => 'يرجى الانتظار، قد يستغرق هذا لحظة.';
 
   @override
-  String get dataClearedTitle => 'Data Cleared';
+  String get dataClearedTitle => 'تم محو البيانات';
 
   @override
   String get dataClearedMessage =>
-      'All your data has been successfully deleted. The app has been reset to its initial state.';
+      'تم حذف جميع بياناتك بنجاح. تم إعادة تعيين التطبيق إلى حالته الأولية.';
 
   @override
-  String get errorTitle => 'Error';
+  String get errorTitle => 'خطأ';
 
   @override
   String failedToClearAllData(String error) {
-    return 'Failed to clear all data: $error';
+    return 'فشل في محو جميع البيانات: $error';
   }
 
   @override
   String get exportIntroTitle =>
-      'Create a secure backup of all your Voythrix data:';
+      'إنشاء نسخة احتياطية آمنة لجميع بيانات Voythrix الخاصة بك:';
 
   @override
-  String get exportEncryptionInfo =>
-      'Your data will be encrypted and compressed into a .tripe file.';
+  String get exportEncryptionInfo => 'سيتم تشفير بياناتك وضغطها في ملف .tripe.';
 
   @override
-  String get backupPasswordTitle => 'Backup Password (Optional)';
+  String get backupPasswordTitle => 'كلمة مرور النسخ الاحتياطي (اختياري)';
 
   @override
-  String get backupPasswordHint => 'Enter password (optional)';
+  String get backupPasswordHint => 'أدخل كلمة المرور (اختياري)';
 
   @override
-  String get confirmPasswordHint => 'Confirm password';
+  String get confirmPasswordHint => 'تأكيد كلمة المرور';
 
   @override
-  String get passwordsMatch => 'Passwords match';
+  String get passwordsMatch => 'كلمات المرور متطابقة';
 
   @override
-  String get passwordsDoNotMatch => 'Passwords do not match';
+  String get passwordsDoNotMatch => 'كلمات المرور غير متطابقة';
 
   @override
-  String get creatingBackup => 'Creating backup...';
+  String get creatingBackup => 'جاري إنشاء النسخة الاحتياطية...';
 
   @override
-  String get collectingAndEncrypting =>
-      'Collecting and encrypting your data...';
+  String get collectingAndEncrypting => 'تجميع وتشفير بياناتك...';
 
   @override
-  String get backupCreatedTitle => 'Backup Created';
+  String get backupCreatedTitle => 'تم إنشاء النسخة الاحتياطية';
 
   @override
-  String get backupCreatedMessage =>
-      'Your backup has been created successfully!';
+  String get backupCreatedMessage => 'تم إنشاء النسخة الاحتياطية بنجاح!';
 
   @override
-  String get fileInfoLabel => 'File Info:';
+  String get fileInfoLabel => 'معلومات الملف:';
 
   @override
-  String get fileInfoFormat => '• Format: Encrypted .tripe file';
+  String get fileInfoFormat => '• التنسيق: ملف .tripe مشفّر';
 
   @override
-  String get fileInfoSecurityPassword => '• Security: Password protected';
+  String get fileInfoSecurityPassword => '• الأمان: محمي بكلمة مرور';
 
   @override
-  String get fileInfoSecurityStandard => '• Security: Standard encryption';
+  String get fileInfoSecurityStandard => '• الأمان: تشفير قياسي';
 
   @override
-  String get fileInfoCompression => '• Compression: GZip compressed';
+  String get fileInfoCompression => '• الضغط: مضغوط GZip';
 
   @override
   String get keepFileSafeNote =>
-      'Keep this file safe — you\'ll need it to restore your data!';
+      'احتفظ بهذا الملف في مكان آمن — ستحتاجه لاستعادة بياناتك!';
 
   @override
-  String get exportFailedTitle => 'Export Failed';
+  String get exportFailedTitle => 'فشل التصدير';
 
   @override
   String failedToCreateBackup(String error) {
-    return 'Failed to create backup: $error';
+    return 'فشل في إنشاء النسخة الاحتياطية: $error';
   }
 
   @override
-  String get continueAction => 'Continue';
+  String get continueAction => 'متابعة';
 
   @override
-  String get deleteEverything => 'Delete Everything';
+  String get deleteEverything => 'حذف كل شيء';
 
   @override
-  String get createBackup => 'Create Backup';
+  String get createBackup => 'إنشاء نسخة احتياطية';
 
   @override
-  String get ok => 'OK';
+  String get ok => 'موافق';
 }

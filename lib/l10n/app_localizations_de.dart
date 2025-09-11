@@ -368,7 +368,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get bookingTitle => 'Buchungstitel';
 
   @override
-  String get bookingType => 'Buchungstyp';
+  String get bookingType => 'Buchung';
 
   @override
   String get status => 'Status';
@@ -682,63 +682,63 @@ class AppLocalizationsDe extends AppLocalizations {
       'Bitte wählen Sie sowohl Start- als auch Enddatum';
 
   @override
-  String get titleIsRequired => 'Title is required';
+  String get titleIsRequired => 'Titel ist erforderlich';
 
   @override
   String titleTooLong(int limit) {
-    return 'Title must be $limit characters or less';
+    return 'Titel muss $limit Zeichen oder weniger haben';
   }
 
   @override
   String descriptionTooLong(int limit) {
-    return 'Description must be $limit characters or less';
+    return 'Beschreibung muss $limit Zeichen oder weniger haben';
   }
 
   @override
   String vendorTooLong(int limit) {
-    return 'Vendor/Company must be $limit characters or less';
+    return 'Anbieter/Firma muss $limit Zeichen oder weniger haben';
   }
 
   @override
   String confirmationNumberTooLong(int limit) {
-    return 'Confirmation number must be $limit characters or less';
+    return 'Bestätigungsnummer muss $limit Zeichen oder weniger haben';
   }
 
   @override
   String paidByTooLong(int limit) {
-    return 'Paid by must be $limit characters or less';
+    return 'Bezahlt von muss $limit Zeichen oder weniger haben';
   }
 
   @override
   String locationTooLong(int limit) {
-    return 'Location must be $limit characters or less';
+    return 'Standort muss $limit Zeichen oder weniger haben';
   }
 
   @override
   String itineraryDescriptionTooLong(int limit) {
-    return 'Description must be $limit characters or less';
+    return 'Beschreibung muss $limit Zeichen oder weniger haben';
   }
 
   @override
-  String get amountIsRequired => 'Amount is required';
+  String get amountIsRequired => 'Betrag ist erforderlich';
 
   @override
-  String get enterValidAmount => 'Please enter a valid amount';
+  String get enterValidAmount => 'Bitte gültigen Betrag eingeben';
 
   @override
-  String get amountMustBePositive => 'Amount must be positive';
+  String get amountMustBePositive => 'Betrag muss positiv sein';
 
   @override
   String fieldIsRequired(String fieldName) {
-    return '$fieldName is required';
+    return '$fieldName ist erforderlich';
   }
 
   @override
-  String get destinationIsRequired => 'Destination is required';
+  String get destinationIsRequired => 'Reiseziel ist erforderlich';
 
   @override
   String destinationTooLong(int limit) {
-    return 'Destination must be $limit characters or less';
+    return 'Reiseziel muss $limit Zeichen oder weniger haben';
   }
 
   @override
@@ -748,222 +748,223 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String maxCharacters(int maxLength) {
-    return '$maxLength max';
+    return 'Maximal $maxLength Zeichen';
   }
 
   @override
-  String get searchTripsPlaceholder => 'Search trips...';
+  String get searchTripsPlaceholder => 'Reisen suchen...';
 
   @override
   String allWithTotal(int total) {
-    return 'All ($total)';
+    return 'Alle ($total)';
   }
 
   @override
   String upcomingWithCount(int count) {
-    return 'Upcoming ($count)';
+    return 'Bevorstehend ($count)';
   }
 
   @override
   String activeWithCount(int count) {
-    return 'Active ($count)';
+    return 'Aktiv ($count)';
   }
 
   @override
   String completedWithCount(int count) {
-    return 'Completed ($count)';
+    return 'Abgeschlossen ($count)';
   }
 
   @override
-  String get yourTripsTitle => 'Your Trips';
+  String get yourTripsTitle => 'Ihre Reisen';
 
   @override
   String activeTripsCount(int count) {
-    return '$count Active';
+    return '$count Aktiv';
   }
 
   @override
-  String get bookingsTabTitle => 'Bookings';
+  String get bookingsTabTitle => 'Buchungen';
 
   @override
-  String get expensesTabTitle => 'Expenses';
+  String get expensesTabTitle => 'Ausgaben';
 
   @override
-  String get overviewTabTitle => 'Overview';
+  String get overviewTabTitle => 'Übersicht';
 
   @override
-  String get todoTabTitle => 'To-Do';
+  String get todoTabTitle => 'Aufgaben';
 
   @override
-  String get itineraryTabTitle => 'Itinerary';
+  String get itineraryTabTitle => 'Reiseplan';
 
   @override
-  String get failedToLoadTrip => 'Failed to load trip';
+  String get failedToLoadTrip => 'Reise konnte nicht geladen werden';
 
   @override
-  String get tripNotFound => 'Trip not found';
+  String get tripNotFound => 'Reise nicht gefunden';
 
   @override
-  String get saveImage => 'Save Image';
+  String get saveImage => 'Bild speichern';
 
   @override
-  String get saveToPhotos => 'Save to Photos';
+  String get saveToPhotos => 'In Fotos speichern';
 
   @override
-  String get saveToPhotosDescription => 'Save directly to your photo gallery';
+  String get saveToPhotosDescription => 'Direkt in Ihrer Fotogalerie speichern';
 
   @override
-  String get saveToFiles => 'Save to Files';
+  String get saveToFiles => 'In Dateien speichern';
 
   @override
-  String get saveToFilesDescription => 'Choose a specific folder to save';
+  String get saveToFilesDescription =>
+      'Spezifischen Ordner zum Speichern wählen';
 
   @override
-  String get imageSavedToPhotos => 'Image saved to Photos';
+  String get imageSavedToPhotos => 'Bild in Fotos gespeichert';
 
   @override
-  String get fileSavedSuccessfully => 'File saved successfully';
+  String get fileSavedSuccessfully => 'Datei erfolgreich gespeichert';
 
   @override
-  String get open => 'Open';
+  String get open => 'Öffnen';
 
   @override
   String errorDownloadingFile(String error) {
-    return 'Error downloading file: $error';
+    return 'Fehler beim Herunterladen der Datei: $error';
   }
 
   @override
   String errorSavingToPhotos(String error) {
-    return 'Error saving to Photos: $error';
+    return 'Fehler beim Speichern in Fotos: $error';
   }
 
   @override
   String errorSavingFile(String error) {
-    return 'Error saving file: $error';
+    return 'Fehler beim Speichern der Datei: $error';
   }
 
   @override
-  String get selectDocument => 'Select Document';
+  String get selectDocument => 'Dokument auswählen';
 
   @override
-  String get chooseFromGalleryTitle => 'Choose from Gallery';
+  String get chooseFromGalleryTitle => 'Aus Galerie wählen';
 
   @override
-  String get chooseFromGalleryDescription => 'Select from photo library';
+  String get chooseFromGalleryDescription => 'Aus Fotobibliothek auswählen';
 
   @override
-  String get chooseFileTitle => 'Choose File';
+  String get chooseFileTitle => 'Datei wählen';
 
   @override
-  String get chooseFileDescription => 'Select PDF or other files';
+  String get chooseFileDescription => 'PDF oder andere Dateien auswählen';
 
   @override
-  String get failedToCaptureImage => 'Failed to capture image';
+  String get failedToCaptureImage => 'Bild konnte nicht aufgenommen werden';
 
   @override
-  String get failedToSelectImage => 'Failed to select image';
+  String get failedToSelectImage => 'Bild konnte nicht ausgewählt werden';
 
   @override
-  String get failedToSelectFile => 'Failed to select file';
+  String get failedToSelectFile => 'Datei konnte nicht ausgewählt werden';
 
   @override
-  String get documentAddedSuccessfully => 'Document added successfully';
+  String get documentAddedSuccessfully => 'Dokument erfolgreich hinzugefügt';
 
   @override
-  String get documentUpdatedSuccessfully => 'Document updated successfully';
+  String get documentUpdatedSuccessfully => 'Dokument erfolgreich aktualisiert';
 
   @override
-  String get failedToSaveDocument => 'Failed to save document';
+  String get failedToSaveDocument => 'Dokument konnte nicht gespeichert werden';
 
   @override
-  String get documentTitle => 'Document Title *';
+  String get documentTitle => 'Dokumenttitel *';
 
   @override
-  String get documentCategory => 'Document Category';
+  String get documentCategory => 'Dokumentkategorie';
 
   @override
-  String get changeDocument => 'Change Document';
+  String get changeDocument => 'Dokument ändern';
 
   @override
-  String get documentsTitle => 'Documents';
+  String get documentsTitle => 'Dokumente';
 
   @override
-  String get noDocumentsYet => 'No documents yet';
+  String get noDocumentsYet => 'Noch keine Dokumente';
 
   @override
-  String get noDocumentsFound => 'No documents found';
+  String get noDocumentsFound => 'Keine Dokumente gefunden';
 
   @override
-  String get clearSearch => 'Clear search';
+  String get clearSearch => 'Suche löschen';
 
   @override
-  String get documentDetails => 'Document Details';
+  String get documentDetails => 'Dokumentdetails';
 
   @override
-  String get fileSize => 'File Size';
+  String get fileSize => 'Dateigröße';
 
   @override
-  String get fileName => 'File Name';
+  String get fileName => 'Dateiname';
 
   @override
-  String get deleteDocument => 'Delete Document';
+  String get deleteDocument => 'Dokument löschen';
 
   @override
   String deleteDocumentConfirmation(String title) {
-    return 'Are you sure you want to delete \"$title\"? This action cannot be undone.';
+    return 'Sind Sie sicher, dass Sie \"$title\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.';
   }
 
   @override
   String documentDeletedSuccessfully(String title) {
-    return 'Document \"$title\" deleted successfully';
+    return 'Dokument \"$title\" erfolgreich gelöscht';
   }
 
   @override
   String failedToDeleteDocument(String error) {
-    return 'Failed to delete document: $error';
+    return 'Dokument konnte nicht gelöscht werden: $error';
   }
 
   @override
-  String get location => 'Location';
+  String get location => 'Standort';
 
   @override
-  String get activityTitleLabel => 'Activity Title';
+  String get activityTitleLabel => 'Aktivitätstitel';
 
   @override
-  String get activityTypeLabel => 'Activity Type';
+  String get activityTypeLabel => 'Aktivitätstyp';
 
   @override
-  String get expenseTitleLabel => 'Expense Title';
+  String get expenseTitleLabel => 'Ausgabentitel';
 
   @override
-  String get destinations => 'Destinations';
+  String get destinations => 'Reiseziele';
 
   @override
-  String get currency => 'Currency';
+  String get currency => 'Währung';
 
   @override
-  String get tripInProgressStatus => 'Trip in Progress';
+  String get tripInProgressStatus => 'Reise läuft';
 
   @override
-  String get completedStatus => 'Completed';
+  String get completedStatus => 'Abgeschlossen';
 
   @override
-  String get tripDates => 'Trip Dates';
+  String get tripDates => 'Reisedaten';
 
   @override
-  String get expenseType => 'Expense';
+  String get expenseType => 'Ausgabe';
 
   @override
-  String get expenseDetailsTitle => 'Expense Details';
+  String get expenseDetailsTitle => 'Ausgabendetails';
 
   @override
-  String get activityDetailsTitle => 'Activity Details';
+  String get activityDetailsTitle => 'Aktivitätsdetails';
 
   @override
-  String get deleteActivity => 'Delete Activity';
+  String get deleteActivity => 'Aktivität löschen';
 
   @override
-  String get deleteBooking => 'Delete Booking';
+  String get deleteBooking => 'Buchung löschen';
 
   @override
   String get january => 'Jan';
@@ -972,13 +973,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get february => 'Feb';
 
   @override
-  String get march => 'Mar';
+  String get march => 'Mär';
 
   @override
   String get april => 'Apr';
 
   @override
-  String get may => 'May';
+  String get may => 'Mai';
 
   @override
   String get june => 'Jun';
@@ -990,31 +991,31 @@ class AppLocalizationsDe extends AppLocalizations {
   String get august => 'Aug';
 
   @override
-  String get september => 'Sept';
+  String get september => 'Sep';
 
   @override
-  String get october => 'Oct';
+  String get october => 'Okt';
 
   @override
   String get november => 'Nov';
 
   @override
-  String get december => 'Dec';
+  String get december => 'Dez';
 
   @override
-  String get food => 'Food';
+  String get food => 'Essen';
 
   @override
-  String get confirmed => 'Confirmed';
+  String get confirmed => 'Bestätigt';
 
   @override
-  String get cancelled => 'Cancelled';
+  String get cancelled => 'Storniert';
 
   @override
-  String get passport => 'Passport';
+  String get passport => 'Reisepass';
 
   @override
-  String get visa => 'Visa';
+  String get visa => 'Visum';
 
   @override
   String get ticket => 'Ticket';
@@ -1023,16 +1024,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get hotel => 'Hotel';
 
   @override
-  String get insurance => 'Insurance';
+  String get insurance => 'Versicherung';
 
   @override
-  String get editDocument => 'Edit Document';
+  String get editDocument => 'Dokument bearbeiten';
 
   @override
-  String get updateDocument => 'Update Document';
+  String get updateDocument => 'Dokument aktualisieren';
 
   @override
-  String get saveToGallery => 'Save to Gallery';
+  String get saveToGallery => 'In Galerie speichern';
 
   @override
   String get flight => 'Flug';
@@ -1049,109 +1050,220 @@ class AppLocalizationsDe extends AppLocalizations {
       'Dokumentenlimit erreicht. Sie können nur bis zu 10 Dokumente insgesamt hinzufügen.';
 
   @override
-  String get confirmActionWarning => 'This action cannot be undone!';
+  String get clearFilters => 'Filter löschen';
 
   @override
-  String get finalConfirmationTitle => 'Final Confirmation';
+  String get travelDates => 'Reisedaten';
+
+  @override
+  String get selectDateRange => 'Datumsbereich auswählen';
+
+  @override
+  String get activityDetails => 'Aktivitätsdetails';
+
+  @override
+  String get quickActions => 'Schnellaktionen';
+
+  @override
+  String get addNewItemsToTrip => 'Neue Elemente zu Ihrer Reise hinzufügen';
+
+  @override
+  String get booking => 'Buchung';
+
+  @override
+  String get expense => 'Ausgabe';
+
+  @override
+  String get itinerary => 'Reiseplan';
+
+  @override
+  String get duration => 'Dauer';
+
+  @override
+  String get noExpensesFound => 'Keine Ausgaben gefunden';
+
+  @override
+  String get noExpensesFoundForCategory =>
+      'Keine Ausgaben für diese Kategorie gefunden';
+
+  @override
+  String get noTasksFound => 'Keine Aufgaben gefunden';
+
+  @override
+  String get noBookingsFound => 'Keine Buchungen gefunden';
+
+  @override
+  String get noTripsFound => 'Keine Reisen gefunden';
+
+  @override
+  String get tryAdjustingFilters =>
+      'Versuchen Sie, Ihre Suchbegriffe oder Filter anzupassen';
+
+  @override
+  String get searchTasks => 'Aufgaben suchen...';
+
+  @override
+  String get searchBookings => 'Buchungen suchen...';
+
+  @override
+  String get urgentPriority => 'Dringend';
+
+  @override
+  String get highPriority => 'Hoch';
+
+  @override
+  String get mediumPriority => 'Mittel';
+
+  @override
+  String get lowPriority => 'Niedrig';
+
+  @override
+  String get overdue => 'Überfällig';
+
+  @override
+  String get dueToday => 'Heute fällig';
+
+  @override
+  String get dueTomorrow => 'Morgen fällig';
+
+  @override
+  String get activeStatus => 'Aktiv';
+
+  @override
+  String get selectBackupFile => 'Backup-Datei auswählen';
+
+  @override
+  String get selectFile => 'Datei auswählen';
+
+  @override
+  String get importBackup => 'Backup importieren';
+
+  @override
+  String get importSuccessful => 'Import erfolgreich';
+
+  @override
+  String get importFailed => 'Import fehlgeschlagen';
+
+  @override
+  String get couldNotOpenAppStore => 'App Store konnte nicht geöffnet werden';
+
+  @override
+  String get couldNotOpenHelpSection =>
+      'Hilfebereich konnte nicht geöffnet werden';
+
+  @override
+  String get couldNotOpenPrivacyPolicy =>
+      'Datenschutzrichtlinie konnte nicht geöffnet werden';
+
+  @override
+  String get couldNotOpenTermsOfService =>
+      'Nutzungsbedingungen konnten nicht geöffnet werden';
+
+  @override
+  String get confirmActionWarning =>
+      'Diese Aktion kann nicht rückgängig gemacht werden!';
+
+  @override
+  String get finalConfirmationTitle => 'Endgültige Bestätigung';
 
   @override
   String finalConfirmationPrompt(String word) {
-    return 'Type $word in the box below to confirm:';
+    return 'Geben Sie $word in das Feld unten ein, um zu bestätigen:';
   }
 
   @override
-  String get deletingAllData => 'Deleting all data...';
+  String get deletingAllData => 'Alle Daten werden gelöscht...';
 
   @override
-  String get pleaseWait => 'Please wait, this may take a moment.';
+  String get pleaseWait => 'Bitte warten Sie, dies kann einen Moment dauern.';
 
   @override
-  String get dataClearedTitle => 'Data Cleared';
+  String get dataClearedTitle => 'Daten Gelöscht';
 
   @override
   String get dataClearedMessage =>
-      'All your data has been successfully deleted. The app has been reset to its initial state.';
+      'Alle Ihre Daten wurden erfolgreich gelöscht. Die App wurde auf ihren ursprünglichen Zustand zurückgesetzt.';
 
   @override
-  String get errorTitle => 'Error';
+  String get errorTitle => 'Fehler';
 
   @override
   String failedToClearAllData(String error) {
-    return 'Failed to clear all data: $error';
+    return 'Fehler beim Löschen aller Daten: $error';
   }
 
   @override
   String get exportIntroTitle =>
-      'Create a secure backup of all your Voythrix data:';
+      'Erstellen Sie eine sichere Sicherung aller Ihrer Voythrix-Daten:';
 
   @override
   String get exportEncryptionInfo =>
-      'Your data will be encrypted and compressed into a .tripe file.';
+      'Ihre Daten werden verschlüsselt und in eine .tripe-Datei komprimiert.';
 
   @override
-  String get backupPasswordTitle => 'Backup Password (Optional)';
+  String get backupPasswordTitle => 'Backup-Passwort (Optional)';
 
   @override
-  String get backupPasswordHint => 'Enter password (optional)';
+  String get backupPasswordHint => 'Passwort eingeben (optional)';
 
   @override
-  String get confirmPasswordHint => 'Confirm password';
+  String get confirmPasswordHint => 'Passwort bestätigen';
 
   @override
-  String get passwordsMatch => 'Passwords match';
+  String get passwordsMatch => 'Passwörter stimmen überein';
 
   @override
-  String get passwordsDoNotMatch => 'Passwords do not match';
+  String get passwordsDoNotMatch => 'Passwörter stimmen nicht überein';
 
   @override
-  String get creatingBackup => 'Creating backup...';
+  String get creatingBackup => 'Backup wird erstellt...';
 
   @override
   String get collectingAndEncrypting =>
-      'Collecting and encrypting your data...';
+      'Ihre Daten werden gesammelt und verschlüsselt...';
 
   @override
-  String get backupCreatedTitle => 'Backup Created';
+  String get backupCreatedTitle => 'Backup Erstellt';
 
   @override
-  String get backupCreatedMessage =>
-      'Your backup has been created successfully!';
+  String get backupCreatedMessage => 'Ihr Backup wurde erfolgreich erstellt!';
 
   @override
-  String get fileInfoLabel => 'File Info:';
+  String get fileInfoLabel => 'Datei-Info:';
 
   @override
-  String get fileInfoFormat => '• Format: Encrypted .tripe file';
+  String get fileInfoFormat => '• Format: Verschlüsselte .tripe-Datei';
 
   @override
-  String get fileInfoSecurityPassword => '• Security: Password protected';
+  String get fileInfoSecurityPassword => '• Sicherheit: Passwort geschützt';
 
   @override
-  String get fileInfoSecurityStandard => '• Security: Standard encryption';
+  String get fileInfoSecurityStandard =>
+      '• Sicherheit: Standard-Verschlüsselung';
 
   @override
-  String get fileInfoCompression => '• Compression: GZip compressed';
+  String get fileInfoCompression => '• Komprimierung: GZip komprimiert';
 
   @override
   String get keepFileSafeNote =>
-      'Keep this file safe — you\'ll need it to restore your data!';
+      'Bewahren Sie diese Datei sicher auf — Sie benötigen sie zur Wiederherstellung Ihrer Daten!';
 
   @override
-  String get exportFailedTitle => 'Export Failed';
+  String get exportFailedTitle => 'Export Fehlgeschlagen';
 
   @override
   String failedToCreateBackup(String error) {
-    return 'Failed to create backup: $error';
+    return 'Fehler beim Erstellen des Backups: $error';
   }
 
   @override
-  String get continueAction => 'Continue';
+  String get continueAction => 'Fortfahren';
 
   @override
-  String get deleteEverything => 'Delete Everything';
+  String get deleteEverything => 'Alles Löschen';
 
   @override
-  String get createBackup => 'Create Backup';
+  String get createBackup => 'Backup Erstellen';
 
   @override
   String get ok => 'OK';

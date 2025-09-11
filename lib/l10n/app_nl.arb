@@ -4,42 +4,34 @@
   "@appTitle": {
     "description": "The title of the application"
   },
-  
   "trips": "Reizen",
   "@trips": {
     "description": "Trips tab title"
   },
-  
   "documents": "Documenten",
   "@documents": {
     "description": "Documents tab title"
   },
-  
   "settings": "Instellingen",
   "@settings": {
     "description": "Settings tab title"
   },
-  
   "quickStats": "Snelle statistieken",
   "@quickStats": {
     "description": "Quick stats card title"
   },
-  
   "activeTrips": "Actieve reizen",
   "@activeTrips": {
     "description": "Active trips label"
   },
-  
   "pendingTasks": "Lopende taken",
   "@pendingTasks": {
     "description": "Pending tasks label"
   },
-  
   "totalBudget": "Totaal budget",
   "@totalBudget": {
     "description": "Total budget label"
   },
-  
   "nextTripStartsIn": "Volgende reis begint over {days} dagen",
   "@nextTripStartsIn": {
     "description": "Next trip countdown message",
@@ -50,52 +42,42 @@
       }
     }
   },
-  
   "yourTrips": "Jouw reizen",
   "@yourTrips": {
     "description": "Your trips section title"
   },
-  
   "searchTrips": "Reizen zoeken...",
   "@searchTrips": {
     "description": "Search trips placeholder"
   },
-  
   "daysUntilStart": "Dagen tot start",
   "@daysUntilStart": {
     "description": "Sort by days until start"
   },
-  
   "dateCreated": "Datum aangemaakt",
   "@dateCreated": {
     "description": "Sort by date created"
   },
-  
   "alphabetical": "Alfabetisch",
   "@alphabetical": {
     "description": "Sort alphabetically"
   },
-  
   "budget": "Budget",
   "@budget": {
     "description": "Budget label"
   },
-  
   "tasks": "Taken",
   "@tasks": {
     "description": "Tasks label"
   },
-  
   "tripInProgress": "Reis in uitvoering",
   "@tripInProgress": {
     "description": "Trip in progress status"
   },
-  
   "startingToday": "Begint vandaag!",
   "@startingToday": {
     "description": "Trip starting today message"
   },
-  
   "daysToGo": "{days} dagen te gaan",
   "@daysToGo": {
     "description": "Days to go message",
@@ -106,7 +88,6 @@
       }
     }
   },
-  
   "active": "{count} actief",
   "@active": {
     "description": "Active count label",
@@ -117,57 +98,46 @@
       }
     }
   },
-  
   "searchDocuments": "Documenten zoeken...",
   "@searchDocuments": {
     "description": "Search documents placeholder"
   },
-  
   "personal": "Persoonlijk",
   "@personal": {
     "description": "Personal documents tab"
   },
-  
   "tripRelated": "Reis gerelateerd",
   "@tripRelated": {
     "description": "Trip related documents tab"
   },
-  
   "uploadDocument": "Document uploaden",
   "@uploadDocument": {
     "description": "Upload document title"
   },
-  
   "takePhoto": "Foto maken",
   "@takePhoto": {
     "description": "Take photo option"
   },
-  
   "captureDocumentWithCamera": "Document vastleggen met camera",
   "@captureDocumentWithCamera": {
     "description": "Take photo description"
   },
-  
   "chooseFromGallery": "Kiezen uit galerij",
   "@chooseFromGallery": {
     "description": "Choose from gallery option"
   },
-  
   "selectFromPhotoLibrary": "Selecteren uit fotobibliotheek",
   "@selectFromPhotoLibrary": {
     "description": "Choose from gallery description"
   },
-  
   "chooseFile": "Bestand kiezen",
   "@chooseFile": {
     "description": "Choose file option"
   },
-  
   "selectPdfOrOtherFiles": "PDF of andere bestanden selecteren",
   "@selectPdfOrOtherFiles": {
     "description": "Choose file description"
   },
-  
   "expires": "Verloopt: {date}",
   "@expires": {
     "description": "Document expiry date",
@@ -178,37 +148,30 @@
       }
     }
   },
-  
   "view": "Bekijken",
   "@view": {
     "description": "View action"
   },
-  
   "share": "Delen",
   "@share": {
     "description": "Share action"
   },
-  
   "download": "Downloaden",
   "@download": {
     "description": "Download action"
   },
-  
   "delete": "Verwijderen",
   "@delete": {
     "description": "Delete action"
   },
-  
   "cancel": "Annuleren",
   "@cancel": {
     "description": "Cancel button"
   },
-  
   "dutch": "Nederlands",
   "@dutch": {
     "description": "Dutch language"
-  }
-  ,
+  },
   "confirmActionWarning": "This action cannot be undone!",
   "finalConfirmationTitle": "Final Confirmation",
   "finalConfirmationPrompt": "Type {word} in the box below to confirm:",
@@ -234,15 +197,1358 @@
   "fileInfoSecurityPassword": "• Security: Password protected",
   "fileInfoSecurityStandard": "• Security: Standard encryption",
   "fileInfoCompression": "• Compression: GZip compressed",
-  "keepFileSafeNote": "Keep this file safe — you'll need it to restore your data!",
-  "exportFailedTitle": "Export Failed",
-  "failedToCreateBackup": "Failed to create backup: {error}",
+  "keepFileSafeNote": "Bewaar dit bestand veilig — u heeft het nodig om uw gegevens te herstellen!",
+  "exportFailedTitle": "Export Mislukt",
+  "failedToCreateBackup": "Maken van back-up mislukt: {error}",
   "continueAction": "Continue",
-  "deleteEverything": "Delete Everything",
-  "createBackup": "Create Backup",
+  "deleteEverything": "Alles Verwijderen",
+  "createBackup": "Back-up Maken",
   "ok": "OK",
   "flight": "Vlucht",
   "restaurant": "Restaurant",
   "bookingLimitReached": "Boekingslimiet bereikt. Je kunt slechts 15 boekingen per reis toevoegen.",
-  "documentLimitReached": "Documentlimiet bereikt. Je kunt slechts 10 documenten in totaal toevoegen."
+  "documentLimitReached": "Documentlimiet bereikt. Je kunt slechts 10 documenten in totaal toevoegen.",
+  "searchBookings": "Boekingen zoeken",
+  "searchTasks": "Taken zoeken",
+  "noBookingsFound": "Geen boekingen gevonden",
+  "noTasksFound": "Geen taken gevonden",
+  "noTripsFound": "Geen reizen gevonden",
+  "noExpensesFound": "Geen uitgaven gevonden",
+  "tryAdjustingFilters": "Probeer de filters aan te passen",
+  "clearFilters": "Filters wissen",
+  "overdue": "Achterstallig",
+  "dueToday": "Vervalt vandaag",
+  "dueTomorrow": "Vervalt morgen",
+  "duration": "Duur",
+  "quickActions": "Snelle acties",
+  "addNewItemsToTrip": "Nieuwe items aan reis toevoegen",
+  "booking": "Boeking",
+  "expense": "Uitgave",
+  "itinerary": "Reisroute",
+  "activeStatus": "Actieve status",
+  "documentDetails": "Documentdetails",
+  "fileSize": "Bestandsgrootte",
+  "fileName": "Bestandsnaam",
+  "noDocumentsYet": "Nog geen documenten",
+  "noDocumentsFound": "Geen documenten gevonden",
+  "tripDates": "Reisdata",
+  "destinations": "Bestemmingen",
+  "location": "Locatie",
+  "time": "Tijd",
+  "type": "Type",
+  "failedToLoadTrip": "Laden van reis mislukt",
+  "noDataAvailable": "Geen gegevens beschikbaar",
+  "refreshData": "Gegevens vernieuwen",
+  "errorOccurred": "Er is een fout opgetreden",
+  "tryAgain": "Probeer opnieuw",
+  "loading": "Laden",
+  "save": "Opslaan",
+  "savedSuccessfully": "Succesvol opgeslagen",
+  "failedToSave": "Opslaan mislukt",
+  "deletedSuccessfully": "Succesvol verwijderd",
+  "failedToDelete": "Verwijderen mislukt",
+  "about": "Over",
+  "@about": {
+    "description": "About section title"
+  },
+  "accommodation": "Accommodatie",
+  "@accommodation": {
+    "description": "Activity type: accommodation"
+  },
+  "activeTripsCount": "{count} actief",
+  "@activeTripsCount": {
+    "description": "Active trips counter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "activeWithCount": "Actief ({count})",
+  "@activeWithCount": {
+    "description": "Filter option for active trips with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "activities": "Activiteiten",
+  "@activities": {
+    "description": "Activities category"
+  },
+  "activityDetails": "Activiteit details",
+  "@activityDetails": {
+    "description": "Form header for activity details"
+  },
+  "activityDetailsTitle": "Activiteit details",
+  "@activityDetailsTitle": {
+    "description": "Dialog title for activity details"
+  },
+  "activityTitle": "Activiteit titel",
+  "@activityTitle": {
+    "description": "Activity title field"
+  },
+  "activityTitleLabel": "Activiteit titel",
+  "@activityTitleLabel": {
+    "description": "Activity title field label"
+  },
+  "activityType": "Activiteit type",
+  "@activityType": {
+    "description": "Activity type field"
+  },
+  "activityTypeLabel": "Activiteit type",
+  "@activityTypeLabel": {
+    "description": "Activity type field label"
+  },
+  "add": "Toevoegen",
+  "@add": {
+    "description": "Add action"
+  },
+  "addActivity": "Activiteit toevoegen",
+  "@addActivity": {
+    "description": "Add activity button text"
+  },
+  "addBooking": "Boeking toevoegen",
+  "@addBooking": {
+    "description": "Add booking button"
+  },
+  "addDocument": "Document toevoegen",
+  "@addDocument": {
+    "description": "Add document button"
+  },
+  "addExpense": "Uitgave toevoegen",
+  "@addExpense": {
+    "description": "Add expense button"
+  },
+  "addFile": "Bestand toevoegen",
+  "@addFile": {
+    "description": "Add file button"
+  },
+  "addFirstBooking": "Eerste boeking toevoegen",
+  "@addFirstBooking": {
+    "description": "Add first booking button"
+  },
+  "addFirstTask": "Eerste taak toevoegen",
+  "@addFirstTask": {
+    "description": "Add first task button"
+  },
+  "addNewActivity": "Nieuwe activiteit toevoegen",
+  "@addNewActivity": {
+    "description": "Add new activity title"
+  },
+  "addNewBooking": "Nieuwe boeking toevoegen",
+  "@addNewBooking": {
+    "description": "Add new booking title"
+  },
+  "addNewExpense": "Nieuwe uitgave toevoegen",
+  "@addNewExpense": {
+    "description": "Add new expense title"
+  },
+  "addNewTask": "Nieuwe taak toevoegen",
+  "@addNewTask": {
+    "description": "Add new task title"
+  },
+  "addTask": "Taak toevoegen",
+  "@addTask": {
+    "description": "Add task button"
+  },
+  "allDay": "Hele dag",
+  "@allDay": {
+    "description": "All day option"
+  },
+  "allWithCount": "Alle ({count})",
+  "@allWithCount": {
+    "description": "All items with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "allWithTotal": "Alle ({total})",
+  "@allWithTotal": {
+    "description": "Filter option showing all items with count",
+    "placeholders": {
+      "total": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
+  "amount": "Bedrag",
+  "@amount": {
+    "description": "Amount label"
+  },
+  "amountCurrency": "Bedrag ({currency})",
+  "@amountCurrency": {
+    "description": "Amount field with currency",
+    "placeholders": {
+      "currency": {
+        "type": "String",
+        "example": "USD"
+      }
+    }
+  },
+  "amountIsRequired": "Bedrag is verplicht",
+  "@amountIsRequired": {
+    "description": "Validation error when amount is missing"
+  },
+  "amountMustBePositive": "Bedrag moet positief zijn",
+  "@amountMustBePositive": {
+    "description": "Validation error when amount is negative or zero"
+  },
+  "appSettings": "App instellingen",
+  "@appSettings": {
+    "description": "App settings section title"
+  },
+  "appVersion": "App versie",
+  "@appVersion": {
+    "description": "App version setting"
+  },
+  "appVersionBeta": "1.0.0 (Beta)",
+  "@appVersionBeta": {
+    "description": "App version with beta label"
+  },
+  "april": "April",
+  "@april": {
+    "description": "April month abbreviation"
+  },
+  "arabic": "العربية",
+  "@arabic": {
+    "description": "Arabic language"
+  },
+  "attachments": "Bijlagen",
+  "@attachments": {
+    "description": "Attachments label"
+  },
+  "attachmentsOptional": "Bijlagen (optioneel)",
+  "@attachmentsOptional": {
+    "description": "Attachments section label"
+  },
+  "august": "Augustus",
+  "@august": {
+    "description": "August month abbreviation"
+  },
+  "backupAndSync": "Back-up en synchronisatie",
+  "@backupAndSync": {
+    "description": "Backup and sync setting"
+  },
+  "bookingDetails": "Boeking details",
+  "@bookingDetails": {
+    "description": "Booking details title"
+  },
+  "bookingType": "Boeking type",
+  "@bookingType": {
+    "description": "Activity type for bookings"
+  },
+  "bookingsTabTitle": "Boekingen",
+  "@bookingsTabTitle": {
+    "description": "Bookings tab title in trip detail screen"
+  },
+  "breakdown": "Uitsplitsing",
+  "@breakdown": {
+    "description": "Breakdown button"
+  },
+  "cancelled": "Geannuleerd",
+  "@cancelled": {
+    "description": "Cancelled status"
+  },
+  "cannotDisplayImage": "Kan afbeelding niet weergeven",
+  "@cannotDisplayImage": {
+    "description": "Cannot display image error"
+  },
+  "category": "Categorie",
+  "@category": {
+    "description": "Category field"
+  },
+  "celsius": "Celsius",
+  "@celsius": {
+    "description": "Celsius temperature unit"
+  },
+  "changeDocument": "Document wijzigen",
+  "@changeDocument": {
+    "description": "Button text for changing existing document"
+  },
+  "chooseFileDescription": "PDF of andere bestanden selecteren",
+  "@chooseFileDescription": {
+    "description": "Description for file picker option"
+  },
+  "chooseFileTitle": "Bestand kiezen",
+  "@chooseFileTitle": {
+    "description": "Option title for choosing files"
+  },
+  "chooseFromGalleryDescription": "Selecteren uit fotobibliotheek",
+  "@chooseFromGalleryDescription": {
+    "description": "Description for gallery option"
+  },
+  "chooseFromGalleryTitle": "Kiezen uit galerij",
+  "@chooseFromGalleryTitle": {
+    "description": "Option title for choosing from gallery"
+  },
+  "clearAll": "Alles wissen",
+  "@clearAll": {
+    "description": "Clear all button"
+  },
+  "clearAllData": "Alle gegevens wissen",
+  "@clearAllData": {
+    "description": "Clear all data setting"
+  },
+  "clearAllDataConfirmation": "Deze actie kan niet ongedaan gemaakt worden. Al je reizen, documenten en instellingen worden permanent verwijderd.",
+  "@clearAllDataConfirmation": {
+    "description": "Clear all data confirmation dialog"
+  },
+  "clearSearch": "Zoeken wissen",
+  "@clearSearch": {
+    "description": "Button to clear search filters"
+  },
+  "close": "Sluiten",
+  "@close": {
+    "description": "Close action"
+  },
+  "completed": "Voltooid",
+  "@completed": {
+    "description": "Status: completed"
+  },
+  "completedStatus": "Voltooid",
+  "@completedStatus": {
+    "description": "Status text for completed items"
+  },
+  "completedWithCount": "Voltooid ({count})",
+  "@completedWithCount": {
+    "description": "Filter option for completed trips with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "7"
+      }
+    }
+  },
+  "confirmed": "Bevestigd",
+  "@confirmed": {
+    "description": "Confirmed status"
+  },
+  "confirmationNumber": "Bevestigingsnummer",
+  "@confirmationNumber": {
+    "description": "Confirmation number label"
+  },
+  "confirmationNumberOptional": "Bevestigingsnummer (optioneel)",
+  "@confirmationNumberOptional": {
+    "description": "Confirmation number field label"
+  },
+  "confirmationNumberTooLong": "Bevestigingsnummer moet {limit} tekens of minder zijn",
+  "@confirmationNumberTooLong": {
+    "description": "Validation error when confirmation number is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "couldNotOpenAppStore": "Kon app store niet openen",
+  "@couldNotOpenAppStore": {
+    "description": "Error message when app store can't be opened"
+  },
+  "couldNotOpenHelpSection": "Kon help sectie niet openen",
+  "@couldNotOpenHelpSection": {
+    "description": "Error message when help section can't be opened"
+  },
+  "couldNotOpenPrivacyPolicy": "Kon privacybeleid niet openen",
+  "@couldNotOpenPrivacyPolicy": {
+    "description": "Error message when privacy policy can't be opened"
+  },
+  "couldNotOpenTermsOfService": "Kon servicevoorwaarden niet openen",
+  "@couldNotOpenTermsOfService": {
+    "description": "Error message when terms of service can't be opened"
+  },
+  "createTrip": "Reis aanmaken",
+  "@createTrip": {
+    "description": "Create trip button"
+  },
+  "currency": "Valuta",
+  "@currency": {
+    "description": "Currency field label"
+  },
+  "currencyUsedForNewTrips": "Valuta voor nieuwe reizen",
+  "@currencyUsedForNewTrips": {
+    "description": "Default currency description"
+  },
+  "darkMode": "Donkere modus",
+  "@darkMode": {
+    "description": "Dark mode setting"
+  },
+  "date": "Datum",
+  "@date": {
+    "description": "Date label"
+  },
+  "dateFormat": "Datumformaat",
+  "@dateFormat": {
+    "description": "Date format setting"
+  },
+  "dateWithDate": "Datum: {day}/{month}/{year}",
+  "@dateWithDate": {
+    "description": "Date with specific date format",
+    "placeholders": {
+      "day": {
+        "type": "int",
+        "example": "15"
+      },
+      "month": {
+        "type": "int",
+        "example": "12"
+      },
+      "year": {
+        "type": "int",
+        "example": "2024"
+      }
+    }
+  },
+  "december": "December",
+  "@december": {
+    "description": "December month abbreviation"
+  },
+  "defaultCurrency": "Standaard valuta",
+  "@defaultCurrency": {
+    "description": "Default currency setting"
+  },
+  "defaultUserEmail": "john.doe@email.com",
+  "@defaultUserEmail": {
+    "description": "Default user email"
+  },
+  "defaultUserName": "John Doe",
+  "@defaultUserName": {
+    "description": "Default user name"
+  },
+  "deleteActivity": "Activiteit verwijderen",
+  "@deleteActivity": {
+    "description": "Dialog title for deleting activity"
+  },
+  "deleteBooking": "Boeking verwijderen",
+  "@deleteBooking": {
+    "description": "Dialog title for deleting booking"
+  },
+  "deleteDocument": "Document verwijderen",
+  "@deleteDocument": {
+    "description": "Dialog title for deleting document"
+  },
+  "deleteDocumentConfirmation": "Weet je zeker dat je \"{title}\" wilt verwijderen? Deze actie kan niet ongedaan gemaakt worden.",
+  "@deleteDocumentConfirmation": {
+    "description": "Confirmation message for deleting document",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Passport.pdf"
+      }
+    }
+  },
+  "deleteExpense": "Uitgave verwijderen",
+  "@deleteExpense": {
+    "description": "Delete expense title"
+  },
+  "deleteExpenseConfirmation": "Weet je zeker dat je deze uitgave wilt verwijderen?",
+  "@deleteExpenseConfirmation": {
+    "description": "Delete expense confirmation"
+  },
+  "deleteTask": "Taak verwijderen",
+  "@deleteTask": {
+    "description": "Delete task button"
+  },
+  "deleteTaskConfirmation": "Weet je zeker dat je \"{title}\" wilt verwijderen? Deze actie kan niet ongedaan gemaakt worden.",
+  "@deleteTaskConfirmation": {
+    "description": "Delete task confirmation message",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Buy souvenirs"
+      }
+    }
+  },
+  "deleteTrip": "Reis verwijderen",
+  "@deleteTrip": {
+    "description": "Delete trip action"
+  },
+  "deleteTripConfirmation": "Weet je zeker dat je deze reis wilt verwijderen? Deze actie kan niet ongedaan gemaakt worden.",
+  "@deleteTripConfirmation": {
+    "description": "Confirmation message for deleting a trip"
+  },
+  "description": "Beschrijving",
+  "@description": {
+    "description": "Description label"
+  },
+  "descriptionOptional": "Beschrijving (optioneel)",
+  "@descriptionOptional": {
+    "description": "Optional description field label"
+  },
+  "descriptionTooLong": "Beschrijving moet {limit} tekens of minder zijn",
+  "@descriptionTooLong": {
+    "description": "Validation error when description is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "500"
+      }
+    }
+  },
+  "destinationIsRequired": "Bestemming is verplicht",
+  "@destinationIsRequired": {
+    "description": "Validation error when destination is missing"
+  },
+  "destinationTooLong": "Bestemming moet {limit} tekens of minder zijn",
+  "@destinationTooLong": {
+    "description": "Validation error when destination name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "documentAddedSuccessfully": "Document succesvol toegevoegd",
+  "@documentAddedSuccessfully": {
+    "description": "Success message when document is added"
+  },
+  "documentCategory": "Document categorie",
+  "@documentCategory": {
+    "description": "Document category field"
+  },
+  "documentDeletedSuccessfully": "Document \"{title}\" succesvol verwijderd",
+  "@documentDeletedSuccessfully": {
+    "description": "Success message when document is deleted",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Passport.pdf"
+      }
+    }
+  },
+  "documentTitle": "Document titel *",
+  "@documentTitle": {
+    "description": "Required document title field"
+  },
+  "documentUpdatedSuccessfully": "Document succesvol bijgewerkt",
+  "@documentUpdatedSuccessfully": {
+    "description": "Success message when document is updated"
+  },
+  "documentsTitle": "Documenten",
+  "@documentsTitle": {
+    "description": "Documents screen title"
+  },
+  "dueDate": "Vervaldatum",
+  "@dueDate": {
+    "description": "Due date label"
+  },
+  "dueWithDate": "Vervalt: {day}/{month}/{year}",
+  "@dueWithDate": {
+    "description": "Due date with specific date format",
+    "placeholders": {
+      "day": {
+        "type": "int",
+        "example": "15"
+      },
+      "month": {
+        "type": "int",
+        "example": "12"
+      },
+      "year": {
+        "type": "int",
+        "example": "2024"
+      }
+    }
+  },
+  "edit": "Bewerken",
+  "@edit": {
+    "description": "Edit action"
+  },
+  "editActivity": "Activiteit bewerken",
+  "@editActivity": {
+    "description": "Edit activity title"
+  },
+  "editBooking": "Boeking bewerken",
+  "@editBooking": {
+    "description": "Edit booking title"
+  },
+  "editDocument": "Document bewerken",
+  "@editDocument": {
+    "description": "Edit document title"
+  },
+  "editExpense": "Uitgave bewerken",
+  "@editExpense": {
+    "description": "Edit expense title"
+  },
+  "editTask": "Taak bewerken",
+  "@editTask": {
+    "description": "Edit task title"
+  },
+  "editTrip": "Reis bewerken",
+  "@editTrip": {
+    "description": "Edit trip screen title"
+  },
+  "endTime": "Eindtijd",
+  "@endTime": {
+    "description": "End time field"
+  },
+  "english": "English",
+  "@english": {
+    "description": "English language"
+  },
+  "enterValidAmount": "Voer een geldig bedrag in",
+  "@enterValidAmount": {
+    "description": "Validation error when amount format is invalid"
+  },
+  "entertainment": "Entertainment",
+  "@entertainment": {
+    "description": "Activity type: entertainment"
+  },
+  "errorDownloadingFile": "Fout bij downloaden bestand: {error}",
+  "@errorDownloadingFile": {
+    "description": "Error message when file download fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "errorSavingFile": "Fout bij opslaan bestand: {error}",
+  "@errorSavingFile": {
+    "description": "Error message when saving file fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Disk full"
+      }
+    }
+  },
+  "errorSavingToPhotos": "Fout bij opslaan naar foto's: {error}",
+  "@errorSavingToPhotos": {
+    "description": "Error message when saving to photos fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+  "errorSharingFile": "Fout bij delen bestand: {error}",
+  "@errorSharingFile": {
+    "description": "File sharing error message",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "No app found"
+      }
+    }
+  },
+  "expenseBreakdown": "Uitgaven uitsplitsing",
+  "@expenseBreakdown": {
+    "description": "Expense breakdown title"
+  },
+  "expenseDetailsTitle": "Uitgave details",
+  "@expenseDetailsTitle": {
+    "description": "Dialog title for expense details"
+  },
+  "expenseTitle": "Uitgave titel",
+  "@expenseTitle": {
+    "description": "Expense title field"
+  },
+  "expenseTitleLabel": "Uitgave titel",
+  "@expenseTitleLabel": {
+    "description": "Expense title field label"
+  },
+  "expenseType": "Uitgave",
+  "@expenseType": {
+    "description": "Activity type for expenses"
+  },
+  "expensesTabTitle": "Uitgaven",
+  "@expensesTabTitle": {
+    "description": "Expenses tab title in trip detail screen"
+  },
+  "exportData": "Gegevens exporteren",
+  "@exportData": {
+    "description": "Export data setting"
+  },
+  "exportYourTripData": "Je reisgegevens exporteren",
+  "@exportYourTripData": {
+    "description": "Export data description"
+  },
+  "fahrenheit": "Fahrenheit",
+  "@fahrenheit": {
+    "description": "Fahrenheit temperature unit"
+  },
+  "failedToAddUpdateBooking": "Mislukt om boeking te {action}: {error}",
+  "@failedToAddUpdateBooking": {
+    "description": "Error message for booking operations",
+    "placeholders": {
+      "action": {
+        "type": "String",
+        "example": "add"
+      },
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "failedToAddUpdateTask": "Mislukt om taak te {action}: {error}",
+  "@failedToAddUpdateTask": {
+    "description": "Error message for task operations",
+    "placeholders": {
+      "action": {
+        "type": "String",
+        "example": "add"
+      },
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "failedToCaptureImage": "Mislukt om afbeelding vast te leggen",
+  "@failedToCaptureImage": {
+    "description": "Error when camera capture fails"
+  },
+  "failedToCreateTrip": "Mislukt om reis aan te maken",
+  "@failedToCreateTrip": {
+    "description": "Error message when trip creation fails"
+  },
+  "failedToDeleteDocument": "Mislukt om document te verwijderen: {error}",
+  "@failedToDeleteDocument": {
+    "description": "Error message when document deletion fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File in use"
+      }
+    }
+  },
+  "failedToDeleteTrip": "Mislukt om reis te verwijderen",
+  "@failedToDeleteTrip": {
+    "description": "Error message when trip deletion fails"
+  },
+  "failedToLoad": "Mislukt om te laden",
+  "@failedToLoad": {
+    "description": "Failed to load error message"
+  },
+  "failedToLoadTodos": "Mislukt om taken te laden",
+  "@failedToLoadTodos": {
+    "description": "Error message when todos fail to load"
+  },
+  "failedToPickFile": "Mislukt om bestand te kiezen: {error}",
+  "@failedToPickFile": {
+    "description": "File picker error message",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+  "failedToReadFile": "Mislukt om bestandsgegevens te lezen",
+  "@failedToReadFile": {
+    "description": "Failed to read file error"
+  },
+  "failedToSaveDocument": "Mislukt om document op te slaan",
+  "@failedToSaveDocument": {
+    "description": "Error message when document save fails"
+  },
+  "failedToSelectFile": "Mislukt om bestand te selecteren",
+  "@failedToSelectFile": {
+    "description": "Error when file selection fails"
+  },
+  "failedToSelectImage": "Mislukt om afbeelding te selecteren",
+  "@failedToSelectImage": {
+    "description": "Error when image selection fails"
+  },
+  "failedToUpdateTrip": "Mislukt om reis bij te werken",
+  "@failedToUpdateTrip": {
+    "description": "Error message when trip update fails"
+  },
+  "faqsAndContactInformation": "FAQ's en contactinformatie",
+  "@faqsAndContactInformation": {
+    "description": "Help and support description"
+  },
+  "february": "Februari",
+  "@february": {
+    "description": "February month abbreviation"
+  },
+  "fieldIsRequired": "{fieldName} is verplicht",
+  "@fieldIsRequired": {
+    "description": "Generic required field validation error",
+    "placeholders": {
+      "fieldName": {
+        "type": "String",
+        "example": "Destination"
+      }
+    }
+  },
+  "fieldOptional": "{labelText} (optioneel)",
+  "@fieldOptional": {
+    "description": "Label for optional fields",
+    "placeholders": {
+      "labelText": {
+        "type": "String",
+        "example": "Description"
+      }
+    }
+  },
+  "fileAttachedSuccessfully": "{filename} succesvol bijgevoegd",
+  "@fileAttachedSuccessfully": {
+    "description": "File attachment success message",
+    "placeholders": {
+      "filename": {
+        "type": "String",
+        "example": "document.pdf"
+      }
+    }
+  },
+  "fileMovedOrDeleted": "Het bestand is mogelijk verplaatst of verwijderd",
+  "@fileMovedOrDeleted": {
+    "description": "File moved or deleted message"
+  },
+  "fileNotFound": "Bestand niet gevonden",
+  "@fileNotFound": {
+    "description": "File not found error"
+  },
+  "fileSavedSuccessfully": "Bestand succesvol opgeslagen",
+  "@fileSavedSuccessfully": {
+    "description": "Success message when file is saved"
+  },
+  "fileSizeMustBeLess": "Bestandsgrootte moet minder dan 5MB zijn",
+  "@fileSizeMustBeLess": {
+    "description": "File size error message"
+  },
+  "food": "Eten",
+  "@food": {
+    "description": "Food expense category"
+  },
+  "french": "Français",
+  "@french": {
+    "description": "French language"
+  },
+  "german": "Deutsch",
+  "@german": {
+    "description": "German language"
+  },
+  "helpAndSupport": "Help en ondersteuning",
+  "@helpAndSupport": {
+    "description": "Help and support setting"
+  },
+  "high": "Hoog",
+  "@high": {
+    "description": "High priority level"
+  },
+  "highPriority": "Hoog",
+  "@highPriority": {
+    "description": "High priority level"
+  },
+  "hotel": "Hotel",
+  "@hotel": {
+    "description": "Hotel document type"
+  },
+  "howDatesAreDisplayed": "Hoe datums worden weergegeven",
+  "@howDatesAreDisplayed": {
+    "description": "Date format description"
+  },
+  "imageSavedToPhotos": "Afbeelding opgeslagen in foto's",
+  "@imageSavedToPhotos": {
+    "description": "Success message when image is saved to photos"
+  },
+  "importData": "Gegevens importeren",
+  "@importData": {
+    "description": "Import data setting"
+  },
+  "importTripsFromOtherApps": "Reizen uit andere apps importeren",
+  "@importTripsFromOtherApps": {
+    "description": "Import data description"
+  },
+  "insurance": "Verzekering",
+  "@insurance": {
+    "description": "Insurance document type"
+  },
+  "italian": "Italiano",
+  "@italian": {
+    "description": "Italian language"
+  },
+  "january": "Januari",
+  "@january": {
+    "description": "January month abbreviation"
+  },
+  "japanese": "日本語",
+  "@japanese": {
+    "description": "Japanese language"
+  },
+  "july": "Juli",
+  "@july": {
+    "description": "July month abbreviation"
+  },
+  "june": "Juni",
+  "@june": {
+    "description": "June month abbreviation"
+  },
+  "keepTrackMessage": "Houd je vluchten, hotels en activiteiten bij!",
+  "@keepTrackMessage": {
+    "description": "Message encouraging users to add bookings"
+  },
+  "korean": "한국어",
+  "@korean": {
+    "description": "Korean language"
+  },
+  "language": "Taal",
+  "@language": {
+    "description": "Language setting"
+  },
+  "leaveAReviewOnTheAppStore": "Laat een review achter in de app store",
+  "@leaveAReviewOnTheAppStore": {
+    "description": "Rate app description"
+  },
+  "locationTooLong": "Locatie moet {limit} tekens of minder zijn",
+  "@locationTooLong": {
+    "description": "Validation error when location is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "low": "Laag",
+  "@low": {
+    "description": "Low priority level"
+  },
+  "lowPriority": "Laag",
+  "@lowPriority": {
+    "description": "Low priority level"
+  },
+  "mandarin": "中文",
+  "@mandarin": {
+    "description": "Mandarin Chinese language"
+  },
+  "manageYourDataBackup": "Je data back-up beheren",
+  "@manageYourDataBackup": {
+    "description": "Backup and sync description"
+  },
+  "march": "Maart",
+  "@march": {
+    "description": "March month abbreviation"
+  },
+  "maxCharacters": "{maxLength} max",
+  "@maxCharacters": {
+    "description": "Character limit indicator",
+    "placeholders": {
+      "maxLength": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "maxFileSizeSupported": "Max bestandsgrootte: 5MB\nOndersteunde formaten: PDF, DOC, DOCX, JPG, PNG, GIF",
+  "@maxFileSizeSupported": {
+    "description": "File upload constraints message"
+  },
+  "may": "Mei",
+  "@may": {
+    "description": "May month abbreviation"
+  },
+  "meal": "Maaltijd",
+  "@meal": {
+    "description": "Activity type: meal"
+  },
+  "medium": "Gemiddeld",
+  "@medium": {
+    "description": "Medium priority level"
+  },
+  "mediumPriority": "Gemiddeld",
+  "@mediumPriority": {
+    "description": "Medium priority level"
+  },
+  "noActivitiesPlanned": "Geen activiteiten gepland",
+  "@noActivitiesPlanned": {
+    "description": "No activities message"
+  },
+  "noDataYet": "Nog geen gegevens",
+  "@noDataYet": {
+    "description": "No data available message"
+  },
+  "noExpensesFoundForCategory": "Geen uitgaven gevonden voor deze categorie",
+  "@noExpensesFoundForCategory": {
+    "description": "Empty state message for filtered expenses"
+  },
+  "noExpensesYet": "Nog geen uitgaven",
+  "@noExpensesYet": {
+    "description": "No expenses message"
+  },
+  "noToDoItems": "Geen taken",
+  "@noToDoItems": {
+    "description": "No to-do items message"
+  },
+  "november": "November",
+  "@november": {
+    "description": "November month abbreviation"
+  },
+  "october": "Oktober",
+  "@october": {
+    "description": "October month abbreviation"
+  },
+  "open": "Openen",
+  "@open": {
+    "description": "Action to open something"
+  },
+  "openExternally": "Extern openen",
+  "@openExternally": {
+    "description": "Open externally button"
+  },
+  "other": "Overig",
+  "@other": {
+    "description": "Other category"
+  },
+  "overviewTabTitle": "Overzicht",
+  "@overviewTabTitle": {
+    "description": "Overview tab title in trip detail screen"
+  },
+  "paidBy": "Betaald door",
+  "@paidBy": {
+    "description": "Paid by field"
+  },
+  "paidByTooLong": "Betaald door moet {limit} tekens of minder zijn",
+  "@paidByTooLong": {
+    "description": "Validation error when paid by name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "passport": "Paspoort",
+  "@passport": {
+    "description": "Passport document type"
+  },
+  "pending": "In behandeling",
+  "@pending": {
+    "description": "Pending status"
+  },
+  "portuguese": "Português",
+  "@portuguese": {
+    "description": "Portuguese language"
+  },
+  "preferences": "Voorkeuren",
+  "@preferences": {
+    "description": "Preferences section title"
+  },
+  "previewNotAvailable": "Voorbeeld niet beschikbaar voor dit bestandstype.\nTik op \"Extern openen\" om te bekijken met een andere app.",
+  "@previewNotAvailable": {
+    "description": "Preview not available message"
+  },
+  "priority": "Prioriteit",
+  "@priority": {
+    "description": "Priority label"
+  },
+  "privacyPolicy": "Privacybeleid",
+  "@privacyPolicy": {
+    "description": "Privacy policy setting"
+  },
+  "profile": "Profiel",
+  "@profile": {
+    "description": "Profile section title"
+  },
+  "rateApp": "App beoordelen",
+  "@rateApp": {
+    "description": "Rate app setting"
+  },
+  "readOurPrivacyPolicy": "Lees ons privacybeleid",
+  "@readOurPrivacyPolicy": {
+    "description": "Privacy policy description"
+  },
+  "readOurTermsAndConditions": "Lees onze algemene voorwaarden",
+  "@readOurTermsAndConditions": {
+    "description": "Terms of service description"
+  },
+  "removeAllTripsAndDocuments": "Alle reizen en documenten verwijderen",
+  "@removeAllTripsAndDocuments": {
+    "description": "Clear all data description"
+  },
+  "retry": "Opnieuw proberen",
+  "@retry": {
+    "description": "Retry button"
+  },
+  "russian": "Русский",
+  "@russian": {
+    "description": "Russian language"
+  },
+  "saveImage": "Afbeelding opslaan",
+  "@saveImage": {
+    "description": "Dialog title for saving images"
+  },
+  "saveToFiles": "Opslaan in bestanden",
+  "@saveToFiles": {
+    "description": "Option to save file to specific location"
+  },
+  "saveToFilesDescription": "Kies een specifieke map om op te slaan",
+  "@saveToFilesDescription": {
+    "description": "Description for save to files option"
+  },
+  "saveToGallery": "Opslaan in galerij",
+  "@saveToGallery": {
+    "description": "Save to gallery option"
+  },
+  "saveToPhotos": "Opslaan in foto's",
+  "@saveToPhotos": {
+    "description": "Option to save image to photo gallery"
+  },
+  "saveToPhotosDescription": "Direct opslaan in je fotogalerij",
+  "@saveToPhotosDescription": {
+    "description": "Description for save to photos option"
+  },
+  "searchTripsPlaceholder": "Zoek reizen...",
+  "@searchTripsPlaceholder": {
+    "description": "Search input placeholder for trips"
+  },
+  "selectBackupFile": "Back-up bestand selecteren",
+  "@selectBackupFile": {
+    "description": "Dialog title for backup file selection"
+  },
+  "selectBothStartAndEndDates": "Selecteer zowel start- als einddatum",
+  "@selectBothStartAndEndDates": {
+    "description": "Error when dates are not selected"
+  },
+  "selectDateRange": "Datumbereik selecteren",
+  "@selectDateRange": {
+    "description": "Placeholder text for date range picker"
+  },
+  "selectDocument": "Document selecteren",
+  "@selectDocument": {
+    "description": "Dialog title for selecting documents"
+  },
+  "selectFile": "Bestand selecteren",
+  "@selectFile": {
+    "description": "Button text to select file"
+  },
+  "selectStartDateFirst": "Selecteer eerst de startdatum",
+  "@selectStartDateFirst": {
+    "description": "Error when trying to select end date without start date"
+  },
+  "selectYourPreferredLanguage": "Selecteer je voorkeurstaal",
+  "@selectYourPreferredLanguage": {
+    "description": "Language description"
+  },
+  "september": "September",
+  "@september": {
+    "description": "September month abbreviation"
+  },
+  "setBookingDateOptional": "Boekingsdatum instellen (optioneel)",
+  "@setBookingDateOptional": {
+    "description": "Set booking date field label"
+  },
+  "setDueDateOptional": "Vervaldatum instellen (optioneel)",
+  "@setDueDateOptional": {
+    "description": "Set due date field label"
+  },
+  "shopping": "Winkelen",
+  "@shopping": {
+    "description": "Activity type: shopping"
+  },
+  "sightseeing": "Sightseeing",
+  "@sightseeing": {
+    "description": "Activity type: sightseeing"
+  },
+  "spanish": "Español",
+  "@spanish": {
+    "description": "Spanish language"
+  },
+  "startPlanning": "Begin met plannen van je volgende avontuur!",
+  "@startPlanning": {
+    "description": "Empty state message for planning"
+  },
+  "startTime": "Starttijd",
+  "@startTime": {
+    "description": "Start time field"
+  },
+  "stayOrganizedMessage": "Blijf georganiseerd door taken toe te voegen voor je reisplanning!",
+  "@stayOrganizedMessage": {
+    "description": "Message encouraging users to add tasks"
+  },
+  "switchBetweenLightAndDarkTheme": "Schakel tussen licht en donker thema",
+  "@switchBetweenLightAndDarkTheme": {
+    "description": "Dark mode description"
+  },
+  "task": "Taak",
+  "@task": {
+    "description": "Quick action button for adding task"
+  },
+  "taskTitle": "Taak titel",
+  "@taskTitle": {
+    "description": "Task title field label"
+  },
+  "temperatureScalePreference": "Temperatuurschaal voorkeur",
+  "@temperatureScalePreference": {
+    "description": "Temperature unit description"
+  },
+  "temperatureUnit": "Temperatuur eenheid",
+  "@temperatureUnit": {
+    "description": "Temperature unit setting"
+  },
+  "termsOfService": "Servicevoorwaarden",
+  "@termsOfService": {
+    "description": "Terms of service setting"
+  },
+  "ticket": "Ticket",
+  "@ticket": {
+    "description": "Ticket document type"
+  },
+  "title": "Titel",
+  "@title": {
+    "description": "Title label"
+  },
+  "titleIsRequired": "Titel is verplicht",
+  "@titleIsRequired": {
+    "description": "Validation error when title is missing"
+  },
+  "titleTooLong": "Titel moet {limit} tekens of minder zijn",
+  "@titleTooLong": {
+    "description": "Validation error when title is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "toDoItems": "Takenlijst",
+  "@toDoItems": {
+    "description": "To-do items label"
+  },
+  "todoTabTitle": "Taken",
+  "@todoTabTitle": {
+    "description": "To-Do tab title in trip detail screen"
+  },
+  "totalExpenses": "Totale uitgaven",
+  "@totalExpenses": {
+    "description": "Total expenses label"
+  },
+  "transport": "Vervoer",
+  "@transport": {
+    "description": "Transport category"
+  },
+  "travelDates": "Reisdatums",
+  "@travelDates": {
+    "description": "Form section header for travel dates"
+  },
+  "tripCreatedSuccessfully": "Reis succesvol aangemaakt!",
+  "@tripCreatedSuccessfully": {
+    "description": "Success message when trip is created"
+  },
+  "tripDeletedSuccessfully": "Reis succesvol verwijderd",
+  "@tripDeletedSuccessfully": {
+    "description": "Success message when trip is deleted"
+  },
+  "tripInProgressStatus": "Reis bezig",
+  "@tripInProgressStatus": {
+    "description": "Status text for ongoing trips"
+  },
+  "tripNotFound": "Reis niet gevonden",
+  "@tripNotFound": {
+    "description": "Error message when trip is not found"
+  },
+  "tripUpdatedSuccessfully": "Reis succesvol bijgewerkt",
+  "@tripUpdatedSuccessfully": {
+    "description": "Success message when trip is updated"
+  },
+  "unknown": "Onbekend",
+  "@unknown": {
+    "description": "Unknown value placeholder"
+  },
+  "update": "Bijwerken",
+  "@update": {
+    "description": "Update action"
+  },
+  "updateActivity": "Activiteit bijwerken",
+  "@updateActivity": {
+    "description": "Update activity button"
+  },
+  "updateBooking": "Boeking bijwerken",
+  "@updateBooking": {
+    "description": "Update booking button"
+  },
+  "updateDocument": "Document bijwerken",
+  "@updateDocument": {
+    "description": "Update document button text"
+  },
+  "updateExpense": "Uitgave bijwerken",
+  "@updateExpense": {
+    "description": "Update expense button"
+  },
+  "updateTask": "Taak bijwerken",
+  "@updateTask": {
+    "description": "Update task button"
+  },
+  "updateTrip": "Reis bijwerken",
+  "@updateTrip": {
+    "description": "Update trip button text"
+  },
+  "upcomingWithCount": "Aankomend ({count})",
+  "@upcomingWithCount": {
+    "description": "Filter option for upcoming trips with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "urgent": "Urgent",
+  "@urgent": {
+    "description": "Urgent priority level"
+  },
+  "urgentPriority": "Urgent",
+  "@urgentPriority": {
+    "description": "Urgent priority level"
+  },
+  "vendor": "Leverancier",
+  "@vendor": {
+    "description": "Vendor label"
+  },
+  "vendorCompanyOptional": "Leverancier/Bedrijf (optioneel)",
+  "@vendorCompanyOptional": {
+    "description": "Vendor/Company field label"
+  },
+  "vendorTooLong": "Leverancier/Bedrijf moet {limit} tekens of minder zijn",
+  "@vendorTooLong": {
+    "description": "Validation error when vendor name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "visa": "Visum",
+  "@visa": {
+    "description": "Visa document type"
+  },
+  "you": "Jij",
+  "@you": {
+    "description": "You pronoun"
+  },
+  "yourTripsTitle": "Jouw reizen",
+  "@yourTripsTitle": {
+    "description": "Section title for user's trips"
+  },
+  "dangerZone": "Gevaarzone",
+  "hindi": "हिन्दी",
+  "expenseDetails": "Uitgave Details",
+  "bookingTitle": "Boeking Titel",
+  "status": "Status",
+  "splitDetails": "Verdeel Details",
+  "noBookingsYet": "Nog Geen Boekingen",
+  "taskDetails": "Taak Details",
+  "addAtLeastOneDestination": "Voeg minstens één bestemming toe",
+  "itineraryDescriptionTooLong": "Beschrijving moet {limit} tekens of minder zijn",
+  "itineraryTabTitle": "Itinerary",
+  "importBackup": "Backup Importeren",
+  "importSuccessful": "Import Succesvol",
+  "importFailed": "Import Mislukt"
 }

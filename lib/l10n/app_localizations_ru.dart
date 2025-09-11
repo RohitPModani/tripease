@@ -122,117 +122,120 @@ class AppLocalizationsRu extends AppLocalizations {
   String get delete => 'Удалить';
 
   @override
-  String get profile => 'Profile';
+  String get profile => 'Профиль';
 
   @override
-  String get preferences => 'Preferences';
+  String get preferences => 'Настройки';
 
   @override
-  String get darkMode => 'Dark Mode';
+  String get darkMode => 'Тёмный режим';
 
   @override
   String get switchBetweenLightAndDarkTheme =>
-      'Switch between light and dark theme';
+      'Переключение между светлой и тёмной темой';
 
   @override
-  String get language => 'Language';
+  String get language => 'Язык';
 
   @override
-  String get selectYourPreferredLanguage => 'Select your preferred language';
+  String get selectYourPreferredLanguage => 'Выберите предпочитаемый язык';
 
   @override
-  String get defaultCurrency => 'Default Currency';
+  String get defaultCurrency => 'Валюта по умолчанию';
 
   @override
-  String get currencyUsedForNewTrips => 'Currency used for new trips';
+  String get currencyUsedForNewTrips => 'Валюта для новых поездок';
 
   @override
-  String get dateFormat => 'Date Format';
+  String get dateFormat => 'Формат даты';
 
   @override
-  String get howDatesAreDisplayed => 'How dates are displayed';
+  String get howDatesAreDisplayed => 'Как отображаются даты';
 
   @override
-  String get temperatureUnit => 'Temperature Unit';
+  String get temperatureUnit => 'Единица температуры';
 
   @override
-  String get temperatureScalePreference => 'Temperature scale preference';
+  String get temperatureScalePreference => 'Предпочтение шкалы температуры';
 
   @override
-  String get appSettings => 'App Settings';
+  String get appSettings => 'Настройки приложения';
 
   @override
-  String get backupAndSync => 'Backup & Sync';
+  String get backupAndSync => 'Резервное копирование и синхронизация';
 
   @override
-  String get manageYourDataBackup => 'Manage your data backup';
+  String get manageYourDataBackup => 'Управление резервным копированием данных';
 
   @override
-  String get importData => 'Import Data';
+  String get importData => 'Импорт данных';
 
   @override
-  String get importTripsFromOtherApps => 'Import trips from other apps';
+  String get importTripsFromOtherApps => 'Импорт поездок из других приложений';
 
   @override
-  String get exportData => 'Export Data';
+  String get exportData => 'Экспорт данных';
 
   @override
-  String get exportYourTripData => 'Export your trip data';
+  String get exportYourTripData => 'Экспорт данных поездки';
 
   @override
-  String get about => 'About';
+  String get about => 'О программе';
 
   @override
-  String get appVersion => 'App Version';
+  String get appVersion => 'Версия приложения';
 
   @override
-  String get rateApp => 'Rate App';
+  String get rateApp => 'Оценить приложение';
 
   @override
-  String get leaveAReviewOnTheAppStore => 'Leave a review on the app store';
+  String get leaveAReviewOnTheAppStore => 'Оставить отзыв в App Store';
 
   @override
-  String get helpAndSupport => 'Help & Support';
+  String get helpAndSupport => 'Помощь и поддержка';
 
   @override
-  String get faqsAndContactInformation => 'FAQs and contact information';
+  String get faqsAndContactInformation =>
+      'Часто задаваемые вопросы и контактная информация';
 
   @override
-  String get privacyPolicy => 'Privacy Policy';
+  String get privacyPolicy => 'Политика конфиденциальности';
 
   @override
-  String get readOurPrivacyPolicy => 'Read our privacy policy';
+  String get readOurPrivacyPolicy =>
+      'Ознакомиться с политикой конфиденциальности';
 
   @override
-  String get termsOfService => 'Terms of Service';
+  String get termsOfService => 'Условия использования';
 
   @override
-  String get readOurTermsAndConditions => 'Read our terms and conditions';
+  String get readOurTermsAndConditions =>
+      'Ознакомиться с условиями использования';
 
   @override
-  String get dangerZone => 'Danger Zone';
+  String get dangerZone => 'Опасная зона';
 
   @override
-  String get clearAllData => 'Clear All Data';
+  String get clearAllData => 'Очистить все данные';
 
   @override
-  String get removeAllTripsAndDocuments => 'Remove all trips and documents';
+  String get removeAllTripsAndDocuments => 'Удалить все поездки и документы';
 
   @override
   String get clearAllDataConfirmation =>
-      'This action cannot be undone. All your trips, documents, and settings will be permanently deleted.';
+      'Это действие нельзя отменить. Все ваши поездки, документы и настройки будут навсегда удалены.';
 
   @override
   String get cancel => 'Отменить';
 
   @override
-  String get clearAll => 'Clear All';
+  String get clearAll => 'Очистить все';
 
   @override
-  String get celsius => 'Celsius';
+  String get celsius => 'Цельсий';
 
   @override
-  String get fahrenheit => 'Fahrenheit';
+  String get fahrenheit => 'Фаренгейт';
 
   @override
   String get english => 'English';
@@ -274,759 +277,762 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dutch => 'Nederlands';
 
   @override
-  String get title => 'Title';
+  String get title => 'Заголовок';
 
   @override
-  String get description => 'Description';
+  String get description => 'Описание';
 
   @override
-  String get amount => 'Amount';
+  String get amount => 'Сумма';
 
   @override
-  String get date => 'Date';
+  String get date => 'Дата';
 
   @override
-  String get edit => 'Edit';
+  String get edit => 'Редактировать';
 
   @override
-  String get retry => 'Retry';
+  String get retry => 'Повторить';
 
   @override
-  String get add => 'Add';
+  String get add => 'Добавить';
 
   @override
-  String get update => 'Update';
+  String get update => 'Обновить';
 
   @override
-  String get close => 'Close';
+  String get close => 'Закрыть';
 
   @override
-  String get failedToLoad => 'Failed to load';
+  String get failedToLoad => 'Ошибка загрузки';
 
   @override
-  String get noDataYet => 'No data yet';
+  String get noDataYet => 'Данных пока нет';
 
   @override
-  String get startPlanning => 'Start planning your next adventure!';
+  String get startPlanning => 'Начните планировать своё следующее приключение!';
 
   @override
-  String get createTrip => 'Create Trip';
+  String get createTrip => 'Создать поездку';
 
   @override
-  String get addDocument => 'Add Document';
+  String get addDocument => 'Добавить документ';
 
   @override
-  String get addExpense => 'Add Expense';
+  String get addExpense => 'Добавить расход';
 
   @override
-  String get addActivity => 'Add Activity';
+  String get addActivity => 'Добавить активность';
 
   @override
-  String get addBooking => 'Add Booking';
+  String get addBooking => 'Добавить бронирование';
 
   @override
-  String get totalExpenses => 'Total Expenses';
+  String get totalExpenses => 'Общие расходы';
 
   @override
-  String get toDoItems => 'To-Do Items';
+  String get toDoItems => 'Список дел';
 
   @override
-  String get expenseDetails => 'Expense Details';
+  String get expenseDetails => 'Детали расхода';
 
   @override
-  String get expenseTitle => 'Expense Title';
+  String get expenseTitle => 'Название расхода';
 
   @override
-  String get category => 'Category';
+  String get category => 'Категория';
 
   @override
-  String get paidBy => 'Paid By';
+  String get paidBy => 'Оплачено';
 
   @override
-  String get you => 'You';
+  String get you => 'Вы';
 
   @override
-  String get allDay => 'All Day';
+  String get allDay => 'Весь день';
 
   @override
-  String get startTime => 'Start Time';
+  String get startTime => 'Время начала';
 
   @override
-  String get endTime => 'End Time';
+  String get endTime => 'Время окончания';
 
   @override
-  String get activityTitle => 'Activity Title';
+  String get activityTitle => 'Название мероприятия';
 
   @override
-  String get activityType => 'Activity Type';
+  String get activityType => 'Тип мероприятия';
 
   @override
-  String get bookingTitle => 'Booking Title';
+  String get bookingTitle => 'Название бронирования';
 
   @override
-  String get bookingType => 'Booking';
+  String get bookingType => 'Тип бронирования';
 
   @override
-  String get status => 'Status';
+  String get status => 'Статус';
 
   @override
-  String get addFile => 'Add File';
+  String get addFile => 'Добавить файл';
 
   @override
-  String get fileNotFound => 'File not found';
+  String get fileNotFound => 'Файл не найден';
 
   @override
-  String get fileMovedOrDeleted => 'The file may have been moved or deleted';
+  String get fileMovedOrDeleted => 'Возможно, файл был перемещен или удален';
 
   @override
-  String get cannotDisplayImage => 'Cannot display image';
+  String get cannotDisplayImage => 'Не удается отобразить изображение';
 
   @override
-  String get openExternally => 'Open Externally';
+  String get openExternally => 'Открыть внешне';
 
   @override
-  String get failedToReadFile => 'Failed to read file data';
+  String get failedToReadFile => 'Не удалось прочитать данные файла';
 
   @override
-  String get deleteExpense => 'Delete Expense';
+  String get deleteExpense => 'Удалить расход';
 
   @override
   String get deleteExpenseConfirmation =>
-      'Are you sure you want to delete this expense?';
+      'Вы уверены, что хотите удалить этот расход?';
 
   @override
-  String get expenseBreakdown => 'Expense Breakdown';
+  String get expenseBreakdown => 'Разбивка расходов';
 
   @override
-  String get breakdown => 'Breakdown';
+  String get breakdown => 'Разбивка';
 
   @override
-  String get noExpensesYet => 'No Expenses Yet';
+  String get noExpensesYet => 'Расходов пока нет';
 
   @override
-  String get noActivitiesPlanned => 'No activities planned';
+  String get noActivitiesPlanned => 'Мероприятия не запланированы';
 
   @override
-  String get splitDetails => 'Split Details';
+  String get splitDetails => 'Детали разделения';
 
   @override
-  String get editExpense => 'Edit Expense';
+  String get editExpense => 'Редактировать расход';
 
   @override
-  String get addNewExpense => 'Add New Expense';
+  String get addNewExpense => 'Добавить новый расход';
 
   @override
-  String get editActivity => 'Edit Activity';
+  String get editActivity => 'Редактировать мероприятие';
 
   @override
-  String get addNewActivity => 'Add New Activity';
+  String get addNewActivity => 'Добавить новое мероприятие';
 
   @override
-  String get editBooking => 'Edit Booking';
+  String get editBooking => 'Редактировать бронирование';
 
   @override
-  String get addNewBooking => 'Add New Booking';
+  String get addNewBooking => 'Добавить новое бронирование';
 
   @override
-  String get updateExpense => 'Update Expense';
+  String get updateExpense => 'Обновить расход';
 
   @override
-  String get updateActivity => 'Update Activity';
+  String get updateActivity => 'Обновить мероприятие';
 
   @override
-  String get updateBooking => 'Update Booking';
+  String get updateBooking => 'Обновить бронирование';
 
   @override
-  String get transport => 'Transport';
+  String get transport => 'Транспорт';
 
   @override
-  String get accommodation => 'Accommodation';
+  String get accommodation => 'Размещение';
 
   @override
-  String get activities => 'Activities';
+  String get activities => 'Мероприятия';
 
   @override
-  String get shopping => 'Shopping';
+  String get shopping => 'Покупки';
 
   @override
-  String get sightseeing => 'Sightseeing';
+  String get sightseeing => 'Осмотр достопримечательностей';
 
   @override
-  String get meal => 'Meal';
+  String get meal => 'Еда';
 
   @override
-  String get entertainment => 'Entertainment';
+  String get entertainment => 'Развлечения';
 
   @override
-  String get other => 'Other';
+  String get other => 'Другое';
 
   @override
-  String get noBookingsYet => 'No Bookings Yet';
+  String get noBookingsYet => 'Пока нет бронирований';
 
   @override
-  String get addFirstBooking => 'Add First Booking';
+  String get addFirstBooking => 'Добавить первое бронирование';
 
   @override
-  String get bookingDetails => 'Booking Details';
+  String get bookingDetails => 'Детали бронирования';
 
   @override
-  String get vendor => 'Vendor';
+  String get vendor => 'Поставщик';
 
   @override
-  String get confirmationNumber => 'Confirmation Number';
+  String get confirmationNumber => 'Номер подтверждения';
 
   @override
-  String get attachments => 'Attachments';
+  String get attachments => 'Вложения';
 
   @override
-  String get failedToLoadTodos => 'Failed to load todos';
+  String get failedToLoadTodos => 'Не удалось загрузить задачи';
 
   @override
-  String get task => 'Task';
+  String get task => 'Задача';
 
   @override
   String allWithCount(int count) {
-    return 'All ($count)';
+    return 'Все ($count)';
   }
 
   @override
-  String get noToDoItems => 'No To-Do Items';
+  String get noToDoItems => 'Задач нет';
 
   @override
   String get stayOrganizedMessage =>
-      'Stay organized by adding tasks for your trip planning!';
+      'Оставайтесь организованными, добавляя задачи для планирования поездки!';
 
   @override
-  String get addFirstTask => 'Add First Task';
+  String get addFirstTask => 'Добавить первую задачу';
 
   @override
-  String get taskDetails => 'Task Details';
+  String get taskDetails => 'Детали задачи';
 
   @override
-  String get completed => 'Completed';
+  String get completed => 'Завершено';
 
   @override
-  String get pending => 'Pending';
+  String get pending => 'В ожидании';
 
   @override
-  String get priority => 'Priority';
+  String get priority => 'Приоритет';
 
   @override
-  String get dueDate => 'Due Date';
+  String get dueDate => 'Срок выполнения';
 
   @override
-  String get editTask => 'Edit Task';
+  String get editTask => 'Редактировать задачу';
 
   @override
-  String get addNewTask => 'Add New Task';
+  String get addNewTask => 'Добавить новую задачу';
 
   @override
-  String get updateTask => 'Update Task';
+  String get updateTask => 'Обновить задачу';
 
   @override
-  String get addTask => 'Add Task';
+  String get addTask => 'Добавить задачу';
 
   @override
-  String get deleteTask => 'Delete Task';
+  String get deleteTask => 'Удалить задачу';
 
   @override
   String deleteTaskConfirmation(String title) {
-    return 'Are you sure you want to delete \"$title\"? This action cannot be undone.';
+    return 'Вы уверены, что хотите удалить \"$title\"? Это действие нельзя отменить.';
   }
 
   @override
   String get keepTrackMessage =>
-      'Keep track of your flights, hotels, and activities!';
+      'Отслеживайте свои рейсы, отели и мероприятия!';
 
   @override
   String get previewNotAvailable =>
-      'Preview not available for this file type.\nTap \"Open Externally\" to view with another app.';
+      'Предварительный просмотр недоступен для этого типа файла.\nНажмите \"Открыть внешне\" для просмотра в другом приложении.';
 
   @override
-  String get appVersionBeta => '1.0.0 (Beta)';
+  String get appVersionBeta => '1.0.0 (Бета)';
 
   @override
-  String get defaultUserName => 'John Doe';
+  String get defaultUserName => 'Иван Иванов';
 
   @override
   String get defaultUserEmail => 'john.doe@email.com';
 
   @override
-  String get taskTitle => 'Task Title';
+  String get taskTitle => 'Название задачи';
 
   @override
-  String get descriptionOptional => 'Description (Optional)';
+  String get descriptionOptional => 'Описание (необязательно)';
 
   @override
-  String get setDueDateOptional => 'Set Due Date (Optional)';
+  String get setDueDateOptional => 'Установить срок выполнения (необязательно)';
 
   @override
   String dueWithDate(int day, int month, int year) {
-    return 'Due: $day/$month/$year';
+    return 'Срок: $day/$month/$year';
   }
 
   @override
-  String get urgent => 'Urgent';
+  String get urgent => 'Срочно';
 
   @override
-  String get high => 'High';
+  String get high => 'Высокий';
 
   @override
-  String get medium => 'Medium';
+  String get medium => 'Средний';
 
   @override
-  String get low => 'Low';
+  String get low => 'Низкий';
 
   @override
   String failedToAddUpdateTask(String action, String error) {
-    return 'Failed to $action task: $error';
+    return 'Не удалось $action задачу: $error';
   }
 
   @override
-  String get vendorCompanyOptional => 'Vendor/Company (Optional)';
+  String get vendorCompanyOptional => 'Поставщик/Компания (необязательно)';
 
   @override
-  String get confirmationNumberOptional => 'Confirmation Number (Optional)';
+  String get confirmationNumberOptional =>
+      'Номер подтверждения (необязательно)';
 
   @override
   String amountCurrency(String currency) {
-    return 'Amount ($currency)';
+    return 'Сумма ($currency)';
   }
 
   @override
-  String get setBookingDateOptional => 'Set Booking Date (Optional)';
+  String get setBookingDateOptional =>
+      'Установить дату бронирования (необязательно)';
 
   @override
   String dateWithDate(int day, int month, int year) {
-    return 'Date: $day/$month/$year';
+    return 'Дата: $day/$month/$year';
   }
 
   @override
-  String get attachmentsOptional => 'Attachments (Optional)';
+  String get attachmentsOptional => 'Вложения (необязательно)';
 
   @override
   String get maxFileSizeSupported =>
-      'Max file size: 5MB\nSupported formats: PDF, DOC, DOCX, JPG, PNG, GIF';
+      'Макс. размер файла: 5 МБ\nПоддерживаемые форматы: PDF, DOC, DOCX, JPG, PNG, GIF';
 
   @override
   String failedToAddUpdateBooking(String action, String error) {
-    return 'Failed to $action booking: $error';
+    return 'Не удалось $action бронирование: $error';
   }
 
   @override
   String fileAttachedSuccessfully(String filename) {
-    return '$filename attached successfully';
+    return '$filename успешно прикреплен';
   }
 
   @override
-  String get fileSizeMustBeLess => 'File size must be less than 5MB';
+  String get fileSizeMustBeLess => 'Размер файла должен быть менее 5 МБ';
 
   @override
   String failedToPickFile(String error) {
-    return 'Failed to pick file: $error';
+    return 'Не удалось выбрать файл: $error';
   }
 
   @override
   String errorSharingFile(String error) {
-    return 'Error sharing file: $error';
+    return 'Ошибка обмена файлом: $error';
   }
 
   @override
-  String get unknown => 'Unknown';
+  String get unknown => 'Неизвестно';
 
   @override
-  String get editTrip => 'Edit Trip';
+  String get editTrip => 'Редактировать поездку';
 
   @override
-  String get updateTrip => 'Update Trip';
+  String get updateTrip => 'Обновить поездку';
 
   @override
-  String get tripUpdatedSuccessfully => 'Trip updated successfully';
+  String get tripUpdatedSuccessfully => 'Поездка успешно обновлена';
 
   @override
-  String get failedToUpdateTrip => 'Failed to update trip';
+  String get failedToUpdateTrip => 'Не удалось обновить поездку';
 
   @override
-  String get deleteTrip => 'Delete Trip';
+  String get deleteTrip => 'Удалить поездку';
 
   @override
   String get deleteTripConfirmation =>
-      'Are you sure you want to delete this trip? This action cannot be undone.';
+      'Вы уверены, что хотите удалить эту поездку? Это действие нельзя отменить.';
 
   @override
-  String get tripDeletedSuccessfully => 'Trip deleted successfully';
+  String get tripDeletedSuccessfully => 'Поездка успешно удалена';
 
   @override
-  String get failedToDeleteTrip => 'Failed to delete trip';
+  String get failedToDeleteTrip => 'Не удалось удалить поездку';
 
   @override
-  String get tripCreatedSuccessfully => 'Trip created successfully!';
+  String get tripCreatedSuccessfully => 'Поездка успешно создана!';
 
   @override
-  String get failedToCreateTrip => 'Failed to create trip';
+  String get failedToCreateTrip => 'Не удалось создать поездку';
 
   @override
-  String get selectStartDateFirst => 'Please select start date first';
+  String get selectStartDateFirst => 'Сначала выберите дату начала';
 
   @override
-  String get addAtLeastOneDestination => 'Please add at least one destination';
+  String get addAtLeastOneDestination =>
+      'Пожалуйста, добавьте хотя бы одно направление';
 
   @override
-  String get selectBothStartAndEndDates =>
-      'Please select both start and end dates';
+  String get selectBothStartAndEndDates => 'Выберите дату начала и окончания';
 
   @override
-  String get titleIsRequired => 'Title is required';
+  String get titleIsRequired => 'Название обязательно';
 
   @override
   String titleTooLong(int limit) {
-    return 'Title must be $limit characters or less';
+    return 'Название должно содержать не более $limit символов';
   }
 
   @override
   String descriptionTooLong(int limit) {
-    return 'Description must be $limit characters or less';
+    return 'Описание должно содержать не более $limit символов';
   }
 
   @override
   String vendorTooLong(int limit) {
-    return 'Vendor/Company must be $limit characters or less';
+    return 'Поставщик/Компания должен содержать не более $limit символов';
   }
 
   @override
   String confirmationNumberTooLong(int limit) {
-    return 'Confirmation number must be $limit characters or less';
+    return 'Номер подтверждения должен содержать не более $limit символов';
   }
 
   @override
   String paidByTooLong(int limit) {
-    return 'Paid by must be $limit characters or less';
+    return 'Плательщик должен содержать не более $limit символов';
   }
 
   @override
   String locationTooLong(int limit) {
-    return 'Location must be $limit characters or less';
+    return 'Местоположение должно содержать не более $limit символов';
   }
 
   @override
   String itineraryDescriptionTooLong(int limit) {
-    return 'Description must be $limit characters or less';
+    return 'Описание должно содержать не более $limit символов';
   }
 
   @override
-  String get amountIsRequired => 'Amount is required';
+  String get amountIsRequired => 'Сумма обязательна';
 
   @override
-  String get enterValidAmount => 'Please enter a valid amount';
+  String get enterValidAmount => 'Введите правильную сумму';
 
   @override
-  String get amountMustBePositive => 'Amount must be positive';
+  String get amountMustBePositive => 'Сумма должна быть положительной';
 
   @override
   String fieldIsRequired(String fieldName) {
-    return '$fieldName is required';
+    return '$fieldName обязательно';
   }
 
   @override
-  String get destinationIsRequired => 'Destination is required';
+  String get destinationIsRequired => 'Направление обязательно';
 
   @override
   String destinationTooLong(int limit) {
-    return 'Destination must be $limit characters or less';
+    return 'Направление должно содержать не более $limit символов';
   }
 
   @override
   String fieldOptional(String labelText) {
-    return '$labelText (Optional)';
+    return '$labelText (необязательно)';
   }
 
   @override
   String maxCharacters(int maxLength) {
-    return '$maxLength max';
+    return '$maxLength макс.';
   }
 
   @override
-  String get searchTripsPlaceholder => 'Search trips...';
+  String get searchTripsPlaceholder => 'Поиск поездок...';
 
   @override
   String allWithTotal(int total) {
-    return 'All ($total)';
+    return 'Все ($total)';
   }
 
   @override
   String upcomingWithCount(int count) {
-    return 'Upcoming ($count)';
+    return 'Предстоящие ($count)';
   }
 
   @override
   String activeWithCount(int count) {
-    return 'Active ($count)';
+    return 'Активные ($count)';
   }
 
   @override
   String completedWithCount(int count) {
-    return 'Completed ($count)';
+    return 'Завершённые ($count)';
   }
 
   @override
-  String get yourTripsTitle => 'Your Trips';
+  String get yourTripsTitle => 'Ваши поездки';
 
   @override
   String activeTripsCount(int count) {
-    return '$count Active';
+    return '$count активных';
   }
 
   @override
-  String get bookingsTabTitle => 'Bookings';
+  String get bookingsTabTitle => 'Бронирования';
 
   @override
-  String get expensesTabTitle => 'Expenses';
+  String get expensesTabTitle => 'Расходы';
 
   @override
-  String get overviewTabTitle => 'Overview';
+  String get overviewTabTitle => 'Обзор';
 
   @override
-  String get todoTabTitle => 'To-Do';
+  String get todoTabTitle => 'Дела';
 
   @override
-  String get itineraryTabTitle => 'Itinerary';
+  String get itineraryTabTitle => 'Маршрут';
 
   @override
-  String get failedToLoadTrip => 'Failed to load trip';
+  String get failedToLoadTrip => 'Ошибка загрузки поездки';
 
   @override
-  String get tripNotFound => 'Trip not found';
+  String get tripNotFound => 'Поездка не найдена';
 
   @override
-  String get saveImage => 'Save Image';
+  String get saveImage => 'Сохранить изображение';
 
   @override
-  String get saveToPhotos => 'Save to Photos';
+  String get saveToPhotos => 'Сохранить в фото';
 
   @override
-  String get saveToPhotosDescription => 'Save directly to your photo gallery';
+  String get saveToPhotosDescription => 'Сохранить прямо в фотогалерею';
 
   @override
-  String get saveToFiles => 'Save to Files';
+  String get saveToFiles => 'Сохранить в файлы';
 
   @override
-  String get saveToFilesDescription => 'Choose a specific folder to save';
+  String get saveToFilesDescription =>
+      'Выберите конкретную папку для сохранения';
 
   @override
-  String get imageSavedToPhotos => 'Image saved to Photos';
+  String get imageSavedToPhotos => 'Изображение сохранено в фото';
 
   @override
-  String get fileSavedSuccessfully => 'File saved successfully';
+  String get fileSavedSuccessfully => 'Файл успешно сохранен';
 
   @override
-  String get open => 'Open';
+  String get open => 'Открыть';
 
   @override
   String errorDownloadingFile(String error) {
-    return 'Error downloading file: $error';
+    return 'Ошибка загрузки файла: $error';
   }
 
   @override
   String errorSavingToPhotos(String error) {
-    return 'Error saving to Photos: $error';
+    return 'Ошибка сохранения в фото: $error';
   }
 
   @override
   String errorSavingFile(String error) {
-    return 'Error saving file: $error';
+    return 'Ошибка сохранения файла: $error';
   }
 
   @override
-  String get selectDocument => 'Select Document';
+  String get selectDocument => 'Выбрать документ';
 
   @override
-  String get chooseFromGalleryTitle => 'Choose from Gallery';
+  String get chooseFromGalleryTitle => 'Выбрать из галереи';
 
   @override
-  String get chooseFromGalleryDescription => 'Select from photo library';
+  String get chooseFromGalleryDescription => 'Выбрать из фотобиблиотеки';
 
   @override
-  String get chooseFileTitle => 'Choose File';
+  String get chooseFileTitle => 'Выбрать файл';
 
   @override
-  String get chooseFileDescription => 'Select PDF or other files';
+  String get chooseFileDescription => 'Выбрать PDF или другие файлы';
 
   @override
-  String get failedToCaptureImage => 'Failed to capture image';
+  String get failedToCaptureImage => 'Не удалось сделать снимок';
 
   @override
-  String get failedToSelectImage => 'Failed to select image';
+  String get failedToSelectImage => 'Не удалось выбрать изображение';
 
   @override
-  String get failedToSelectFile => 'Failed to select file';
+  String get failedToSelectFile => 'Не удалось выбрать файл';
 
   @override
-  String get documentAddedSuccessfully => 'Document added successfully';
+  String get documentAddedSuccessfully => 'Документ успешно добавлен';
 
   @override
-  String get documentUpdatedSuccessfully => 'Document updated successfully';
+  String get documentUpdatedSuccessfully => 'Документ успешно обновлен';
 
   @override
-  String get failedToSaveDocument => 'Failed to save document';
+  String get failedToSaveDocument => 'Не удалось сохранить документ';
 
   @override
-  String get documentTitle => 'Document Title *';
+  String get documentTitle => 'Название документа *';
 
   @override
-  String get documentCategory => 'Document Category';
+  String get documentCategory => 'Категория документа';
 
   @override
-  String get changeDocument => 'Change Document';
+  String get changeDocument => 'Изменить документ';
 
   @override
-  String get documentsTitle => 'Documents';
+  String get documentsTitle => 'Документы';
 
   @override
-  String get noDocumentsYet => 'No documents yet';
+  String get noDocumentsYet => 'Документов пока нет';
 
   @override
-  String get noDocumentsFound => 'No documents found';
+  String get noDocumentsFound => 'Документы не найдены';
 
   @override
-  String get clearSearch => 'Clear search';
+  String get clearSearch => 'Очистить поиск';
 
   @override
-  String get documentDetails => 'Document Details';
+  String get documentDetails => 'Детали документа';
 
   @override
-  String get fileSize => 'File Size';
+  String get fileSize => 'Размер файла';
 
   @override
-  String get fileName => 'File Name';
+  String get fileName => 'Имя файла';
 
   @override
-  String get deleteDocument => 'Delete Document';
+  String get deleteDocument => 'Удалить документ';
 
   @override
   String deleteDocumentConfirmation(String title) {
-    return 'Are you sure you want to delete \"$title\"? This action cannot be undone.';
+    return 'Вы уверены, что хотите удалить \"$title\"? Это действие нельзя отменить.';
   }
 
   @override
   String documentDeletedSuccessfully(String title) {
-    return 'Document \"$title\" deleted successfully';
+    return 'Документ \"$title\" успешно удален';
   }
 
   @override
   String failedToDeleteDocument(String error) {
-    return 'Failed to delete document: $error';
+    return 'Не удалось удалить документ: $error';
   }
 
   @override
-  String get location => 'Location';
+  String get location => 'Местоположение';
 
   @override
-  String get activityTitleLabel => 'Activity Title';
+  String get activityTitleLabel => 'Название мероприятия';
 
   @override
-  String get activityTypeLabel => 'Activity Type';
+  String get activityTypeLabel => 'Тип мероприятия';
 
   @override
-  String get expenseTitleLabel => 'Expense Title';
+  String get expenseTitleLabel => 'Название расхода';
 
   @override
-  String get destinations => 'Destinations';
+  String get destinations => 'Направления';
 
   @override
-  String get currency => 'Currency';
+  String get currency => 'Валюта';
 
   @override
-  String get tripInProgressStatus => 'Trip in Progress';
+  String get tripInProgressStatus => 'Поездка в процессе';
 
   @override
-  String get completedStatus => 'Completed';
+  String get completedStatus => 'Завершено';
 
   @override
-  String get tripDates => 'Trip Dates';
+  String get tripDates => 'Даты поездки';
 
   @override
-  String get expenseType => 'Expense';
+  String get expenseType => 'Расход';
 
   @override
-  String get expenseDetailsTitle => 'Expense Details';
+  String get expenseDetailsTitle => 'Детали расхода';
 
   @override
-  String get activityDetailsTitle => 'Activity Details';
+  String get activityDetailsTitle => 'Детали мероприятия';
 
   @override
-  String get deleteActivity => 'Delete Activity';
+  String get deleteActivity => 'Удалить мероприятие';
 
   @override
-  String get deleteBooking => 'Delete Booking';
+  String get deleteBooking => 'Удалить бронирование';
 
   @override
-  String get january => 'Jan';
+  String get january => 'Январь';
 
   @override
-  String get february => 'Feb';
+  String get february => 'Февраль';
 
   @override
-  String get march => 'Mar';
+  String get march => 'Март';
 
   @override
-  String get april => 'Apr';
+  String get april => 'Апрель';
 
   @override
-  String get may => 'May';
+  String get may => 'Май';
 
   @override
-  String get june => 'Jun';
+  String get june => 'Июнь';
 
   @override
-  String get july => 'Jul';
+  String get july => 'Июль';
 
   @override
-  String get august => 'Aug';
+  String get august => 'Август';
 
   @override
-  String get september => 'Sept';
+  String get september => 'Сентябрь';
 
   @override
-  String get october => 'Oct';
+  String get october => 'Октябрь';
 
   @override
-  String get november => 'Nov';
+  String get november => 'Ноябрь';
 
   @override
-  String get december => 'Dec';
+  String get december => 'Декабрь';
 
   @override
-  String get food => 'Food';
+  String get food => 'Еда';
 
   @override
-  String get confirmed => 'Confirmed';
+  String get confirmed => 'Подтверждено';
 
   @override
-  String get cancelled => 'Cancelled';
+  String get cancelled => 'Отменено';
 
   @override
-  String get passport => 'Passport';
+  String get passport => 'Паспорт';
 
   @override
-  String get visa => 'Visa';
+  String get visa => 'Виза';
 
   @override
-  String get ticket => 'Ticket';
+  String get ticket => 'Билет';
 
   @override
-  String get hotel => 'Hotel';
+  String get hotel => 'Отель';
 
   @override
-  String get insurance => 'Insurance';
+  String get insurance => 'Страхование';
 
   @override
-  String get editDocument => 'Edit Document';
+  String get editDocument => 'Редактировать документ';
 
   @override
-  String get updateDocument => 'Update Document';
+  String get updateDocument => 'Обновить документ';
 
   @override
-  String get saveToGallery => 'Save to Gallery';
+  String get saveToGallery => 'Сохранить в галерею';
 
   @override
   String get flight => 'Рейс';
@@ -1043,110 +1049,219 @@ class AppLocalizationsRu extends AppLocalizations {
       'Достигнут лимит документов. Вы можете добавить только 10 документов всего.';
 
   @override
-  String get confirmActionWarning => 'This action cannot be undone!';
+  String get clearFilters => 'Очистить фильтры';
 
   @override
-  String get finalConfirmationTitle => 'Final Confirmation';
+  String get travelDates => 'Даты поездки';
+
+  @override
+  String get selectDateRange => 'Выбрать диапазон дат';
+
+  @override
+  String get activityDetails => 'Детали мероприятия';
+
+  @override
+  String get quickActions => 'Быстрые действия';
+
+  @override
+  String get addNewItemsToTrip => 'Добавить новые элементы в поездку';
+
+  @override
+  String get booking => 'Бронирование';
+
+  @override
+  String get expense => 'Расход';
+
+  @override
+  String get itinerary => 'Маршрут';
+
+  @override
+  String get duration => 'Продолжительность';
+
+  @override
+  String get noExpensesFound => 'Расходы не найдены';
+
+  @override
+  String get noExpensesFoundForCategory =>
+      'Расходы для этой категории не найдены';
+
+  @override
+  String get noTasksFound => 'Задачи не найдены';
+
+  @override
+  String get noBookingsFound => 'Бронирования не найдены';
+
+  @override
+  String get noTripsFound => 'Поездки не найдены';
+
+  @override
+  String get tryAdjustingFilters => 'Попробуйте настроить фильтры';
+
+  @override
+  String get searchTasks => 'Поиск задач';
+
+  @override
+  String get searchBookings => 'Поиск бронирований';
+
+  @override
+  String get urgentPriority => 'Срочно';
+
+  @override
+  String get highPriority => 'Высокий';
+
+  @override
+  String get mediumPriority => 'Средний';
+
+  @override
+  String get lowPriority => 'Низкий';
+
+  @override
+  String get overdue => 'Просрочено';
+
+  @override
+  String get dueToday => 'Срок сегодня';
+
+  @override
+  String get dueTomorrow => 'Срок завтра';
+
+  @override
+  String get activeStatus => 'Активный статус';
+
+  @override
+  String get selectBackupFile => 'Выбрать файл резервной копии';
+
+  @override
+  String get selectFile => 'Выбрать файл';
+
+  @override
+  String get importBackup => 'Импорт резервной копии';
+
+  @override
+  String get importSuccessful => 'Импорт успешен';
+
+  @override
+  String get importFailed => 'Импорт не удался';
+
+  @override
+  String get couldNotOpenAppStore => 'Не удалось открыть магазин приложений';
+
+  @override
+  String get couldNotOpenHelpSection => 'Не удалось открыть раздел справки';
+
+  @override
+  String get couldNotOpenPrivacyPolicy =>
+      'Не удалось открыть политику конфиденциальности';
+
+  @override
+  String get couldNotOpenTermsOfService =>
+      'Не удалось открыть условия обслуживания';
+
+  @override
+  String get confirmActionWarning => 'Это действие нельзя отменить!';
+
+  @override
+  String get finalConfirmationTitle => 'Окончательное подтверждение';
 
   @override
   String finalConfirmationPrompt(String word) {
-    return 'Type $word in the box below to confirm:';
+    return 'Напишите $word в поле ниже для подтверждения:';
   }
 
   @override
-  String get deletingAllData => 'Deleting all data...';
+  String get deletingAllData => 'Удаление всех данных...';
 
   @override
-  String get pleaseWait => 'Please wait, this may take a moment.';
+  String get pleaseWait =>
+      'Пожалуйста, подождите, это может занять некоторое время.';
 
   @override
-  String get dataClearedTitle => 'Data Cleared';
+  String get dataClearedTitle => 'Данные очищены';
 
   @override
   String get dataClearedMessage =>
-      'All your data has been successfully deleted. The app has been reset to its initial state.';
+      'Все ваши данные были успешно удалены. Приложение было сброшено до первоначального состояния.';
 
   @override
-  String get errorTitle => 'Error';
+  String get errorTitle => 'Ошибка';
 
   @override
   String failedToClearAllData(String error) {
-    return 'Failed to clear all data: $error';
+    return 'Ошибка при очистке всех данных: $error';
   }
 
   @override
   String get exportIntroTitle =>
-      'Create a secure backup of all your Voythrix data:';
+      'Создайте безопасную резервную копию всех ваших данных Voythrix:';
 
   @override
   String get exportEncryptionInfo =>
-      'Your data will be encrypted and compressed into a .tripe file.';
+      'Ваши данные будут зашифрованы и сжаты в файл .tripe.';
 
   @override
-  String get backupPasswordTitle => 'Backup Password (Optional)';
+  String get backupPasswordTitle => 'Пароль резервной копии (опционально)';
 
   @override
-  String get backupPasswordHint => 'Enter password (optional)';
+  String get backupPasswordHint => 'Введите пароль (опционально)';
 
   @override
-  String get confirmPasswordHint => 'Confirm password';
+  String get confirmPasswordHint => 'Подтвердите пароль';
 
   @override
-  String get passwordsMatch => 'Passwords match';
+  String get passwordsMatch => 'Пароли совпадают';
 
   @override
-  String get passwordsDoNotMatch => 'Passwords do not match';
+  String get passwordsDoNotMatch => 'Пароли не совпадают';
 
   @override
-  String get creatingBackup => 'Creating backup...';
+  String get creatingBackup => 'Создание резервной копии...';
 
   @override
-  String get collectingAndEncrypting =>
-      'Collecting and encrypting your data...';
+  String get collectingAndEncrypting => 'Сбор и шифрование ваших данных...';
 
   @override
-  String get backupCreatedTitle => 'Backup Created';
+  String get backupCreatedTitle => 'Резервная копия создана';
 
   @override
   String get backupCreatedMessage =>
-      'Your backup has been created successfully!';
+      'Ваша резервная копия была создана успешно!';
 
   @override
-  String get fileInfoLabel => 'File Info:';
+  String get fileInfoLabel => 'Информация о файле:';
 
   @override
-  String get fileInfoFormat => '• Format: Encrypted .tripe file';
+  String get fileInfoFormat => '• Формат: Зашифрованный файл .tripe';
 
   @override
-  String get fileInfoSecurityPassword => '• Security: Password protected';
+  String get fileInfoSecurityPassword => '• Безопасность: Защищен паролем';
 
   @override
-  String get fileInfoSecurityStandard => '• Security: Standard encryption';
+  String get fileInfoSecurityStandard =>
+      '• Безопасность: Стандартное шифрование';
 
   @override
-  String get fileInfoCompression => '• Compression: GZip compressed';
+  String get fileInfoCompression => '• Сжатие: Сжато GZip';
 
   @override
   String get keepFileSafeNote =>
-      'Keep this file safe — you\'ll need it to restore your data!';
+      'Оберегайте этот файл — он понадобится вам для восстановления ваших данных!';
 
   @override
-  String get exportFailedTitle => 'Export Failed';
+  String get exportFailedTitle => 'Ошибка экспорта';
 
   @override
   String failedToCreateBackup(String error) {
-    return 'Failed to create backup: $error';
+    return 'Ошибка при создании резервной копии: $error';
   }
 
   @override
-  String get continueAction => 'Continue';
+  String get continueAction => 'Продолжить';
 
   @override
-  String get deleteEverything => 'Delete Everything';
+  String get deleteEverything => 'Удалить всё';
 
   @override
-  String get createBackup => 'Create Backup';
+  String get createBackup => 'Создать резервную копию';
 
   @override
-  String get ok => 'OK';
+  String get ok => 'ОК';
 }

@@ -668,68 +668,68 @@ class AppLocalizationsZh extends AppLocalizations {
   String get selectBothStartAndEndDates => '请选择开始和结束日期';
 
   @override
-  String get titleIsRequired => 'Title is required';
+  String get titleIsRequired => '标题为必填项';
 
   @override
   String titleTooLong(int limit) {
-    return 'Title must be $limit characters or less';
+    return '标题必须在$limit个字符以内';
   }
 
   @override
   String descriptionTooLong(int limit) {
-    return 'Description must be $limit characters or less';
+    return '描述必须在$limit个字符以内';
   }
 
   @override
   String vendorTooLong(int limit) {
-    return 'Vendor/Company must be $limit characters or less';
+    return '供应商/公司必须在$limit个字符以内';
   }
 
   @override
   String confirmationNumberTooLong(int limit) {
-    return 'Confirmation number must be $limit characters or less';
+    return '确认号码必须在$limit个字符以内';
   }
 
   @override
   String paidByTooLong(int limit) {
-    return 'Paid by must be $limit characters or less';
+    return '付款人必须在$limit个字符以内';
   }
 
   @override
   String locationTooLong(int limit) {
-    return 'Location must be $limit characters or less';
+    return '位置必须在$limit个字符以内';
   }
 
   @override
   String itineraryDescriptionTooLong(int limit) {
-    return 'Description must be $limit characters or less';
+    return '描述必须在$limit个字符以内';
   }
 
   @override
-  String get amountIsRequired => 'Amount is required';
+  String get amountIsRequired => '金额为必填项';
 
   @override
-  String get enterValidAmount => 'Please enter a valid amount';
+  String get enterValidAmount => '请输入有效金额';
 
   @override
-  String get amountMustBePositive => 'Amount must be positive';
+  String get amountMustBePositive => '金额必须为正数';
 
   @override
   String fieldIsRequired(String fieldName) {
-    return '$fieldName is required';
+    return '$fieldName为必填项';
   }
 
   @override
-  String get destinationIsRequired => 'Destination is required';
+  String get destinationIsRequired => '目的地为必填项';
 
   @override
   String destinationTooLong(int limit) {
-    return 'Destination must be $limit characters or less';
+    return '目的地必须在$limit个字符以内';
   }
 
   @override
   String fieldOptional(String labelText) {
-    return '$labelText (Optional)';
+    return '$labelText（可选）';
   }
 
   @override
@@ -765,7 +765,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String activeTripsCount(int count) {
-    return '$count Active';
+    return '$count个活跃';
   }
 
   @override
@@ -784,7 +784,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get itineraryTabTitle => 'Itinerary';
 
   @override
-  String get failedToLoadTrip => 'Failed to load trip';
+  String get failedToLoadTrip => '加载行程失败';
 
   @override
   String get tripNotFound => 'Trip not found';
@@ -874,22 +874,22 @@ class AppLocalizationsZh extends AppLocalizations {
   String get documentsTitle => 'Documents';
 
   @override
-  String get noDocumentsYet => 'No documents yet';
+  String get noDocumentsYet => '暂无文档';
 
   @override
-  String get noDocumentsFound => 'No documents found';
+  String get noDocumentsFound => '未找到文档';
 
   @override
   String get clearSearch => 'Clear search';
 
   @override
-  String get documentDetails => 'Document Details';
+  String get documentDetails => '文档详情';
 
   @override
-  String get fileSize => 'File Size';
+  String get fileSize => '文件大小';
 
   @override
-  String get fileName => 'File Name';
+  String get fileName => '文件名';
 
   @override
   String get deleteDocument => 'Delete Document';
@@ -910,7 +910,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get location => 'Location';
+  String get location => '位置';
 
   @override
   String get activityTitleLabel => 'Activity Title';
@@ -922,7 +922,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get expenseTitleLabel => 'Expense Title';
 
   @override
-  String get destinations => 'Destinations';
+  String get destinations => '目的地';
 
   @override
   String get currency => 'Currency';
@@ -934,7 +934,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get completedStatus => 'Completed';
 
   @override
-  String get tripDates => 'Trip Dates';
+  String get tripDates => '行程日期';
 
   @override
   String get expenseType => 'Expense';
@@ -988,28 +988,28 @@ class AppLocalizationsZh extends AppLocalizations {
   String get december => 'Dec';
 
   @override
-  String get food => 'Food';
+  String get food => '餐饮';
 
   @override
-  String get confirmed => 'Confirmed';
+  String get confirmed => '已确认';
 
   @override
-  String get cancelled => 'Cancelled';
+  String get cancelled => '已取消';
 
   @override
-  String get passport => 'Passport';
+  String get passport => '护照';
 
   @override
-  String get visa => 'Visa';
+  String get visa => '签证';
 
   @override
-  String get ticket => 'Ticket';
+  String get ticket => '票据';
 
   @override
-  String get hotel => 'Hotel';
+  String get hotel => '酒店';
 
   @override
-  String get insurance => 'Insurance';
+  String get insurance => '保险';
 
   @override
   String get editDocument => 'Edit Document';
@@ -1031,6 +1031,112 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get documentLimitReached => '文档限制已达到。总共最多只能添加10个文档。';
+
+  @override
+  String get clearFilters => '清除筛选';
+
+  @override
+  String get travelDates => 'Travel Dates';
+
+  @override
+  String get selectDateRange => '选择日期范围';
+
+  @override
+  String get activityDetails => 'Activity Details';
+
+  @override
+  String get quickActions => '快速操作';
+
+  @override
+  String get addNewItemsToTrip => '为行程添加新项目';
+
+  @override
+  String get booking => '预订';
+
+  @override
+  String get expense => '支出';
+
+  @override
+  String get itinerary => '行程安排';
+
+  @override
+  String get duration => '持续时间';
+
+  @override
+  String get noExpensesFound => '未找到支出';
+
+  @override
+  String get noExpensesFoundForCategory =>
+      'No expenses found for this category';
+
+  @override
+  String get noTasksFound => '未找到任务';
+
+  @override
+  String get noBookingsFound => '未找到预订';
+
+  @override
+  String get noTripsFound => '未找到行程';
+
+  @override
+  String get tryAdjustingFilters => '尝试调整筛选条件';
+
+  @override
+  String get searchTasks => '搜索任务';
+
+  @override
+  String get searchBookings => '搜索预订';
+
+  @override
+  String get urgentPriority => 'Urgent';
+
+  @override
+  String get highPriority => 'High';
+
+  @override
+  String get mediumPriority => 'Medium';
+
+  @override
+  String get lowPriority => 'Low';
+
+  @override
+  String get overdue => '逾期';
+
+  @override
+  String get dueToday => '今天到期';
+
+  @override
+  String get dueTomorrow => '明天到期';
+
+  @override
+  String get activeStatus => '活跃状态';
+
+  @override
+  String get selectBackupFile => '选择备份文件';
+
+  @override
+  String get selectFile => 'Select File';
+
+  @override
+  String get importBackup => 'Import Backup';
+
+  @override
+  String get importSuccessful => 'Import Successful';
+
+  @override
+  String get importFailed => 'Import Failed';
+
+  @override
+  String get couldNotOpenAppStore => 'Could not open app store';
+
+  @override
+  String get couldNotOpenHelpSection => 'Could not open help section';
+
+  @override
+  String get couldNotOpenPrivacyPolicy => 'Could not open privacy policy';
+
+  @override
+  String get couldNotOpenTermsOfService => 'Could not open terms of service';
 
   @override
   String get confirmActionWarning => 'This action cannot be undone!';
@@ -1117,25 +1223,24 @@ class AppLocalizationsZh extends AppLocalizations {
   String get fileInfoCompression => '• Compression: GZip compressed';
 
   @override
-  String get keepFileSafeNote =>
-      'Keep this file safe — you\'ll need it to restore your data!';
+  String get keepFileSafeNote => '请安全保存此文件—您需要用它来恢复您的数据！';
 
   @override
-  String get exportFailedTitle => 'Export Failed';
+  String get exportFailedTitle => '导出失败';
 
   @override
   String failedToCreateBackup(String error) {
-    return 'Failed to create backup: $error';
+    return '创建备份失败：$error';
   }
 
   @override
   String get continueAction => 'Continue';
 
   @override
-  String get deleteEverything => 'Delete Everything';
+  String get deleteEverything => '删除所有内容';
 
   @override
-  String get createBackup => 'Create Backup';
+  String get createBackup => '创建备份';
 
   @override
   String get ok => 'OK';

@@ -4,42 +4,34 @@
   "@appTitle": {
     "description": "The title of the application"
   },
-  
   "trips": "यात्राएं",
   "@trips": {
     "description": "Trips tab title"
   },
-  
   "documents": "दस्तावेज़",
   "@documents": {
     "description": "Documents tab title"
   },
-  
   "settings": "सेटिंग्स",
   "@settings": {
     "description": "Settings tab title"
   },
-  
   "quickStats": "त्वरित आंकड़े",
   "@quickStats": {
     "description": "Quick stats card title"
   },
-  
   "activeTrips": "सक्रिय यात्राएं",
   "@activeTrips": {
     "description": "Active trips label"
   },
-  
   "pendingTasks": "लंबित कार्य",
   "@pendingTasks": {
     "description": "Pending tasks label"
   },
-  
   "totalBudget": "कुल बजट",
   "@totalBudget": {
     "description": "Total budget label"
   },
-  
   "nextTripStartsIn": "अगली यात्रा {days} दिनों में शुरू होगी",
   "@nextTripStartsIn": {
     "description": "Next trip countdown message",
@@ -50,52 +42,42 @@
       }
     }
   },
-  
   "yourTrips": "आपकी यात्राएं",
   "@yourTrips": {
     "description": "Your trips section title"
   },
-  
   "searchTrips": "यात्राएं खोजें...",
   "@searchTrips": {
     "description": "Search trips placeholder"
   },
-  
   "daysUntilStart": "शुरू होने तक के दिन",
   "@daysUntilStart": {
     "description": "Sort by days until start"
   },
-  
   "dateCreated": "बनाने की तारीख",
   "@dateCreated": {
     "description": "Sort by date created"
   },
-  
   "alphabetical": "वर्णानुक्रम",
   "@alphabetical": {
     "description": "Sort alphabetically"
   },
-  
   "budget": "बजट",
   "@budget": {
     "description": "Budget label"
   },
-  
   "tasks": "कार्य",
   "@tasks": {
     "description": "Tasks label"
   },
-  
   "tripInProgress": "यात्रा चल रही है",
   "@tripInProgress": {
     "description": "Trip in progress status"
   },
-  
   "startingToday": "आज शुरू हो रही है!",
   "@startingToday": {
     "description": "Trip starting today message"
   },
-  
   "daysToGo": "{days} दिन बाकी हैं",
   "@daysToGo": {
     "description": "Days to go message",
@@ -106,7 +88,6 @@
       }
     }
   },
-  
   "active": "{count} सक्रिय",
   "@active": {
     "description": "Active count label",
@@ -117,57 +98,46 @@
       }
     }
   },
-  
   "searchDocuments": "दस्तावेज़ खोजें...",
   "@searchDocuments": {
     "description": "Search documents placeholder"
   },
-  
   "personal": "व्यक्तिगत",
   "@personal": {
     "description": "Personal documents tab"
   },
-  
   "tripRelated": "यात्रा संबंधी",
   "@tripRelated": {
     "description": "Trip related documents tab"
   },
-  
   "uploadDocument": "दस्तावेज़ अपलोड करें",
   "@uploadDocument": {
     "description": "Upload document title"
   },
-  
   "takePhoto": "फोटो लें",
   "@takePhoto": {
     "description": "Take photo option"
   },
-  
   "captureDocumentWithCamera": "कैमरे से दस्तावेज़ कैप्चर करें",
   "@captureDocumentWithCamera": {
     "description": "Take photo description"
   },
-  
   "chooseFromGallery": "गैलरी से चुनें",
   "@chooseFromGallery": {
     "description": "Choose from gallery option"
   },
-  
   "selectFromPhotoLibrary": "फोटो लाइब्रेरी से चुनें",
   "@selectFromPhotoLibrary": {
     "description": "Choose from gallery description"
   },
-  
   "chooseFile": "फाइल चुनें",
   "@chooseFile": {
     "description": "Choose file option"
   },
-  
   "selectPdfOrOtherFiles": "PDF या अन्य फाइलें चुनें",
   "@selectPdfOrOtherFiles": {
     "description": "Choose file description"
   },
-  
   "expires": "समाप्ति: {date}",
   "@expires": {
     "description": "Document expiry date",
@@ -178,37 +148,30 @@
       }
     }
   },
-  
   "view": "देखें",
   "@view": {
     "description": "View action"
   },
-  
   "share": "साझा करें",
   "@share": {
     "description": "Share action"
   },
-  
   "download": "डाउनलोड",
   "@download": {
     "description": "Download action"
   },
-  
   "delete": "हटाएं",
   "@delete": {
     "description": "Delete action"
   },
-  
   "cancel": "रद्द करें",
   "@cancel": {
     "description": "Cancel button"
   },
-  
   "hindi": "हिन्दी",
   "@hindi": {
     "description": "Hindi language"
-  }
-  ,
+  },
   "confirmActionWarning": "This action cannot be undone!",
   "finalConfirmationTitle": "Final Confirmation",
   "finalConfirmationPrompt": "Type {word} in the box below to confirm:",
@@ -234,15 +197,1361 @@
   "fileInfoSecurityPassword": "• Security: Password protected",
   "fileInfoSecurityStandard": "• Security: Standard encryption",
   "fileInfoCompression": "• Compression: GZip compressed",
-  "keepFileSafeNote": "Keep this file safe — you'll need it to restore your data!",
-  "exportFailedTitle": "Export Failed",
-  "failedToCreateBackup": "Failed to create backup: {error}",
+  "keepFileSafeNote": "इस फाइल को सुरक्षित रखें — आपको अपना डेटा पुनर्स्थापित करने के लिए इसकी जरूरत होगी!",
+  "exportFailedTitle": "निर्यात विफल",
+  "failedToCreateBackup": "बैकअप बनाने में विफल: {error}",
   "continueAction": "Continue",
-  "deleteEverything": "Delete Everything",
-  "createBackup": "Create Backup",
+  "deleteEverything": "सब कुछ हटाएं",
+  "createBackup": "बैकअप बनाएं",
   "ok": "OK",
   "flight": "फ्लाइट",
   "restaurant": "रेस्टोरेंट",
   "bookingLimitReached": "बुकिंग सीमा पूरी हो गई। आप प्रति यात्रा केवल 15 बुकिंग जोड़ सकते हैं।",
-  "documentLimitReached": "दस्तावेज़ सीमा पूरी हो गई। आप कुल मिलाकर केवल 10 दस्तावेज़ जोड़ सकते हैं।"
+  "documentLimitReached": "दस्तावेज़ सीमा पूरी हो गई। आप कुल मिलाकर केवल 10 दस्तावेज़ जोड़ सकते हैं।",
+  "searchBookings": "बुकिंग खोजें",
+  "searchTasks": "कार्य खोजें",
+  "noBookingsFound": "कोई बुकिंग नहीं मिली",
+  "noTasksFound": "कोई कार्य नहीं मिला",
+  "noTripsFound": "कोई यात्रा नहीं मिली",
+  "noExpensesFound": "कोई खर्च नहीं मिला",
+  "tryAdjustingFilters": "फिल्टर समायोजित करने का प्रयास करें",
+  "clearFilters": "फिल्टर साफ़ करें",
+  "overdue": "विलंबित",
+  "dueToday": "आज देय",
+  "dueTomorrow": "कल देय",
+  "duration": "अवधि",
+  "quickActions": "त्वरित क्रियाएं",
+  "addNewItemsToTrip": "यात्रा में नए आइटम जोड़ें",
+  "booking": "बुकिंग",
+  "expense": "खर्च",
+  "itinerary": "यात्रा कार्यक्रम",
+  "activeStatus": "सक्रिय स्थिति",
+  "documentDetails": "दस्तावेज़ विवरण",
+  "fileSize": "फ़ाइल का आकार",
+  "fileName": "फ़ाइल का नाम",
+  "noDocumentsYet": "अभी तक कोई दस्तावेज़ नहीं",
+  "noDocumentsFound": "कोई दस्तावेज़ नहीं मिला",
+  "tripDates": "यात्रा की तारीखें",
+  "destinations": "गंतव्य",
+  "location": "स्थान",
+  "time": "समय",
+  "type": "प्रकार",
+  "failedToLoadTrip": "यात्रा लोड करने में विफल",
+  "noDataAvailable": "कोई डेटा उपलब्ध नहीं",
+  "refreshData": "डेटा रीफ्रेश करें",
+  "errorOccurred": "एक त्रुटि हुई",
+  "tryAgain": "फिर से कोशिश करें",
+  "loading": "लोड हो रहा है",
+  "save": "सेव करें",
+  "savedSuccessfully": "सफलतापूर्वक सेव हुआ",
+  "failedToSave": "सेव करने में विफल",
+  "deletedSuccessfully": "सफलतापूर्वक डिलीट हुआ",
+  "failedToDelete": "डिलीट करने में विफल",
+  "about": "के बारे में",
+  "@about": {
+    "description": "About section title"
+  },
+  "accommodation": "आवास",
+  "@accommodation": {
+    "description": "Activity type: accommodation"
+  },
+  "activeTripsCount": "{count} सक्रिय",
+  "@activeTripsCount": {
+    "description": "Active trips counter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "activeWithCount": "सक्रिय ({count})",
+  "@activeWithCount": {
+    "description": "Filter option for active trips with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "activities": "गतिविधियां",
+  "@activities": {
+    "description": "Activities category"
+  },
+  "activityDetails": "गतिविधि विवरण",
+  "@activityDetails": {
+    "description": "Form header for activity details"
+  },
+  "activityDetailsTitle": "गतिविधि विवरण",
+  "@activityDetailsTitle": {
+    "description": "Dialog title for activity details"
+  },
+  "activityTitle": "गतिविधि शीर्षक",
+  "@activityTitle": {
+    "description": "Activity title field"
+  },
+  "activityTitleLabel": "गतिविधि शीर्षक",
+  "@activityTitleLabel": {
+    "description": "Activity title field label"
+  },
+  "activityType": "गतिविधि प्रकार",
+  "@activityType": {
+    "description": "Activity type field"
+  },
+  "activityTypeLabel": "गतिविधि प्रकार",
+  "@activityTypeLabel": {
+    "description": "Activity type field label"
+  },
+  "add": "जोड़ें",
+  "@add": {
+    "description": "Add action"
+  },
+  "addActivity": "गतिविधि जोड़ें",
+  "@addActivity": {
+    "description": "Add activity button text"
+  },
+  "addBooking": "बुकिंग जोड़ें",
+  "@addBooking": {
+    "description": "Add booking button"
+  },
+  "addDocument": "दस्तावेज़ जोड़ें",
+  "@addDocument": {
+    "description": "Add document button"
+  },
+  "addExpense": "खर्च जोड़ें",
+  "@addExpense": {
+    "description": "Add expense button"
+  },
+  "addFile": "फाइल जोड़ें",
+  "@addFile": {
+    "description": "Add file button"
+  },
+  "addFirstBooking": "पहली बुकिंग जोड़ें",
+  "@addFirstBooking": {
+    "description": "Add first booking button"
+  },
+  "addFirstTask": "पहला कार्य जोड़ें",
+  "@addFirstTask": {
+    "description": "Add first task button"
+  },
+  "addNewActivity": "नई गतिविधि जोड़ें",
+  "@addNewActivity": {
+    "description": "Add new activity title"
+  },
+  "addNewBooking": "नई बुकिंग जोड़ें",
+  "@addNewBooking": {
+    "description": "Add new booking title"
+  },
+  "addNewExpense": "नया खर्च जोड़ें",
+  "@addNewExpense": {
+    "description": "Add new expense title"
+  },
+  "addNewTask": "नया कार्य जोड़ें",
+  "@addNewTask": {
+    "description": "Add new task title"
+  },
+  "addTask": "कार्य जोड़ें",
+  "@addTask": {
+    "description": "Add task button"
+  },
+  "allDay": "पूरा दिन",
+  "@allDay": {
+    "description": "All day option"
+  },
+  "allWithCount": "सभी ({count})",
+  "@allWithCount": {
+    "description": "All items with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "allWithTotal": "सभी ({total})",
+  "@allWithTotal": {
+    "description": "Filter option showing all items with count",
+    "placeholders": {
+      "total": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
+  "amount": "राशि",
+  "@amount": {
+    "description": "Amount label"
+  },
+  "amountCurrency": "राशि ({currency})",
+  "@amountCurrency": {
+    "description": "Amount field with currency",
+    "placeholders": {
+      "currency": {
+        "type": "String",
+        "example": "USD"
+      }
+    }
+  },
+  "amountIsRequired": "राशि आवश्यक है",
+  "@amountIsRequired": {
+    "description": "Validation error when amount is missing"
+  },
+  "amountMustBePositive": "राशि धनात्मक होनी चाहिए",
+  "@amountMustBePositive": {
+    "description": "Validation error when amount is negative or zero"
+  },
+  "appSettings": "ऐप सेटिंग्स",
+  "@appSettings": {
+    "description": "App settings section title"
+  },
+  "appVersion": "ऐप संस्करण",
+  "@appVersion": {
+    "description": "App version setting"
+  },
+  "appVersionBeta": "1.0.0 (बीटा)",
+  "@appVersionBeta": {
+    "description": "App version with beta label"
+  },
+  "april": "अप्रैल",
+  "@april": {
+    "description": "April month abbreviation"
+  },
+  "arabic": "العربية",
+  "@arabic": {
+    "description": "Arabic language"
+  },
+  "attachments": "अनुलग्नक",
+  "@attachments": {
+    "description": "Attachments label"
+  },
+  "attachmentsOptional": "अनुलग्नक (वैकल्पिक)",
+  "@attachmentsOptional": {
+    "description": "Attachments section label"
+  },
+  "august": "अगस्त",
+  "@august": {
+    "description": "August month abbreviation"
+  },
+  "backupAndSync": "बैकअप और सिंक",
+  "@backupAndSync": {
+    "description": "Backup and sync setting"
+  },
+  "bookingDetails": "बुकिंग विवरण",
+  "@bookingDetails": {
+    "description": "Booking details title"
+  },
+  "bookingType": "बुकिंग प्रकार",
+  "@bookingType": {
+    "description": "Activity type for bookings"
+  },
+  "bookingsTabTitle": "बुकिंग्स",
+  "@bookingsTabTitle": {
+    "description": "Bookings tab title in trip detail screen"
+  },
+  "breakdown": "विवरण",
+  "@breakdown": {
+    "description": "Breakdown button"
+  },
+  "cancelled": "रद्द",
+  "@cancelled": {
+    "description": "Cancelled status"
+  },
+  "cannotDisplayImage": "छवि प्रदर्शित नहीं की जा सकती",
+  "@cannotDisplayImage": {
+    "description": "Cannot display image error"
+  },
+  "category": "श्रेणी",
+  "@category": {
+    "description": "Category field"
+  },
+  "celsius": "सेल्सियस",
+  "@celsius": {
+    "description": "Celsius temperature unit"
+  },
+  "changeDocument": "दस्तावेज़ बदलें",
+  "@changeDocument": {
+    "description": "Button text for changing existing document"
+  },
+  "chooseFileDescription": "PDF या अन्य फाइलें चुनें",
+  "@chooseFileDescription": {
+    "description": "Description for file picker option"
+  },
+  "chooseFileTitle": "फाइल चुनें",
+  "@chooseFileTitle": {
+    "description": "Option title for choosing files"
+  },
+  "chooseFromGalleryDescription": "फोटो लाइब्रेरी से चुनें",
+  "@chooseFromGalleryDescription": {
+    "description": "Description for gallery option"
+  },
+  "chooseFromGalleryTitle": "गैलरी से चुनें",
+  "@chooseFromGalleryTitle": {
+    "description": "Option title for choosing from gallery"
+  },
+  "clearAll": "सब साफ करें",
+  "@clearAll": {
+    "description": "Clear all button"
+  },
+  "clearAllData": "सभी डेटा साफ करें",
+  "@clearAllData": {
+    "description": "Clear all data setting"
+  },
+  "clearAllDataConfirmation": "यह क्रिया पूर्ववत नहीं की जा सकती। आपकी सभी यात्राएं, दस्तावेज़ और सेटिंग्स स्थायी रूप से हटा दी जाएंगी।",
+  "@clearAllDataConfirmation": {
+    "description": "Clear all data confirmation dialog"
+  },
+  "clearSearch": "खोज साफ करें",
+  "@clearSearch": {
+    "description": "Button to clear search filters"
+  },
+  "close": "बंद करें",
+  "@close": {
+    "description": "Close action"
+  },
+  "completed": "पूर्ण",
+  "@completed": {
+    "description": "Status: completed"
+  },
+  "completedStatus": "पूर्ण",
+  "@completedStatus": {
+    "description": "Status text for completed items"
+  },
+  "completedWithCount": "पूर्ण ({count})",
+  "@completedWithCount": {
+    "description": "Filter option for completed trips with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "7"
+      }
+    }
+  },
+  "confirmed": "पुष्टि",
+  "@confirmed": {
+    "description": "Confirmed status"
+  },
+  "confirmationNumber": "पुष्टि संख्या",
+  "@confirmationNumber": {
+    "description": "Confirmation number label"
+  },
+  "confirmationNumberOptional": "पुष्टि संख्या (वैकल्पिक)",
+  "@confirmationNumberOptional": {
+    "description": "Confirmation number field label"
+  },
+  "confirmationNumberTooLong": "पुष्टि संख्या {limit} वर्णों या उससे कम होनी चाहिए",
+  "@confirmationNumberTooLong": {
+    "description": "Validation error when confirmation number is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "couldNotOpenAppStore": "ऐप स्टोर नहीं खोला जा सका",
+  "@couldNotOpenAppStore": {
+    "description": "Error message when app store can't be opened"
+  },
+  "couldNotOpenHelpSection": "सहायता अनुभाग नहीं खोला जा सका",
+  "@couldNotOpenHelpSection": {
+    "description": "Error message when help section can't be opened"
+  },
+  "couldNotOpenPrivacyPolicy": "गोपनीयता नीति नहीं खोली जा सकी",
+  "@couldNotOpenPrivacyPolicy": {
+    "description": "Error message when privacy policy can't be opened"
+  },
+  "couldNotOpenTermsOfService": "सेवा की शर्तें नहीं खोली जा सकीं",
+  "@couldNotOpenTermsOfService": {
+    "description": "Error message when terms of service can't be opened"
+  },
+  "createTrip": "यात्रा बनाएं",
+  "@createTrip": {
+    "description": "Create trip button"
+  },
+  "currency": "मुद्रा",
+  "@currency": {
+    "description": "Currency field label"
+  },
+  "currencyUsedForNewTrips": "नई यात्राओं के लिए उपयोग की जाने वाली मुद्रा",
+  "@currencyUsedForNewTrips": {
+    "description": "Default currency description"
+  },
+  "darkMode": "डार्क मोड",
+  "@darkMode": {
+    "description": "Dark mode setting"
+  },
+  "date": "तारीख",
+  "@date": {
+    "description": "Date label"
+  },
+  "dateFormat": "तारीख प्रारूप",
+  "@dateFormat": {
+    "description": "Date format setting"
+  },
+  "dateWithDate": "तारीख: {day}/{month}/{year}",
+  "@dateWithDate": {
+    "description": "Date with specific date format",
+    "placeholders": {
+      "day": {
+        "type": "int",
+        "example": "15"
+      },
+      "month": {
+        "type": "int",
+        "example": "12"
+      },
+      "year": {
+        "type": "int",
+        "example": "2024"
+      }
+    }
+  },
+  "december": "दिसंबर",
+  "@december": {
+    "description": "December month abbreviation"
+  },
+  "defaultCurrency": "डिफ़ॉल्ट मुद्रा",
+  "@defaultCurrency": {
+    "description": "Default currency setting"
+  },
+  "defaultUserEmail": "john.doe@email.com",
+  "@defaultUserEmail": {
+    "description": "Default user email"
+  },
+  "defaultUserName": "जॉन डो",
+  "@defaultUserName": {
+    "description": "Default user name"
+  },
+  "deleteActivity": "गतिविधि हटाएं",
+  "@deleteActivity": {
+    "description": "Dialog title for deleting activity"
+  },
+  "deleteBooking": "बुकिंग हटाएं",
+  "@deleteBooking": {
+    "description": "Dialog title for deleting booking"
+  },
+  "deleteDocument": "दस्तावेज़ हटाएं",
+  "@deleteDocument": {
+    "description": "Dialog title for deleting document"
+  },
+  "deleteDocumentConfirmation": "क्या आप वाकई \"{title}\" को हटाना चाहते हैं? यह क्रिया पूर्ववत नहीं की जा सकती।",
+  "@deleteDocumentConfirmation": {
+    "description": "Confirmation message for deleting document",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Passport.pdf"
+      }
+    }
+  },
+  "deleteExpense": "खर्च हटाएं",
+  "@deleteExpense": {
+    "description": "Delete expense title"
+  },
+  "deleteExpenseConfirmation": "क्या आप वाकई इस खर्च को हटाना चाहते हैं?",
+  "@deleteExpenseConfirmation": {
+    "description": "Delete expense confirmation"
+  },
+  "deleteTask": "कार्य हटाएं",
+  "@deleteTask": {
+    "description": "Delete task button"
+  },
+  "deleteTaskConfirmation": "क्या आप वाकई \"{title}\" को हटाना चाहते हैं? यह क्रिया पूर्ववत नहीं की जा सकती।",
+  "@deleteTaskConfirmation": {
+    "description": "Delete task confirmation message",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Buy souvenirs"
+      }
+    }
+  },
+  "deleteTrip": "यात्रा हटाएं",
+  "@deleteTrip": {
+    "description": "Delete trip action"
+  },
+  "deleteTripConfirmation": "क्या आप वाकई इस यात्रा को हटाना चाहते हैं? यह क्रिया पूर्ववत नहीं की जा सकती।",
+  "@deleteTripConfirmation": {
+    "description": "Confirmation message for deleting a trip"
+  },
+  "description": "विवरण",
+  "@description": {
+    "description": "Description label"
+  },
+  "descriptionOptional": "विवरण (वैकल्पिक)",
+  "@descriptionOptional": {
+    "description": "Optional description field label"
+  },
+  "descriptionTooLong": "विवरण {limit} वर्णों या उससे कम होना चाहिए",
+  "@descriptionTooLong": {
+    "description": "Validation error when description is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "500"
+      }
+    }
+  },
+  "destinationIsRequired": "गंतव्य आवश्यक है",
+  "@destinationIsRequired": {
+    "description": "Validation error when destination is missing"
+  },
+  "destinationTooLong": "गंतव्य {limit} वर्णों या उससे कम होना चाहिए",
+  "@destinationTooLong": {
+    "description": "Validation error when destination name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "documentAddedSuccessfully": "दस्तावेज़ सफलतापूर्वक जोड़ा गया",
+  "@documentAddedSuccessfully": {
+    "description": "Success message when document is added"
+  },
+  "documentCategory": "दस्तावेज़ श्रेणी",
+  "@documentCategory": {
+    "description": "Document category field"
+  },
+  "documentDeletedSuccessfully": "दस्तावेज़ \"{title}\" सफलतापूर्वक हटाया गया",
+  "@documentDeletedSuccessfully": {
+    "description": "Success message when document is deleted",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Passport.pdf"
+      }
+    }
+  },
+  "documentTitle": "दस्तावेज़ शीर्षक *",
+  "@documentTitle": {
+    "description": "Required document title field"
+  },
+  "documentUpdatedSuccessfully": "दस्तावेज़ सफलतापूर्वक अपडेट किया गया",
+  "@documentUpdatedSuccessfully": {
+    "description": "Success message when document is updated"
+  },
+  "documentsTitle": "दस्तावेज़",
+  "@documentsTitle": {
+    "description": "Documents screen title"
+  },
+  "dueDate": "नियत तारीख",
+  "@dueDate": {
+    "description": "Due date label"
+  },
+  "dueWithDate": "देय: {day}/{month}/{year}",
+  "@dueWithDate": {
+    "description": "Due date with specific date format",
+    "placeholders": {
+      "day": {
+        "type": "int",
+        "example": "15"
+      },
+      "month": {
+        "type": "int",
+        "example": "12"
+      },
+      "year": {
+        "type": "int",
+        "example": "2024"
+      }
+    }
+  },
+  "dutch": "Nederlands",
+  "@dutch": {
+    "description": "Dutch language"
+  },
+  "edit": "संपादित करें",
+  "@edit": {
+    "description": "Edit action"
+  },
+  "editActivity": "गतिविधि संपादित करें",
+  "@editActivity": {
+    "description": "Edit activity title"
+  },
+  "editBooking": "बुकिंग संपादित करें",
+  "@editBooking": {
+    "description": "Edit booking title"
+  },
+  "editDocument": "दस्तावेज़ संपादित करें",
+  "@editDocument": {
+    "description": "Edit document title"
+  },
+  "editExpense": "खर्च संपादित करें",
+  "@editExpense": {
+    "description": "Edit expense title"
+  },
+  "editTask": "कार्य संपादित करें",
+  "@editTask": {
+    "description": "Edit task title"
+  },
+  "editTrip": "यात्रा संपादित करें",
+  "@editTrip": {
+    "description": "Edit trip screen title"
+  },
+  "endTime": "समाप्ति समय",
+  "@endTime": {
+    "description": "End time field"
+  },
+  "english": "English",
+  "@english": {
+    "description": "English language"
+  },
+  "enterValidAmount": "कृपया एक वैध राशि दर्ज करें",
+  "@enterValidAmount": {
+    "description": "Validation error when amount format is invalid"
+  },
+  "entertainment": "मनोरंजन",
+  "@entertainment": {
+    "description": "Activity type: entertainment"
+  },
+  "errorDownloadingFile": "फाइल डाउनलोड करने में त्रुटि: {error}",
+  "@errorDownloadingFile": {
+    "description": "Error message when file download fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "errorSavingFile": "फाइल सेव करने में त्रुटि: {error}",
+  "@errorSavingFile": {
+    "description": "Error message when saving file fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Disk full"
+      }
+    }
+  },
+  "errorSavingToPhotos": "फोटोज़ में सेव करने में त्रुटि: {error}",
+  "@errorSavingToPhotos": {
+    "description": "Error message when saving to photos fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+  "errorSharingFile": "फाइल साझा करने में त्रुटि: {error}",
+  "@errorSharingFile": {
+    "description": "File sharing error message",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "No app found"
+      }
+    }
+  },
+  "expenseBreakdown": "खर्च विवरण",
+  "@expenseBreakdown": {
+    "description": "Expense breakdown title"
+  },
+  "expenseDetailsTitle": "खर्च विवरण",
+  "@expenseDetailsTitle": {
+    "description": "Dialog title for expense details"
+  },
+  "expenseTitle": "खर्च शीर्षक",
+  "@expenseTitle": {
+    "description": "Expense title field"
+  },
+  "expenseTitleLabel": "खर्च शीर्षक",
+  "@expenseTitleLabel": {
+    "description": "Expense title field label"
+  },
+  "expenseType": "खर्च",
+  "@expenseType": {
+    "description": "Activity type for expenses"
+  },
+  "expensesTabTitle": "खर्च",
+  "@expensesTabTitle": {
+    "description": "Expenses tab title in trip detail screen"
+  },
+  "exportData": "डेटा निर्यात करें",
+  "@exportData": {
+    "description": "Export data setting"
+  },
+  "exportYourTripData": "अपना यात्रा डेटा निर्यात करें",
+  "@exportYourTripData": {
+    "description": "Export data description"
+  },
+  "fahrenheit": "फारेनहाइट",
+  "@fahrenheit": {
+    "description": "Fahrenheit temperature unit"
+  },
+  "failedToAddUpdateBooking": "{action} बुकिंग में विफल: {error}",
+  "@failedToAddUpdateBooking": {
+    "description": "Error message for booking operations",
+    "placeholders": {
+      "action": {
+        "type": "String",
+        "example": "add"
+      },
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "failedToAddUpdateTask": "{action} कार्य में विफल: {error}",
+  "@failedToAddUpdateTask": {
+    "description": "Error message for task operations",
+    "placeholders": {
+      "action": {
+        "type": "String",
+        "example": "add"
+      },
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "failedToCaptureImage": "छवि कैप्चर करने में विफल",
+  "@failedToCaptureImage": {
+    "description": "Error when camera capture fails"
+  },
+  "failedToCreateTrip": "यात्रा बनाने में विफल",
+  "@failedToCreateTrip": {
+    "description": "Error message when trip creation fails"
+  },
+  "failedToDeleteDocument": "दस्तावेज़ हटाने में विफल: {error}",
+  "@failedToDeleteDocument": {
+    "description": "Error message when document deletion fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File in use"
+      }
+    }
+  },
+  "failedToDeleteTrip": "यात्रा हटाने में विफल",
+  "@failedToDeleteTrip": {
+    "description": "Error message when trip deletion fails"
+  },
+  "failedToLoad": "लोड करने में विफल",
+  "@failedToLoad": {
+    "description": "Failed to load error message"
+  },
+  "failedToLoadTodos": "कार्य लोड करने में विफल",
+  "@failedToLoadTodos": {
+    "description": "Error message when todos fail to load"
+  },
+  "failedToPickFile": "फाइल चुनने में विफल: {error}",
+  "@failedToPickFile": {
+    "description": "File picker error message",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+  "failedToReadFile": "फाइल डेटा पढ़ने में विफल",
+  "@failedToReadFile": {
+    "description": "Failed to read file error"
+  },
+  "failedToSaveDocument": "दस्तावेज़ सेव करने में विफल",
+  "@failedToSaveDocument": {
+    "description": "Error message when document save fails"
+  },
+  "failedToSelectFile": "फाइल चुनने में विफल",
+  "@failedToSelectFile": {
+    "description": "Error when file selection fails"
+  },
+  "failedToSelectImage": "छवि चुनने में विफल",
+  "@failedToSelectImage": {
+    "description": "Error when image selection fails"
+  },
+  "failedToUpdateTrip": "यात्रा अपडेट करने में विफल",
+  "@failedToUpdateTrip": {
+    "description": "Error message when trip update fails"
+  },
+  "faqsAndContactInformation": "FAQ और संपर्क जानकारी",
+  "@faqsAndContactInformation": {
+    "description": "Help and support description"
+  },
+  "february": "फरवरी",
+  "@february": {
+    "description": "February month abbreviation"
+  },
+  "fieldIsRequired": "{fieldName} आवश्यक है",
+  "@fieldIsRequired": {
+    "description": "Generic required field validation error",
+    "placeholders": {
+      "fieldName": {
+        "type": "String",
+        "example": "Destination"
+      }
+    }
+  },
+  "fieldOptional": "{labelText} (वैकल्पिक)",
+  "@fieldOptional": {
+    "description": "Label for optional fields",
+    "placeholders": {
+      "labelText": {
+        "type": "String",
+        "example": "Description"
+      }
+    }
+  },
+  "fileAttachedSuccessfully": "{filename} सफलतापूर्वक संलग्न किया गया",
+  "@fileAttachedSuccessfully": {
+    "description": "File attachment success message",
+    "placeholders": {
+      "filename": {
+        "type": "String",
+        "example": "document.pdf"
+      }
+    }
+  },
+  "fileMovedOrDeleted": "फाइल स्थानांतरित या हटाई गई हो सकती है",
+  "@fileMovedOrDeleted": {
+    "description": "File moved or deleted message"
+  },
+  "fileNotFound": "फाइल नहीं मिली",
+  "@fileNotFound": {
+    "description": "File not found error"
+  },
+  "fileSavedSuccessfully": "फाइल सफलतापूर्वक सेव की गई",
+  "@fileSavedSuccessfully": {
+    "description": "Success message when file is saved"
+  },
+  "fileSizeMustBeLess": "फाइल का आकार 5MB से कम होना चाहिए",
+  "@fileSizeMustBeLess": {
+    "description": "File size error message"
+  },
+  "food": "भोजन",
+  "@food": {
+    "description": "Food expense category"
+  },
+  "french": "Français",
+  "@french": {
+    "description": "French language"
+  },
+  "german": "Deutsch",
+  "@german": {
+    "description": "German language"
+  },
+  "helpAndSupport": "सहायता और समर्थन",
+  "@helpAndSupport": {
+    "description": "Help and support setting"
+  },
+  "high": "उच्च",
+  "@high": {
+    "description": "High priority level"
+  },
+  "highPriority": "उच्च",
+  "@highPriority": {
+    "description": "High priority level"
+  },
+  "hotel": "होटल",
+  "@hotel": {
+    "description": "Hotel document type"
+  },
+  "howDatesAreDisplayed": "तारीखें कैसे प्रदर्शित होती हैं",
+  "@howDatesAreDisplayed": {
+    "description": "Date format description"
+  },
+  "imageSavedToPhotos": "छवि फोटोज़ में सेव की गई",
+  "@imageSavedToPhotos": {
+    "description": "Success message when image is saved to photos"
+  },
+  "importData": "डेटा आयात करें",
+  "@importData": {
+    "description": "Import data setting"
+  },
+  "importTripsFromOtherApps": "अन्य ऐप्स से यात्राएं आयात करें",
+  "@importTripsFromOtherApps": {
+    "description": "Import data description"
+  },
+  "insurance": "बीमा",
+  "@insurance": {
+    "description": "Insurance document type"
+  },
+  "italian": "Italiano",
+  "@italian": {
+    "description": "Italian language"
+  },
+  "january": "जनवरी",
+  "@january": {
+    "description": "January month abbreviation"
+  },
+  "japanese": "日本語",
+  "@japanese": {
+    "description": "Japanese language"
+  },
+  "july": "जुलाई",
+  "@july": {
+    "description": "July month abbreviation"
+  },
+  "june": "जून",
+  "@june": {
+    "description": "June month abbreviation"
+  },
+  "keepTrackMessage": "अपनी फ्लाइट्स, होटल और गतिविधियों का ट्रैक रखें!",
+  "@keepTrackMessage": {
+    "description": "Message encouraging users to add bookings"
+  },
+  "korean": "한국어",
+  "@korean": {
+    "description": "Korean language"
+  },
+  "language": "भाषा",
+  "@language": {
+    "description": "Language setting"
+  },
+  "leaveAReviewOnTheAppStore": "ऐप स्टोर पर समीक्षा छोड़ें",
+  "@leaveAReviewOnTheAppStore": {
+    "description": "Rate app description"
+  },
+  "locationTooLong": "स्थान {limit} वर्णों या उससे कम होना चाहिए",
+  "@locationTooLong": {
+    "description": "Validation error when location is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "low": "निम्न",
+  "@low": {
+    "description": "Low priority level"
+  },
+  "lowPriority": "निम्न",
+  "@lowPriority": {
+    "description": "Low priority level"
+  },
+  "mandarin": "中文",
+  "@mandarin": {
+    "description": "Mandarin Chinese language"
+  },
+  "manageYourDataBackup": "अपना डेटा बैकअप प्रबंधित करें",
+  "@manageYourDataBackup": {
+    "description": "Backup and sync description"
+  },
+  "march": "मार्च",
+  "@march": {
+    "description": "March month abbreviation"
+  },
+  "maxCharacters": "{maxLength} अधिकतम",
+  "@maxCharacters": {
+    "description": "Character limit indicator",
+    "placeholders": {
+      "maxLength": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "maxFileSizeSupported": "अधिकतम फाइल आकार: 5MB\nसमर्थित प्रारूप: PDF, DOC, DOCX, JPG, PNG, GIF",
+  "@maxFileSizeSupported": {
+    "description": "File upload constraints message"
+  },
+  "may": "मई",
+  "@may": {
+    "description": "May month abbreviation"
+  },
+  "meal": "भोजन",
+  "@meal": {
+    "description": "Activity type: meal"
+  },
+  "medium": "मध्यम",
+  "@medium": {
+    "description": "Medium priority level"
+  },
+  "mediumPriority": "मध्यम",
+  "@mediumPriority": {
+    "description": "Medium priority level"
+  },
+  "noActivitiesPlanned": "कोई गतिविधियां नियोजित नहीं",
+  "@noActivitiesPlanned": {
+    "description": "No activities message"
+  },
+  "noDataYet": "अभी तक कोई डेटा नहीं",
+  "@noDataYet": {
+    "description": "No data available message"
+  },
+  "noExpensesFoundForCategory": "इस श्रेणी के लिए कोई खर्च नहीं मिला",
+  "@noExpensesFoundForCategory": {
+    "description": "Empty state message for filtered expenses"
+  },
+  "noExpensesYet": "अभी तक कोई खर्च नहीं",
+  "@noExpensesYet": {
+    "description": "No expenses message"
+  },
+  "noToDoItems": "कोई कार्य नहीं",
+  "@noToDoItems": {
+    "description": "No to-do items message"
+  },
+  "november": "नवंबर",
+  "@november": {
+    "description": "November month abbreviation"
+  },
+  "october": "अक्टूबर",
+  "@october": {
+    "description": "October month abbreviation"
+  },
+  "open": "खोलें",
+  "@open": {
+    "description": "Action to open something"
+  },
+  "openExternally": "बाहरी रूप से खोलें",
+  "@openExternally": {
+    "description": "Open externally button"
+  },
+  "other": "अन्य",
+  "@other": {
+    "description": "Other category"
+  },
+  "overviewTabTitle": "अवलोकन",
+  "@overviewTabTitle": {
+    "description": "Overview tab title in trip detail screen"
+  },
+  "paidBy": "द्वारा भुगतान",
+  "@paidBy": {
+    "description": "Paid by field"
+  },
+  "paidByTooLong": "भुगतानकर्ता {limit} वर्णों या उससे कम होना चाहिए",
+  "@paidByTooLong": {
+    "description": "Validation error when paid by name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "passport": "पासपोर्ट",
+  "@passport": {
+    "description": "Passport document type"
+  },
+  "pending": "लंबित",
+  "@pending": {
+    "description": "Pending status"
+  },
+  "portuguese": "Português",
+  "@portuguese": {
+    "description": "Portuguese language"
+  },
+  "preferences": "प्राथमिकताएं",
+  "@preferences": {
+    "description": "Preferences section title"
+  },
+  "previewNotAvailable": "इस फाइल प्रकार के लिए पूर्वावलोकन उपलब्ध नहीं है।\nदूसरे ऐप के साथ देखने के लिए \"बाहरी रूप से खोलें\" पर टैप करें।",
+  "@previewNotAvailable": {
+    "description": "Preview not available message"
+  },
+  "priority": "प्राथमिकता",
+  "@priority": {
+    "description": "Priority label"
+  },
+  "privacyPolicy": "गोपनीयता नीति",
+  "@privacyPolicy": {
+    "description": "Privacy policy setting"
+  },
+  "profile": "प्रोफाइल",
+  "@profile": {
+    "description": "Profile section title"
+  },
+  "rateApp": "ऐप को रेट करें",
+  "@rateApp": {
+    "description": "Rate app setting"
+  },
+  "readOurPrivacyPolicy": "हमारी गोपनीयता नीति पढ़ें",
+  "@readOurPrivacyPolicy": {
+    "description": "Privacy policy description"
+  },
+  "readOurTermsAndConditions": "हमारे नियम और शर्तें पढ़ें",
+  "@readOurTermsAndConditions": {
+    "description": "Terms of service description"
+  },
+  "removeAllTripsAndDocuments": "सभी यात्राएं और दस्तावेज़ हटाएं",
+  "@removeAllTripsAndDocuments": {
+    "description": "Clear all data description"
+  },
+  "retry": "पुनः प्रयास करें",
+  "@retry": {
+    "description": "Retry button"
+  },
+  "russian": "Русский",
+  "@russian": {
+    "description": "Russian language"
+  },
+  "saveImage": "छवि सेव करें",
+  "@saveImage": {
+    "description": "Dialog title for saving images"
+  },
+  "saveToFiles": "फाइलों में सेव करें",
+  "@saveToFiles": {
+    "description": "Option to save file to specific location"
+  },
+  "saveToFilesDescription": "सेव करने के लिए विशिष्ट फोल्डर चुनें",
+  "@saveToFilesDescription": {
+    "description": "Description for save to files option"
+  },
+  "saveToGallery": "गैलरी में सेव करें",
+  "@saveToGallery": {
+    "description": "Save to gallery option"
+  },
+  "saveToPhotos": "फोटोज़ में सेव करें",
+  "@saveToPhotos": {
+    "description": "Option to save image to photo gallery"
+  },
+  "saveToPhotosDescription": "सीधे अपनी फोटो गैलरी में सेव करें",
+  "@saveToPhotosDescription": {
+    "description": "Description for save to photos option"
+  },
+  "searchTripsPlaceholder": "यात्राएं खोजें...",
+  "@searchTripsPlaceholder": {
+    "description": "Search input placeholder for trips"
+  },
+  "selectBackupFile": "बैकअप फाइल चुनें",
+  "@selectBackupFile": {
+    "description": "Dialog title for backup file selection"
+  },
+  "selectBothStartAndEndDates": "कृपया शुरुआत और समाप्ति दोनों तारीखें चुनें",
+  "@selectBothStartAndEndDates": {
+    "description": "Error when dates are not selected"
+  },
+  "selectDateRange": "तारीख रेंज चुनें",
+  "@selectDateRange": {
+    "description": "Placeholder text for date range picker"
+  },
+  "selectDocument": "दस्तावेज़ चुनें",
+  "@selectDocument": {
+    "description": "Dialog title for selecting documents"
+  },
+  "selectFile": "फाइल चुनें",
+  "@selectFile": {
+    "description": "Button text to select file"
+  },
+  "selectStartDateFirst": "कृपया पहले शुरुआत की तारीख चुनें",
+  "@selectStartDateFirst": {
+    "description": "Error when trying to select end date without start date"
+  },
+  "selectYourPreferredLanguage": "अपनी पसंदीदा भाषा चुनें",
+  "@selectYourPreferredLanguage": {
+    "description": "Language description"
+  },
+  "september": "सितंबर",
+  "@september": {
+    "description": "September month abbreviation"
+  },
+  "setBookingDateOptional": "बुकिंग तारीख सेट करें (वैकल्पिक)",
+  "@setBookingDateOptional": {
+    "description": "Set booking date field label"
+  },
+  "setDueDateOptional": "नियत तारीख सेट करें (वैकल्पिक)",
+  "@setDueDateOptional": {
+    "description": "Set due date field label"
+  },
+  "shopping": "खरीदारी",
+  "@shopping": {
+    "description": "Activity type: shopping"
+  },
+  "sightseeing": "दर्शनीय स्थल",
+  "@sightseeing": {
+    "description": "Activity type: sightseeing"
+  },
+  "spanish": "Español",
+  "@spanish": {
+    "description": "Spanish language"
+  },
+  "startPlanning": "अपने अगले रोमांच की योजना शुरू करें!",
+  "@startPlanning": {
+    "description": "Empty state message for planning"
+  },
+  "startTime": "शुरुआत का समय",
+  "@startTime": {
+    "description": "Start time field"
+  },
+  "stayOrganizedMessage": "अपनी यात्रा की योजना के लिए कार्य जोड़कर व्यवस्थित रहें!",
+  "@stayOrganizedMessage": {
+    "description": "Message encouraging users to add tasks"
+  },
+  "switchBetweenLightAndDarkTheme": "हल्के और गहरे थीम के बीच स्विच करें",
+  "@switchBetweenLightAndDarkTheme": {
+    "description": "Dark mode description"
+  },
+  "task": "कार्य",
+  "@task": {
+    "description": "Quick action button for adding task"
+  },
+  "taskTitle": "कार्य शीर्षक",
+  "@taskTitle": {
+    "description": "Task title field label"
+  },
+  "temperatureScalePreference": "तापमान पैमाना प्राथमिकता",
+  "@temperatureScalePreference": {
+    "description": "Temperature unit description"
+  },
+  "temperatureUnit": "तापमान इकाई",
+  "@temperatureUnit": {
+    "description": "Temperature unit setting"
+  },
+  "termsOfService": "सेवा की शर्तें",
+  "@termsOfService": {
+    "description": "Terms of service setting"
+  },
+  "ticket": "टिकट",
+  "@ticket": {
+    "description": "Ticket document type"
+  },
+  "title": "शीर्षक",
+  "@title": {
+    "description": "Title label"
+  },
+  "titleIsRequired": "शीर्षक आवश्यक है",
+  "@titleIsRequired": {
+    "description": "Validation error when title is missing"
+  },
+  "titleTooLong": "शीर्षक {limit} वर्णों या उससे कम होना चाहिए",
+  "@titleTooLong": {
+    "description": "Validation error when title is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "toDoItems": "कार्य सूची",
+  "@toDoItems": {
+    "description": "To-do items label"
+  },
+  "todoTabTitle": "करने के लिए",
+  "@todoTabTitle": {
+    "description": "To-Do tab title in trip detail screen"
+  },
+  "totalExpenses": "कुल खर्च",
+  "@totalExpenses": {
+    "description": "Total expenses label"
+  },
+  "transport": "परिवहन",
+  "@transport": {
+    "description": "Transport category"
+  },
+  "travelDates": "यात्रा तिथियां",
+  "@travelDates": {
+    "description": "Form section header for travel dates"
+  },
+  "tripCreatedSuccessfully": "यात्रा सफलतापूर्वक बनाई गई!",
+  "@tripCreatedSuccessfully": {
+    "description": "Success message when trip is created"
+  },
+  "tripDeletedSuccessfully": "यात्रा सफलतापूर्वक हटाई गई",
+  "@tripDeletedSuccessfully": {
+    "description": "Success message when trip is deleted"
+  },
+  "tripInProgressStatus": "यात्रा चल रही है",
+  "@tripInProgressStatus": {
+    "description": "Status text for ongoing trips"
+  },
+  "tripNotFound": "यात्रा नहीं मिली",
+  "@tripNotFound": {
+    "description": "Error message when trip is not found"
+  },
+  "tripUpdatedSuccessfully": "यात्रा सफलतापूर्वक अपडेट की गई",
+  "@tripUpdatedSuccessfully": {
+    "description": "Success message when trip is updated"
+  },
+  "unknown": "अज्ञात",
+  "@unknown": {
+    "description": "Unknown value placeholder"
+  },
+  "update": "अपडेट करें",
+  "@update": {
+    "description": "Update action"
+  },
+  "updateActivity": "गतिविधि अपडेट करें",
+  "@updateActivity": {
+    "description": "Update activity button"
+  },
+  "updateBooking": "बुकिंग अपडेट करें",
+  "@updateBooking": {
+    "description": "Update booking button"
+  },
+  "updateDocument": "दस्तावेज़ अपडेट करें",
+  "@updateDocument": {
+    "description": "Update document button text"
+  },
+  "updateExpense": "खर्च अपडेट करें",
+  "@updateExpense": {
+    "description": "Update expense button"
+  },
+  "updateTask": "कार्य अपडेट करें",
+  "@updateTask": {
+    "description": "Update task button"
+  },
+  "updateTrip": "यात्रा अपडेट करें",
+  "@updateTrip": {
+    "description": "Update trip button text"
+  },
+  "upcomingWithCount": "आगामी ({count})",
+  "@upcomingWithCount": {
+    "description": "Filter option for upcoming trips with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "urgent": "तत्काल",
+  "@urgent": {
+    "description": "Urgent priority level"
+  },
+  "urgentPriority": "तत्काल",
+  "@urgentPriority": {
+    "description": "Urgent priority level"
+  },
+  "vendor": "विक्रेता",
+  "@vendor": {
+    "description": "Vendor label"
+  },
+  "vendorCompanyOptional": "विक्रेता/कंपनी (वैकल्पिक)",
+  "@vendorCompanyOptional": {
+    "description": "Vendor/Company field label"
+  },
+  "vendorTooLong": "विक्रेता/कंपनी {limit} वर्णों या उससे कम होना चाहिए",
+  "@vendorTooLong": {
+    "description": "Validation error when vendor name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "visa": "वीज़ा",
+  "@visa": {
+    "description": "Visa document type"
+  },
+  "you": "आप",
+  "@you": {
+    "description": "You pronoun"
+  },
+  "yourTripsTitle": "आपकी यात्राएं",
+  "@yourTripsTitle": {
+    "description": "Section title for user's trips"
+  },
+  "dangerZone": "खतरनाक क्षेत्र",
+  "expenseDetails": "खर्च विवरण",
+  "bookingTitle": "बुकिंग शीर्षक",
+  "status": "स्थिति",
+  "splitDetails": "विभाजन विवरण",
+  "noBookingsYet": "अभी तक कोई बुकिंग नहीं",
+  "taskDetails": "कार्य विवरण",
+  "addAtLeastOneDestination": "कृपया कम से कम एक गंतव्य जोड़ें",
+  "itineraryDescriptionTooLong": "विवरण {limit} वर्ण या उससे कम होना चाहिए",
+  "itineraryTabTitle": "यात्रा कार्यक्रम",
+  "importBackup": "बैकअप आयात करें",
+  "importSuccessful": "आयात सफल",
+  "importFailed": "आयात असफल"
 }

@@ -640,13 +640,13 @@ class _TodoTabState extends State<TodoTab> {
   String _getPriorityDisplayName(Priority priority) {
     switch (priority) {
       case Priority.urgent:
-        return 'Urgent';
+        return AppLocalizations.of(context)!.urgent;
       case Priority.high:
-        return 'High';
+        return AppLocalizations.of(context)!.high;
       case Priority.medium:
-        return 'Medium';
+        return AppLocalizations.of(context)!.medium;
       case Priority.low:
-        return 'Low';
+        return AppLocalizations.of(context)!.low;
     }
   }
 
@@ -684,11 +684,11 @@ class _TodoTabState extends State<TodoTab> {
     final difference = dueDate.difference(now).inDays;
 
     if (difference < 0) {
-      return 'Overdue';
+      return AppLocalizations.of(context)!.overdue;
     } else if (difference == 0) {
-      return 'Due today';
+      return AppLocalizations.of(context)!.dueToday;
     } else if (difference == 1) {
-      return 'Due tomorrow';
+      return AppLocalizations.of(context)!.dueTomorrow;
     } else {
       return 'Due in $difference days';
     }
@@ -739,7 +739,7 @@ class _TodoTabState extends State<TodoTab> {
           });
         },
         decoration: InputDecoration(
-          hintText: 'Search tasks...',
+          hintText: AppLocalizations.of(context)!.searchTasks,
           prefixIcon: const Icon(Iconsax.search_normal_1),
           suffixIcon: _searchQuery.isNotEmpty
               ? IconButton(
@@ -789,7 +789,7 @@ class _TodoTabState extends State<TodoTab> {
             ),
             const SizedBox(width: 8),
             FilterChip(
-              label: Text('Urgent ($urgentCount)'),
+              label: Text('${AppLocalizations.of(context)!.urgent} ($urgentCount)'),
               selected: _selectedPriority == Priority.urgent,
               onSelected: (selected) {
                 setState(() {
@@ -805,7 +805,7 @@ class _TodoTabState extends State<TodoTab> {
             ),
             const SizedBox(width: 8),
             FilterChip(
-              label: Text('High ($highCount)'),
+              label: Text('${AppLocalizations.of(context)!.high} ($highCount)'),
               selected: _selectedPriority == Priority.high,
               onSelected: (selected) {
                 setState(() {
@@ -821,7 +821,7 @@ class _TodoTabState extends State<TodoTab> {
             ),
             const SizedBox(width: 8),
             FilterChip(
-              label: Text('Medium ($mediumCount)'),
+              label: Text('${AppLocalizations.of(context)!.medium} ($mediumCount)'),
               selected: _selectedPriority == Priority.medium,
               onSelected: (selected) {
                 setState(() {
@@ -837,7 +837,7 @@ class _TodoTabState extends State<TodoTab> {
             ),
             const SizedBox(width: 8),
             FilterChip(
-              label: Text('Low ($lowCount)'),
+              label: Text('${AppLocalizations.of(context)!.low} ($lowCount)'),
               selected: _selectedPriority == Priority.low,
               onSelected: (selected) {
                 setState(() {
@@ -871,12 +871,12 @@ class _TodoTabState extends State<TodoTab> {
             ),
             const SizedBox(height: 16),
             Text(
-              'No tasks found',
+              AppLocalizations.of(context)!.noTasksFound,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
             Text(
-              'Try adjusting your search terms or filters',
+              AppLocalizations.of(context)!.tryAdjustingFilters,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.outline,
               ),
@@ -892,7 +892,7 @@ class _TodoTabState extends State<TodoTab> {
                 });
               },
               icon: const Icon(Iconsax.refresh),
-              label: Text('Clear Filters'),
+              label: Text(AppLocalizations.of(context)!.clearFilters),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryColor,
                 foregroundColor: Colors.white,

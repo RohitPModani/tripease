@@ -1065,7 +1065,7 @@ class _BookingsTabState extends State<BookingsTab> {
           });
         },
         decoration: InputDecoration(
-          hintText: 'Search bookings...',
+          hintText: AppLocalizations.of(context)!.searchBookings,
           prefixIcon: const Icon(Iconsax.search_normal_1),
           suffixIcon: _searchQuery.isNotEmpty
               ? IconButton(
@@ -1117,7 +1117,7 @@ class _BookingsTabState extends State<BookingsTab> {
             ),
             const SizedBox(width: 8),
             FilterChip(
-              label: Text('Flight ($flightCount)'),
+              label: Text('${AppLocalizations.of(context)!.flight} ($flightCount)'),
               selected: _selectedType == BookingType.flight,
               onSelected: (selected) {
                 setState(() {
@@ -1181,7 +1181,7 @@ class _BookingsTabState extends State<BookingsTab> {
             ),
             const SizedBox(width: 8),
             FilterChip(
-              label: Text('Restaurant ($restaurantCount)'),
+              label: Text('${AppLocalizations.of(context)!.restaurant} ($restaurantCount)'),
               selected: _selectedType == BookingType.restaurant,
               onSelected: (selected) {
                 setState(() {
@@ -1231,12 +1231,12 @@ class _BookingsTabState extends State<BookingsTab> {
             ),
             const SizedBox(height: 16),
             Text(
-              'No bookings found',
+              AppLocalizations.of(context)!.noBookingsFound,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
             Text(
-              'Try adjusting your search terms or filters',
+              AppLocalizations.of(context)!.tryAdjustingFilters,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.outline,
               ),
@@ -1252,7 +1252,7 @@ class _BookingsTabState extends State<BookingsTab> {
                 });
               },
               icon: const Icon(Iconsax.refresh),
-              label: Text('Clear Filters'),
+              label: Text(AppLocalizations.of(context)!.clearFilters),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryColor,
                 foregroundColor: Colors.white,

@@ -744,7 +744,7 @@ abstract class AppLocalizations {
   /// **'To-Do Items'**
   String get toDoItems;
 
-  /// Expense details title
+  /// Form header for expense details
   ///
   /// In en, this message translates to:
   /// **'Expense Details'**
@@ -894,7 +894,7 @@ abstract class AppLocalizations {
   /// **'No activities planned'**
   String get noActivitiesPlanned;
 
-  /// Split details label
+  /// Form section header for expense splitting
   ///
   /// In en, this message translates to:
   /// **'Split Details'**
@@ -960,7 +960,7 @@ abstract class AppLocalizations {
   /// **'Transport'**
   String get transport;
 
-  /// Accommodation category
+  /// Activity type: accommodation
   ///
   /// In en, this message translates to:
   /// **'Accommodation'**
@@ -972,25 +972,25 @@ abstract class AppLocalizations {
   /// **'Activities'**
   String get activities;
 
-  /// Shopping category
+  /// Activity type: shopping
   ///
   /// In en, this message translates to:
   /// **'Shopping'**
   String get shopping;
 
-  /// Sightseeing category
+  /// Activity type: sightseeing
   ///
   /// In en, this message translates to:
   /// **'Sightseeing'**
   String get sightseeing;
 
-  /// Meal category
+  /// Activity type: meal
   ///
   /// In en, this message translates to:
   /// **'Meal'**
   String get meal;
 
-  /// Entertainment category
+  /// Activity type: entertainment
   ///
   /// In en, this message translates to:
   /// **'Entertainment'**
@@ -1044,7 +1044,7 @@ abstract class AppLocalizations {
   /// **'Failed to load todos'**
   String get failedToLoadTodos;
 
-  /// Task label
+  /// Quick action button for adding task
   ///
   /// In en, this message translates to:
   /// **'Task'**
@@ -1080,7 +1080,7 @@ abstract class AppLocalizations {
   /// **'Task Details'**
   String get taskDetails;
 
-  /// Completed status
+  /// Status: completed
   ///
   /// In en, this message translates to:
   /// **'Completed'**
@@ -1722,7 +1722,7 @@ abstract class AppLocalizations {
   /// **'No documents yet'**
   String get noDocumentsYet;
 
-  /// Message when search returns no results
+  /// Empty state message for documents
   ///
   /// In en, this message translates to:
   /// **'No documents found'**
@@ -1734,7 +1734,7 @@ abstract class AppLocalizations {
   /// **'Clear search'**
   String get clearSearch;
 
-  /// Dialog title for document details
+  /// Form header for document details
   ///
   /// In en, this message translates to:
   /// **'Document Details'**
@@ -2021,6 +2021,216 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Document limit reached. You can only add up to 10 documents total.'**
   String get documentLimitReached;
+
+  /// Button text to clear all filters
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Filters'**
+  String get clearFilters;
+
+  /// Form section header for travel dates
+  ///
+  /// In en, this message translates to:
+  /// **'Travel Dates'**
+  String get travelDates;
+
+  /// Placeholder text for date range picker
+  ///
+  /// In en, this message translates to:
+  /// **'Select date range'**
+  String get selectDateRange;
+
+  /// Form header for activity details
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Details'**
+  String get activityDetails;
+
+  /// Section header for quick action buttons
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Actions'**
+  String get quickActions;
+
+  /// Description text for quick actions section
+  ///
+  /// In en, this message translates to:
+  /// **'Add new items to your trip'**
+  String get addNewItemsToTrip;
+
+  /// Quick action button for adding booking
+  ///
+  /// In en, this message translates to:
+  /// **'Booking'**
+  String get booking;
+
+  /// Quick action button for adding expense
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get expense;
+
+  /// Quick action button for adding itinerary
+  ///
+  /// In en, this message translates to:
+  /// **'Itinerary'**
+  String get itinerary;
+
+  /// Label for trip duration
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get duration;
+
+  /// Empty state message for expenses
+  ///
+  /// In en, this message translates to:
+  /// **'No expenses found'**
+  String get noExpensesFound;
+
+  /// Empty state message for filtered expenses
+  ///
+  /// In en, this message translates to:
+  /// **'No expenses found for this category'**
+  String get noExpensesFoundForCategory;
+
+  /// Empty state message for tasks
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks found'**
+  String get noTasksFound;
+
+  /// Empty state message for bookings
+  ///
+  /// In en, this message translates to:
+  /// **'No bookings found'**
+  String get noBookingsFound;
+
+  /// Empty state message for trips
+  ///
+  /// In en, this message translates to:
+  /// **'No trips found'**
+  String get noTripsFound;
+
+  /// Helper text for empty states
+  ///
+  /// In en, this message translates to:
+  /// **'Try adjusting your search terms or filters'**
+  String get tryAdjustingFilters;
+
+  /// Placeholder for task search input
+  ///
+  /// In en, this message translates to:
+  /// **'Search tasks...'**
+  String get searchTasks;
+
+  /// Placeholder for booking search input
+  ///
+  /// In en, this message translates to:
+  /// **'Search bookings...'**
+  String get searchBookings;
+
+  /// Urgent priority level
+  ///
+  /// In en, this message translates to:
+  /// **'Urgent'**
+  String get urgentPriority;
+
+  /// High priority level
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get highPriority;
+
+  /// Medium priority level
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get mediumPriority;
+
+  /// Low priority level
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get lowPriority;
+
+  /// Task status: overdue
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get overdue;
+
+  /// Task status: due today
+  ///
+  /// In en, this message translates to:
+  /// **'Due today'**
+  String get dueToday;
+
+  /// Task status: due tomorrow
+  ///
+  /// In en, this message translates to:
+  /// **'Due tomorrow'**
+  String get dueTomorrow;
+
+  /// Status: active
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get activeStatus;
+
+  /// Dialog title for backup file selection
+  ///
+  /// In en, this message translates to:
+  /// **'Select Backup File'**
+  String get selectBackupFile;
+
+  /// Button text to select file
+  ///
+  /// In en, this message translates to:
+  /// **'Select File'**
+  String get selectFile;
+
+  /// Dialog title for import confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Import Backup'**
+  String get importBackup;
+
+  /// Success message for import
+  ///
+  /// In en, this message translates to:
+  /// **'Import Successful'**
+  String get importSuccessful;
+
+  /// Error message for failed import
+  ///
+  /// In en, this message translates to:
+  /// **'Import Failed'**
+  String get importFailed;
+
+  /// Error message when app store can't be opened
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open app store'**
+  String get couldNotOpenAppStore;
+
+  /// Error message when help section can't be opened
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open help section'**
+  String get couldNotOpenHelpSection;
+
+  /// Error message when privacy policy can't be opened
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open privacy policy'**
+  String get couldNotOpenPrivacyPolicy;
+
+  /// Error message when terms of service can't be opened
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open terms of service'**
+  String get couldNotOpenTermsOfService;
 
   /// Generic irreversible action warning
   ///

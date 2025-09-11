@@ -646,7 +646,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Expense Details',
+                                AppLocalizations.of(context)!.expenseDetails,
                                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -665,7 +665,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'Title',
+                      AppLocalizations.of(context)!.title,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -683,7 +683,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Amount',
+                                AppLocalizations.of(context)!.amount,
                                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -706,7 +706,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Date',
+                                AppLocalizations.of(context)!.date,
                                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -741,7 +741,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     if (expense.description.isNotEmpty) ...[
                       const SizedBox(height: 20),
                       Text(
-                        'Description',
+                        AppLocalizations.of(context)!.description,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -760,7 +760,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     if (expense.paidBy.isNotEmpty) ...[
                       const SizedBox(height: 20),
                       Text(
-                        'Paid By',
+                        AppLocalizations.of(context)!.paidBy,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -791,7 +791,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     if (expense.splits.isNotEmpty) ...[
                       const SizedBox(height: 20),
                       Text(
-                        'Split Details',
+                        AppLocalizations.of(context)!.splitDetails,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -1132,7 +1132,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
             ),
             const SizedBox(height: 16),
             Text(
-              'No expenses found',
+              AppLocalizations.of(context)!.noExpensesFound,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
@@ -1151,7 +1151,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                 });
               },
               icon: const Icon(Iconsax.refresh),
-              label: Text('Clear Filters'),
+              label: Text(AppLocalizations.of(context)!.clearFilters),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryColor,
                 foregroundColor: Colors.white,

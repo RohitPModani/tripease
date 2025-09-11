@@ -1043,6 +1043,113 @@ class AppLocalizationsEn extends AppLocalizations {
       'Document limit reached. You can only add up to 10 documents total.';
 
   @override
+  String get clearFilters => 'Clear Filters';
+
+  @override
+  String get travelDates => 'Travel Dates';
+
+  @override
+  String get selectDateRange => 'Select date range';
+
+  @override
+  String get activityDetails => 'Activity Details';
+
+  @override
+  String get quickActions => 'Quick Actions';
+
+  @override
+  String get addNewItemsToTrip => 'Add new items to your trip';
+
+  @override
+  String get booking => 'Booking';
+
+  @override
+  String get expense => 'Expense';
+
+  @override
+  String get itinerary => 'Itinerary';
+
+  @override
+  String get duration => 'Duration';
+
+  @override
+  String get noExpensesFound => 'No expenses found';
+
+  @override
+  String get noExpensesFoundForCategory =>
+      'No expenses found for this category';
+
+  @override
+  String get noTasksFound => 'No tasks found';
+
+  @override
+  String get noBookingsFound => 'No bookings found';
+
+  @override
+  String get noTripsFound => 'No trips found';
+
+  @override
+  String get tryAdjustingFilters =>
+      'Try adjusting your search terms or filters';
+
+  @override
+  String get searchTasks => 'Search tasks...';
+
+  @override
+  String get searchBookings => 'Search bookings...';
+
+  @override
+  String get urgentPriority => 'Urgent';
+
+  @override
+  String get highPriority => 'High';
+
+  @override
+  String get mediumPriority => 'Medium';
+
+  @override
+  String get lowPriority => 'Low';
+
+  @override
+  String get overdue => 'Overdue';
+
+  @override
+  String get dueToday => 'Due today';
+
+  @override
+  String get dueTomorrow => 'Due tomorrow';
+
+  @override
+  String get activeStatus => 'Active';
+
+  @override
+  String get selectBackupFile => 'Select Backup File';
+
+  @override
+  String get selectFile => 'Select File';
+
+  @override
+  String get importBackup => 'Import Backup';
+
+  @override
+  String get importSuccessful => 'Import Successful';
+
+  @override
+  String get importFailed => 'Import Failed';
+
+  @override
+  String get couldNotOpenAppStore => 'Could not open app store';
+
+  @override
+  String get couldNotOpenHelpSection => 'Could not open help section';
+
+  @override
+  String get couldNotOpenPrivacyPolicy => 'Could not open privacy policy';
+
+  @override
+  String get couldNotOpenTermsOfService => 'Could not open terms of service';
+
+  @override
   String get confirmActionWarning => 'This action cannot be undone!';
 
   @override

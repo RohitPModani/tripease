@@ -4,42 +4,34 @@
   "@appTitle": {
     "description": "The title of the application"
   },
-  
   "trips": "Поездки",
   "@trips": {
     "description": "Trips tab title"
   },
-  
   "documents": "Документы",
   "@documents": {
     "description": "Documents tab title"
   },
-  
   "settings": "Настройки",
   "@settings": {
     "description": "Settings tab title"
   },
-  
   "quickStats": "Быстрая статистика",
   "@quickStats": {
     "description": "Quick stats card title"
   },
-  
   "activeTrips": "Активные поездки",
   "@activeTrips": {
     "description": "Active trips label"
   },
-  
   "pendingTasks": "Ожидающие задачи",
   "@pendingTasks": {
     "description": "Pending tasks label"
   },
-  
   "totalBudget": "Общий бюджет",
   "@totalBudget": {
     "description": "Total budget label"
   },
-  
   "nextTripStartsIn": "Следующая поездка начнется через {days} дней",
   "@nextTripStartsIn": {
     "description": "Next trip countdown message",
@@ -50,52 +42,42 @@
       }
     }
   },
-  
   "yourTrips": "Ваши поездки",
   "@yourTrips": {
     "description": "Your trips section title"
   },
-  
   "searchTrips": "Поиск поездок...",
   "@searchTrips": {
     "description": "Search trips placeholder"
   },
-  
   "daysUntilStart": "Дни до начала",
   "@daysUntilStart": {
     "description": "Sort by days until start"
   },
-  
   "dateCreated": "Дата создания",
   "@dateCreated": {
     "description": "Sort by date created"
   },
-  
   "alphabetical": "По алфавиту",
   "@alphabetical": {
     "description": "Sort alphabetically"
   },
-  
   "budget": "Бюджет",
   "@budget": {
     "description": "Budget label"
   },
-  
   "tasks": "Задачи",
   "@tasks": {
     "description": "Tasks label"
   },
-  
   "tripInProgress": "Поездка в процессе",
   "@tripInProgress": {
     "description": "Trip in progress status"
   },
-  
   "startingToday": "Начинается сегодня!",
   "@startingToday": {
     "description": "Trip starting today message"
   },
-  
   "daysToGo": "{days} дней осталось",
   "@daysToGo": {
     "description": "Days to go message",
@@ -106,7 +88,6 @@
       }
     }
   },
-  
   "active": "{count} активных",
   "@active": {
     "description": "Active count label",
@@ -117,57 +98,46 @@
       }
     }
   },
-  
   "searchDocuments": "Поиск документов...",
   "@searchDocuments": {
     "description": "Search documents placeholder"
   },
-  
   "personal": "Личные",
   "@personal": {
     "description": "Personal documents tab"
   },
-  
   "tripRelated": "Связанные с поездкой",
   "@tripRelated": {
     "description": "Trip related documents tab"
   },
-  
   "uploadDocument": "Загрузить документ",
   "@uploadDocument": {
     "description": "Upload document title"
   },
-  
   "takePhoto": "Сделать фото",
   "@takePhoto": {
     "description": "Take photo option"
   },
-  
   "captureDocumentWithCamera": "Сфотографировать документ камерой",
   "@captureDocumentWithCamera": {
     "description": "Take photo description"
   },
-  
   "chooseFromGallery": "Выбрать из галереи",
   "@chooseFromGallery": {
     "description": "Choose from gallery option"
   },
-  
   "selectFromPhotoLibrary": "Выбрать из библиотеки фотографий",
   "@selectFromPhotoLibrary": {
     "description": "Choose from gallery description"
   },
-  
   "chooseFile": "Выбрать файл",
   "@chooseFile": {
     "description": "Choose file option"
   },
-  
   "selectPdfOrOtherFiles": "Выбрать PDF или другие файлы",
   "@selectPdfOrOtherFiles": {
     "description": "Choose file description"
   },
-  
   "expires": "Истекает: {date}",
   "@expires": {
     "description": "Document expiry date",
@@ -178,71 +148,1136 @@
       }
     }
   },
-  
   "view": "Посмотреть",
   "@view": {
     "description": "View action"
   },
-  
   "share": "Поделиться",
   "@share": {
     "description": "Share action"
   },
-  
   "download": "Скачать",
   "@download": {
     "description": "Download action"
   },
-  
   "delete": "Удалить",
   "@delete": {
     "description": "Delete action"
   },
-  
   "cancel": "Отменить",
   "@cancel": {
     "description": "Cancel button"
   },
-  
   "russian": "Русский",
   "@russian": {
     "description": "Russian language"
-  }
-  ,
-  "confirmActionWarning": "This action cannot be undone!",
-  "finalConfirmationTitle": "Final Confirmation",
-  "finalConfirmationPrompt": "Type {word} in the box below to confirm:",
-  "deletingAllData": "Deleting all data...",
-  "pleaseWait": "Please wait, this may take a moment.",
-  "dataClearedTitle": "Data Cleared",
-  "dataClearedMessage": "All your data has been successfully deleted. The app has been reset to its initial state.",
-  "errorTitle": "Error",
-  "failedToClearAllData": "Failed to clear all data: {error}",
-  "exportIntroTitle": "Create a secure backup of all your Voythrix data:",
-  "exportEncryptionInfo": "Your data will be encrypted and compressed into a .tripe file.",
-  "backupPasswordTitle": "Backup Password (Optional)",
-  "backupPasswordHint": "Enter password (optional)",
-  "confirmPasswordHint": "Confirm password",
-  "passwordsMatch": "Passwords match",
-  "passwordsDoNotMatch": "Passwords do not match",
-  "creatingBackup": "Creating backup...",
-  "collectingAndEncrypting": "Collecting and encrypting your data...",
-  "backupCreatedTitle": "Backup Created",
-  "backupCreatedMessage": "Your backup has been created successfully!",
-  "fileInfoLabel": "File Info:",
-  "fileInfoFormat": "• Format: Encrypted .tripe file",
-  "fileInfoSecurityPassword": "• Security: Password protected",
-  "fileInfoSecurityStandard": "• Security: Standard encryption",
-  "fileInfoCompression": "• Compression: GZip compressed",
-  "keepFileSafeNote": "Keep this file safe — you'll need it to restore your data!",
-  "exportFailedTitle": "Export Failed",
-  "failedToCreateBackup": "Failed to create backup: {error}",
-  "continueAction": "Continue",
-  "deleteEverything": "Delete Everything",
-  "createBackup": "Create Backup",
-  "ok": "OK",
+  },
+  "confirmActionWarning": "Это действие нельзя отменить!",
+  "finalConfirmationTitle": "Окончательное подтверждение",
+  "finalConfirmationPrompt": "Напишите {word} в поле ниже для подтверждения:",
+  "deletingAllData": "Удаление всех данных...",
+  "pleaseWait": "Пожалуйста, подождите, это может занять некоторое время.",
+  "dataClearedTitle": "Данные очищены",
+  "dataClearedMessage": "Все ваши данные были успешно удалены. Приложение было сброшено до первоначального состояния.",
+  "errorTitle": "Ошибка",
+  "failedToClearAllData": "Ошибка при очистке всех данных: {error}",
+  "exportIntroTitle": "Создайте безопасную резервную копию всех ваших данных Voythrix:",
+  "exportEncryptionInfo": "Ваши данные будут зашифрованы и сжаты в файл .tripe.",
+  "backupPasswordTitle": "Пароль резервной копии (опционально)",
+  "backupPasswordHint": "Введите пароль (опционально)",
+  "confirmPasswordHint": "Подтвердите пароль",
+  "passwordsMatch": "Пароли совпадают",
+  "passwordsDoNotMatch": "Пароли не совпадают",
+  "creatingBackup": "Создание резервной копии...",
+  "collectingAndEncrypting": "Сбор и шифрование ваших данных...",
+  "backupCreatedTitle": "Резервная копия создана",
+  "backupCreatedMessage": "Ваша резервная копия была создана успешно!",
+  "fileInfoLabel": "Информация о файле:",
+  "fileInfoFormat": "• Формат: Зашифрованный файл .tripe",
+  "fileInfoSecurityPassword": "• Безопасность: Защищен паролем",
+  "fileInfoSecurityStandard": "• Безопасность: Стандартное шифрование",
+  "fileInfoCompression": "• Сжатие: Сжато GZip",
+  "keepFileSafeNote": "Оберегайте этот файл — он понадобится вам для восстановления ваших данных!",
+  "exportFailedTitle": "Ошибка экспорта",
+  "failedToCreateBackup": "Ошибка при создании резервной копии: {error}",
+  "continueAction": "Продолжить",
+  "deleteEverything": "Удалить всё",
+  "createBackup": "Создать резервную копию",
+  "ok": "ОК",
   "flight": "Рейс",
   "restaurant": "Ресторан",
   "bookingLimitReached": "Достигнут лимит бронирований. Вы можете добавить только 15 бронирований на поездку.",
-  "documentLimitReached": "Достигнут лимит документов. Вы можете добавить только 10 документов всего."
+  "documentLimitReached": "Достигнут лимит документов. Вы можете добавить только 10 документов всего.",
+  "searchBookings": "Поиск бронирований",
+  "searchTasks": "Поиск задач",
+  "noBookingsFound": "Бронирования не найдены",
+  "noTasksFound": "Задачи не найдены",
+  "noTripsFound": "Поездки не найдены",
+  "noExpensesFound": "Расходы не найдены",
+  "tryAdjustingFilters": "Попробуйте настроить фильтры",
+  "clearFilters": "Очистить фильтры",
+  "overdue": "Просрочено",
+  "dueToday": "Срок сегодня",
+  "dueTomorrow": "Срок завтра",
+  "duration": "Продолжительность",
+  "quickActions": "Быстрые действия",
+  "addNewItemsToTrip": "Добавить новые элементы в поездку",
+  "booking": "Бронирование",
+  "expense": "Расход",
+  "itinerary": "Маршрут",
+  "activeStatus": "Активный статус",
+  "documentDetails": "Детали документа",
+  "fileSize": "Размер файла",
+  "fileName": "Имя файла",
+  "noDocumentsYet": "Документов пока нет",
+  "noDocumentsFound": "Документы не найдены",
+  "tripDates": "Даты поездки",
+  "destinations": "Направления",
+  "location": "Местоположение",
+  "time": "Время",
+  "type": "Тип",
+  "failedToLoadTrip": "Ошибка загрузки поездки",
+  "tripNotFound": "Поездка не найдена",
+  "profile": "Профиль",
+  "preferences": "Настройки",
+  "darkMode": "Тёмный режим",
+  "switchBetweenLightAndDarkTheme": "Переключение между светлой и тёмной темой",
+  "language": "Язык",
+  "selectYourPreferredLanguage": "Выберите предпочитаемый язык",
+  "defaultCurrency": "Валюта по умолчанию",
+  "currencyUsedForNewTrips": "Валюта для новых поездок",
+  "dateFormat": "Формат даты",
+  "howDatesAreDisplayed": "Как отображаются даты",
+  "temperatureUnit": "Единица температуры",
+  "temperatureScalePreference": "Предпочтение шкалы температуры",
+  "appSettings": "Настройки приложения",
+  "backupAndSync": "Резервное копирование и синхронизация",
+  "manageYourDataBackup": "Управление резервным копированием данных",
+  "importData": "Импорт данных",
+  "importTripsFromOtherApps": "Импорт поездок из других приложений",
+  "exportData": "Экспорт данных",
+  "exportYourTripData": "Экспорт данных поездки",
+  "about": "О программе",
+  "appVersion": "Версия приложения",
+  "rateApp": "Оценить приложение",
+  "leaveAReviewOnTheAppStore": "Оставить отзыв в App Store",
+  "helpAndSupport": "Помощь и поддержка",
+  "faqsAndContactInformation": "Часто задаваемые вопросы и контактная информация",
+  "privacyPolicy": "Политика конфиденциальности",
+  "readOurPrivacyPolicy": "Ознакомиться с политикой конфиденциальности",
+  "termsOfService": "Условия использования",
+  "readOurTermsAndConditions": "Ознакомиться с условиями использования",
+  "dangerZone": "Опасная зона",
+  "clearAllData": "Очистить все данные",
+  "removeAllTripsAndDocuments": "Удалить все поездки и документы",
+  "clearAllDataConfirmation": "Это действие нельзя отменить. Все ваши поездки, документы и настройки будут навсегда удалены.",
+  "clearAll": "Очистить все",
+  "celsius": "Цельсий",
+  "fahrenheit": "Фаренгейт",
+  "english": "English",
+  "mandarin": "中文",
+  "japanese": "日本語",
+  "korean": "한국어",
+  "spanish": "Español",
+  "french": "Français",
+  "german": "Deutsch",
+  "italian": "Italiano",
+  "portuguese": "Português",
+  "arabic": "العربية",
+  "hindi": "हिन्दी",
+  "dutch": "Nederlands",
+  "title": "Заголовок",
+  "description": "Описание",
+  "amount": "Сумма",
+  "date": "Дата",
+  "edit": "Редактировать",
+  "retry": "Повторить",
+  "add": "Добавить",
+  "update": "Обновить",
+  "close": "Закрыть",
+  "failedToLoad": "Ошибка загрузки",
+  "noDataYet": "Данных пока нет",
+  "startPlanning": "Начните планировать своё следующее приключение!",
+  "createTrip": "Создать поездку",
+  "addDocument": "Добавить документ",
+  "addExpense": "Добавить расход",
+  "addActivity": "Добавить активность",
+  "addBooking": "Добавить бронирование",
+  "totalExpenses": "Общие расходы",
+  "toDoItems": "Список дел",
+  "searchTripsPlaceholder": "Поиск поездок...",
+  "allWithTotal": "Все ({total})",
+  "upcomingWithCount": "Предстоящие ({count})",
+  "activeWithCount": "Активные ({count})",
+  "completedWithCount": "Завершённые ({count})",
+  "yourTripsTitle": "Ваши поездки",
+  "activeTripsCount": "{count} активных",
+  "bookingsTabTitle": "Бронирования",
+  "expensesTabTitle": "Расходы",
+  "overviewTabTitle": "Обзор",
+  "todoTabTitle": "Дела",
+  "itineraryTabTitle": "Маршрут",
+  "visa": "Виза",
+  "@visa": {
+    "description": "Visa document type"
+  },
+  "dueDate": "Срок выполнения",
+  "@dueDate": {
+    "description": "Due date label"
+  },
+  "fileNotFound": "Файл не найден",
+  "@fileNotFound": {
+    "description": "File not found error"
+  },
+  "expenseTitleLabel": "Название расхода",
+  "@expenseTitleLabel": {
+    "description": "Expense title field label"
+  },
+  "urgentPriority": "Срочно",
+  "@urgentPriority": {
+    "description": "Urgent priority level"
+  },
+  "allDay": "Весь день",
+  "@allDay": {
+    "description": "All day option"
+  },
+  "appVersionBeta": "1.0.0 (Бета)",
+  "@appVersionBeta": {
+    "description": "App version with beta label"
+  },
+  "openExternally": "Открыть внешне",
+  "@openExternally": {
+    "description": "Open externally button"
+  },
+  "tripUpdatedSuccessfully": "Поездка успешно обновлена",
+  "@tripUpdatedSuccessfully": {
+    "description": "Success message when trip is updated"
+  },
+  "high": "Высокий",
+  "@high": {
+    "description": "High priority level"
+  },
+  "addNewTask": "Добавить новую задачу",
+  "@addNewTask": {
+    "description": "Add new task title"
+  },
+  "addFile": "Добавить файл",
+  "@addFile": {
+    "description": "Add file button"
+  },
+  "passport": "Паспорт",
+  "@passport": {
+    "description": "Passport document type"
+  },
+  "noExpensesFoundForCategory": "Расходы для этой категории не найдены",
+  "@noExpensesFoundForCategory": {
+    "description": "Empty state message for filtered expenses"
+  },
+  "fieldIsRequired": "{fieldName} обязательно",
+  "@fieldIsRequired": {
+    "description": "Generic required field validation error",
+    "placeholders": {
+      "fieldName": {
+        "type": "String",
+        "example": "Destination"
+      }
+    }
+  },
+  "descriptionOptional": "Описание (необязательно)",
+  "@descriptionOptional": {
+    "description": "Optional description field label"
+  },
+  "tripCreatedSuccessfully": "Поездка успешно создана!",
+  "@tripCreatedSuccessfully": {
+    "description": "Success message when trip is created"
+  },
+  "july": "Июль",
+  "@july": {
+    "description": "July month abbreviation"
+  },
+  "mediumPriority": "Средний",
+  "@mediumPriority": {
+    "description": "Medium priority level"
+  },
+  "selectBothStartAndEndDates": "Выберите дату начала и окончания",
+  "@selectBothStartAndEndDates": {
+    "description": "Error when dates are not selected"
+  },
+  "november": "Ноябрь",
+  "@november": {
+    "description": "November month abbreviation"
+  },
+  "bookingDetails": "Детали бронирования",
+  "@bookingDetails": {
+    "description": "Booking details title"
+  },
+  "failedToSelectFile": "Не удалось выбрать файл",
+  "@failedToSelectFile": {
+    "description": "Error when file selection fails"
+  },
+  "currency": "Валюта",
+  "@currency": {
+    "description": "Currency field label"
+  },
+  "chooseFileTitle": "Выбрать файл",
+  "@chooseFileTitle": {
+    "description": "Option title for choosing files"
+  },
+  "maxCharacters": "{maxLength} макс.",
+  "@maxCharacters": {
+    "description": "Character limit indicator",
+    "placeholders": {
+      "maxLength": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "errorSavingToPhotos": "Ошибка сохранения в фото: {error}",
+  "@errorSavingToPhotos": {
+    "description": "Error message when saving to photos fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+  "expenseBreakdown": "Разбивка расходов",
+  "@expenseBreakdown": {
+    "description": "Expense breakdown title"
+  },
+  "failedToDeleteTrip": "Не удалось удалить поездку",
+  "@failedToDeleteTrip": {
+    "description": "Error message when trip deletion fails"
+  },
+  "setBookingDateOptional": "Установить дату бронирования (необязательно)",
+  "@setBookingDateOptional": {
+    "description": "Set booking date field label"
+  },
+  "documentTitle": "Название документа *",
+  "@documentTitle": {
+    "description": "Required document title field"
+  },
+  "couldNotOpenPrivacyPolicy": "Не удалось открыть политику конфиденциальности",
+  "@couldNotOpenPrivacyPolicy": {
+    "description": "Error message when privacy policy can't be opened"
+  },
+  "expenseDetailsTitle": "Детали расхода",
+  "@expenseDetailsTitle": {
+    "description": "Dialog title for expense details"
+  },
+  "tripDeletedSuccessfully": "Поездка успешно удалена",
+  "@tripDeletedSuccessfully": {
+    "description": "Success message when trip is deleted"
+  },
+  "travelDates": "Даты поездки",
+  "@travelDates": {
+    "description": "Form section header for travel dates"
+  },
+  "attachments": "Вложения",
+  "@attachments": {
+    "description": "Attachments label"
+  },
+  "deleteTask": "Удалить задачу",
+  "@deleteTask": {
+    "description": "Delete task button"
+  },
+  "updateTask": "Обновить задачу",
+  "@updateTask": {
+    "description": "Update task button"
+  },
+  "documentUpdatedSuccessfully": "Документ успешно обновлен",
+  "@documentUpdatedSuccessfully": {
+    "description": "Success message when document is updated"
+  },
+  "taskTitle": "Название задачи",
+  "@taskTitle": {
+    "description": "Task title field label"
+  },
+  "activityDetails": "Детали мероприятия",
+  "@activityDetails": {
+    "description": "Form header for activity details"
+  },
+  "noActivitiesPlanned": "Мероприятия не запланированы",
+  "@noActivitiesPlanned": {
+    "description": "No activities message"
+  },
+  "addNewExpense": "Добавить новый расход",
+  "@addNewExpense": {
+    "description": "Add new expense title"
+  },
+  "vendorCompanyOptional": "Поставщик/Компания (необязательно)",
+  "@vendorCompanyOptional": {
+    "description": "Vendor/Company field label"
+  },
+  "stayOrganizedMessage": "Оставайтесь организованными, добавляя задачи для планирования поездки!",
+  "@stayOrganizedMessage": {
+    "description": "Message encouraging users to add tasks"
+  },
+  "tripInProgressStatus": "Поездка в процессе",
+  "@tripInProgressStatus": {
+    "description": "Status text for ongoing trips"
+  },
+  "imageSavedToPhotos": "Изображение сохранено в фото",
+  "@imageSavedToPhotos": {
+    "description": "Success message when image is saved to photos"
+  },
+  "may": "Май",
+  "@may": {
+    "description": "May month abbreviation"
+  },
+  "expenseTitle": "Название расхода",
+  "@expenseTitle": {
+    "description": "Expense title field"
+  },
+  "clearSearch": "Очистить поиск",
+  "@clearSearch": {
+    "description": "Button to clear search filters"
+  },
+  "startTime": "Время начала",
+  "@startTime": {
+    "description": "Start time field"
+  },
+  "attachmentsOptional": "Вложения (необязательно)",
+  "@attachmentsOptional": {
+    "description": "Attachments section label"
+  },
+  "changeDocument": "Изменить документ",
+  "@changeDocument": {
+    "description": "Button text for changing existing document"
+  },
+  "failedToLoadTodos": "Не удалось загрузить задачи",
+  "@failedToLoadTodos": {
+    "description": "Error message when todos fail to load"
+  },
+  "unknown": "Неизвестно",
+  "@unknown": {
+    "description": "Unknown value placeholder"
+  },
+  "fileSavedSuccessfully": "Файл успешно сохранен",
+  "@fileSavedSuccessfully": {
+    "description": "Success message when file is saved"
+  },
+  "cannotDisplayImage": "Не удается отобразить изображение",
+  "@cannotDisplayImage": {
+    "description": "Cannot display image error"
+  },
+  "failedToAddUpdateTask": "Не удалось {action} задачу: {error}",
+  "@failedToAddUpdateTask": {
+    "description": "Error message for task operations",
+    "placeholders": {
+      "action": {
+        "type": "String",
+        "example": "add"
+      },
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "saveToGallery": "Сохранить в галерею",
+  "@saveToGallery": {
+    "description": "Save to gallery option"
+  },
+  "food": "Еда",
+  "@food": {
+    "description": "Food expense category"
+  },
+  "hotel": "Отель",
+  "@hotel": {
+    "description": "Hotel document type"
+  },
+  "editTrip": "Редактировать поездку",
+  "@editTrip": {
+    "description": "Edit trip screen title"
+  },
+  "deleteDocument": "Удалить документ",
+  "@deleteDocument": {
+    "description": "Dialog title for deleting document"
+  },
+  "deleteTaskConfirmation": "Вы уверены, что хотите удалить \"{title}\"? Это действие нельзя отменить.",
+  "@deleteTaskConfirmation": {
+    "description": "Delete task confirmation message",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Buy souvenirs"
+      }
+    }
+  },
+  "defaultUserEmail": "john.doe@email.com",
+  "@defaultUserEmail": {
+    "description": "Default user email"
+  },
+  "setDueDateOptional": "Установить срок выполнения (необязательно)",
+  "@setDueDateOptional": {
+    "description": "Set due date field label"
+  },
+  "documentsTitle": "Документы",
+  "@documentsTitle": {
+    "description": "Documents screen title"
+  },
+  "saveToFiles": "Сохранить в файлы",
+  "@saveToFiles": {
+    "description": "Option to save file to specific location"
+  },
+  "descriptionTooLong": "Описание должно содержать не более {limit} символов",
+  "@descriptionTooLong": {
+    "description": "Validation error when description is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "500"
+      }
+    }
+  },
+  "selectDateRange": "Выбрать диапазон дат",
+  "@selectDateRange": {
+    "description": "Placeholder text for date range picker"
+  },
+  "noToDoItems": "Задач нет",
+  "@noToDoItems": {
+    "description": "No to-do items message"
+  },
+  "maxFileSizeSupported": "Макс. размер файла: 5 МБ\nПоддерживаемые форматы: PDF, DOC, DOCX, JPG, PNG, GIF",
+  "@maxFileSizeSupported": {
+    "description": "File upload constraints message"
+  },
+  "editBooking": "Редактировать бронирование",
+  "@editBooking": {
+    "description": "Edit booking title"
+  },
+  "documentDeletedSuccessfully": "Документ \"{title}\" успешно удален",
+  "@documentDeletedSuccessfully": {
+    "description": "Success message when document is deleted",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Passport.pdf"
+      }
+    }
+  },
+  "selectStartDateFirst": "Сначала выберите дату начала",
+  "@selectStartDateFirst": {
+    "description": "Error when trying to select end date without start date"
+  },
+  "confirmationNumberTooLong": "Номер подтверждения должен содержать не более {limit} символов",
+  "@confirmationNumberTooLong": {
+    "description": "Validation error when confirmation number is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "updateTrip": "Обновить поездку",
+  "@updateTrip": {
+    "description": "Update trip button text"
+  },
+  "saveToFilesDescription": "Выберите конкретную папку для сохранения",
+  "@saveToFilesDescription": {
+    "description": "Description for save to files option"
+  },
+  "failedToDeleteDocument": "Не удалось удалить документ: {error}",
+  "@failedToDeleteDocument": {
+    "description": "Error message when document deletion fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File in use"
+      }
+    }
+  },
+  "selectDocument": "Выбрать документ",
+  "@selectDocument": {
+    "description": "Dialog title for selecting documents"
+  },
+  "completed": "Завершено",
+  "@completed": {
+    "description": "Status: completed"
+  },
+  "failedToUpdateTrip": "Не удалось обновить поездку",
+  "@failedToUpdateTrip": {
+    "description": "Error message when trip update fails"
+  },
+  "couldNotOpenHelpSection": "Не удалось открыть раздел справки",
+  "@couldNotOpenHelpSection": {
+    "description": "Error message when help section can't be opened"
+  },
+  "updateExpense": "Обновить расход",
+  "@updateExpense": {
+    "description": "Update expense button"
+  },
+  "selectBackupFile": "Выбрать файл резервной копии",
+  "@selectBackupFile": {
+    "description": "Dialog title for backup file selection"
+  },
+  "january": "Январь",
+  "@january": {
+    "description": "January month abbreviation"
+  },
+  "priority": "Приоритет",
+  "@priority": {
+    "description": "Priority label"
+  },
+  "saveToPhotos": "Сохранить в фото",
+  "@saveToPhotos": {
+    "description": "Option to save image to photo gallery"
+  },
+  "lowPriority": "Низкий",
+  "@lowPriority": {
+    "description": "Low priority level"
+  },
+  "april": "Апрель",
+  "@april": {
+    "description": "April month abbreviation"
+  },
+  "breakdown": "Разбивка",
+  "@breakdown": {
+    "description": "Breakdown button"
+  },
+  "september": "Сентябрь",
+  "@september": {
+    "description": "September month abbreviation"
+  },
+  "failedToPickFile": "Не удалось выбрать файл: {error}",
+  "@failedToPickFile": {
+    "description": "File picker error message",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+  "previewNotAvailable": "Предварительный просмотр недоступен для этого типа файла.\nНажмите \"Открыть внешне\" для просмотра в другом приложении.",
+  "@previewNotAvailable": {
+    "description": "Preview not available message"
+  },
+  "defaultUserName": "Иван Иванов",
+  "@defaultUserName": {
+    "description": "Default user name"
+  },
+  "couldNotOpenAppStore": "Не удалось открыть магазин приложений",
+  "@couldNotOpenAppStore": {
+    "description": "Error message when app store can't be opened"
+  },
+  "allWithCount": "Все ({count})",
+  "@allWithCount": {
+    "description": "All items with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "updateActivity": "Обновить мероприятие",
+  "@updateActivity": {
+    "description": "Update activity button"
+  },
+  "enterValidAmount": "Введите правильную сумму",
+  "@enterValidAmount": {
+    "description": "Validation error when amount format is invalid"
+  },
+  "activities": "Мероприятия",
+  "@activities": {
+    "description": "Activities category"
+  },
+  "highPriority": "Высокий",
+  "@highPriority": {
+    "description": "High priority level"
+  },
+  "chooseFromGalleryDescription": "Выбрать из фотобиблиотеки",
+  "@chooseFromGalleryDescription": {
+    "description": "Description for gallery option"
+  },
+  "destinationIsRequired": "Направление обязательно",
+  "@destinationIsRequired": {
+    "description": "Validation error when destination is missing"
+  },
+  "december": "Декабрь",
+  "@december": {
+    "description": "December month abbreviation"
+  },
+  "locationTooLong": "Местоположение должно содержать не более {limit} символов",
+  "@locationTooLong": {
+    "description": "Validation error when location is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "meal": "Еда",
+  "@meal": {
+    "description": "Activity type: meal"
+  },
+  "editActivity": "Редактировать мероприятие",
+  "@editActivity": {
+    "description": "Edit activity title"
+  },
+  "failedToReadFile": "Не удалось прочитать данные файла",
+  "@failedToReadFile": {
+    "description": "Failed to read file error"
+  },
+  "bookingType": "Тип бронирования",
+  "@bookingType": {
+    "description": "Activity type for bookings"
+  },
+  "entertainment": "Развлечения",
+  "@entertainment": {
+    "description": "Activity type: entertainment"
+  },
+  "march": "Март",
+  "@march": {
+    "description": "March month abbreviation"
+  },
+  "october": "Октябрь",
+  "@october": {
+    "description": "October month abbreviation"
+  },
+  "you": "Вы",
+  "@you": {
+    "description": "You pronoun"
+  },
+  "fileSizeMustBeLess": "Размер файла должен быть менее 5 МБ",
+  "@fileSizeMustBeLess": {
+    "description": "File size error message"
+  },
+  "deleteBooking": "Удалить бронирование",
+  "@deleteBooking": {
+    "description": "Dialog title for deleting booking"
+  },
+  "other": "Другое",
+  "@other": {
+    "description": "Other category"
+  },
+  "task": "Задача",
+  "@task": {
+    "description": "Quick action button for adding task"
+  },
+  "saveImage": "Сохранить изображение",
+  "@saveImage": {
+    "description": "Dialog title for saving images"
+  },
+  "couldNotOpenTermsOfService": "Не удалось открыть условия обслуживания",
+  "@couldNotOpenTermsOfService": {
+    "description": "Error message when terms of service can't be opened"
+  },
+  "editExpense": "Редактировать расход",
+  "@editExpense": {
+    "description": "Edit expense title"
+  },
+  "failedToCreateTrip": "Не удалось создать поездку",
+  "@failedToCreateTrip": {
+    "description": "Error message when trip creation fails"
+  },
+  "ticket": "Билет",
+  "@ticket": {
+    "description": "Ticket document type"
+  },
+  "fieldOptional": "{labelText} (необязательно)",
+  "@fieldOptional": {
+    "description": "Label for optional fields",
+    "placeholders": {
+      "labelText": {
+        "type": "String",
+        "example": "Description"
+      }
+    }
+  },
+  "february": "Февраль",
+  "@february": {
+    "description": "February month abbreviation"
+  },
+  "deleteActivity": "Удалить мероприятие",
+  "@deleteActivity": {
+    "description": "Dialog title for deleting activity"
+  },
+  "keepTrackMessage": "Отслеживайте свои рейсы, отели и мероприятия!",
+  "@keepTrackMessage": {
+    "description": "Message encouraging users to add bookings"
+  },
+  "errorSharingFile": "Ошибка обмена файлом: {error}",
+  "@errorSharingFile": {
+    "description": "File sharing error message",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "No app found"
+      }
+    }
+  },
+  "selectFile": "Выбрать файл",
+  "@selectFile": {
+    "description": "Button text to select file"
+  },
+  "deleteTrip": "Удалить поездку",
+  "@deleteTrip": {
+    "description": "Delete trip action"
+  },
+  "addFirstTask": "Добавить первую задачу",
+  "@addFirstTask": {
+    "description": "Add first task button"
+  },
+  "addTask": "Добавить задачу",
+  "@addTask": {
+    "description": "Add task button"
+  },
+  "cancelled": "Отменено",
+  "@cancelled": {
+    "description": "Cancelled status"
+  },
+  "deleteDocumentConfirmation": "Вы уверены, что хотите удалить \"{title}\"? Это действие нельзя отменить.",
+  "@deleteDocumentConfirmation": {
+    "description": "Confirmation message for deleting document",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Passport.pdf"
+      }
+    }
+  },
+  "addNewBooking": "Добавить новое бронирование",
+  "@addNewBooking": {
+    "description": "Add new booking title"
+  },
+  "shopping": "Покупки",
+  "@shopping": {
+    "description": "Activity type: shopping"
+  },
+  "august": "Август",
+  "@august": {
+    "description": "August month abbreviation"
+  },
+  "june": "Июнь",
+  "@june": {
+    "description": "June month abbreviation"
+  },
+  "activityTitle": "Название мероприятия",
+  "@activityTitle": {
+    "description": "Activity title field"
+  },
+  "editDocument": "Редактировать документ",
+  "@editDocument": {
+    "description": "Edit document title"
+  },
+  "endTime": "Время окончания",
+  "@endTime": {
+    "description": "End time field"
+  },
+  "urgent": "Срочно",
+  "@urgent": {
+    "description": "Urgent priority level"
+  },
+  "category": "Категория",
+  "@category": {
+    "description": "Category field"
+  },
+  "vendorTooLong": "Поставщик/Компания должен содержать не более {limit} символов",
+  "@vendorTooLong": {
+    "description": "Validation error when vendor name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "activityTitleLabel": "Название мероприятия",
+  "@activityTitleLabel": {
+    "description": "Activity title field label"
+  },
+  "chooseFileDescription": "Выбрать PDF или другие файлы",
+  "@chooseFileDescription": {
+    "description": "Description for file picker option"
+  },
+  "noExpensesYet": "Расходов пока нет",
+  "@noExpensesYet": {
+    "description": "No expenses message"
+  },
+  "editTask": "Редактировать задачу",
+  "@editTask": {
+    "description": "Edit task title"
+  },
+  "medium": "Средний",
+  "@medium": {
+    "description": "Medium priority level"
+  },
+  "amountIsRequired": "Сумма обязательна",
+  "@amountIsRequired": {
+    "description": "Validation error when amount is missing"
+  },
+  "failedToCaptureImage": "Не удалось сделать снимок",
+  "@failedToCaptureImage": {
+    "description": "Error when camera capture fails"
+  },
+  "addFirstBooking": "Добавить первое бронирование",
+  "@addFirstBooking": {
+    "description": "Add first booking button"
+  },
+  "dateWithDate": "Дата: {day}/{month}/{year}",
+  "@dateWithDate": {
+    "description": "Date with specific date format",
+    "placeholders": {
+      "day": {
+        "type": "int",
+        "example": "15"
+      },
+      "month": {
+        "type": "int",
+        "example": "12"
+      },
+      "year": {
+        "type": "int",
+        "example": "2024"
+      }
+    }
+  },
+  "destinationTooLong": "Направление должно содержать не более {limit} символов",
+  "@destinationTooLong": {
+    "description": "Validation error when destination name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "failedToSelectImage": "Не удалось выбрать изображение",
+  "@failedToSelectImage": {
+    "description": "Error when image selection fails"
+  },
+  "insurance": "Страхование",
+  "@insurance": {
+    "description": "Insurance document type"
+  },
+  "expenseType": "Расход",
+  "@expenseType": {
+    "description": "Activity type for expenses"
+  },
+  "open": "Открыть",
+  "@open": {
+    "description": "Action to open something"
+  },
+  "documentAddedSuccessfully": "Документ успешно добавлен",
+  "@documentAddedSuccessfully": {
+    "description": "Success message when document is added"
+  },
+  "amountCurrency": "Сумма ({currency})",
+  "@amountCurrency": {
+    "description": "Amount field with currency",
+    "placeholders": {
+      "currency": {
+        "type": "String",
+        "example": "USD"
+      }
+    }
+  },
+  "deleteTripConfirmation": "Вы уверены, что хотите удалить эту поездку? Это действие нельзя отменить.",
+  "@deleteTripConfirmation": {
+    "description": "Confirmation message for deleting a trip"
+  },
+  "errorSavingFile": "Ошибка сохранения файла: {error}",
+  "@errorSavingFile": {
+    "description": "Error message when saving file fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Disk full"
+      }
+    }
+  },
+  "fileAttachedSuccessfully": "{filename} успешно прикреплен",
+  "@fileAttachedSuccessfully": {
+    "description": "File attachment success message",
+    "placeholders": {
+      "filename": {
+        "type": "String",
+        "example": "document.pdf"
+      }
+    }
+  },
+  "titleTooLong": "Название должно содержать не более {limit} символов",
+  "@titleTooLong": {
+    "description": "Validation error when title is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "paidBy": "Оплачено",
+  "@paidBy": {
+    "description": "Paid by field"
+  },
+  "vendor": "Поставщик",
+  "@vendor": {
+    "description": "Vendor label"
+  },
+  "dueWithDate": "Срок: {day}/{month}/{year}",
+  "@dueWithDate": {
+    "description": "Due date with specific date format",
+    "placeholders": {
+      "day": {
+        "type": "int",
+        "example": "15"
+      },
+      "month": {
+        "type": "int",
+        "example": "12"
+      },
+      "year": {
+        "type": "int",
+        "example": "2024"
+      }
+    }
+  },
+  "deleteExpense": "Удалить расход",
+  "@deleteExpense": {
+    "description": "Delete expense title"
+  },
+  "confirmationNumber": "Номер подтверждения",
+  "@confirmationNumber": {
+    "description": "Confirmation number label"
+  },
+  "titleIsRequired": "Название обязательно",
+  "@titleIsRequired": {
+    "description": "Validation error when title is missing"
+  },
+  "failedToSaveDocument": "Не удалось сохранить документ",
+  "@failedToSaveDocument": {
+    "description": "Error message when document save fails"
+  },
+  "completedStatus": "Завершено",
+  "@completedStatus": {
+    "description": "Status text for completed items"
+  },
+  "activityTypeLabel": "Тип мероприятия",
+  "@activityTypeLabel": {
+    "description": "Activity type field label"
+  },
+  "paidByTooLong": "Плательщик должен содержать не более {limit} символов",
+  "@paidByTooLong": {
+    "description": "Validation error when paid by name is too long",
+    "placeholders": {
+      "limit": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "sightseeing": "Осмотр достопримечательностей",
+  "@sightseeing": {
+    "description": "Activity type: sightseeing"
+  },
+  "accommodation": "Размещение",
+  "@accommodation": {
+    "description": "Activity type: accommodation"
+  },
+  "activityDetailsTitle": "Детали мероприятия",
+  "@activityDetailsTitle": {
+    "description": "Dialog title for activity details"
+  },
+  "low": "Низкий",
+  "@low": {
+    "description": "Low priority level"
+  },
+  "transport": "Транспорт",
+  "@transport": {
+    "description": "Transport category"
+  },
+  "saveToPhotosDescription": "Сохранить прямо в фотогалерею",
+  "@saveToPhotosDescription": {
+    "description": "Description for save to photos option"
+  },
+  "documentCategory": "Категория документа",
+  "@documentCategory": {
+    "description": "Document category field"
+  },
+  "addNewActivity": "Добавить новое мероприятие",
+  "@addNewActivity": {
+    "description": "Add new activity title"
+  },
+  "confirmed": "Подтверждено",
+  "@confirmed": {
+    "description": "Confirmed status"
+  },
+  "confirmationNumberOptional": "Номер подтверждения (необязательно)",
+  "@confirmationNumberOptional": {
+    "description": "Confirmation number field label"
+  },
+  "updateBooking": "Обновить бронирование",
+  "@updateBooking": {
+    "description": "Update booking button"
+  },
+  "updateDocument": "Обновить документ",
+  "@updateDocument": {
+    "description": "Update document button text"
+  },
+  "amountMustBePositive": "Сумма должна быть положительной",
+  "@amountMustBePositive": {
+    "description": "Validation error when amount is negative or zero"
+  },
+  "chooseFromGalleryTitle": "Выбрать из галереи",
+  "@chooseFromGalleryTitle": {
+    "description": "Option title for choosing from gallery"
+  },
+  "deleteExpenseConfirmation": "Вы уверены, что хотите удалить этот расход?",
+  "@deleteExpenseConfirmation": {
+    "description": "Delete expense confirmation"
+  },
+  "fileMovedOrDeleted": "Возможно, файл был перемещен или удален",
+  "@fileMovedOrDeleted": {
+    "description": "File moved or deleted message"
+  },
+  "errorDownloadingFile": "Ошибка загрузки файла: {error}",
+  "@errorDownloadingFile": {
+    "description": "Error message when file download fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "failedToAddUpdateBooking": "Не удалось {action} бронирование: {error}",
+  "@failedToAddUpdateBooking": {
+    "description": "Error message for booking operations",
+    "placeholders": {
+      "action": {
+        "type": "String",
+        "example": "add"
+      },
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "pending": "В ожидании",
+  "@pending": {
+    "description": "Pending status"
+  },
+  "activityType": "Тип мероприятия",
+  "@activityType": {
+    "description": "Activity type field"
+  },
+  "expenseDetails": "Детали расхода",
+  "bookingTitle": "Название бронирования",
+  "status": "Статус",
+  "splitDetails": "Детали разделения",
+  "noBookingsYet": "Пока нет бронирований",
+  "taskDetails": "Детали задачи",
+  "addAtLeastOneDestination": "Пожалуйста, добавьте хотя бы одно направление",
+  "itineraryDescriptionTooLong": "Описание должно содержать не более {limit} символов",
+  "importBackup": "Импорт резервной копии",
+  "importSuccessful": "Импорт успешен",
+  "importFailed": "Импорт не удался"
 }
