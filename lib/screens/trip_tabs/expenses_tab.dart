@@ -3,11 +3,25 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import '../../models/trip.dart';
 import '../../models/expense.dart';
+import '../../models/trip_member.dart';
 import '../../themes/app_theme.dart';
 import '../../providers/expense_provider.dart';
+import '../../providers/trip_member_provider.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/currency_formatter.dart';
 import '../../widgets/expense_form_modal.dart';
+
+class Settlement {
+  final String from;
+  final String to;
+  final double amount;
+
+  Settlement({
+    required this.from,
+    required this.to,
+    required this.amount,
+  });
+}
 
 class ExpensesTab extends StatefulWidget {
   final Trip trip;
@@ -26,6 +40,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<ExpenseProvider>(context, listen: false).loadExpenses(widget.trip.id);
+      Provider.of<TripMemberProvider>(context, listen: false).loadMembers(widget.trip.id);
     });
   }
 
@@ -232,60 +247,24 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     ],
                   ),
                 ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 8),
+            Row(
+              children: [
                 TextButton(
                   onPressed: () => _showExpenseBreakdown(expenses),
                   child: Text(AppLocalizations.of(context)!.breakdown),
                 ),
+                const SizedBox(width: 8),
+                TextButton(
+                  onPressed: () => _showSettlementSummary(expenses),
+                  child: Text('Settlements'),
+                ),
               ],
             ),
-            if (categoryTotals.isNotEmpty) ...[
-              const SizedBox(height: 16),
-              const Divider(),
-              const SizedBox(height: 16),
-              ...categoryTotals.entries.map((entry) {
-                final totalExp = _getTotalExpenses(expenses);
-                final percentage = totalExp > 0 ? (entry.value / totalExp) : 0.0;
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 12,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          color: _getCategoryColor(entry.key),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          _getCategoryDisplayName(entry.key),
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                      ),
-                      Text(
-                        CurrencyFormatter.formatAmount(entry.value, widget.trip.defaultCurrency),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        '${(percentage * 100).toInt()}%',
-                        style: TextStyle(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppTheme.textSecondaryDark
-                              : AppTheme.textSecondary,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-            ],
           ],
         ),
       ),
@@ -790,34 +769,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     ],
                     if (expense.splits.isNotEmpty) ...[
                       const SizedBox(height: 20),
-                      Text(
-                        AppLocalizations.of(context)!.splitDetails,
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Icon(
-                            Iconsax.people,
-                            size: 16,
-                            color: Theme.of(context).brightness == Brightness.dark
-                              ? AppTheme.textSecondaryDark
-                              : AppTheme.textSecondary,
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            '${expense.splits.length}',
-                            style: TextStyle(
-                              color: Theme.of(context).brightness == Brightness.dark
-                              ? AppTheme.textSecondaryDark
-                              : AppTheme.textSecondary,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
+                      _buildSplitDetails(expense),
                     ],
                     const SizedBox(height: 24),
                     Row(
@@ -1165,6 +1117,13 @@ class _ExpensesTabState extends State<ExpensesTab> {
 
   void _showExpenseBreakdown(List<Expense> expenses) {
     final personTotals = _getExpensesByPerson(expenses);
+    final categoryTotals = <ExpenseCategory, double>{};
+    
+    // Calculate category totals
+    for (final expense in expenses) {
+      categoryTotals[expense.category] = 
+          (categoryTotals[expense.category] ?? 0) + expense.amount;
+    }
     
     showDialog(
       context: context,
@@ -1183,8 +1142,70 @@ class _ExpensesTabState extends State<ExpensesTab> {
                   color: AppTheme.accentColor,
                 ),
               ),
-              const SizedBox(height: 16),
-              // Section label intentionally omitted to avoid hardcoded text
+              
+              // Category Breakdown Section
+              if (categoryTotals.isNotEmpty) ...[
+                const SizedBox(height: 20),
+                Text(
+                  'Expenses by Category:',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ...categoryTotals.entries.map((entry) {
+                  final totalExp = _getTotalExpenses(expenses);
+                  final percentage = totalExp > 0 ? (entry.value / totalExp) : 0.0;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 12,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            color: _getCategoryColor(entry.key),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            _getCategoryDisplayName(entry.key),
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        Text(
+                          CurrencyFormatter.formatAmount(entry.value, widget.trip.defaultCurrency),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          '${(percentage * 100).toInt()}%',
+                          style: TextStyle(
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.textSecondaryDark
+                                : AppTheme.textSecondary,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ],
+              
+              // Person Breakdown Section  
+              const SizedBox(height: 20),
+              Text(
+                'Expenses by Person:',
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               const SizedBox(height: 8),
               ...personTotals.entries.map((entry) => Padding(
                     padding: const EdgeInsets.only(bottom: 8),
@@ -1209,6 +1230,318 @@ class _ExpensesTabState extends State<ExpensesTab> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showSettlementSummary(List<Expense> expenses) {
+    final settlements = _calculateSettlements(expenses);
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(
+              Iconsax.arrow_swap_horizontal,
+              color: AppTheme.primaryColor,
+              size: 20,
+            ),
+            const SizedBox(width: 8),
+            Text('Settlement Summary'),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (settlements.isEmpty)
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.green.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Iconsax.tick_circle, color: Colors.green),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'All expenses are settled!',
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              else ...[
+                Text(
+                  'Suggested settlements to balance all expenses:',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppTheme.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ...settlements.map((settlement) => Card(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 16,
+                          backgroundColor: Colors.red.withValues(alpha: 0.1),
+                          child: Text(
+                            settlement.from.substring(0, 1).toUpperCase(),
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${settlement.from} owes ${settlement.to}',
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                CurrencyFormatter.formatAmount(settlement.amount, widget.trip.defaultCurrency),
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Icon(
+                          Iconsax.arrow_right_3,
+                          color: AppTheme.textSecondary,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 8),
+                        CircleAvatar(
+                          radius: 16,
+                          backgroundColor: Colors.green.withValues(alpha: 0.1),
+                          child: Text(
+                            settlement.to.substring(0, 1).toUpperCase(),
+                            style: const TextStyle(
+                              color: Colors.green,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
+              ],
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppLocalizations.of(context)!.close),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Settlement> _calculateSettlements(List<Expense> expenses) {
+    final Map<String, double> balances = {};
+    
+    // Calculate net balances for each person
+    for (final expense in expenses) {
+      if (expense.splits.isEmpty) continue;
+      
+      // Person who paid gets credited
+      if (expense.paidBy.isNotEmpty) {
+        balances[expense.paidBy] = (balances[expense.paidBy] ?? 0.0) + expense.amount;
+      }
+      
+      // Each person in split gets debited their share
+      for (final split in expense.splits) {
+        final memberProvider = Provider.of<TripMemberProvider>(context, listen: false);
+        TripMember? member;
+        try {
+          member = memberProvider.members.firstWhere(
+            (m) => m.id == split.userId,
+          );
+        } catch (e) {
+          member = null;
+        }
+        if (member != null) {
+          balances[member.name] = (balances[member.name] ?? 0.0) - split.amount;
+        }
+      }
+    }
+    
+    // Generate settlements using a simplified debt algorithm
+    final List<Settlement> settlements = [];
+    final List<MapEntry<String, double>> creditors = [];
+    final List<MapEntry<String, double>> debtors = [];
+    
+    for (final entry in balances.entries) {
+      if (entry.value > 0.01) { // They are owed money
+        creditors.add(entry);
+      } else if (entry.value < -0.01) { // They owe money
+        debtors.add(MapEntry(entry.key, -entry.value)); // Make positive
+      }
+    }
+    
+    // Sort by amount (largest debts/credits first)
+    creditors.sort((a, b) => b.value.compareTo(a.value));
+    debtors.sort((a, b) => b.value.compareTo(a.value));
+    
+    int i = 0, j = 0;
+    while (i < creditors.length && j < debtors.length) {
+      final creditor = creditors[i];
+      final debtor = debtors[j];
+      
+      final settleAmount = [creditor.value, debtor.value].reduce((a, b) => a < b ? a : b);
+      
+      if (settleAmount > 0.01) {
+        settlements.add(Settlement(
+          from: debtor.key,
+          to: creditor.key,
+          amount: settleAmount,
+        ));
+      }
+      
+      creditors[i] = MapEntry(creditor.key, creditor.value - settleAmount);
+      debtors[j] = MapEntry(debtor.key, debtor.value - settleAmount);
+      
+      if (creditors[i].value <= 0.01) i++;
+      if (debtors[j].value <= 0.01) j++;
+    }
+    
+    return settlements;
+  }
+
+
+  Widget _buildSplitDetails(Expense expense) {
+    return Consumer<TripMemberProvider>(
+      builder: (context, memberProvider, child) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Iconsax.percentage_circle,
+                    color: AppTheme.primaryColor,
+                    size: 16,
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    'Split Details',
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const Spacer(),
+                  if (expense.isSettled)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.green.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        'Settled',
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              ...expense.splits.map((split) {
+                TripMember? member;
+                try {
+                  member = memberProvider.members.firstWhere(
+                    (m) => m.id == split.userId,
+                  );
+                } catch (e) {
+                  member = null;
+                }
+                
+                final displayName = member != null ? member.name : 'Unknown Member';
+                final avatarLetter = member != null ? member.name.substring(0, 1).toUpperCase() : '?';
+                const avatarColor = AppTheme.success;
+                
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundColor: avatarColor.withValues(alpha: 0.1),
+                        child: Text(
+                          avatarLetter,
+                          style: const TextStyle(
+                            color: avatarColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          displayName,
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ),
+                      Text(
+                        CurrencyFormatter.formatAmount(split.amount, widget.trip.defaultCurrency),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: split.isPaid ? Colors.green : AppTheme.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Icon(
+                        split.isPaid ? Iconsax.tick_circle : Iconsax.clock,
+                        size: 16,
+                        color: split.isPaid ? Colors.green : Colors.orange,
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ],
+          ),
+        );
+      },
     );
   }
 }

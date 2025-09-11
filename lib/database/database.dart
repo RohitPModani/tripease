@@ -5,6 +5,7 @@ import 'package:path/path.dart' as p;
 import 'dart:io';
 
 import 'tables/trips_table.dart';
+import 'tables/trip_member_table.dart';
 import 'tables/todo_items_table.dart';
 import 'tables/bookings_table.dart';
 import 'tables/expenses_table.dart';
@@ -16,6 +17,7 @@ part 'database.g.dart';
 
 @DriftDatabase(tables: [
   TripsTable,
+  TripMemberTable,
   TodoItemsTable,
   BookingsTable,
   ExpensesTable,
@@ -27,11 +29,12 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   /// Clear all data from the database (useful for development/testing)
   Future<void> clearDatabase() async {
     await delete(tripsTable).go();
+    await delete(tripMemberTable).go();
     await delete(todoItemsTable).go();
     await delete(bookingsTable).go();
     await delete(expensesTable).go();
@@ -60,6 +63,9 @@ class AppDatabase extends _$AppDatabase {
         }
         if (from <= 4) {
           await m.create(itineraryTable);
+        }
+        if (from <= 5) {
+          await m.create(tripMemberTable);
         }
       },
     );

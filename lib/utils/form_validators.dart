@@ -10,7 +10,7 @@ class FormValidators {
   static const int vendorCompanyLimit = 50;
   static const int confirmationNumberLimit = 20;
   static const int paidByLimit = 20;
-  static const int locationLimit = 20;
+  static const int locationLimit = 50;
   static const int itineraryDescriptionLimit = 250;
 
   /// Validates title field with character limit

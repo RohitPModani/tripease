@@ -671,6 +671,465 @@ class TripsTableCompanion extends UpdateCompanion<TripEntity> {
   }
 }
 
+class $TripMemberTableTable extends TripMemberTable
+    with TableInfo<$TripMemberTableTable, TripMemberEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TripMemberTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _tripIdMeta = const VerificationMeta('tripId');
+  @override
+  late final GeneratedColumn<String> tripId = GeneratedColumn<String>(
+    'trip_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES trips (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 50,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _emailMeta = const VerificationMeta('email');
+  @override
+  late final GeneratedColumn<String> email = GeneratedColumn<String>(
+    'email',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(maxTextLength: 100),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _avatarMeta = const VerificationMeta('avatar');
+  @override
+  late final GeneratedColumn<String> avatar = GeneratedColumn<String>(
+    'avatar',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    tripId,
+    name,
+    email,
+    avatar,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'trip_members';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TripMemberEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('trip_id')) {
+      context.handle(
+        _tripIdMeta,
+        tripId.isAcceptableOrUnknown(data['trip_id']!, _tripIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tripIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('email')) {
+      context.handle(
+        _emailMeta,
+        email.isAcceptableOrUnknown(data['email']!, _emailMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_emailMeta);
+    }
+    if (data.containsKey('avatar')) {
+      context.handle(
+        _avatarMeta,
+        avatar.isAcceptableOrUnknown(data['avatar']!, _avatarMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TripMemberEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TripMemberEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      tripId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}trip_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      email: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}email'],
+      )!,
+      avatar: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}avatar'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $TripMemberTableTable createAlias(String alias) {
+    return $TripMemberTableTable(attachedDatabase, alias);
+  }
+}
+
+class TripMemberEntity extends DataClass
+    implements Insertable<TripMemberEntity> {
+  final String id;
+  final String tripId;
+  final String name;
+  final String email;
+  final String? avatar;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const TripMemberEntity({
+    required this.id,
+    required this.tripId,
+    required this.name,
+    required this.email,
+    this.avatar,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['trip_id'] = Variable<String>(tripId);
+    map['name'] = Variable<String>(name);
+    map['email'] = Variable<String>(email);
+    if (!nullToAbsent || avatar != null) {
+      map['avatar'] = Variable<String>(avatar);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  TripMemberTableCompanion toCompanion(bool nullToAbsent) {
+    return TripMemberTableCompanion(
+      id: Value(id),
+      tripId: Value(tripId),
+      name: Value(name),
+      email: Value(email),
+      avatar: avatar == null && nullToAbsent
+          ? const Value.absent()
+          : Value(avatar),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory TripMemberEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TripMemberEntity(
+      id: serializer.fromJson<String>(json['id']),
+      tripId: serializer.fromJson<String>(json['tripId']),
+      name: serializer.fromJson<String>(json['name']),
+      email: serializer.fromJson<String>(json['email']),
+      avatar: serializer.fromJson<String?>(json['avatar']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'tripId': serializer.toJson<String>(tripId),
+      'name': serializer.toJson<String>(name),
+      'email': serializer.toJson<String>(email),
+      'avatar': serializer.toJson<String?>(avatar),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  TripMemberEntity copyWith({
+    String? id,
+    String? tripId,
+    String? name,
+    String? email,
+    Value<String?> avatar = const Value.absent(),
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => TripMemberEntity(
+    id: id ?? this.id,
+    tripId: tripId ?? this.tripId,
+    name: name ?? this.name,
+    email: email ?? this.email,
+    avatar: avatar.present ? avatar.value : this.avatar,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  TripMemberEntity copyWithCompanion(TripMemberTableCompanion data) {
+    return TripMemberEntity(
+      id: data.id.present ? data.id.value : this.id,
+      tripId: data.tripId.present ? data.tripId.value : this.tripId,
+      name: data.name.present ? data.name.value : this.name,
+      email: data.email.present ? data.email.value : this.email,
+      avatar: data.avatar.present ? data.avatar.value : this.avatar,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TripMemberEntity(')
+          ..write('id: $id, ')
+          ..write('tripId: $tripId, ')
+          ..write('name: $name, ')
+          ..write('email: $email, ')
+          ..write('avatar: $avatar, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, tripId, name, email, avatar, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TripMemberEntity &&
+          other.id == this.id &&
+          other.tripId == this.tripId &&
+          other.name == this.name &&
+          other.email == this.email &&
+          other.avatar == this.avatar &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class TripMemberTableCompanion extends UpdateCompanion<TripMemberEntity> {
+  final Value<String> id;
+  final Value<String> tripId;
+  final Value<String> name;
+  final Value<String> email;
+  final Value<String?> avatar;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const TripMemberTableCompanion({
+    this.id = const Value.absent(),
+    this.tripId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.email = const Value.absent(),
+    this.avatar = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  TripMemberTableCompanion.insert({
+    required String id,
+    required String tripId,
+    required String name,
+    required String email,
+    this.avatar = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       tripId = Value(tripId),
+       name = Value(name),
+       email = Value(email),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<TripMemberEntity> custom({
+    Expression<String>? id,
+    Expression<String>? tripId,
+    Expression<String>? name,
+    Expression<String>? email,
+    Expression<String>? avatar,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (tripId != null) 'trip_id': tripId,
+      if (name != null) 'name': name,
+      if (email != null) 'email': email,
+      if (avatar != null) 'avatar': avatar,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  TripMemberTableCompanion copyWith({
+    Value<String>? id,
+    Value<String>? tripId,
+    Value<String>? name,
+    Value<String>? email,
+    Value<String?>? avatar,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return TripMemberTableCompanion(
+      id: id ?? this.id,
+      tripId: tripId ?? this.tripId,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      avatar: avatar ?? this.avatar,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (tripId.present) {
+      map['trip_id'] = Variable<String>(tripId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    if (avatar.present) {
+      map['avatar'] = Variable<String>(avatar.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TripMemberTableCompanion(')
+          ..write('id: $id, ')
+          ..write('tripId: $tripId, ')
+          ..write('name: $name, ')
+          ..write('email: $email, ')
+          ..write('avatar: $avatar, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $TodoItemsTableTable extends TodoItemsTable
     with TableInfo<$TodoItemsTableTable, TodoItemEntity> {
   @override
@@ -4603,6 +5062,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $TripsTableTable tripsTable = $TripsTableTable(this);
+  late final $TripMemberTableTable tripMemberTable = $TripMemberTableTable(
+    this,
+  );
   late final $TodoItemsTableTable todoItemsTable = $TodoItemsTableTable(this);
   late final $BookingsTableTable bookingsTable = $BookingsTableTable(this);
   late final $ExpensesTableTable expensesTable = $ExpensesTableTable(this);
@@ -4616,6 +5078,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     tripsTable,
+    tripMemberTable,
     todoItemsTable,
     bookingsTable,
     expensesTable,
@@ -4623,6 +5086,16 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     documentsTable,
     itineraryTable,
   ];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'trips',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('trip_members', kind: UpdateKind.delete)],
+    ),
+  ]);
 }
 
 typedef $$TripsTableTableCreateCompanionBuilder =
@@ -4659,6 +5132,29 @@ typedef $$TripsTableTableUpdateCompanionBuilder =
 final class $$TripsTableTableReferences
     extends BaseReferences<_$AppDatabase, $TripsTableTable, TripEntity> {
   $$TripsTableTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$TripMemberTableTable, List<TripMemberEntity>>
+  _tripMemberTableRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.tripMemberTable,
+    aliasName: $_aliasNameGenerator(
+      db.tripsTable.id,
+      db.tripMemberTable.tripId,
+    ),
+  );
+
+  $$TripMemberTableTableProcessedTableManager get tripMemberTableRefs {
+    final manager = $$TripMemberTableTableTableManager(
+      $_db,
+      $_db.tripMemberTable,
+    ).filter((f) => f.tripId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _tripMemberTableRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 
   static MultiTypedResultKey<$TodoItemsTableTable, List<TodoItemEntity>>
   _todoItemsTableRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
@@ -4796,6 +5292,31 @@ class $$TripsTableTableFilterComposer
     column: $table.coverImage,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> tripMemberTableRefs(
+    Expression<bool> Function($$TripMemberTableTableFilterComposer f) f,
+  ) {
+    final $$TripMemberTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.tripMemberTable,
+      getReferencedColumn: (t) => t.tripId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TripMemberTableTableFilterComposer(
+            $db: $db,
+            $table: $db.tripMemberTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 
   Expression<bool> todoItemsTableRefs(
     Expression<bool> Function($$TodoItemsTableTableFilterComposer f) f,
@@ -5013,6 +5534,31 @@ class $$TripsTableTableAnnotationComposer
     builder: (column) => column,
   );
 
+  Expression<T> tripMemberTableRefs<T extends Object>(
+    Expression<T> Function($$TripMemberTableTableAnnotationComposer a) f,
+  ) {
+    final $$TripMemberTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.tripMemberTable,
+      getReferencedColumn: (t) => t.tripId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TripMemberTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.tripMemberTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
   Expression<T> todoItemsTableRefs<T extends Object>(
     Expression<T> Function($$TodoItemsTableTableAnnotationComposer a) f,
   ) {
@@ -5128,6 +5674,7 @@ class $$TripsTableTableTableManager
           (TripEntity, $$TripsTableTableReferences),
           TripEntity,
           PrefetchHooks Function({
+            bool tripMemberTableRefs,
             bool todoItemsTableRefs,
             bool bookingsTableRefs,
             bool expensesTableRefs,
@@ -5211,6 +5758,7 @@ class $$TripsTableTableTableManager
               .toList(),
           prefetchHooksCallback:
               ({
+                tripMemberTableRefs = false,
                 todoItemsTableRefs = false,
                 bookingsTableRefs = false,
                 expensesTableRefs = false,
@@ -5219,6 +5767,7 @@ class $$TripsTableTableTableManager
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
+                    if (tripMemberTableRefs) db.tripMemberTable,
                     if (todoItemsTableRefs) db.todoItemsTable,
                     if (bookingsTableRefs) db.bookingsTable,
                     if (expensesTableRefs) db.expensesTable,
@@ -5227,6 +5776,27 @@ class $$TripsTableTableTableManager
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
                     return [
+                      if (tripMemberTableRefs)
+                        await $_getPrefetchedData<
+                          TripEntity,
+                          $TripsTableTable,
+                          TripMemberEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$TripsTableTableReferences
+                              ._tripMemberTableRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$TripsTableTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).tripMemberTableRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.tripId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                       if (todoItemsTableRefs)
                         await $_getPrefetchedData<
                           TripEntity,
@@ -5332,11 +5902,378 @@ typedef $$TripsTableTableProcessedTableManager =
       (TripEntity, $$TripsTableTableReferences),
       TripEntity,
       PrefetchHooks Function({
+        bool tripMemberTableRefs,
         bool todoItemsTableRefs,
         bool bookingsTableRefs,
         bool expensesTableRefs,
         bool documentsTableRefs,
       })
+    >;
+typedef $$TripMemberTableTableCreateCompanionBuilder =
+    TripMemberTableCompanion Function({
+      required String id,
+      required String tripId,
+      required String name,
+      required String email,
+      Value<String?> avatar,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<int> rowid,
+    });
+typedef $$TripMemberTableTableUpdateCompanionBuilder =
+    TripMemberTableCompanion Function({
+      Value<String> id,
+      Value<String> tripId,
+      Value<String> name,
+      Value<String> email,
+      Value<String?> avatar,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+final class $$TripMemberTableTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $TripMemberTableTable, TripMemberEntity> {
+  $$TripMemberTableTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $TripsTableTable _tripIdTable(_$AppDatabase db) =>
+      db.tripsTable.createAlias(
+        $_aliasNameGenerator(db.tripMemberTable.tripId, db.tripsTable.id),
+      );
+
+  $$TripsTableTableProcessedTableManager get tripId {
+    final $_column = $_itemColumn<String>('trip_id')!;
+
+    final manager = $$TripsTableTableTableManager(
+      $_db,
+      $_db.tripsTable,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_tripIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$TripMemberTableTableFilterComposer
+    extends Composer<_$AppDatabase, $TripMemberTableTable> {
+  $$TripMemberTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get avatar => $composableBuilder(
+    column: $table.avatar,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$TripsTableTableFilterComposer get tripId {
+    final $$TripsTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.tripId,
+      referencedTable: $db.tripsTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TripsTableTableFilterComposer(
+            $db: $db,
+            $table: $db.tripsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TripMemberTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $TripMemberTableTable> {
+  $$TripMemberTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get avatar => $composableBuilder(
+    column: $table.avatar,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$TripsTableTableOrderingComposer get tripId {
+    final $$TripsTableTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.tripId,
+      referencedTable: $db.tripsTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TripsTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.tripsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TripMemberTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TripMemberTableTable> {
+  $$TripMemberTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get email =>
+      $composableBuilder(column: $table.email, builder: (column) => column);
+
+  GeneratedColumn<String> get avatar =>
+      $composableBuilder(column: $table.avatar, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  $$TripsTableTableAnnotationComposer get tripId {
+    final $$TripsTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.tripId,
+      referencedTable: $db.tripsTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TripsTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.tripsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TripMemberTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TripMemberTableTable,
+          TripMemberEntity,
+          $$TripMemberTableTableFilterComposer,
+          $$TripMemberTableTableOrderingComposer,
+          $$TripMemberTableTableAnnotationComposer,
+          $$TripMemberTableTableCreateCompanionBuilder,
+          $$TripMemberTableTableUpdateCompanionBuilder,
+          (TripMemberEntity, $$TripMemberTableTableReferences),
+          TripMemberEntity,
+          PrefetchHooks Function({bool tripId})
+        > {
+  $$TripMemberTableTableTableManager(
+    _$AppDatabase db,
+    $TripMemberTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TripMemberTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TripMemberTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TripMemberTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> tripId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> email = const Value.absent(),
+                Value<String?> avatar = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TripMemberTableCompanion(
+                id: id,
+                tripId: tripId,
+                name: name,
+                email: email,
+                avatar: avatar,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String tripId,
+                required String name,
+                required String email,
+                Value<String?> avatar = const Value.absent(),
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => TripMemberTableCompanion.insert(
+                id: id,
+                tripId: tripId,
+                name: name,
+                email: email,
+                avatar: avatar,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$TripMemberTableTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({tripId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (tripId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.tripId,
+                                referencedTable:
+                                    $$TripMemberTableTableReferences
+                                        ._tripIdTable(db),
+                                referencedColumn:
+                                    $$TripMemberTableTableReferences
+                                        ._tripIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$TripMemberTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TripMemberTableTable,
+      TripMemberEntity,
+      $$TripMemberTableTableFilterComposer,
+      $$TripMemberTableTableOrderingComposer,
+      $$TripMemberTableTableAnnotationComposer,
+      $$TripMemberTableTableCreateCompanionBuilder,
+      $$TripMemberTableTableUpdateCompanionBuilder,
+      (TripMemberEntity, $$TripMemberTableTableReferences),
+      TripMemberEntity,
+      PrefetchHooks Function({bool tripId})
     >;
 typedef $$TodoItemsTableTableCreateCompanionBuilder =
     TodoItemsTableCompanion Function({
@@ -7986,6 +8923,8 @@ class $AppDatabaseManager {
   $AppDatabaseManager(this._db);
   $$TripsTableTableTableManager get tripsTable =>
       $$TripsTableTableTableManager(_db, _db.tripsTable);
+  $$TripMemberTableTableTableManager get tripMemberTable =>
+      $$TripMemberTableTableTableManager(_db, _db.tripMemberTable);
   $$TodoItemsTableTableTableManager get todoItemsTable =>
       $$TodoItemsTableTableTableManager(_db, _db.todoItemsTable);
   $$BookingsTableTableTableManager get bookingsTable =>

@@ -5,12 +5,14 @@ import 'package:provider/provider.dart';
 import 'database/database.dart';
 import 'models/trip.dart';
 import 'repositories/trip_repository.dart';
+import 'repositories/trip_member_repository.dart';
 import 'repositories/todo_repository.dart';
 import 'repositories/booking_repository.dart';
 import 'repositories/expense_repository.dart';
 import 'repositories/document_repository.dart';
 import 'repositories/itinerary_repository.dart';
 import 'providers/trip_provider.dart';
+import 'providers/trip_member_provider.dart';
 import 'providers/todo_provider.dart';
 import 'providers/booking_provider.dart';
 import 'providers/expense_provider.dart';
@@ -33,6 +35,7 @@ void main() async {
   
   // Initialize repositories
   final tripRepository = TripRepository(database);
+  final tripMemberRepository = TripMemberRepository(database);
   final todoRepository = TodoRepository(database);
   final bookingRepository = BookingRepository(database);
   final expenseRepository = ExpenseRepository(database);
@@ -47,6 +50,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => LocalizationProvider()),
         ChangeNotifierProvider(create: (_) => TripProvider(tripRepository)),
+        ChangeNotifierProvider(create: (_) => TripMemberProvider(tripMemberRepository)),
         ChangeNotifierProvider(create: (_) => TodoProvider(todoRepository)),
         ChangeNotifierProvider(create: (_) => BookingProvider(bookingRepository)),
         ChangeNotifierProvider(create: (_) => ExpenseProvider(expenseRepository)),

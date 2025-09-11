@@ -3,11 +3,14 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../models/expense.dart';
+import '../models/trip_member.dart';
 import '../themes/app_theme.dart';
 import '../providers/expense_provider.dart';
+import '../providers/trip_member_provider.dart';
 import '../utils/form_validators.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/snackbar.dart';
+import 'split_selection_modal.dart';
 
 class ExpenseFormModal extends StatefulWidget {
   final String tripId;
@@ -60,17 +63,21 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
 
   late ExpenseCategory selectedCategory;
   late DateTime selectedDate;
+  String selectedPaidBy = 'You'; // Default to 'You'
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  
+  // Split functionality
+  SplitSelection? currentSplit;
+  List<TripMember> availableMembers = [];
+  List<String> paidByOptions = ['You']; // Always include 'You' option
   
   // Character count state
   int titleCharCount = 0;
   int descriptionCharCount = 0;
-  int paidByCharCount = 0;
   
   // Validation error state
   String? titleError;
   String? descriptionError;
-  String? paidByError;
 
   @override
   void initState() {
@@ -82,9 +89,8 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
     amountController = TextEditingController(
       text: widget.expense?.amount.toString() ?? '',
     );
-    paidByController = TextEditingController(
-      text: widget.expense?.paidBy ?? '',
-    );
+    paidByController = TextEditingController();
+    selectedPaidBy = widget.expense?.paidBy.isNotEmpty == true ? widget.expense!.paidBy : 'You';
 
     selectedCategory = widget.expense?.category ?? ExpenseCategory.other;
     selectedDate = widget.expense?.date ?? DateTime.now();
@@ -92,7 +98,75 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
     // Initialize character counts
     titleCharCount = titleController.text.length;
     descriptionCharCount = descriptionController.text.length;
-    paidByCharCount = paidByController.text.length;
+    
+    // Load trip members and initialize split
+    _loadTripMembers();
+    _initializeSplit();
+  }
+  
+  void _loadTripMembers() async {
+    final memberProvider = Provider.of<TripMemberProvider>(context, listen: false);
+    await memberProvider.loadMembers(widget.tripId);
+    setState(() {
+      availableMembers = memberProvider.members;
+      
+      // Update paid by options: if no members, show 'You', otherwise show member names only
+      if (memberProvider.members.isEmpty) {
+        paidByOptions = ['You'];
+        selectedPaidBy = 'You';
+      } else {
+        paidByOptions = memberProvider.members.map((m) => m.name).toList();
+        // If selected paidBy is not in options, select first member
+        if (!paidByOptions.contains(selectedPaidBy)) {
+          selectedPaidBy = paidByOptions.first;
+        }
+      }
+    });
+  }
+  
+  void _initializeSplit() {
+    if (widget.expense != null && widget.expense!.splits.isNotEmpty) {
+      // Convert existing splits to SplitSelection
+      final participants = widget.expense!.splits.map((split) {
+        final member = availableMembers.firstWhere(
+          (m) => m.id == split.userId,
+          orElse: () => TripMember(
+            id: split.userId,
+            tripId: widget.tripId,
+            name: 'Unknown',
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          ),
+        );
+        return member.name;
+      }).toList();
+      
+      final customAmounts = <String, double>{};
+      for (final split in widget.expense!.splits) {
+        final member = availableMembers.firstWhere(
+          (m) => m.id == split.userId,
+          orElse: () => TripMember(
+            id: split.userId,
+            tripId: widget.tripId,
+            name: 'Unknown',
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          ),
+        );
+        customAmounts[member.name] = split.amount;
+      }
+      
+      // Determine split type
+      final isEqualSplit = widget.expense!.splits.every(
+        (split) => (split.amount - (widget.expense!.amount / widget.expense!.splits.length)).abs() < 0.01
+      );
+      
+      currentSplit = SplitSelection(
+        type: isEqualSplit ? SplitType.equal : SplitType.custom,
+        participants: participants,
+        customAmounts: isEqualSplit ? {} : customAmounts,
+      );
+    }
   }
 
   @override
@@ -230,6 +304,11 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: amountController,
+                      onChanged: (value) {
+                        setState(() {
+                          // Trigger rebuild to update split section availability
+                        });
+                      },
                       decoration: FormValidators.createRequiredInputDecoration(
                         labelText: AppLocalizations.of(context)!.amountCurrency(widget.defaultCurrency),
                         maxLength: 0, // No character limit for amount
@@ -363,64 +442,66 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                       maxLines: 2,
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
-                      controller: paidByController,
-                      maxLength: FormValidators.paidByLimit,
-                      onChanged: (value) {
-                        setState(() {
-                          paidByCharCount = value.length;
-                          paidByError = FormValidators.validatePaidBy(value, context);
-                        });
-                      },
-                      decoration:
-                          FormValidators.createOptionalInputDecoration(
-                            labelText: AppLocalizations.of(context)!.paidBy,
-                            maxLength: FormValidators.paidByLimit,
-                            context: context,
-                          ).copyWith(
-                            labelStyle: TextStyle(
-                              color: AppTheme.textSecondary,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                color: AppTheme.textSecondary.withValues(alpha: 0.3),
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(
-                                color: AppTheme.accentColor,
-                                width: 2,
-                              ),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(
-                                color: AppTheme.error,
-                                width: 2,
-                              ),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(
-                                color: AppTheme.error,
-                                width: 2,
-                              ),
-                            ),
-                            contentPadding: const EdgeInsets.all(16),
-                            counterText: '',
-                            suffixText: '$paidByCharCount/${FormValidators.paidByLimit}',
-                            suffixStyle: TextStyle(
-                              fontSize: 12,
-                              color: paidByCharCount > FormValidators.paidByLimit 
-                                  ? AppTheme.error 
-                                  : AppTheme.textSecondary,
-                            ),
-                            errorText: paidByError,
+                    DropdownButtonFormField<String>(
+                      value: selectedPaidBy,
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.paidBy,
+                        labelStyle: TextStyle(color: AppTheme.textSecondary),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: AppTheme.textSecondary.withValues(alpha: 0.3),
                           ),
-                      validator: (value) => FormValidators.validatePaidBy(value, context),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(
+                            color: AppTheme.accentColor,
+                            width: 2,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.all(16),
+                      ),
+                      items: paidByOptions.map((String option) {
+                        return DropdownMenuItem<String>(
+                          value: option,
+                          child: Row(
+                            children: [
+                              if (option == 'You') ...[
+                                Icon(Iconsax.user, size: 16, color: AppTheme.primaryColor),
+                                const SizedBox(width: 8),
+                                Text(option, style: TextStyle(color: AppTheme.primaryColor, fontWeight: FontWeight.w600)),
+                              ] else ...[
+                                CircleAvatar(
+                                  radius: 8,
+                                  backgroundColor: AppTheme.success.withValues(alpha: 0.1),
+                                  child: Text(
+                                    option.substring(0, 1).toUpperCase(),
+                                    style: TextStyle(
+                                      color: AppTheme.success,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(option),
+                              ],
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            selectedPaidBy = newValue;
+                          });
+                        }
+                      },
                     ),
+                    const SizedBox(height: 16),
+                    // Split expense section
+                    _buildSplitSection(),
                     const SizedBox(height: 16),
                     InkWell(
                       onTap: () async {
@@ -516,8 +597,9 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                                   category: selectedCategory,
                                   description: descriptionController.text
                                       .trim(),
-                                  paidBy: paidByController.text.trim(),
+                                  paidBy: selectedPaidBy,
                                   date: selectedDate,
+                                  splits: _createExpenseSplits(),
                                   createdAt:
                                       widget.expense?.createdAt ??
                                       DateTime.now(),
@@ -615,5 +697,273 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
       case ExpenseCategory.other:
         return l10n.other;
     }
+  }
+
+  Widget _buildSplitSection() {
+    final amount = double.tryParse(amountController.text) ?? 0.0;
+    List<String> splitParticipants;
+    
+    if (availableMembers.isEmpty) {
+      // If no members, can't split (need at least 2 people to split)
+      return Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
+          ),
+        ),
+        child: Column(
+          children: [
+            Icon(
+              Iconsax.info_circle,
+              color: AppTheme.textSecondary,
+              size: 24,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Add trip members to split expenses',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: AppTheme.textSecondary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Only include member names for splitting (no 'You' when members exist)
+      splitParticipants = availableMembers.map((m) => m.name).toList();
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Icon(
+                  Iconsax.percentage_circle,
+                  color: AppTheme.primaryColor,
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Split Expense',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const Spacer(),
+                if (currentSplit != null)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      currentSplit!.type == SplitType.equal ? 'Equal' : 'Custom',
+                      style: const TextStyle(
+                        color: AppTheme.primaryColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          if (currentSplit != null) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                _getSplitDescription(),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppTheme.textSecondary,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+          ],
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: currentSplit != null
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () => _showSplitModal(splitParticipants, amount),
+                          icon: Icon(
+                            Iconsax.edit_2,
+                            size: 16,
+                          ),
+                          label: Text('Edit Split'),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            side: BorderSide(
+                              color: AppTheme.primaryColor.withValues(alpha: 0.5),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () => _removeSplit(),
+                          icon: Icon(
+                            Iconsax.trash,
+                            size: 16,
+                            color: AppTheme.error,
+                          ),
+                          label: Text(
+                            'Remove Split',
+                            style: TextStyle(color: AppTheme.error),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            side: BorderSide(
+                              color: AppTheme.error.withValues(alpha: 0.5),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () => _showSplitModal(splitParticipants, amount),
+                      icon: Icon(
+                        Iconsax.add_circle,
+                        size: 16,
+                      ),
+                      label: Text('Add Split'),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        side: BorderSide(
+                          color: AppTheme.primaryColor.withValues(alpha: 0.5),
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getSplitDescription() {
+    if (currentSplit == null) return '';
+    
+    if (currentSplit!.type == SplitType.equal) {
+      final count = currentSplit!.participants.length;
+      final amount = double.tryParse(amountController.text) ?? 0.0;
+      final perPerson = count > 0 ? amount / count : 0.0;
+      return 'Split equally among $count people (\$${perPerson.toStringAsFixed(2)} each)';
+    } else {
+      return 'Custom split among ${currentSplit!.participants.length} people';
+    }
+  }
+
+  void _showSplitModal(List<String> splitParticipants, double totalAmount) async {
+    if (totalAmount <= 0) {
+      // Show validation error directly in UI
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.white, size: 20),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'Please enter an amount before setting up the split',
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: AppTheme.error,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          margin: const EdgeInsets.all(16),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+
+    final result = await SplitSelectionModal.show(
+      context,
+      availableMembers: splitParticipants,
+      totalAmount: totalAmount,
+      currentSplit: currentSplit,
+    );
+
+    if (result != null) {
+      setState(() {
+        currentSplit = result;
+      });
+    }
+  }
+
+  void _removeSplit() {
+    setState(() {
+      currentSplit = null;
+    });
+  }
+
+  List<ExpenseSplit> _createExpenseSplits() {
+    if (currentSplit == null) return [];
+
+    final amount = double.tryParse(amountController.text) ?? 0.0;
+    final splits = <ExpenseSplit>[];
+
+    for (final participantName in currentSplit!.participants) {
+      double splitAmount;
+      if (currentSplit!.type == SplitType.equal) {
+        splitAmount = amount / currentSplit!.participants.length;
+      } else {
+        splitAmount = currentSplit!.customAmounts[participantName] ?? 0.0;
+      }
+
+      final member = availableMembers.firstWhere(
+        (m) => m.name == participantName,
+        orElse: () => availableMembers.first,
+      );
+      String userId = member.id;
+
+      splits.add(ExpenseSplit(
+        id: const Uuid().v4(),
+        expenseId: widget.expense?.id ?? const Uuid().v4(),
+        userId: userId,
+        amount: splitAmount,
+        isPaid: false,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      ));
+    }
+
+    return splits;
   }
 }
