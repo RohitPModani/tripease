@@ -110,7 +110,9 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
   Widget build(BuildContext context) {
     final isEdit = widget.expense != null;
 
-    return DraggableScrollableSheet(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: DraggableScrollableSheet(
       initialChildSize: 0.75,
       minChildSize: 0.5,
       maxChildSize: 0.95,
@@ -576,6 +578,7 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
         ],
       ),
       ),
+    ),
     );
   }
 
