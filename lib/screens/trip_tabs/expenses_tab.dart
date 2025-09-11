@@ -74,13 +74,36 @@ class _ExpensesTabState extends State<ExpensesTab> {
   }
 
   Map<String, double> _getExpensesByPerson(List<Expense> expenses) {
+    // Compute actual cost per person (their share), not amount paid
     final Map<String, double> personTotals = {};
-    
-    for (final expense in _getFilteredExpenses(expenses)) {
-      final paidBy = expense.paidBy.isNotEmpty ? expense.paidBy : AppLocalizations.of(context)!.you;
-      personTotals[paidBy] = (personTotals[paidBy] ?? 0) + expense.amount;
+    final filtered = _getFilteredExpenses(expenses);
+    final memberProvider = Provider.of<TripMemberProvider>(context, listen: false);
+
+    String _nameForUserId(String userId) {
+      try {
+        final m = memberProvider.members.firstWhere((e) => e.id == userId);
+        return m.name;
+      } catch (_) {
+        return 'Unknown';
+      }
     }
-    
+
+    for (final expense in filtered) {
+      if (expense.splits.isNotEmpty) {
+        // Distribute according to splits
+        for (final split in expense.splits) {
+          final name = _nameForUserId(split.userId);
+          personTotals[name] = (personTotals[name] ?? 0) + split.amount;
+        }
+      } else {
+        // No splits provided: attribute full cost to payer if known, else Unknown
+        final name = expense.paidBy.isNotEmpty
+            ? expense.paidBy
+            : AppLocalizations.of(context)!.you;
+        personTotals[name] = (personTotals[name] ?? 0) + expense.amount;
+      }
+    }
+
     return personTotals;
   }
 
@@ -1259,29 +1282,11 @@ class _ExpensesTabState extends State<ExpensesTab> {
                       ),
                       const SizedBox(height: 20),
                       
-                      // Pie Chart Card
-                      Container(
+                      // Pie Chart (outer container removed)
+                      SizedBox(
                         height: 240,
-                        decoration: BoxDecoration(
-                          gradient: Theme.of(context).brightness == Brightness.dark
-                              ? AppTheme.darkCardGradient
-                              : AppTheme.cardGradient,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: AppTheme.primaryColor.withValues(alpha: 0.2),
-                            width: 1,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppTheme.primaryColor.withValues(alpha: 0.08),
-                              offset: const Offset(0, 10),
-                              blurRadius: 28,
-                              spreadRadius: 0,
-                            ),
-                          ],
-                        ),
                         child: Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(8),
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
@@ -1408,8 +1413,8 @@ class _ExpensesTabState extends State<ExpensesTab> {
                       ),
                       const SizedBox(height: 16),
                       ...personTotals.entries.map((entry) {
-                        final totalExp = _getTotalExpenses(expenses);
-                        final percentage = totalExp > 0 ? (entry.value / totalExp) : 0.0;
+                        final totalAll = personTotals.values.fold(0.0, (sum, v) => sum + v);
+                        final percentage = totalAll > 0 ? (entry.value / totalAll) : 0.0;
                         return Container(
                           margin: const EdgeInsets.only(bottom: 12),
                           padding: const EdgeInsets.all(16),
@@ -1500,7 +1505,6 @@ class _ExpensesTabState extends State<ExpensesTab> {
   }
 
   void _showSettlementSummary(List<Expense> expenses) {
-    final settlements = _calculateSettlements(expenses);
     
     showModalBottomSheet(
       context: context,
@@ -1519,7 +1523,9 @@ class _ExpensesTabState extends State<ExpensesTab> {
               : AppTheme.surfaceLight,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
-        child: Column(
+        child: Consumer<ExpenseProvider>(builder: (context, expenseProvider, _) {
+          final settlements = _calculateSettlements(expenseProvider.expenses);
+          return Column(
           children: [
             // Handle bar
             Container(
@@ -1923,7 +1929,8 @@ class _ExpensesTabState extends State<ExpensesTab> {
               ),
             ),
           ],
-        ),
+        );
+        }),
       ),
     );
   }

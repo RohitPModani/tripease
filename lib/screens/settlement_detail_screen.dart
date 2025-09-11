@@ -33,6 +33,7 @@ class SettlementDetailScreen extends StatefulWidget {
 
 class _SettlementDetailScreenState extends State<SettlementDetailScreen> {
   final List<ExpenseSplit> _unpaidSplits = [];
+  final List<ExpenseSplit> _paidSplits = [];
   final List<Expense> _relatedExpenses = [];
   double _totalOwed = 0.0;
   double _totalPaid = 0.0;
@@ -49,6 +50,7 @@ class _SettlementDetailScreenState extends State<SettlementDetailScreen> {
     
     _relatedExpenses.clear();
     _unpaidSplits.clear();
+    _paidSplits.clear();
     _totalOwed = 0.0;
     _totalPaid = 0.0;
 
@@ -62,6 +64,7 @@ class _SettlementDetailScreenState extends State<SettlementDetailScreen> {
               _unpaidSplits.add(split);
               _totalOwed += split.amount;
             } else {
+              _paidSplits.add(split);
               _totalPaid += split.amount;
             }
           }
@@ -131,6 +134,56 @@ class _SettlementDetailScreenState extends State<SettlementDetailScreen> {
     }
   }
 
+  Future<void> _reopenExpenseSplit(ExpenseSplit split) async {
+    try {
+      final expenseProvider = Provider.of<ExpenseProvider>(context, listen: false);
+      await expenseProvider.unmarkSplitPaid(split.id);
+
+      _loadSettlementData();
+
+      if (mounted) {
+        showAppSnackBar(
+          context,
+          'Settlement reopened',
+          type: SnackBarType.success,
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        showAppSnackBar(
+          context,
+          'Failed to reopen settlement: $e',
+          type: SnackBarType.error,
+        );
+      }
+    }
+  }
+
+  Future<void> _reopenAllExpenses() async {
+    try {
+      final expenseProvider = Provider.of<ExpenseProvider>(context, listen: false);
+      for (final split in List<ExpenseSplit>.from(_paidSplits)) {
+        await expenseProvider.unmarkSplitPaid(split.id);
+      }
+      _loadSettlementData();
+      if (mounted) {
+        showAppSnackBar(
+          context,
+          'All settlements reopened',
+          type: SnackBarType.success,
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        showAppSnackBar(
+          context,
+          'Failed to reopen all settlements: $e',
+          type: SnackBarType.error,
+        );
+      }
+    }
+  }
+
   Expense? _getExpenseForSplit(ExpenseSplit split) {
     try {
       return _relatedExpenses.firstWhere((exp) => exp.id == split.expenseId);
@@ -161,28 +214,9 @@ class _SettlementDetailScreenState extends State<SettlementDetailScreen> {
       ),
       body: Column(
         children: [
-          // Settlement Summary Card
-          Container(
-            margin: const EdgeInsets.all(16),
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              gradient: Theme.of(context).brightness == Brightness.dark
-                  ? AppTheme.darkCardGradient
-                  : AppTheme.cardGradient,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                width: 2,
-                color: Colors.transparent,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  offset: const Offset(0, 4),
-                  blurRadius: 12,
-                  spreadRadius: 0,
-                ),
-              ],
-            ),
+          // Settlement Summary (outer container removed)
+          Padding(
+            padding: const EdgeInsets.all(16),
             child: Container(
               decoration: BoxDecoration(
                 gradient: AppTheme.primaryGradient,
@@ -332,22 +366,54 @@ class _SettlementDetailScreenState extends State<SettlementDetailScreen> {
             ),
           ),
           
-          // Expenses List
+          // Settlement Lists
           Expanded(
-            child: _unpaidSplits.isEmpty
-                ? _buildNoExpensesState()
-                : ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                    itemCount: _unpaidSplits.length,
-                    itemBuilder: (context, index) {
-                      final split = _unpaidSplits[index];
-                      final expense = _getExpenseForSplit(split);
-                      return _buildExpenseCard(split, expense);
-                    },
-                  ),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (_unpaidSplits.isEmpty && _paidSplits.isEmpty)
+                    _buildNoExpensesState()
+                  else ...[
+                    if (_unpaidSplits.isNotEmpty) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Text(
+                          'Unpaid Splits',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                      ),
+                      ..._unpaidSplits.map((split) {
+                        final expense = _getExpenseForSplit(split);
+                        return _buildExpenseCard(split, expense);
+                      }),
+                    ],
+
+                    if (_paidSplits.isNotEmpty) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Text(
+                          'Paid Splits',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                      ),
+                      ..._paidSplits.map((split) {
+                        final expense = _getExpenseForSplit(split);
+                        return _buildPaidExpenseCard(split, expense);
+                      }),
+                    ],
+                  ],
+                ],
+              ),
+            ),
           ),
           
-          // Settle All Button (only show if there are unpaid splits)
+          // Bottom actions
           if (_unpaidSplits.isNotEmpty)
             Container(
               padding: const EdgeInsets.all(16),
@@ -379,6 +445,31 @@ class _SettlementDetailScreenState extends State<SettlementDetailScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
+                  ),
+                ),
+              ),
+          ),
+          if (_unpaidSplits.isEmpty && _paidSplits.isNotEmpty)
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+                  ),
+                ),
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: _reopenAllExpenses,
+                  icon: const Icon(Iconsax.refresh, size: 18),
+                  label: const Text('Reopen All'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppTheme.primaryColor,
+                    side: BorderSide(color: AppTheme.primaryColor.withValues(alpha: 0.5)),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
                 ),
               ),
@@ -582,6 +673,152 @@ class _SettlementDetailScreenState extends State<SettlementDetailScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPaidExpenseCard(ExpenseSplit split, Expense? expense) {
+    if (expense == null) return const SizedBox.shrink();
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: _getCategoryColor(expense.category).withValues(alpha: 0.2),
+        ),
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                // Category Icon
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: _getCategoryColor(expense.category).withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    _getCategoryIcon(expense.category),
+                    color: _getCategoryColor(expense.category),
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                
+                // Expense Details
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              expense.title,
+                              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.green.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Text(
+                              'Paid',
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        _getCategoryDisplayName(expense.category),
+                        style: TextStyle(
+                          color: _getCategoryColor(expense.category),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        _formatDate(expense.date),
+                        style: TextStyle(
+                          color: AppTheme.textSecondary,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                
+                // Your Share Amount
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Your Share',
+                      style: TextStyle(
+                        color: AppTheme.textSecondary,
+                        fontSize: 12,
+                      ),
+                    ),
+                    Text(
+                      CurrencyFormatter.formatAmount(split.amount, widget.currency),
+                      style: TextStyle(
+                        color: AppTheme.accentColor,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          
+          // Reopen Button
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+                ),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: OutlinedButton.icon(
+                onPressed: () => _reopenExpenseSplit(split),
+                icon: const Icon(Iconsax.refresh, size: 16),
+                label: const Text(
+                  'Reopen',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppTheme.primaryColor,
+                  side: BorderSide(color: AppTheme.primaryColor.withValues(alpha: 0.5)),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
               ),
             ),

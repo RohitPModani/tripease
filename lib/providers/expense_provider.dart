@@ -182,4 +182,31 @@ class ExpenseProvider extends ChangeNotifier {
       rethrow;
     }
   }
+
+  Future<void> unmarkSplitPaid(String splitId) async {
+    try {
+      await _repository.markExpenseSplitPaid(splitId, false);
+      // Update local state
+      for (int i = 0; i < _expenses.length; i++) {
+        final expense = _expenses[i];
+        final updatedSplits = expense.splits.map((split) {
+          if (split.id == splitId) {
+            return split.copyWith(isPaid: false);
+          }
+          return split;
+        }).toList();
+
+        if (updatedSplits.any((split) => split.id == splitId)) {
+          _expenses[i] = expense.copyWith(splits: updatedSplits);
+          break;
+        }
+      }
+
+      _clearError();
+      notifyListeners();
+    } catch (e) {
+      _setError('Failed to reopen settlement: $e');
+      rethrow;
+    }
+  }
 }
