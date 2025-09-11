@@ -69,10 +69,25 @@ class ExportService {
       
       developer.log('Export: Found ${allTodos.length} todos, ${allBookings.length} bookings, ${allExpenses.length} expenses, ${allItineraryActivities.length} itinerary activities');
       
-      // Get personal documents
-      developer.log('Export: Loading personal documents...');
-      final documents = await documentRepository.getPersonalDocuments();
-      developer.log('Export: Found ${documents.length} documents');
+      // Get all documents (personal + trip documents)
+      developer.log('Export: Loading all documents...');
+      final personalDocuments = await documentRepository.getPersonalDocuments();
+      developer.log('Export: Found ${personalDocuments.length} personal documents');
+      
+      final allDocuments = <Document>[...personalDocuments];
+      
+      // Get trip-specific documents for all trips
+      for (final trip in trips) {
+        try {
+          final tripDocuments = await documentRepository.getDocumentsByTripId(trip.id);
+          allDocuments.addAll(tripDocuments);
+          developer.log('Export: Found ${tripDocuments.length} documents for trip ${trip.title}');
+        } catch (e) {
+          developer.log('Export: Error loading documents for trip ${trip.id}: $e');
+        }
+      }
+      
+      developer.log('Export: Total documents to export: ${allDocuments.length}');
       
       // Get app settings
       developer.log('Export: Loading app settings...');
@@ -88,7 +103,7 @@ class ExportService {
         todos: allTodos,
         bookings: allBookings,
         expenses: allExpenses,
-        documents: documents,
+        documents: allDocuments,
         itineraryActivities: allItineraryActivities,
         settings: settings,
       );
@@ -132,7 +147,7 @@ class ExportService {
       
       // Add document files
       developer.log('Export: Adding document files...');
-      await _addDocumentFilesToArchive(archive, documents);
+      await _addDocumentFilesToArchive(archive, allDocuments);
       
       // Add encryption info if password provided
       if (password != null && usedIV != null) {
