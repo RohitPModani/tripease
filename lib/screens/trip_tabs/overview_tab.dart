@@ -945,7 +945,7 @@ class _OverviewTabState extends State<OverviewTab> {
               style: const TextStyle(
                 color: AppTheme.success,
                 fontWeight: FontWeight.w600,
-                fontSize: 16,
+                fontSize: 18,
               ),
             ),
           ),
@@ -958,6 +958,7 @@ class _OverviewTabState extends State<OverviewTab> {
                   member.name,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
+                    fontSize: 16,
                   ),
                 ),
                 if (member.email.isNotEmpty)
@@ -967,7 +968,7 @@ class _OverviewTabState extends State<OverviewTab> {
                       color: Theme.of(context).brightness == Brightness.dark
                           ? AppTheme.textSecondaryDark
                           : AppTheme.textSecondary,
-                      fontSize: 12,
+                      fontSize: 13,
                     ),
                   ),
               ],
