@@ -11,6 +11,7 @@ import '../utils/form_validators.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/snackbar.dart';
 import 'split_selection_modal.dart';
+import 'form_error_display.dart';
 
 class ExpenseFormModal extends StatefulWidget {
   final String tripId;
@@ -78,6 +79,10 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
   // Validation error state
   String? titleError;
   String? descriptionError;
+  
+  // Form submission error state
+  String? formError;
+  bool isSubmitting = false;
 
   @override
   void initState() {
@@ -242,6 +247,7 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                       ],
                     ),
                     const SizedBox(height: 24),
+                    FormErrorDisplay(error: formError),
                     TextFormField(
                       controller: titleController,
                       maxLength: FormValidators.titleLimit,
@@ -249,6 +255,10 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                         setState(() {
                           titleCharCount = value.length;
                           titleError = FormValidators.validateTitle(value, context);
+                          // Clear form error when user starts typing
+                          if (formError != null) {
+                            formError = null;
+                          }
                         });
                       },
                       decoration:
@@ -307,6 +317,10 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                       onChanged: (value) {
                         setState(() {
                           // Trigger rebuild to update split section availability
+                          // Clear form error when user starts typing
+                          if (formError != null) {
+                            formError = null;
+                          }
                         });
                       },
                       decoration: FormValidators.createRequiredInputDecoration(
@@ -584,8 +598,13 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                           child: Container(
                             decoration: AppTheme.glowingButtonDecoration,
                             child: ElevatedButton(
-                              onPressed: () async {
+                              onPressed: isSubmitting ? null : () async {
                                 if (!_formKey.currentState!.validate()) return;
+
+                                setState(() {
+                                  isSubmitting = true;
+                                  formError = null;
+                                });
 
                                 final expenseItem = Expense(
                                   id: widget.expense?.id ?? const Uuid().v4(),
@@ -622,11 +641,10 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                                   Navigator.pop(context);
                                 } catch (e) {
                                   if (!context.mounted) return;
-                                  showAppSnackBar(
-                                    context,
-                                    'Failed to ${isEdit ? 'update' : 'add'} expense: $e',
-                                    type: SnackBarType.error,
-                                  );
+                                  setState(() {
+                                    isSubmitting = false;
+                                    formError = 'Failed to ${isEdit ? 'update' : 'add'} expense. Please try again.';
+                                  });
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -639,14 +657,23 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
-                              child: Text(
-                                isEdit ? AppLocalizations.of(context)!.updateExpense : AppLocalizations.of(context)!.addExpense,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
-                              ),
+                              child: isSubmitting 
+                                ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    ),
+                                  )
+                                : Text(
+                                    isEdit ? AppLocalizations.of(context)!.updateExpense : AppLocalizations.of(context)!.addExpense,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
                             ),
                           ),
                         ),

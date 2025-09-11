@@ -9,6 +9,7 @@ import '../l10n/app_localizations.dart';
 import '../utils/currency_formatter.dart';
 import '../utils/form_validators.dart';
 import '../utils/snackbar.dart';
+import '../widgets/form_error_display.dart';
 
 class EditTripScreen extends StatefulWidget {
   final Trip trip;
@@ -49,7 +50,6 @@ class _EditTripScreenState extends State<EditTripScreen> {
   DateTime? _endDate;
   final DateRangePickerController _dateRangeController = DateRangePickerController();
   String _selectedCurrency = 'USD';
-  final bool _isLoading = false;
   bool _showDatePicker = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -61,6 +61,10 @@ class _EditTripScreenState extends State<EditTripScreen> {
   // Validation error state
   String? titleError;
   String? descriptionError;
+  
+  // Form submission error state
+  String? formError;
+  bool isSubmitting = false;
 
   final List<String> _currencies =
       CurrencyFormatter.getAllSupportedCurrencies();
@@ -116,17 +120,19 @@ class _EditTripScreenState extends State<EditTripScreen> {
     if (destination.isNotEmpty && !_destinations.contains(destination)) {
       // Validate destination length
       if (destination.length > FormValidators.locationLimit) {
-        showAppSnackBar(
-          context,
-          'Destination must be ${FormValidators.locationLimit} characters or less',
-          type: SnackBarType.error,
-        );
+        setState(() {
+          formError = 'Destination must be ${FormValidators.locationLimit} characters or less';
+        });
         return;
       }
       setState(() {
         _destinations.add(destination);
         _destinationController.clear();
         destinationCharCount = 0;
+        // Clear form error when successful action
+        if (formError != null) {
+          formError = null;
+        }
       });
     }
   }
@@ -163,22 +169,25 @@ class _EditTripScreenState extends State<EditTripScreen> {
 
   void _saveTrip() async {
     if (!_formKey.currentState!.validate()) return;
+    
     if (_destinations.isEmpty) {
-      showAppSnackBar(
-        context,
-        AppLocalizations.of(context)!.addAtLeastOneDestination,
-        type: SnackBarType.error,
-      );
+      setState(() {
+        formError = AppLocalizations.of(context)!.addAtLeastOneDestination;
+      });
       return;
     }
+    
     if (_startDate == null || _endDate == null) {
-      showAppSnackBar(
-        context,
-        AppLocalizations.of(context)!.selectBothStartAndEndDates,
-        type: SnackBarType.error,
-      );
+      setState(() {
+        formError = AppLocalizations.of(context)!.selectBothStartAndEndDates;
+      });
       return;
     }
+
+    setState(() {
+      isSubmitting = true;
+      formError = null;
+    });
 
     try {
       final updatedTrip = widget.trip.copyWith(
@@ -196,20 +205,19 @@ class _EditTripScreenState extends State<EditTripScreen> {
       ).updateTrip(updatedTrip);
 
       if (mounted) {
+        Navigator.pop(context);
         showAppSnackBar(
           context,
           AppLocalizations.of(context)!.tripUpdatedSuccessfully,
           type: SnackBarType.success,
         );
-        Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
-        showAppSnackBar(
-          context,
-          AppLocalizations.of(context)!.failedToUpdateTrip,
-          type: SnackBarType.error,
-        );
+        setState(() {
+          isSubmitting = false;
+          formError = 'Failed to update trip. Please try again.';
+        });
       }
     }
   }
@@ -750,7 +758,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
           child: Container(
             decoration: AppTheme.glowingButtonDecoration,
             child: ElevatedButton(
-              onPressed: _isLoading ? null : _saveTrip,
+              onPressed: isSubmitting ? null : _saveTrip,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.transparent,
@@ -759,7 +767,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: _isLoading
+              child: isSubmitting
                   ? const SizedBox(
                       width: 20,
                       height: 20,

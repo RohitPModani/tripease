@@ -6,6 +6,7 @@ import '../themes/app_theme.dart';
 import '../providers/trip_member_provider.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/snackbar.dart';
+import 'form_error_display.dart';
 
 class MemberFormModal extends StatefulWidget {
   final String tripId;
@@ -58,6 +59,10 @@ class _MemberFormModalState extends State<MemberFormModal> {
   // Validation error state
   String? nameError;
   String? emailError;
+  
+  // Form submission error state
+  String? formError;
+  bool isSubmitting = false;
 
   @override
   void initState() {
@@ -139,6 +144,7 @@ class _MemberFormModalState extends State<MemberFormModal> {
                           ],
                         ),
                         const SizedBox(height: 24),
+                        FormErrorDisplay(error: formError),
                         TextFormField(
                           controller: nameController,
                           maxLength: 50,
@@ -146,6 +152,10 @@ class _MemberFormModalState extends State<MemberFormModal> {
                             setState(() {
                               nameCharCount = value.length;
                               nameError = _validateName(value);
+                              // Clear form error when user starts typing
+                              if (formError != null) {
+                                formError = null;
+                              }
                             });
                           },
                           decoration: InputDecoration(
@@ -203,6 +213,10 @@ class _MemberFormModalState extends State<MemberFormModal> {
                             setState(() {
                               emailCharCount = value.length;
                               emailError = _validateEmail(value);
+                              // Clear form error when user starts typing
+                              if (formError != null) {
+                                formError = null;
+                              }
                             });
                           },
                           decoration: InputDecoration(
@@ -309,7 +323,7 @@ class _MemberFormModalState extends State<MemberFormModal> {
                               child: Container(
                                 decoration: AppTheme.glowingButtonDecoration,
                                 child: ElevatedButton(
-                                  onPressed: () async {
+                                  onPressed: isSubmitting ? null : () async {
                                     await _handleSubmit();
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -322,14 +336,23 @@ class _MemberFormModalState extends State<MemberFormModal> {
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                   ),
-                                  child: Text(
-                                    isEdit ? 'Update Member' : 'Add Member',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
-                                  ),
+                                  child: isSubmitting 
+                                    ? const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                        ),
+                                      )
+                                    : Text(
+                                        isEdit ? 'Update Member' : 'Add Member',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                        ),
+                                      ),
                                 ),
                               ),
                             ),
@@ -377,6 +400,11 @@ class _MemberFormModalState extends State<MemberFormModal> {
   Future<void> _handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
 
+    setState(() {
+      isSubmitting = true;
+      formError = null;
+    });
+
     final memberProvider = Provider.of<TripMemberProvider>(context, listen: false);
     
     try {
@@ -398,11 +426,10 @@ class _MemberFormModalState extends State<MemberFormModal> {
             type: SnackBarType.success,
           );
         } else {
-          showAppSnackBar(
-            context,
-            memberProvider.error ?? 'Failed to update member',
-            type: SnackBarType.error,
-          );
+          setState(() {
+            isSubmitting = false;
+            formError = memberProvider.error ?? 'Failed to update member. Please try again.';
+          });
         }
       } else {
         // Add new member
@@ -421,20 +448,18 @@ class _MemberFormModalState extends State<MemberFormModal> {
             type: SnackBarType.success,
           );
         } else {
-          showAppSnackBar(
-            context,
-            memberProvider.error ?? 'Failed to add member',
-            type: SnackBarType.error,
-          );
+          setState(() {
+            isSubmitting = false;
+            formError = memberProvider.error ?? 'Failed to add member. Please try again.';
+          });
         }
       }
     } catch (e) {
       if (mounted) {
-        showAppSnackBar(
-          context,
-          'An error occurred: $e',
-          type: SnackBarType.error,
-        );
+        setState(() {
+          isSubmitting = false;
+          formError = 'An unexpected error occurred. Please try again.';
+        });
       }
     }
   }

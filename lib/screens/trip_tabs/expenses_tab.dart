@@ -1559,7 +1559,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
       ),
       builder: (context) => Container(
         constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.7,
+          maxHeight: MediaQuery.of(context).size.height * 0.9,
         ),
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.dark

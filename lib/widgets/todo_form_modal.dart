@@ -8,6 +8,7 @@ import '../providers/todo_provider.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/form_validators.dart';
 import '../utils/snackbar.dart';
+import 'form_error_display.dart';
 
 class TodoFormModal extends StatefulWidget {
   final String tripId;
@@ -53,6 +54,10 @@ class _TodoFormModalState extends State<TodoFormModal> {
   // Validation error state
   String? titleError;
   String? descriptionError;
+  
+  // Form submission error state
+  String? formError;
+  bool isSubmitting = false;
 
   @override
   void initState() {
@@ -169,6 +174,7 @@ class _TodoFormModalState extends State<TodoFormModal> {
                     ],
                   ),
                   const SizedBox(height: 24),
+                  FormErrorDisplay(error: formError),
                   TextFormField(
                     controller: titleController,
                     focusNode: _titleFocusNode,
@@ -177,6 +183,10 @@ class _TodoFormModalState extends State<TodoFormModal> {
                       setState(() {
                         titleCharCount = value.length;
                         titleError = FormValidators.validateTitle(value, context);
+                        // Clear form error when user starts typing
+                        if (formError != null) {
+                          formError = null;
+                        }
                       });
                     },
                     validator: (value) => FormValidators.validateTitle(value, context),
@@ -239,6 +249,10 @@ class _TodoFormModalState extends State<TodoFormModal> {
                           value,
                           context,
                         );
+                        // Clear form error when user starts typing
+                        if (formError != null) {
+                          formError = null;
+                        }
                       });
                     },
                     validator: (value) => FormValidators.validateDescription(value, context),
@@ -448,69 +462,9 @@ class _TodoFormModalState extends State<TodoFormModal> {
                         child: Container(
                           decoration: AppTheme.glowingButtonDecoration,
                           child: ElevatedButton(
-                            onPressed: () async {
-                              // Validate fields before saving
-                              final titleValidation =
-                                  FormValidators.validateTitle(
-                                    titleController.text,
-                                    context,
-                                  );
-                              final descriptionValidation =
-                                  FormValidators.validateDescription(
-                                    descriptionController.text,
-                                    context,
-                                  );
-
-                              setState(() {
-                                titleError = titleValidation;
-                                descriptionError = descriptionValidation;
-                              });
-
-                              if (titleValidation != null ||
-                                  descriptionValidation != null) {
-                                return; // Don't save if there are validation errors
-                              }
-
-                              final todoItem = TodoItem(
-                                id: widget.todo?.id ?? const Uuid().v4(),
-                                tripId: widget.tripId,
-                                title: titleController.text.trim(),
-                                description: descriptionController.text.trim(),
-                                isCompleted: widget.todo?.isCompleted ?? false,
-                                priority: selectedPriority,
-                                dueDate: selectedDueDate,
-                                assignedTo: widget.todo?.assignedTo ?? '',
-                                tags: widget.todo?.tags ?? [],
-                                createdAt: widget.todo?.createdAt ?? DateTime.now(),
-                                updatedAt: DateTime.now(),
-                              );
-
-                              try {
-                                if (isEdit) {
-                                  await Provider.of<TodoProvider>(
-                                    context,
-                                    listen: false,
-                                  ).updateTodo(todoItem);
-                                } else {
-                                  await Provider.of<TodoProvider>(
-                                    context,
-                                    listen: false,
-                                  ).createTodo(todoItem);
-                                }
-                                if (!context.mounted) return;
-                                Navigator.pop(context);
-                              } catch (e) {
-                                if (!context.mounted) return;
-                                showAppSnackBar(
-                                  context,
-                                  AppLocalizations.of(context)!.failedToAddUpdateTask(
-                                    isEdit ? 'update' : 'add',
-                                    e.toString(),
-                                  ),
-                                  type: SnackBarType.error,
-                                );
-                              }
-                    },
+                            onPressed: isSubmitting ? null : () async {
+                              await _handleSubmit();
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               shadowColor: Colors.transparent,
@@ -519,16 +473,25 @@ class _TodoFormModalState extends State<TodoFormModal> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            child: Text(
-                              isEdit
-                                  ? AppLocalizations.of(context)!.updateTask
-                                  : AppLocalizations.of(context)!.addTask,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                              ),
-                            ),
+                            child: isSubmitting 
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  ),
+                                )
+                              : Text(
+                                  isEdit
+                                      ? AppLocalizations.of(context)!.updateTask
+                                      : AppLocalizations.of(context)!.addTask,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                ),
                           ),
                         ),
                       ),
@@ -570,6 +533,66 @@ class _TodoFormModalState extends State<TodoFormModal> {
         return l10n.medium;
       case Priority.low:
         return l10n.low;
+    }
+  }
+
+  Future<void> _handleSubmit() async {
+    // Validate fields before saving
+    final titleValidation = FormValidators.validateTitle(titleController.text, context);
+    final descriptionValidation = FormValidators.validateDescription(descriptionController.text, context);
+
+    setState(() {
+      titleError = titleValidation;
+      descriptionError = descriptionValidation;
+      formError = null;
+    });
+
+    if (titleValidation != null || descriptionValidation != null) {
+      return; // Don't save if there are validation errors
+    }
+
+    setState(() {
+      isSubmitting = true;
+      formError = null;
+    });
+
+    try {
+      final todoItem = TodoItem(
+        id: widget.todo?.id ?? const Uuid().v4(),
+        tripId: widget.tripId,
+        title: titleController.text.trim(),
+        description: descriptionController.text.trim(),
+        isCompleted: widget.todo?.isCompleted ?? false,
+        priority: selectedPriority,
+        dueDate: selectedDueDate,
+        assignedTo: widget.todo?.assignedTo ?? '',
+        tags: widget.todo?.tags ?? [],
+        createdAt: widget.todo?.createdAt ?? DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      final isEdit = widget.todo != null;
+      if (isEdit) {
+        await Provider.of<TodoProvider>(context, listen: false).updateTodo(todoItem);
+      } else {
+        await Provider.of<TodoProvider>(context, listen: false).createTodo(todoItem);
+      }
+      
+      if (!mounted) return;
+      
+      Navigator.pop(context);
+      showAppSnackBar(
+        context,
+        isEdit ? 'Task updated successfully' : 'Task added successfully',
+        type: SnackBarType.success,
+      );
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          isSubmitting = false;
+          formError = 'Failed to ${widget.todo != null ? 'update' : 'add'} task. Please try again.';
+        });
+      }
     }
   }
 }

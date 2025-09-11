@@ -11,6 +11,7 @@ import '../providers/document_provider.dart';
 import '../utils/form_validators.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/snackbar.dart';
+import 'form_error_display.dart';
 
 class DocumentFormModal extends StatefulWidget {
   final Document? document;
@@ -65,7 +66,9 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
   String? descriptionError;
   String? fileError;
   
-  bool _isLoading = false;
+  // Form submission error state
+  String? formError;
+  bool isSubmitting = false;
 
   @override
   void initState() {
@@ -290,17 +293,15 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
     if (!_formKey.currentState!.validate()) return;
     
     if (selectedFilePath == null && widget.document == null) {
-      // Prompt user to select a file (using existing localized label)
-      showAppSnackBar(
-        context,
-        AppLocalizations.of(context)!.selectDocument,
-        type: SnackBarType.error,
-      );
+      setState(() {
+        formError = AppLocalizations.of(context)!.selectDocument;
+      });
       return;
     }
 
     setState(() {
-      _isLoading = true;
+      isSubmitting = true;
+      formError = null;
     });
 
     try {
@@ -322,13 +323,10 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
       if (widget.document == null) {
         // Check document limit before creating new document (10 total)
         if (provider.personalDocuments.length >= 10) {
-          if (mounted) {
-            showAppSnackBar(
-              context,
-              AppLocalizations.of(context)!.documentLimitReached,
-              type: SnackBarType.error,
-            );
-          }
+          setState(() {
+            isSubmitting = false;
+            formError = AppLocalizations.of(context)!.documentLimitReached;
+          });
           return;
         }
         
@@ -351,16 +349,9 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
       }
     } catch (e) {
       if (mounted) {
-        showAppSnackBar(
-          context,
-          AppLocalizations.of(context)!.failedToSaveDocument,
-          type: SnackBarType.error,
-        );
-      }
-    } finally {
-      if (mounted) {
         setState(() {
-          _isLoading = false;
+          isSubmitting = false;
+          formError = 'Failed to ${widget.document == null ? 'add' : 'update'} document. Please try again.';
         });
       }
     }
@@ -409,6 +400,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
                         children: [
                           _buildHeader(),
                           const SizedBox(height: 24),
+                          FormErrorDisplay(error: formError),
                           _buildTitleField(),
                           const SizedBox(height: 16),
                           _buildCategoryField(),
@@ -465,6 +457,10 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         setState(() {
           titleCharCount = value.length;
           titleError = FormValidators.validateTitle(value, context);
+          // Clear form error when user starts typing
+          if (formError != null) {
+            formError = null;
+          }
         });
       },
       decoration: FormValidators.createRequiredInputDecoration(
@@ -512,6 +508,10 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
         setState(() {
           descriptionCharCount = value.length;
           descriptionError = FormValidators.validateDescription(value, context);
+          // Clear form error when user starts typing
+          if (formError != null) {
+            formError = null;
+          }
         });
       },
       decoration: FormValidators.createOptionalInputDecoration(
@@ -750,7 +750,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
           child: Container(
             decoration: AppTheme.glowingButtonDecoration,
             child: ElevatedButton(
-              onPressed: _isLoading ? null : _saveDocument,
+              onPressed: isSubmitting ? null : _saveDocument,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.transparent,
@@ -759,7 +759,7 @@ class _DocumentFormModalState extends State<DocumentFormModal> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: _isLoading
+              child: isSubmitting
                   ? const SizedBox(
                       width: 20,
                       height: 20,

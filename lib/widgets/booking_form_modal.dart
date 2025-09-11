@@ -14,6 +14,7 @@ import '../providers/booking_provider.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/form_validators.dart';
 import '../utils/snackbar.dart';
+import 'form_error_display.dart';
 
 class BookingFormModal extends StatefulWidget {
   final String tripId;
@@ -81,6 +82,10 @@ class _BookingFormModalState extends State<BookingFormModal> {
   String? descriptionError;
   String? vendorError;
   String? confirmationError;
+  
+  // Form submission error state
+  String? formError;
+  bool isSubmitting = false;
 
   @override
   void initState() {
@@ -475,6 +480,7 @@ class _BookingFormModalState extends State<BookingFormModal> {
                       ],
                     ),
                     const SizedBox(height: 24),
+                    FormErrorDisplay(error: formError),
                     TextFormField(
                       controller: titleController,
                       maxLength: FormValidators.titleLimit,
@@ -482,6 +488,10 @@ class _BookingFormModalState extends State<BookingFormModal> {
                         setState(() {
                           titleCharCount = value.length;
                           titleError = FormValidators.validateTitle(value, context);
+                          // Clear form error when user starts typing
+                          if (formError != null) {
+                            formError = null;
+                          }
                         });
                       },
                       decoration: FormValidators.createRequiredInputDecoration(
@@ -699,6 +709,14 @@ class _BookingFormModalState extends State<BookingFormModal> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: amountController,
+                      onChanged: (value) {
+                        setState(() {
+                          // Clear form error when user starts typing
+                          if (formError != null) {
+                            formError = null;
+                          }
+                        });
+                      },
                       decoration: FormValidators.createRequiredInputDecoration(
                         labelText: AppLocalizations.of(context)!.amountCurrency(widget.defaultCurrency),
                         maxLength: 0, // No character limit for amount
@@ -966,67 +984,8 @@ class _BookingFormModalState extends State<BookingFormModal> {
                           child: Container(
                             decoration: AppTheme.glowingButtonDecoration,
                             child: ElevatedButton(
-                              onPressed: () async {
-                                if (!_formKey.currentState!.validate()) return;
-
-                                final bookingItem = Booking(
-                                  id: widget.booking?.id ?? const Uuid().v4(),
-                                  tripId: widget.tripId,
-                                  title: titleController.text.trim(),
-                                  type: selectedType,
-                                  description: descriptionController.text.trim(),
-                                  vendor: vendorController.text.trim(),
-                                  confirmationNumber: confirmationController.text.trim(),
-                                  bookingDate: selectedDate,
-                                  amount: double.tryParse(amountController.text) ?? 0.0,
-                                  status: selectedStatus,
-                                  attachments: attachments,
-                                  createdAt: widget.booking?.createdAt ?? DateTime.now(),
-                                  updatedAt: DateTime.now(),
-                                );
-
-                                final l10n = AppLocalizations.of(context)!;
-                                final actionText = isEdit ? l10n.update : l10n.add;
-                                final navigatorContext = context;
-                                
-                                try {
-                                  if (isEdit) {
-                                    await Provider.of<BookingProvider>(context, listen: false)
-                                        .updateBooking(bookingItem);
-                                  } else {
-                                    // Check booking limit before creating new booking (15 per trip)
-                                    final bookingProvider = Provider.of<BookingProvider>(context, listen: false);
-                                    if (bookingProvider.bookings.length >= 15) {
-                                      if (mounted && navigatorContext.mounted) {
-                                        showAppSnackBar(
-                                          navigatorContext,
-                                          l10n.bookingLimitReached,
-                                          type: SnackBarType.error,
-                                        );
-                                      }
-                                      return;
-                                    }
-                                    
-                                    await bookingProvider.createBooking(bookingItem);
-                                  }
-                                  
-                                  if (!mounted) return;
-                                  if (navigatorContext.mounted) {
-                                    Navigator.pop(navigatorContext);
-                                  }
-                                } catch (e) {
-                                  if (!mounted) return;
-                                  if (navigatorContext.mounted) {
-                                    showAppSnackBar(
-                                      navigatorContext,
-                                      l10n.failedToAddUpdateBooking(
-                                        actionText,
-                                        e.toString(),
-                                      ),
-                                      type: SnackBarType.error,
-                                    );
-                                  }
-                                }
+                              onPressed: isSubmitting ? null : () async {
+                                await _handleSubmit();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
@@ -1036,14 +995,23 @@ class _BookingFormModalState extends State<BookingFormModal> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
-                              child: Text(
-                                isEdit ? AppLocalizations.of(context)!.updateBooking : AppLocalizations.of(context)!.addBooking,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
-                              ),
+                              child: isSubmitting 
+                                ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    ),
+                                  )
+                                : Text(
+                                    isEdit ? AppLocalizations.of(context)!.updateBooking : AppLocalizations.of(context)!.addBooking,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
                             ),
                           ),
                         ),
@@ -1104,6 +1072,69 @@ class _BookingFormModalState extends State<BookingFormModal> {
         return AppTheme.success;
       case BookingStatus.cancelled:
         return AppTheme.error;
+    }
+  }
+
+  Future<void> _handleSubmit() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      isSubmitting = true;
+      formError = null;
+    });
+
+    try {
+      final bookingItem = Booking(
+        id: widget.booking?.id ?? const Uuid().v4(),
+        tripId: widget.tripId,
+        title: titleController.text.trim(),
+        type: selectedType,
+        description: descriptionController.text.trim(),
+        vendor: vendorController.text.trim(),
+        confirmationNumber: confirmationController.text.trim(),
+        bookingDate: selectedDate,
+        amount: double.tryParse(amountController.text) ?? 0.0,
+        status: selectedStatus,
+        attachments: attachments,
+        createdAt: widget.booking?.createdAt ?? DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      final bookingProvider = Provider.of<BookingProvider>(context, listen: false);
+      
+      if (widget.booking != null) {
+        // Update existing booking
+        await bookingProvider.updateBooking(bookingItem);
+      } else {
+        // Check booking limit before creating new booking (15 per trip)
+        if (bookingProvider.bookings.length >= 15) {
+          setState(() {
+            isSubmitting = false;
+            formError = AppLocalizations.of(context)!.bookingLimitReached;
+          });
+          return;
+        }
+        
+        await bookingProvider.createBooking(bookingItem);
+      }
+      
+      if (!mounted) return;
+      
+      Navigator.pop(context);
+      showAppSnackBar(
+        context,
+        widget.booking != null 
+          ? 'Booking updated successfully'
+          : 'Booking added successfully',
+        type: SnackBarType.success,
+      );
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          isSubmitting = false;
+          formError = 'Failed to ${widget.booking != null ? 'update' : 'add'} booking. Please try again.';
+        });
+      }
     }
   }
 }

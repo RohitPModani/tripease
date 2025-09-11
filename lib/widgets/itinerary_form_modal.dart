@@ -7,6 +7,8 @@ import '../l10n/app_localizations.dart';
 import '../models/itinerary.dart';
 import '../database/tables/itinerary_table.dart';
 import '../providers/itinerary_provider.dart';
+import '../utils/snackbar.dart';
+import 'form_error_display.dart';
 
 class ItineraryFormModal extends StatefulWidget {
   final String tripId;
@@ -83,6 +85,10 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
   String? titleError;
   String? locationError;
   String? descriptionError;
+  
+  // Form submission error state
+  String? formError;
+  bool isSubmitting = false;
 
   @override
   void initState() {
@@ -187,6 +193,7 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                       ],
                     ),
                     const SizedBox(height: 24),
+                    FormErrorDisplay(error: formError),
                     TextFormField(
                       controller: titleController,
                       maxLength: FormValidators.titleLimit,
@@ -194,6 +201,10 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                         setState(() {
                           titleCharCount = value.length;
                           titleError = FormValidators.validateTitle(value, context);
+                          // Clear form error when user starts typing
+                          if (formError != null) {
+                            formError = null;
+                          }
                         });
                       },
                       decoration: FormValidators.createRequiredInputDecoration(
@@ -280,6 +291,10 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                         setState(() {
                           locationCharCount = value.length;
                           locationError = FormValidators.validateLocation(value, context);
+                          // Clear form error when user starts typing
+                          if (formError != null) {
+                            formError = null;
+                          }
                         });
                       },
                       decoration: FormValidators.createOptionalInputDecoration(
@@ -531,6 +546,10 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                         setState(() {
                           descriptionCharCount = value.length;
                           descriptionError = FormValidators.validateItineraryDescription(value, context);
+                          // Clear form error when user starts typing
+                          if (formError != null) {
+                            formError = null;
+                          }
                         });
                       },
                       decoration: FormValidators.createOptionalInputDecoration(
@@ -593,29 +612,8 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                           child: Container(
                             decoration: AppTheme.glowingButtonDecoration,
                             child: ElevatedButton(
-                              onPressed: () async {
-                                if (!_formKey.currentState!.validate()) return;
-
-                                final itineraryProvider = Provider.of<ItineraryProvider>(context, listen: false);
-                                
-                                final newActivity = itineraryProvider.createActivity(
-                                  tripId: widget.tripId,
-                                  title: titleController.text.trim(),
-                                  type: selectedType,
-                                  description: descriptionController.text.trim(),
-                                  location: locationController.text.trim(),
-                                  date: selectedActivityDate,
-                                  startTime: selectedStartTime,
-                                  endTime: selectedEndTime,
-                                );
-
-                                final navigator = Navigator.of(context);
-                                await itineraryProvider.addActivity(newActivity);
-                                
-                                if (mounted) {
-                                  widget.onActivityAdded(newActivity, selectedActivityDate);
-                                  navigator.pop();
-                                }
+                              onPressed: isSubmitting ? null : () async {
+                                await _handleSubmit();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
@@ -625,14 +623,23 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
-                              child: Text(
-                                isEdit ? AppLocalizations.of(context)!.updateActivity : AppLocalizations.of(context)!.addActivity,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
-                              ),
+                              child: isSubmitting 
+                                ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    ),
+                                  )
+                                : Text(
+                                    isEdit ? AppLocalizations.of(context)!.updateActivity : AppLocalizations.of(context)!.addActivity,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
                             ),
                           ),
                         ),
@@ -694,5 +701,48 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
     final minute = time.minute.toString().padLeft(2, '0');
     final period = time.hour < 12 ? 'AM' : 'PM';
     return '$hour:$minute $period';
+  }
+
+  Future<void> _handleSubmit() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      isSubmitting = true;
+      formError = null;
+    });
+
+    try {
+      final itineraryProvider = Provider.of<ItineraryProvider>(context, listen: false);
+      
+      final newActivity = itineraryProvider.createActivity(
+        tripId: widget.tripId,
+        title: titleController.text.trim(),
+        type: selectedType,
+        description: descriptionController.text.trim(),
+        location: locationController.text.trim(),
+        date: selectedActivityDate,
+        startTime: selectedStartTime,
+        endTime: selectedEndTime,
+      );
+
+      await itineraryProvider.addActivity(newActivity);
+      
+      if (!mounted) return;
+      
+      widget.onActivityAdded(newActivity, selectedActivityDate);
+      Navigator.pop(context);
+      showAppSnackBar(
+        context,
+        widget.activity != null ? 'Activity updated successfully' : 'Activity added successfully',
+        type: SnackBarType.success,
+      );
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          isSubmitting = false;
+          formError = 'Failed to ${widget.activity != null ? 'update' : 'add'} activity. Please try again.';
+        });
+      }
+    }
   }
 }

@@ -345,7 +345,7 @@ class _TripsScreenState extends State<TripsScreen> {
         final trips = _getFilteredTrips(tripProvider.trips);
 
         if (tripProvider.trips.isEmpty) {
-          return SliverToBoxAdapter(
+          return SliverFillRemaining(
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
