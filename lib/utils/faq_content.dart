@@ -10,16 +10,17 @@ String buildFaqHtml(BuildContext context) {
 <div class="section">
   <h2>Getting Started</h2>
   <p><strong>What is Voythrix?</strong><br/>
-  Voythrix is a privacy-first, offline trip planner designed to help you organize all aspects of your travels in one secure place. Manage trips, itineraries, tasks, bookings, expenses, and travel documents completely offline.</p>
+  Voythrix is a privacy-first, offline trip planner designed to help you organize all aspects of your travels in one secure place. Manage trips, itineraries, tasks, bookings, expenses with advanced splitting, and travel documents completely offline.</p>
   
   <p><strong>How do I create my first trip?</strong><br/>
   1. Tap the Trips tab at the bottom<br/>
   2. Tap "Create Trip" (+ button)<br/>
   3. Enter trip title and destinations<br/>
   4. Set start and end dates<br/>
-  5. Choose your default currency<br/>
-  6. Add a description (optional)<br/>
-  7. Tap "Create Trip"</p>
+  5. Add trip members (optional but recommended for expense sharing)<br/>
+  6. Choose your default currency<br/>
+  7. Add a description (optional)<br/>
+  8. Tap "Create Trip"</p>
   
   <p><strong>Does the app work offline?</strong><br/>
   Yes, completely! All data is stored locally on your device with no internet connection required. There's no cloud sync, ensuring your privacy.</p>
@@ -41,6 +42,25 @@ String buildFaqHtml(BuildContext context) {
   
   <p><strong>Can I have multiple destinations per trip?</strong><br/>
   Yes! Add multiple destinations separated by commas when creating or editing your trip.</p>
+</div>
+
+<div class="section">
+  <h2>Trip Members & Collaboration</h2>
+  <p><strong>How do I add members to my trip?</strong><br/>
+  1. Open your trip and go to the Overview tab<br/>
+  2. Scroll to the Members section<br/>
+  3. Tap "Add Member" or the + button<br/>
+  4. Enter the member's name and optionally their email<br/>
+  5. Tap "Add Member"</p>
+  
+  <p><strong>What's the member limit per trip?</strong><br/>
+  You can add up to 8 members per trip, which is optimal for group expense management and splitting calculations.</p>
+  
+  <p><strong>Can I edit or remove members?</strong><br/>
+  Yes! Tap on any member to edit their details or remove them. Note that removing a member who has expense splits will affect your settlement calculations.</p>
+  
+  <p><strong>How do members affect expense tracking?</strong><br/>
+  Members are essential for expense splitting. When you add expenses, you can split costs equally among members or create custom split amounts for each person.</p>
 </div>
 
 <div class="section">
@@ -94,18 +114,36 @@ String buildFaqHtml(BuildContext context) {
 </div>
 
 <div class="section">
-  <h2>Expense Tracking</h2>
+  <h2>Expense Tracking & Splitting</h2>
   <p><strong>What expense information can I track?</strong><br/>
-  Title, amount, category, date, who paid, and description. View totals and category breakdowns in the expenses overview.</p>
+  Title, amount, category, date, who paid, description, and detailed expense splits among trip members. View totals, category breakdowns, and settlement summaries.</p>
   
   <p><strong>What expense categories are available?</strong><br/>
-  Transportation, Accommodation, Food & Dining, Entertainment, Shopping, and Other. Each category helps you understand your spending patterns.</p>
+  Transportation, Accommodation, Food & Dining, Activities, Shopping, and Other. Each category helps you understand your spending patterns with visual charts.</p>
   
-  <p><strong>Can I split expenses between people?</strong><br/>
-  The app supports expense splitting in the data model, but the UI for entering splits is not yet available. This feature is planned for future updates.</p>
+  <p><strong>How do I split expenses between people?</strong><br/>
+  1. Add an expense and select who paid for it<br/>
+  2. Choose splitting method: Equal Split or Custom Split<br/>
+  3. For Equal Split: Select which members to include<br/>
+  4. For Custom Split: Enter specific amounts for each member<br/>
+  5. The app automatically calculates who owes what to whom</p>
+  
+  <p><strong>What splitting options are available?</strong><br/>
+  • <strong>Equal Split:</strong> Divide the expense equally among selected members<br/>
+  • <strong>Custom Split:</strong> Enter specific amounts for each member<br/>
+  • <strong>Exclude Members:</strong> Some members don't participate in certain expenses</p>
+  
+  <p><strong>How do settlements work?</strong><br/>
+  The app calculates simplified settlements to minimize the number of payments needed. It shows who owes money to whom and the optimal payment structure to settle all debts with minimum transactions.</p>
+  
+  <p><strong>Can I track individual expense settlements?</strong><br/>
+  Yes! Tap on any settlement card to see the detailed breakdown of all contributing expenses. You can mark individual expenses as paid and track payment progress.</p>
   
   <p><strong>How are currency conversions handled?</strong><br/>
   Expenses are stored in the amounts you enter. The app doesn't perform automatic currency conversion, so enter amounts in your trip's default currency or note the original currency in the description.</p>
+  
+  <p><strong>Can I reopen settled expenses?</strong><br/>
+  Yes! If you marked an expense as paid by mistake, you can reopen it from the settlement detail screen.</p>
 </div>
 
 <div class="section">
@@ -207,4 +245,3 @@ String buildFaqHtml(BuildContext context) {
 </div>
 ''';
 }
-

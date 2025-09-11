@@ -35,8 +35,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = Provider.of<DocumentProvider>(context, listen: false);
       provider.loadPersonalDocuments();
-      // Note: If trip documents were implemented, we'd also need to load them here
-      // provider.loadDocuments(currentTripId);
     });
   }
 

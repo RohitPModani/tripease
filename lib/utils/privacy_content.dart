@@ -6,7 +6,7 @@ String buildPrivacyHtml(BuildContext context) {
   // English (default)
   String en() => '''
 <h1>Voythrix Privacy Policy</h1>
-<p><em>Last updated: January 11, 2025</em></p>
+<p><em>Last updated: September 11, 2025</em></p>
 
 <div class='section'>
   <h2>Privacy-First Design</h2>
@@ -22,6 +22,7 @@ String buildPrivacyHtml(BuildContext context) {
   <h3>Trip Information</h3>
   <ul>
     <li>Trip titles, destinations, dates, and descriptions</li>
+    <li>Trip members and their details (names, emails)</li>
     <li>Default currencies and travel preferences</li>
     <li>Trip status and categorization</li>
   </ul>
@@ -51,6 +52,9 @@ String buildPrivacyHtml(BuildContext context) {
   <h3>Financial Data</h3>
   <ul>
     <li>Expense amounts, categories, and dates</li>
+    <li>Advanced expense splitting configurations (equal and custom splits)</li>
+    <li>Settlement calculations and payment tracking</li>
+    <li>Individual expense settlement status</li>
     <li>Payment methods and splitting information</li>
     <li>Currency information and exchange notes</li>
     <li>Receipt attachments and descriptions</li>
@@ -92,7 +96,7 @@ String buildPrivacyHtml(BuildContext context) {
   
   <p><strong>Password Recovery:</strong> We cannot recover lost backup passwords. If you forget a backup password, the encrypted backup cannot be restored. This is by design to ensure your data security.</p>
   
-  <p><strong>Backup Contents:</strong> Backups include all trips, itineraries, tasks, bookings, expenses, documents, and app settings. File attachments are included and maintain their original quality and metadata.</p>
+  <p><strong>Backup Contents:</strong> Backups include all trips, trip members, itineraries, tasks, bookings, expenses with settlement tracking, documents, and app settings. File attachments are included and maintain their original quality and metadata.</p>
 </div>
 
 <div class='section'>
@@ -257,7 +261,7 @@ String buildPrivacyHtml(BuildContext context) {
 
 <div class='section'>
   <h2>Aperçu</h2>
-  <p>Voythrix est conçu avec la confidentialité en priorité. Vos données sont stockées localement sur votre appareil. Nous n’exploitons pas de serveurs recevant vos données et il n’y a pas de synchronisation cloud automatique.</p>
+  <p>Voythrix est conçu avec la confidentialité en priorité. Vos données sont stockées localement sur votre appareil. Nous n'exploitons pas de serveurs recevant vos données et il n'y a pas de synchronisation cloud automatique.</p>
 </div>
 
 <div class='section'>

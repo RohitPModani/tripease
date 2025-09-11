@@ -1,4 +1,4 @@
-package com.pixietrip.tripease.tripease
+package com.voythrix.android
 
 import io.flutter.embedding.android.FlutterActivity
 

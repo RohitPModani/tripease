@@ -12,6 +12,7 @@ import 'trip_tabs/expenses_tab.dart';
 import 'trip_tabs/itinerary_tab.dart';
 import 'edit_trip_screen.dart';
 import '../utils/snackbar.dart';
+import '../widgets/member_form_modal.dart';
 
 class TripDetailScreen extends StatefulWidget {
   final String tripId;
@@ -239,6 +240,9 @@ class _TripDetailScreenState extends State<TripDetailScreen>
               icon: const Icon(Iconsax.more, color: AppTheme.primaryColor),
               onSelected: (value) async {
                 switch (value) {
+                  case 'add_member':
+                    MemberFormModal.show(context, trip.id);
+                    break;
                   case 'edit':
                     EditTripScreen.show(context, trip);
                     break;
@@ -248,6 +252,20 @@ class _TripDetailScreenState extends State<TripDetailScreen>
                 }
               },
               itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 'add_member',
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Iconsax.people,
+                        size: 16,
+                        color: AppTheme.primaryColor,
+                      ),
+                      const SizedBox(width: 12),
+                      Text('Add Member'),
+                    ],
+                  ),
+                ),
                 PopupMenuItem(
                   value: 'edit',
                   child: Row(

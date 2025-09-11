@@ -5,7 +5,7 @@ String buildTermsHtml(BuildContext context) {
 
   String en() => '''
 <h1>Voythrix Terms of Service</h1>
-<p><em>Last updated: January 11, 2025</em></p>
+<p><em>Last updated: September 11, 2025</em></p>
 
 <div class='section'>
   <h2>Acceptance of Terms</h2>
@@ -20,9 +20,12 @@ String buildTermsHtml(BuildContext context) {
   <ul>
     <li>Create and manage travel itineraries with daily activities</li>
     <li>Organize trips with destinations, dates, and planning details</li>
+    <li>Add and manage trip members for collaborative expense tracking</li>
     <li>Manage travel-related tasks and to-do lists</li>
     <li>Store booking information and confirmation documents</li>
-    <li>Track travel expenses and categorize spending</li>
+    <li>Track travel expenses with advanced splitting capabilities (equal and custom splits)</li>
+    <li>Calculate simplified settlements between trip members</li>
+    <li>Track individual expense payments and settlement progress</li>
     <li>Store personal travel documents securely on your device</li>
     <li>Export and import data using encrypted backup files</li>
   </ul>
@@ -54,7 +57,7 @@ String buildTermsHtml(BuildContext context) {
 
 <div class='section'>
   <h2>Your Content and Responsibilities</h2>
-  <p><strong>Content Ownership:</strong> You retain ownership of all content you store in Voythrix, including travel documents, photos, booking information, and personal data.</p>
+  <p><strong>Content Ownership:</strong> You retain ownership of all content you store in Voythrix, including travel documents, photos, booking information, trip member details, and personal data.</p>
   
   <p><strong>Content Responsibility:</strong> You are solely responsible for:</p>
   <ul>
@@ -277,7 +280,7 @@ String buildTermsHtml(BuildContext context) {
 
 <div class='section'>
   <h2>Descargo de responsabilidad</h2>
-  <p>Voythrix se proporciona “tal cual”, sin garantías de ningún tipo. No somos responsables por pérdidas de datos en tu dispositivo ni por problemas derivados de archivos dañados o mal formados.</p>
+  <p>Voythrix se proporciona "tal cual", sin garantías de ningún tipo. No somos responsables por pérdidas de datos en tu dispositivo ni por problemas derivados de archivos dañados o mal formados.</p>
 </div>
 
 <div class='section'>
@@ -297,12 +300,12 @@ String buildTermsHtml(BuildContext context) {
 ''';
 
   String fr() => '''
-<h1>Conditions d’Utilisation de Voythrix</h1>
+<h1>Conditions d'Utilisation de Voythrix</h1>
 <p><em>Dernière mise à jour : 2025-09-11</em></p>
 
 <div class='section'>
   <h2>Accord</h2>
-  <p>En utilisant Voythrix, vous acceptez ces Conditions. Si vous n’êtes pas d’accord, n’utilisez pas l’app.</p>
+  <p>En utilisant Voythrix, vous acceptez ces Conditions. Si vous n'êtes pas d'accord, n'utilisez pas l'app.</p>
 </div>
 
 <div class='section'>
@@ -310,7 +313,7 @@ String buildTermsHtml(BuildContext context) {
   <ul>
     <li>Vous êtes responsable du contenu que vous ajoutez (documents, réservations, dépenses).</li>
     <li>N’ajoutez pas de contenu dont vous n’avez pas le droit de stocker sur votre appareil.</li>
-    <li>Voythrix est fourni pour l’organisation et la planification personnelles de voyages.</li>
+    <li>Voythrix est fourni pour l'organisation et la planification personnelles de voyages.</li>
   </ul>
 </div>
 
