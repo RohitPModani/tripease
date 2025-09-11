@@ -9,11 +9,13 @@ import 'repositories/todo_repository.dart';
 import 'repositories/booking_repository.dart';
 import 'repositories/expense_repository.dart';
 import 'repositories/document_repository.dart';
+import 'repositories/itinerary_repository.dart';
 import 'providers/trip_provider.dart';
 import 'providers/todo_provider.dart';
 import 'providers/booking_provider.dart';
 import 'providers/expense_provider.dart';
 import 'providers/document_provider.dart';
+import 'providers/itinerary_provider.dart';
 import 'themes/app_theme.dart';
 import 'screens/main_screen.dart';
 import 'screens/trip_detail_screen.dart';
@@ -35,6 +37,7 @@ void main() async {
   final bookingRepository = BookingRepository(database);
   final expenseRepository = ExpenseRepository(database);
   final documentRepository = DocumentRepository(database);
+  final itineraryRepository = ItineraryRepository(database);
   
   // System UI overlay style will be set dynamically based on theme
   
@@ -48,6 +51,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => BookingProvider(bookingRepository)),
         ChangeNotifierProvider(create: (_) => ExpenseProvider(expenseRepository)),
         ChangeNotifierProvider(create: (_) => DocumentProvider(documentRepository)),
+        ChangeNotifierProvider(create: (_) => ItineraryProvider(itineraryRepository)),
       ],
       child: const TripeaseApp(),
     ),

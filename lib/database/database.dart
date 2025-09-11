@@ -10,6 +10,7 @@ import 'tables/bookings_table.dart';
 import 'tables/expenses_table.dart';
 import 'tables/expense_splits_table.dart';
 import 'tables/documents_table.dart';
+import 'tables/itinerary_table.dart';
 
 part 'database.g.dart';
 
@@ -20,12 +21,13 @@ part 'database.g.dart';
   ExpensesTable,
   ExpenseSplitsTable,
   DocumentsTable,
+  ItineraryTable,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   /// Clear all data from the database (useful for development/testing)
   Future<void> clearDatabase() async {
@@ -35,6 +37,7 @@ class AppDatabase extends _$AppDatabase {
     await delete(expensesTable).go();
     await delete(expenseSplitsTable).go();
     await delete(documentsTable).go();
+    await delete(itineraryTable).go();
   }
 
   @override
@@ -54,6 +57,9 @@ class AppDatabase extends _$AppDatabase {
           // Force recreation of documents table to ensure description column exists
           await m.drop(documentsTable);
           await m.create(documentsTable);
+        }
+        if (from <= 4) {
+          await m.create(itineraryTable);
         }
       },
     );

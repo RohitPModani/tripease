@@ -1,36 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 import '../themes/app_theme.dart';
 import '../utils/form_validators.dart';
 import '../l10n/app_localizations.dart';
-
-enum ActivityType {
-  sightseeing,
-  meal,
-  transport,
-  accommodation,
-  shopping,
-  entertainment,
-  other,
-}
-
-class ItineraryActivity {
-  final String title;
-  final ActivityType type;
-  final String description;
-  final String location;
-  final TimeOfDay? startTime;
-  final TimeOfDay? endTime;
-  
-  ItineraryActivity({
-    required this.title,
-    required this.type,
-    this.description = '',
-    this.location = '',
-    this.startTime,
-    this.endTime,
-  });
-}
+import '../models/itinerary.dart';
+import '../database/tables/itinerary_table.dart';
+import '../providers/itinerary_provider.dart';
 
 class ItineraryFormModal extends StatefulWidget {
   final String tripId;
@@ -662,20 +638,28 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                           child: Container(
                             decoration: AppTheme.glowingButtonDecoration,
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (!_formKey.currentState!.validate()) return;
 
-                                final newActivity = ItineraryActivity(
+                                final itineraryProvider = Provider.of<ItineraryProvider>(context, listen: false);
+                                
+                                final newActivity = itineraryProvider.createActivity(
+                                  tripId: widget.tripId,
                                   title: titleController.text.trim(),
                                   type: selectedType,
                                   description: descriptionController.text.trim(),
                                   location: locationController.text.trim(),
+                                  date: selectedActivityDate,
                                   startTime: selectedStartTime,
                                   endTime: selectedEndTime,
                                 );
 
-                                widget.onActivityAdded(newActivity, selectedActivityDate);
-                                Navigator.pop(context);
+                                await itineraryProvider.addActivity(newActivity);
+                                
+                                if (mounted) {
+                                  widget.onActivityAdded(newActivity, selectedActivityDate);
+                                  if (mounted) Navigator.pop(context);
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,

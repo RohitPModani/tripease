@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 import '../../models/trip.dart';
+import '../../models/itinerary.dart';
 import '../../themes/app_theme.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/itinerary_form_modal.dart';
+import '../../providers/itinerary_provider.dart';
+import '../../database/tables/itinerary_table.dart';
 
 class ItineraryTab extends StatefulWidget {
   final Trip trip;
@@ -22,6 +26,9 @@ class _ItineraryTabState extends State<ItineraryTab> {
   void initState() {
     super.initState();
     _generateDays();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ItineraryProvider>(context, listen: false).loadActivities(widget.trip.id);
+    });
   }
 
   void _generateDays() {
@@ -39,9 +46,48 @@ class _ItineraryTabState extends State<ItineraryTab> {
     });
   }
 
+  void _updateDaysWithActivities(List<ItineraryActivity> activities) {
+    // Clear all activities first
+    for (final day in days) {
+      day.activities.clear();
+    }
+
+    // Add activities to their respective days
+    for (final activity in activities) {
+      final dayIndex = activity.date.difference(widget.trip.startDate).inDays;
+      if (dayIndex >= 0 && dayIndex < days.length) {
+        days[dayIndex].activities.add(activity);
+      }
+    }
+
+    // Sort activities within each day
+    for (final day in days) {
+      day.activities.sort((a, b) {
+        if (a.startTime == null && b.startTime == null) return 0;
+        if (a.startTime == null) return 1;
+        if (b.startTime == null) return -1;
+        
+        final aMinutes = a.startTime!.hour * 60 + a.startTime!.minute;
+        final bMinutes = b.startTime!.hour * 60 + b.startTime!.minute;
+        return aMinutes.compareTo(bMinutes);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Consumer<ItineraryProvider>(
+      builder: (context, itineraryProvider, child) {
+        // Update days with current activities from the provider
+        _updateDaysWithActivities(itineraryProvider.activities);
+
+        if (itineraryProvider.isLoading) {
+          return const Center(
+            child: CircularProgressIndicator(color: AppTheme.primaryColor),
+          );
+        }
+
+        return Row(
       children: [
         // Day selector sidebar
         Container(
@@ -141,6 +187,8 @@ class _ItineraryTabState extends State<ItineraryTab> {
           child: _buildDayDetails(),
         ),
       ],
+    );
+      },
     );
   }
 
@@ -629,48 +677,18 @@ class _ItineraryTabState extends State<ItineraryTab> {
   }
 
   void _onActivityAdded(ItineraryActivity activity, ItineraryDay day) {
-    setState(() {
-      day.activities.add(activity);
-      // Sort activities by start time
-      day.activities.sort((a, b) {
-        if (a.startTime == null && b.startTime == null) return 0;
-        if (a.startTime == null) return 1;
-        if (b.startTime == null) return -1;
-        
-        final aMinutes = a.startTime!.hour * 60 + a.startTime!.minute;
-        final bMinutes = b.startTime!.hour * 60 + b.startTime!.minute;
-        return aMinutes.compareTo(bMinutes);
-      });
-    });
+    // Activities are now handled by the provider, so just trigger a rebuild
+    setState(() {});
   }
 
   void _onActivityUpdated(ItineraryActivity updatedActivity, ItineraryActivity originalActivity, ItineraryDay day) {
-    setState(() {
-      final activityIndex = day.activities.indexWhere(
-        (a) => a.title == originalActivity.title &&
-               a.type == originalActivity.type &&
-               a.startTime == originalActivity.startTime,
-      );
-      if (activityIndex != -1) {
-        day.activities[activityIndex] = updatedActivity;
-        // Re-sort activities by start time
-        day.activities.sort((a, b) {
-          if (a.startTime == null && b.startTime == null) return 0;
-          if (a.startTime == null) return 1;
-          if (b.startTime == null) return -1;
-          
-          final aMinutes = a.startTime!.hour * 60 + a.startTime!.minute;
-          final bMinutes = b.startTime!.hour * 60 + b.startTime!.minute;
-          return aMinutes.compareTo(bMinutes);
-        });
-      }
-    });
+    // Activities are now handled by the provider, so just trigger a rebuild
+    setState(() {});
   }
 
   void _deleteActivity(ItineraryActivity activity, ItineraryDay day) {
-    setState(() {
-      day.activities.remove(activity);
-    });
+    final itineraryProvider = Provider.of<ItineraryProvider>(context, listen: false);
+    itineraryProvider.deleteActivity(activity.id);
   }
 
   Future<bool> _showDeleteConfirmation(ItineraryActivity activity, ItineraryDay day) async {

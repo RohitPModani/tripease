@@ -16,6 +16,10 @@ import '../services/export_service.dart';
 import '../services/import_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../widgets/html_content_modal.dart';
+import '../utils/faq_content.dart';
+import '../utils/privacy_content.dart';
+import '../utils/terms_content.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -1867,65 +1871,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _openHelpSection() async {
-    try {
-      final uri = Uri.parse('https://voythrix.com/help'); // Replace with actual help URL
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.inAppWebView);
-      } else {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Could not open help section')),
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error opening help section: $e')),
-        );
-      }
-    }
+    // Render in-app FAQ as bottom modal with Contact Support button
+    HtmlContentModal.show(
+      context,
+      title: AppLocalizations.of(context)!.helpAndSupport,
+      htmlContent: buildFaqHtml(context),
+      icon: Iconsax.message_question,
+      supportEmail: 'voythrix@gmail.com',
+      supportButtonLabel: 'Contact Support',
+    );
   }
 
   void _openPrivacyPolicy() async {
-    try {
-      final uri = Uri.parse('https://voythrix.com/privacy'); // Replace with actual privacy policy URL
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.inAppWebView);
-      } else {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Could not open privacy policy')),
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error opening privacy policy: $e')),
-        );
-      }
-    }
+    HtmlContentModal.show(
+      context,
+      title: AppLocalizations.of(context)!.privacyPolicy,
+      htmlContent: buildPrivacyHtml(context),
+      icon: Iconsax.shield_tick,
+      supportEmail: 'voythrix@gmail.com',
+      supportButtonLabel: 'Contact Support',
+    );
   }
 
   void _openTermsOfService() async {
-    try {
-      final uri = Uri.parse('https://voythrix.com/terms'); // Replace with actual terms URL
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.inAppWebView);
-      } else {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Could not open terms of service')),
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error opening terms of service: $e')),
-        );
-      }
-    }
+    HtmlContentModal.show(
+      context,
+      title: AppLocalizations.of(context)!.termsOfService,
+      htmlContent: buildTermsHtml(context),
+      icon: Iconsax.document_text,
+      supportEmail: 'voythrix@gmail.com',
+      supportButtonLabel: 'Contact Support',
+    );
   }
 }

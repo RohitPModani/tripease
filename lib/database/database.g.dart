@@ -3813,6 +3813,792 @@ class DocumentsTableCompanion extends UpdateCompanion<DocumentEntity> {
   }
 }
 
+class $ItineraryTableTable extends ItineraryTable
+    with TableInfo<$ItineraryTableTable, ItineraryEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ItineraryTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _tripIdMeta = const VerificationMeta('tripId');
+  @override
+  late final GeneratedColumn<String> tripId = GeneratedColumn<String>(
+    'trip_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 100,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<ActivityType, int> type =
+      GeneratedColumn<int>(
+        'type',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+      ).withConverter<ActivityType>($ItineraryTableTable.$convertertype);
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _locationMeta = const VerificationMeta(
+    'location',
+  );
+  @override
+  late final GeneratedColumn<String> location = GeneratedColumn<String>(
+    'location',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
+  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
+    'date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _startTimeHourMeta = const VerificationMeta(
+    'startTimeHour',
+  );
+  @override
+  late final GeneratedColumn<int> startTimeHour = GeneratedColumn<int>(
+    'start_time_hour',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _startTimeMinuteMeta = const VerificationMeta(
+    'startTimeMinute',
+  );
+  @override
+  late final GeneratedColumn<int> startTimeMinute = GeneratedColumn<int>(
+    'start_time_minute',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _endTimeHourMeta = const VerificationMeta(
+    'endTimeHour',
+  );
+  @override
+  late final GeneratedColumn<int> endTimeHour = GeneratedColumn<int>(
+    'end_time_hour',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _endTimeMinuteMeta = const VerificationMeta(
+    'endTimeMinute',
+  );
+  @override
+  late final GeneratedColumn<int> endTimeMinute = GeneratedColumn<int>(
+    'end_time_minute',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    tripId,
+    title,
+    type,
+    description,
+    location,
+    date,
+    startTimeHour,
+    startTimeMinute,
+    endTimeHour,
+    endTimeMinute,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'itinerary_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ItineraryEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('trip_id')) {
+      context.handle(
+        _tripIdMeta,
+        tripId.isAcceptableOrUnknown(data['trip_id']!, _tripIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tripIdMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('location')) {
+      context.handle(
+        _locationMeta,
+        location.isAcceptableOrUnknown(data['location']!, _locationMeta),
+      );
+    }
+    if (data.containsKey('date')) {
+      context.handle(
+        _dateMeta,
+        date.isAcceptableOrUnknown(data['date']!, _dateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('start_time_hour')) {
+      context.handle(
+        _startTimeHourMeta,
+        startTimeHour.isAcceptableOrUnknown(
+          data['start_time_hour']!,
+          _startTimeHourMeta,
+        ),
+      );
+    }
+    if (data.containsKey('start_time_minute')) {
+      context.handle(
+        _startTimeMinuteMeta,
+        startTimeMinute.isAcceptableOrUnknown(
+          data['start_time_minute']!,
+          _startTimeMinuteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('end_time_hour')) {
+      context.handle(
+        _endTimeHourMeta,
+        endTimeHour.isAcceptableOrUnknown(
+          data['end_time_hour']!,
+          _endTimeHourMeta,
+        ),
+      );
+    }
+    if (data.containsKey('end_time_minute')) {
+      context.handle(
+        _endTimeMinuteMeta,
+        endTimeMinute.isAcceptableOrUnknown(
+          data['end_time_minute']!,
+          _endTimeMinuteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ItineraryEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ItineraryEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      tripId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}trip_id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      type: $ItineraryTableTable.$convertertype.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}type'],
+        )!,
+      ),
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
+      location: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}location'],
+      )!,
+      date: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}date'],
+      )!,
+      startTimeHour: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}start_time_hour'],
+      ),
+      startTimeMinute: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}start_time_minute'],
+      ),
+      endTimeHour: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}end_time_hour'],
+      ),
+      endTimeMinute: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}end_time_minute'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ItineraryTableTable createAlias(String alias) {
+    return $ItineraryTableTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<ActivityType, int, int> $convertertype =
+      const EnumIndexConverter<ActivityType>(ActivityType.values);
+}
+
+class ItineraryEntity extends DataClass implements Insertable<ItineraryEntity> {
+  final String id;
+  final String tripId;
+  final String title;
+  final ActivityType type;
+  final String description;
+  final String location;
+  final DateTime date;
+  final int? startTimeHour;
+  final int? startTimeMinute;
+  final int? endTimeHour;
+  final int? endTimeMinute;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const ItineraryEntity({
+    required this.id,
+    required this.tripId,
+    required this.title,
+    required this.type,
+    required this.description,
+    required this.location,
+    required this.date,
+    this.startTimeHour,
+    this.startTimeMinute,
+    this.endTimeHour,
+    this.endTimeMinute,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['trip_id'] = Variable<String>(tripId);
+    map['title'] = Variable<String>(title);
+    {
+      map['type'] = Variable<int>(
+        $ItineraryTableTable.$convertertype.toSql(type),
+      );
+    }
+    map['description'] = Variable<String>(description);
+    map['location'] = Variable<String>(location);
+    map['date'] = Variable<DateTime>(date);
+    if (!nullToAbsent || startTimeHour != null) {
+      map['start_time_hour'] = Variable<int>(startTimeHour);
+    }
+    if (!nullToAbsent || startTimeMinute != null) {
+      map['start_time_minute'] = Variable<int>(startTimeMinute);
+    }
+    if (!nullToAbsent || endTimeHour != null) {
+      map['end_time_hour'] = Variable<int>(endTimeHour);
+    }
+    if (!nullToAbsent || endTimeMinute != null) {
+      map['end_time_minute'] = Variable<int>(endTimeMinute);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  ItineraryTableCompanion toCompanion(bool nullToAbsent) {
+    return ItineraryTableCompanion(
+      id: Value(id),
+      tripId: Value(tripId),
+      title: Value(title),
+      type: Value(type),
+      description: Value(description),
+      location: Value(location),
+      date: Value(date),
+      startTimeHour: startTimeHour == null && nullToAbsent
+          ? const Value.absent()
+          : Value(startTimeHour),
+      startTimeMinute: startTimeMinute == null && nullToAbsent
+          ? const Value.absent()
+          : Value(startTimeMinute),
+      endTimeHour: endTimeHour == null && nullToAbsent
+          ? const Value.absent()
+          : Value(endTimeHour),
+      endTimeMinute: endTimeMinute == null && nullToAbsent
+          ? const Value.absent()
+          : Value(endTimeMinute),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory ItineraryEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ItineraryEntity(
+      id: serializer.fromJson<String>(json['id']),
+      tripId: serializer.fromJson<String>(json['tripId']),
+      title: serializer.fromJson<String>(json['title']),
+      type: $ItineraryTableTable.$convertertype.fromJson(
+        serializer.fromJson<int>(json['type']),
+      ),
+      description: serializer.fromJson<String>(json['description']),
+      location: serializer.fromJson<String>(json['location']),
+      date: serializer.fromJson<DateTime>(json['date']),
+      startTimeHour: serializer.fromJson<int?>(json['startTimeHour']),
+      startTimeMinute: serializer.fromJson<int?>(json['startTimeMinute']),
+      endTimeHour: serializer.fromJson<int?>(json['endTimeHour']),
+      endTimeMinute: serializer.fromJson<int?>(json['endTimeMinute']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'tripId': serializer.toJson<String>(tripId),
+      'title': serializer.toJson<String>(title),
+      'type': serializer.toJson<int>(
+        $ItineraryTableTable.$convertertype.toJson(type),
+      ),
+      'description': serializer.toJson<String>(description),
+      'location': serializer.toJson<String>(location),
+      'date': serializer.toJson<DateTime>(date),
+      'startTimeHour': serializer.toJson<int?>(startTimeHour),
+      'startTimeMinute': serializer.toJson<int?>(startTimeMinute),
+      'endTimeHour': serializer.toJson<int?>(endTimeHour),
+      'endTimeMinute': serializer.toJson<int?>(endTimeMinute),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  ItineraryEntity copyWith({
+    String? id,
+    String? tripId,
+    String? title,
+    ActivityType? type,
+    String? description,
+    String? location,
+    DateTime? date,
+    Value<int?> startTimeHour = const Value.absent(),
+    Value<int?> startTimeMinute = const Value.absent(),
+    Value<int?> endTimeHour = const Value.absent(),
+    Value<int?> endTimeMinute = const Value.absent(),
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => ItineraryEntity(
+    id: id ?? this.id,
+    tripId: tripId ?? this.tripId,
+    title: title ?? this.title,
+    type: type ?? this.type,
+    description: description ?? this.description,
+    location: location ?? this.location,
+    date: date ?? this.date,
+    startTimeHour: startTimeHour.present
+        ? startTimeHour.value
+        : this.startTimeHour,
+    startTimeMinute: startTimeMinute.present
+        ? startTimeMinute.value
+        : this.startTimeMinute,
+    endTimeHour: endTimeHour.present ? endTimeHour.value : this.endTimeHour,
+    endTimeMinute: endTimeMinute.present
+        ? endTimeMinute.value
+        : this.endTimeMinute,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  ItineraryEntity copyWithCompanion(ItineraryTableCompanion data) {
+    return ItineraryEntity(
+      id: data.id.present ? data.id.value : this.id,
+      tripId: data.tripId.present ? data.tripId.value : this.tripId,
+      title: data.title.present ? data.title.value : this.title,
+      type: data.type.present ? data.type.value : this.type,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      location: data.location.present ? data.location.value : this.location,
+      date: data.date.present ? data.date.value : this.date,
+      startTimeHour: data.startTimeHour.present
+          ? data.startTimeHour.value
+          : this.startTimeHour,
+      startTimeMinute: data.startTimeMinute.present
+          ? data.startTimeMinute.value
+          : this.startTimeMinute,
+      endTimeHour: data.endTimeHour.present
+          ? data.endTimeHour.value
+          : this.endTimeHour,
+      endTimeMinute: data.endTimeMinute.present
+          ? data.endTimeMinute.value
+          : this.endTimeMinute,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ItineraryEntity(')
+          ..write('id: $id, ')
+          ..write('tripId: $tripId, ')
+          ..write('title: $title, ')
+          ..write('type: $type, ')
+          ..write('description: $description, ')
+          ..write('location: $location, ')
+          ..write('date: $date, ')
+          ..write('startTimeHour: $startTimeHour, ')
+          ..write('startTimeMinute: $startTimeMinute, ')
+          ..write('endTimeHour: $endTimeHour, ')
+          ..write('endTimeMinute: $endTimeMinute, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    tripId,
+    title,
+    type,
+    description,
+    location,
+    date,
+    startTimeHour,
+    startTimeMinute,
+    endTimeHour,
+    endTimeMinute,
+    createdAt,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ItineraryEntity &&
+          other.id == this.id &&
+          other.tripId == this.tripId &&
+          other.title == this.title &&
+          other.type == this.type &&
+          other.description == this.description &&
+          other.location == this.location &&
+          other.date == this.date &&
+          other.startTimeHour == this.startTimeHour &&
+          other.startTimeMinute == this.startTimeMinute &&
+          other.endTimeHour == this.endTimeHour &&
+          other.endTimeMinute == this.endTimeMinute &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class ItineraryTableCompanion extends UpdateCompanion<ItineraryEntity> {
+  final Value<String> id;
+  final Value<String> tripId;
+  final Value<String> title;
+  final Value<ActivityType> type;
+  final Value<String> description;
+  final Value<String> location;
+  final Value<DateTime> date;
+  final Value<int?> startTimeHour;
+  final Value<int?> startTimeMinute;
+  final Value<int?> endTimeHour;
+  final Value<int?> endTimeMinute;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const ItineraryTableCompanion({
+    this.id = const Value.absent(),
+    this.tripId = const Value.absent(),
+    this.title = const Value.absent(),
+    this.type = const Value.absent(),
+    this.description = const Value.absent(),
+    this.location = const Value.absent(),
+    this.date = const Value.absent(),
+    this.startTimeHour = const Value.absent(),
+    this.startTimeMinute = const Value.absent(),
+    this.endTimeHour = const Value.absent(),
+    this.endTimeMinute = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ItineraryTableCompanion.insert({
+    required String id,
+    required String tripId,
+    required String title,
+    required ActivityType type,
+    this.description = const Value.absent(),
+    this.location = const Value.absent(),
+    required DateTime date,
+    this.startTimeHour = const Value.absent(),
+    this.startTimeMinute = const Value.absent(),
+    this.endTimeHour = const Value.absent(),
+    this.endTimeMinute = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       tripId = Value(tripId),
+       title = Value(title),
+       type = Value(type),
+       date = Value(date),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<ItineraryEntity> custom({
+    Expression<String>? id,
+    Expression<String>? tripId,
+    Expression<String>? title,
+    Expression<int>? type,
+    Expression<String>? description,
+    Expression<String>? location,
+    Expression<DateTime>? date,
+    Expression<int>? startTimeHour,
+    Expression<int>? startTimeMinute,
+    Expression<int>? endTimeHour,
+    Expression<int>? endTimeMinute,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (tripId != null) 'trip_id': tripId,
+      if (title != null) 'title': title,
+      if (type != null) 'type': type,
+      if (description != null) 'description': description,
+      if (location != null) 'location': location,
+      if (date != null) 'date': date,
+      if (startTimeHour != null) 'start_time_hour': startTimeHour,
+      if (startTimeMinute != null) 'start_time_minute': startTimeMinute,
+      if (endTimeHour != null) 'end_time_hour': endTimeHour,
+      if (endTimeMinute != null) 'end_time_minute': endTimeMinute,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ItineraryTableCompanion copyWith({
+    Value<String>? id,
+    Value<String>? tripId,
+    Value<String>? title,
+    Value<ActivityType>? type,
+    Value<String>? description,
+    Value<String>? location,
+    Value<DateTime>? date,
+    Value<int?>? startTimeHour,
+    Value<int?>? startTimeMinute,
+    Value<int?>? endTimeHour,
+    Value<int?>? endTimeMinute,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return ItineraryTableCompanion(
+      id: id ?? this.id,
+      tripId: tripId ?? this.tripId,
+      title: title ?? this.title,
+      type: type ?? this.type,
+      description: description ?? this.description,
+      location: location ?? this.location,
+      date: date ?? this.date,
+      startTimeHour: startTimeHour ?? this.startTimeHour,
+      startTimeMinute: startTimeMinute ?? this.startTimeMinute,
+      endTimeHour: endTimeHour ?? this.endTimeHour,
+      endTimeMinute: endTimeMinute ?? this.endTimeMinute,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (tripId.present) {
+      map['trip_id'] = Variable<String>(tripId.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<int>(
+        $ItineraryTableTable.$convertertype.toSql(type.value),
+      );
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (location.present) {
+      map['location'] = Variable<String>(location.value);
+    }
+    if (date.present) {
+      map['date'] = Variable<DateTime>(date.value);
+    }
+    if (startTimeHour.present) {
+      map['start_time_hour'] = Variable<int>(startTimeHour.value);
+    }
+    if (startTimeMinute.present) {
+      map['start_time_minute'] = Variable<int>(startTimeMinute.value);
+    }
+    if (endTimeHour.present) {
+      map['end_time_hour'] = Variable<int>(endTimeHour.value);
+    }
+    if (endTimeMinute.present) {
+      map['end_time_minute'] = Variable<int>(endTimeMinute.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ItineraryTableCompanion(')
+          ..write('id: $id, ')
+          ..write('tripId: $tripId, ')
+          ..write('title: $title, ')
+          ..write('type: $type, ')
+          ..write('description: $description, ')
+          ..write('location: $location, ')
+          ..write('date: $date, ')
+          ..write('startTimeHour: $startTimeHour, ')
+          ..write('startTimeMinute: $startTimeMinute, ')
+          ..write('endTimeHour: $endTimeHour, ')
+          ..write('endTimeMinute: $endTimeMinute, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -3823,6 +4609,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $ExpenseSplitsTableTable expenseSplitsTable =
       $ExpenseSplitsTableTable(this);
   late final $DocumentsTableTable documentsTable = $DocumentsTableTable(this);
+  late final $ItineraryTableTable itineraryTable = $ItineraryTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3834,6 +4621,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     expensesTable,
     expenseSplitsTable,
     documentsTable,
+    itineraryTable,
   ];
 }
 
@@ -6823,6 +7611,375 @@ typedef $$DocumentsTableTableProcessedTableManager =
       DocumentEntity,
       PrefetchHooks Function({bool tripId})
     >;
+typedef $$ItineraryTableTableCreateCompanionBuilder =
+    ItineraryTableCompanion Function({
+      required String id,
+      required String tripId,
+      required String title,
+      required ActivityType type,
+      Value<String> description,
+      Value<String> location,
+      required DateTime date,
+      Value<int?> startTimeHour,
+      Value<int?> startTimeMinute,
+      Value<int?> endTimeHour,
+      Value<int?> endTimeMinute,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<int> rowid,
+    });
+typedef $$ItineraryTableTableUpdateCompanionBuilder =
+    ItineraryTableCompanion Function({
+      Value<String> id,
+      Value<String> tripId,
+      Value<String> title,
+      Value<ActivityType> type,
+      Value<String> description,
+      Value<String> location,
+      Value<DateTime> date,
+      Value<int?> startTimeHour,
+      Value<int?> startTimeMinute,
+      Value<int?> endTimeHour,
+      Value<int?> endTimeMinute,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+class $$ItineraryTableTableFilterComposer
+    extends Composer<_$AppDatabase, $ItineraryTableTable> {
+  $$ItineraryTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get tripId => $composableBuilder(
+    column: $table.tripId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<ActivityType, ActivityType, int> get type =>
+      $composableBuilder(
+        column: $table.type,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get location => $composableBuilder(
+    column: $table.location,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get startTimeHour => $composableBuilder(
+    column: $table.startTimeHour,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get startTimeMinute => $composableBuilder(
+    column: $table.startTimeMinute,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get endTimeHour => $composableBuilder(
+    column: $table.endTimeHour,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get endTimeMinute => $composableBuilder(
+    column: $table.endTimeMinute,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ItineraryTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $ItineraryTableTable> {
+  $$ItineraryTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get tripId => $composableBuilder(
+    column: $table.tripId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get location => $composableBuilder(
+    column: $table.location,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get startTimeHour => $composableBuilder(
+    column: $table.startTimeHour,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get startTimeMinute => $composableBuilder(
+    column: $table.startTimeMinute,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get endTimeHour => $composableBuilder(
+    column: $table.endTimeHour,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get endTimeMinute => $composableBuilder(
+    column: $table.endTimeMinute,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ItineraryTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ItineraryTableTable> {
+  $$ItineraryTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get tripId =>
+      $composableBuilder(column: $table.tripId, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<ActivityType, int> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get location =>
+      $composableBuilder(column: $table.location, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<int> get startTimeHour => $composableBuilder(
+    column: $table.startTimeHour,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get startTimeMinute => $composableBuilder(
+    column: $table.startTimeMinute,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get endTimeHour => $composableBuilder(
+    column: $table.endTimeHour,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get endTimeMinute => $composableBuilder(
+    column: $table.endTimeMinute,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$ItineraryTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ItineraryTableTable,
+          ItineraryEntity,
+          $$ItineraryTableTableFilterComposer,
+          $$ItineraryTableTableOrderingComposer,
+          $$ItineraryTableTableAnnotationComposer,
+          $$ItineraryTableTableCreateCompanionBuilder,
+          $$ItineraryTableTableUpdateCompanionBuilder,
+          (
+            ItineraryEntity,
+            BaseReferences<
+              _$AppDatabase,
+              $ItineraryTableTable,
+              ItineraryEntity
+            >,
+          ),
+          ItineraryEntity,
+          PrefetchHooks Function()
+        > {
+  $$ItineraryTableTableTableManager(
+    _$AppDatabase db,
+    $ItineraryTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ItineraryTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ItineraryTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ItineraryTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> tripId = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<ActivityType> type = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<String> location = const Value.absent(),
+                Value<DateTime> date = const Value.absent(),
+                Value<int?> startTimeHour = const Value.absent(),
+                Value<int?> startTimeMinute = const Value.absent(),
+                Value<int?> endTimeHour = const Value.absent(),
+                Value<int?> endTimeMinute = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ItineraryTableCompanion(
+                id: id,
+                tripId: tripId,
+                title: title,
+                type: type,
+                description: description,
+                location: location,
+                date: date,
+                startTimeHour: startTimeHour,
+                startTimeMinute: startTimeMinute,
+                endTimeHour: endTimeHour,
+                endTimeMinute: endTimeMinute,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String tripId,
+                required String title,
+                required ActivityType type,
+                Value<String> description = const Value.absent(),
+                Value<String> location = const Value.absent(),
+                required DateTime date,
+                Value<int?> startTimeHour = const Value.absent(),
+                Value<int?> startTimeMinute = const Value.absent(),
+                Value<int?> endTimeHour = const Value.absent(),
+                Value<int?> endTimeMinute = const Value.absent(),
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => ItineraryTableCompanion.insert(
+                id: id,
+                tripId: tripId,
+                title: title,
+                type: type,
+                description: description,
+                location: location,
+                date: date,
+                startTimeHour: startTimeHour,
+                startTimeMinute: startTimeMinute,
+                endTimeHour: endTimeHour,
+                endTimeMinute: endTimeMinute,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ItineraryTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ItineraryTableTable,
+      ItineraryEntity,
+      $$ItineraryTableTableFilterComposer,
+      $$ItineraryTableTableOrderingComposer,
+      $$ItineraryTableTableAnnotationComposer,
+      $$ItineraryTableTableCreateCompanionBuilder,
+      $$ItineraryTableTableUpdateCompanionBuilder,
+      (
+        ItineraryEntity,
+        BaseReferences<_$AppDatabase, $ItineraryTableTable, ItineraryEntity>,
+      ),
+      ItineraryEntity,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -6839,4 +7996,6 @@ class $AppDatabaseManager {
       $$ExpenseSplitsTableTableTableManager(_db, _db.expenseSplitsTable);
   $$DocumentsTableTableTableManager get documentsTable =>
       $$DocumentsTableTableTableManager(_db, _db.documentsTable);
+  $$ItineraryTableTableTableManager get itineraryTable =>
+      $$ItineraryTableTableTableManager(_db, _db.itineraryTable);
 }
