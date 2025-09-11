@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:fl_chart/fl_chart.dart';
 import '../../models/trip.dart';
 import '../../models/expense.dart';
 import '../../models/trip_member.dart';
@@ -10,16 +11,27 @@ import '../../providers/trip_member_provider.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/currency_formatter.dart';
 import '../../widgets/expense_form_modal.dart';
+import '../../widgets/settlement_action_modal.dart';
+import '../../utils/snackbar.dart';
+import '../settlement_detail_screen.dart';
 
 class Settlement {
   final String from;
   final String to;
   final double amount;
+  final String? fromUserId;
+  final String? toUserId;
+  final double paidAmount;
+  final double balanceAmount;
 
   Settlement({
     required this.from,
     required this.to,
     required this.amount,
+    this.fromUserId,
+    this.toUserId,
+    this.paidAmount = 0.0,
+    this.balanceAmount = 0.0,
   });
 }
 
@@ -1125,110 +1137,257 @@ class _ExpensesTabState extends State<ExpensesTab> {
           (categoryTotals[expense.category] ?? 0) + expense.amount;
     }
     
-    showDialog(
+    showModalBottomSheet(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.expenseBreakdown),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Total: ${CurrencyFormatter.formatAmount(_getTotalExpenses(expenses), widget.trip.defaultCurrency)}',
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 18,
-                  color: AppTheme.accentColor,
-                ),
+      isScrollControlled: true,
+      useSafeArea: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Container(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.8,
+        ),
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppTheme.surfaceDark
+              : AppTheme.surfaceLight,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          children: [
+            // Handle bar
+            Container(
+              margin: const EdgeInsets.only(top: 8),
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: (Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary).withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(2),
               ),
-              
-              // Category Breakdown Section
-              if (categoryTotals.isNotEmpty) ...[
-                const SizedBox(height: 20),
-                Text(
-                  'Expenses by Category:',
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
+            ),
+            
+            // Header
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
                   ),
                 ),
-                const SizedBox(height: 12),
-                ...categoryTotals.entries.map((entry) {
-                  final totalExp = _getTotalExpenses(expenses);
-                  final percentage = totalExp > 0 ? (entry.value / totalExp) : 0.0;
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Row(
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Iconsax.chart_21,
+                      color: AppTheme.primaryColor,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          width: 12,
-                          height: 12,
-                          decoration: BoxDecoration(
-                            color: _getCategoryColor(entry.key),
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            _getCategoryDisplayName(entry.key),
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        ),
                         Text(
-                          CurrencyFormatter.formatAmount(entry.value, widget.trip.defaultCurrency),
-                          style: const TextStyle(
+                          AppLocalizations.of(context)!.expenseBreakdown,
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.w600,
-                            fontSize: 14,
                           ),
                         ),
-                        const SizedBox(width: 8),
                         Text(
-                          '${(percentage * 100).toInt()}%',
+                          'Total: ${CurrencyFormatter.formatAmount(_getTotalExpenses(expenses), widget.trip.defaultCurrency)}',
                           style: TextStyle(
-                            color: Theme.of(context).brightness == Brightness.dark
-                                ? AppTheme.textSecondaryDark
-                                : AppTheme.textSecondary,
-                            fontSize: 12,
+                            color: AppTheme.accentColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
                           ),
                         ),
                       ],
                     ),
-                  );
-                }),
-              ],
-              
-              // Person Breakdown Section  
-              const SizedBox(height: 20),
-              Text(
-                'Expenses by Person:',
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Iconsax.close_circle),
+                  ),
+                ],
+              ),
+            ),
+            
+            // Content
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Category Breakdown Section with Pie Chart
+                    if (categoryTotals.isNotEmpty) ...[
+                      Text(
+                        'Expenses by Category',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      
+                      // Pie Chart
+                      Container(
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surface,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: PieChart(
+                            PieChartData(
+                              sectionsSpace: 2,
+                              centerSpaceRadius: 60,
+                              sections: _buildPieChartSections(categoryTotals),
+                            ),
+                          ),
+                        ),
+                      ),
+                      
+                      const SizedBox(height: 20),
+                      
+                      // Category Legend
+                      ...categoryTotals.entries.map((entry) {
+                        final totalExp = _getTotalExpenses(expenses);
+                        final percentage = totalExp > 0 ? (entry.value / totalExp) : 0.0;
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.surface,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: _getCategoryColor(entry.key).withValues(alpha: 0.3),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: _getCategoryColor(entry.key).withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Icon(
+                                  _getCategoryIcon(entry.key),
+                                  color: _getCategoryColor(entry.key),
+                                  size: 16,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  _getCategoryDisplayName(entry.key),
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    CurrencyFormatter.formatAmount(entry.value, widget.trip.defaultCurrency),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${(percentage * 100).toInt()}%',
+                                    style: TextStyle(
+                                      color: _getCategoryColor(entry.key),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                    ],
+                    
+                    // Person Breakdown Section  
+                    if (personTotals.isNotEmpty) ...[
+                      const SizedBox(height: 24),
+                      Text(
+                        'Expense per Person',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      ...personTotals.entries.map((entry) => Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surface,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: AppTheme.primaryColor.withValues(alpha: 0.1),
+                              child: Text(
+                                entry.key[0].toUpperCase(),
+                                style: const TextStyle(
+                                  color: AppTheme.primaryColor,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Text(
+                                entry.key,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              CurrencyFormatter.formatAmount(entry.value, widget.trip.defaultCurrency),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                                color: AppTheme.accentColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                    ],
+                  ],
                 ),
               ),
-              const SizedBox(height: 8),
-              ...personTotals.entries.map((entry) => Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(entry.key),
-                        Text(
-                          CurrencyFormatter.formatAmount(entry.value, widget.trip.defaultCurrency),
-                          style: const TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                  )),
-            ],
-          ),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.close),
-          ),
-        ],
       ),
     );
   }
@@ -1236,137 +1395,531 @@ class _ExpensesTabState extends State<ExpensesTab> {
   void _showSettlementSummary(List<Expense> expenses) {
     final settlements = _calculateSettlements(expenses);
     
-    showDialog(
+    showModalBottomSheet(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Icon(
-              Iconsax.arrow_swap_horizontal,
-              color: AppTheme.primaryColor,
-              size: 20,
-            ),
-            const SizedBox(width: 8),
-            Text('Settlement Summary'),
-          ],
+      isScrollControlled: true,
+      useSafeArea: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Container(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.7,
         ),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (settlements.isEmpty)
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.green.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppTheme.surfaceDark
+              : AppTheme.surfaceLight,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          children: [
+            // Handle bar
+            Container(
+              margin: const EdgeInsets.only(top: 8),
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: (Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.textSecondaryDark
+                    : AppTheme.textSecondary).withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            
+            // Header
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
                   ),
-                  child: Row(
-                    children: [
-                      Icon(Iconsax.tick_circle, color: Colors.green),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          'All expenses are settled!',
-                          style: TextStyle(
-                            color: Colors.green,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Iconsax.arrow_swap_horizontal,
+                      color: AppTheme.primaryColor,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Settlement Summary',
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              else ...[
-                Text(
-                  'Suggested settlements to balance all expenses:',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.textSecondary,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                ...settlements.map((settlement) => Card(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 16,
-                          backgroundColor: Colors.red.withValues(alpha: 0.1),
-                          child: Text(
-                            settlement.from.substring(0, 1).toUpperCase(),
-                            style: const TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${settlement.from} owes ${settlement.to}',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                CurrencyFormatter.formatAmount(settlement.amount, widget.trip.defaultCurrency),
-                                style: const TextStyle(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const Icon(
-                          Iconsax.arrow_right_3,
-                          color: AppTheme.textSecondary,
-                          size: 16,
-                        ),
-                        const SizedBox(width: 8),
-                        CircleAvatar(
-                          radius: 16,
-                          backgroundColor: Colors.green.withValues(alpha: 0.1),
-                          child: Text(
-                            settlement.to.substring(0, 1).toUpperCase(),
-                            style: const TextStyle(
-                              color: Colors.green,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                            ),
+                        Text(
+                          settlements.isEmpty ? 'All settled' : '${settlements.length} transactions needed',
+                          style: TextStyle(
+                            color: settlements.isEmpty ? Colors.green : AppTheme.textSecondary,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],
                     ),
                   ),
-                )),
-              ],
-            ],
-          ),
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Iconsax.close_circle),
+                  ),
+                ],
+              ),
+            ),
+            
+            // Content
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (settlements.isEmpty)
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.green.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.green.withValues(alpha: 0.1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Iconsax.tick_circle,
+                                color: Colors.green,
+                                size: 48,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'All Expenses Settled!',
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: Colors.green,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Everyone is even. No money needs to be exchanged.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.green.shade700,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    else ...[
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: AppTheme.primaryColor.withValues(alpha: 0.3),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Iconsax.info_circle,
+                              color: AppTheme.primaryColor,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                'Suggested settlements to balance all expenses',
+                                style: TextStyle(
+                                  color: AppTheme.primaryColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      ...settlements.map((settlement) => GestureDetector(
+                        onTap: () => _navigateToSettlementDetail(settlement),
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 16),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.surface,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.05),
+                                offset: const Offset(0, 2),
+                                blurRadius: 8,
+                                spreadRadius: 0,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        // Debtor (from)
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 24,
+                                                backgroundColor: Colors.red.withValues(alpha: 0.1),
+                                                child: Text(
+                                                  settlement.from.substring(0, 1).toUpperCase(),
+                                                  style: const TextStyle(
+                                                    color: Colors.red,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 8),
+                                              Text(
+                                                settlement.from,
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              Text(
+                                                'Owes',
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.red.shade600,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        
+                                        // Arrow
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                                          child: Column(
+                                            children: [
+                                              Icon(
+                                                Iconsax.arrow_right_3,
+                                                color: AppTheme.textSecondary,
+                                                size: 20,
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                'pays to',
+                                                style: TextStyle(
+                                                  color: AppTheme.textSecondary,
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        
+                                        // Creditor (to)
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 24,
+                                                backgroundColor: Colors.green.withValues(alpha: 0.1),
+                                                child: Text(
+                                                  settlement.to.substring(0, 1).toUpperCase(),
+                                                  style: const TextStyle(
+                                                    color: Colors.green,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 8),
+                                              Text(
+                                                settlement.to,
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              Text(
+                                                'Receives',
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.green.shade600,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    
+                                    const SizedBox(height: 20),
+                                    
+                                    // Settlement Summary
+                                    Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).brightness == Brightness.dark
+                                            ? AppTheme.textSecondaryDark.withValues(alpha: 0.1)
+                                            : AppTheme.textSecondary.withValues(alpha: 0.1),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  'Total',
+                                                  style: TextStyle(
+                                                    color: AppTheme.textSecondary,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  CurrencyFormatter.formatAmount(settlement.amount, widget.trip.defaultCurrency),
+                                                  style: TextStyle(
+                                                    color: AppTheme.primaryColor,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  'Paid',
+                                                  style: TextStyle(
+                                                    color: AppTheme.textSecondary,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  CurrencyFormatter.formatAmount(settlement.paidAmount, widget.trip.defaultCurrency),
+                                                  style: const TextStyle(
+                                                    color: Colors.green,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  'Balance',
+                                                  style: TextStyle(
+                                                    color: AppTheme.textSecondary,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  CurrencyFormatter.formatAmount(settlement.balanceAmount, widget.trip.defaultCurrency),
+                                                  style: const TextStyle(
+                                                    color: Colors.red,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              
+                              // Tap to view details hint
+                              Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    top: BorderSide(
+                                      color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+                                    ),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Iconsax.eye,
+                                        size: 16,
+                                        color: AppTheme.primaryColor,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'Tap to view & settle individual expenses',
+                                        style: TextStyle(
+                                          color: AppTheme.primaryColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.close),
-          ),
-        ],
       ),
     );
   }
 
+  void _navigateToSettlementDetail(Settlement settlement) {
+    if (settlement.fromUserId == null || settlement.toUserId == null) {
+      showAppSnackBar(
+        context,
+        'Unable to view settlement details: Member information missing',
+        type: SnackBarType.error,
+      );
+      return;
+    }
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => SettlementDetailScreen(
+          fromUserId: settlement.fromUserId!,
+          toUserId: settlement.toUserId!,
+          fromUserName: settlement.from,
+          toUserName: settlement.to,
+          tripId: widget.trip.id,
+          currency: widget.trip.defaultCurrency,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showSettlementAction(Settlement settlement) async {
+    if (settlement.fromUserId == null || settlement.toUserId == null) {
+      showAppSnackBar(
+        context,
+        'Unable to process settlement: Member information missing',
+        type: SnackBarType.error,
+      );
+      return;
+    }
+
+    final action = await SettlementActionModal.show(
+      context,
+      fromPerson: settlement.from,
+      toPerson: settlement.to,
+      totalAmount: settlement.amount,
+      currency: widget.trip.defaultCurrency,
+    );
+
+    if (action != null) {
+      try {
+        if (!mounted) return;
+        final expenseProvider = Provider.of<ExpenseProvider>(context, listen: false);
+        
+        await expenseProvider.recordSettlement(
+          fromUserId: settlement.fromUserId!,
+          toUserId: settlement.toUserId!,
+          amount: action.amount,
+          tripId: widget.trip.id,
+          note: action.note,
+        );
+
+        if (mounted) {
+          Navigator.of(context).pop(); // Close settlement modal
+          
+          String message;
+          if (action.type == SettlementActionType.fullPayment) {
+            message = '${settlement.from} paid ${CurrencyFormatter.formatAmount(action.amount, widget.trip.defaultCurrency)} to ${settlement.to}';
+          } else {
+            message = '${settlement.from} paid ${CurrencyFormatter.formatAmount(action.amount, widget.trip.defaultCurrency)} to ${settlement.to} (partial payment)';
+          }
+          
+          showAppSnackBar(
+            context,
+            message,
+            type: SnackBarType.success,
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          showAppSnackBar(
+            context,
+            'Failed to record settlement: $e',
+            type: SnackBarType.error,
+          );
+        }
+      }
+    }
+  }
+
   List<Settlement> _calculateSettlements(List<Expense> expenses) {
     final Map<String, double> balances = {};
+    final Map<String, String> nameToIdMap = {}; // Map names to member IDs
+    final Map<String, Map<String, double>> paidAmounts = {}; // Track paid amounts between users
+    final Map<String, Map<String, double>> totalAmounts = {}; // Track total amounts between users
     
-    // Calculate net balances for each person
+    final memberProvider = Provider.of<TripMemberProvider>(context, listen: false);
+    
+    // Initialize tracking maps
+    for (final member in memberProvider.members) {
+      nameToIdMap[member.name] = member.id;
+      paidAmounts[member.name] = {};
+      totalAmounts[member.name] = {};
+    }
+    
+    // Calculate net balances and track payment details for each person
     for (final expense in expenses) {
       if (expense.splits.isEmpty) continue;
       
@@ -1377,7 +1930,6 @@ class _ExpensesTabState extends State<ExpensesTab> {
       
       // Each person in split gets debited their share
       for (final split in expense.splits) {
-        final memberProvider = Provider.of<TripMemberProvider>(context, listen: false);
         TripMember? member;
         try {
           member = memberProvider.members.firstWhere(
@@ -1386,8 +1938,21 @@ class _ExpensesTabState extends State<ExpensesTab> {
         } catch (e) {
           member = null;
         }
-        if (member != null) {
+        if (member != null && expense.paidBy.isNotEmpty) {
           balances[member.name] = (balances[member.name] ?? 0.0) - split.amount;
+          nameToIdMap[member.name] = member.id;
+          
+          // Track total amounts between users
+          totalAmounts[member.name] ??= {};
+          totalAmounts[member.name]![expense.paidBy] = 
+              (totalAmounts[member.name]![expense.paidBy] ?? 0.0) + split.amount;
+          
+          // Track paid amounts
+          if (split.isPaid) {
+            paidAmounts[member.name] ??= {};
+            paidAmounts[member.name]![expense.paidBy] = 
+                (paidAmounts[member.name]![expense.paidBy] ?? 0.0) + split.amount;
+          }
         }
       }
     }
@@ -1417,10 +1982,19 @@ class _ExpensesTabState extends State<ExpensesTab> {
       final settleAmount = [creditor.value, debtor.value].reduce((a, b) => a < b ? a : b);
       
       if (settleAmount > 0.01) {
+        // Calculate total amount owed and paid between these two users
+        final totalOwed = totalAmounts[debtor.key]?[creditor.key] ?? 0.0;
+        final alreadyPaid = paidAmounts[debtor.key]?[creditor.key] ?? 0.0;
+        final remainingBalance = totalOwed - alreadyPaid;
+        
         settlements.add(Settlement(
           from: debtor.key,
           to: creditor.key,
-          amount: settleAmount,
+          amount: totalOwed, // Total amount originally owed
+          fromUserId: nameToIdMap[debtor.key],
+          toUserId: nameToIdMap[creditor.key],
+          paidAmount: alreadyPaid,
+          balanceAmount: remainingBalance,
         ));
       }
       
@@ -1434,6 +2008,25 @@ class _ExpensesTabState extends State<ExpensesTab> {
     return settlements;
   }
 
+
+  List<PieChartSectionData> _buildPieChartSections(Map<ExpenseCategory, double> categoryTotals) {
+    final total = categoryTotals.values.fold(0.0, (sum, value) => sum + value);
+    
+    return categoryTotals.entries.map((entry) {
+      final percentage = total > 0 ? (entry.value / total) : 0.0;
+      return PieChartSectionData(
+        color: _getCategoryColor(entry.key),
+        value: entry.value,
+        title: '${(percentage * 100).toInt()}%',
+        radius: 50,
+        titleStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      );
+    }).toList();
+  }
 
   Widget _buildSplitDetails(Expense expense) {
     return Consumer<TripMemberProvider>(
