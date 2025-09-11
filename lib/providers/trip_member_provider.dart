@@ -16,6 +16,7 @@ class TripMemberProvider extends ChangeNotifier {
   List<TripMember> get members => _members;
   bool get isLoading => _isLoading;
   String? get error => _error;
+  TripMemberRepository get repository => _repository;
   
   int get memberCount => _members.length;
   bool get hasMaxMembers => _members.length >= 8; // Maximum 8 members
@@ -25,6 +26,21 @@ class TripMemberProvider extends ChangeNotifier {
       return; // Already loaded for this trip
     }
 
+    _setLoading(true);
+    _currentTripId = tripId;
+
+    try {
+      _members = await _repository.getMembersByTripId(tripId);
+      _error = null;
+    } catch (e) {
+      _error = e.toString();
+    }
+
+    _setLoading(false);
+  }
+
+  // Force reload members for a trip, bypassing cache
+  Future<void> forceLoadMembers(String tripId) async {
     _setLoading(true);
     _currentTripId = tripId;
 
@@ -191,6 +207,14 @@ class TripMemberProvider extends ChangeNotifier {
 
   // Clear current trip data
   void clearCurrentTrip() {
+    _members.clear();
+    _currentTripId = null;
+    _error = null;
+    notifyListeners();
+  }
+
+  // Clear all cached data to force fresh loads
+  void clearAllCache() {
     _members.clear();
     _currentTripId = null;
     _error = null;

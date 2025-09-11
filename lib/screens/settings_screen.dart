@@ -12,6 +12,7 @@ import '../providers/booking_provider.dart';
 import '../providers/expense_provider.dart';
 import '../providers/document_provider.dart';
 import '../providers/itinerary_provider.dart';
+import '../providers/trip_member_provider.dart';
 import '../database/database.dart';
 import '../services/export_service.dart';
 import '../services/import_service.dart';
@@ -1157,6 +1158,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       final expenseProvider = Provider.of<ExpenseProvider>(context, listen: false);
       final documentProvider = Provider.of<DocumentProvider>(context, listen: false);
       final itineraryProvider = Provider.of<ItineraryProvider>(context, listen: false);
+      final tripMemberProvider = Provider.of<TripMemberProvider>(context, listen: false);
       
       // Create export
       final password = _passwordController.text.isEmpty ? null : _passwordController.text;
@@ -1167,6 +1169,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         expenseRepository: expenseProvider.expenseRepository,
         documentRepository: documentProvider.documentRepository,
         itineraryRepository: itineraryProvider.repository,
+        tripMemberRepository: tripMemberProvider.repository,
         password: password,
         saveDirectory: selectedDirectory,
       );
@@ -1691,6 +1694,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       final expenseProvider = Provider.of<ExpenseProvider>(context, listen: false);
       final documentProvider = Provider.of<DocumentProvider>(context, listen: false);
       final itineraryProvider = Provider.of<ItineraryProvider>(context, listen: false);
+      final tripMemberProvider = Provider.of<TripMemberProvider>(context, listen: false);
       
       // Perform import
       final password = _importPasswordController.text.isEmpty ? null : _importPasswordController.text;
@@ -1702,12 +1706,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
         expenseRepository: expenseProvider.expenseRepository,
         documentRepository: documentProvider.documentRepository,
         itineraryRepository: itineraryProvider.repository,
+        tripMemberRepository: tripMemberProvider.repository,
         password: password,
       );
       
       // Refresh providers to show imported data
       await tripProvider.loadTrips();
       await documentProvider.loadPersonalDocuments();
+      // Clear trip member cache and force refresh data for each imported trip
+      tripMemberProvider.clearAllCache();
+      for (final trip in exportData.trips) {
+        await tripMemberProvider.forceLoadMembers(trip.id);
+      }
       // Refresh itinerary data if there are trips to refresh for
       if (exportData.trips.isNotEmpty) {
         await itineraryProvider.loadActivities(exportData.trips.first.id);

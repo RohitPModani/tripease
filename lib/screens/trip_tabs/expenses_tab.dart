@@ -2100,12 +2100,12 @@ class _ExpensesTabState extends State<ExpensesTab> {
           balances[member.name] = (balances[member.name] ?? 0.0) - split.amount;
           nameToIdMap[member.name] = member.id;
           
-          // Track total amounts between users
+          // Track total amounts between users for settlement tracking
           totalAmounts[member.name] ??= {};
           totalAmounts[member.name]![expense.paidBy] = 
               (totalAmounts[member.name]![expense.paidBy] ?? 0.0) + split.amount;
           
-          // Track paid amounts
+          // Track paid amounts for settlement tracking
           if (split.isPaid) {
             paidAmounts[member.name] ??= {};
             paidAmounts[member.name]![expense.paidBy] = 
@@ -2115,52 +2115,55 @@ class _ExpensesTabState extends State<ExpensesTab> {
       }
     }
     
-    // Generate settlements using a simplified debt algorithm
+    // Generate simplified settlements using optimal debt resolution algorithm
     final List<Settlement> settlements = [];
-    final List<MapEntry<String, double>> creditors = [];
-    final List<MapEntry<String, double>> debtors = [];
     
-    for (final entry in balances.entries) {
-      if (entry.value > 0.01) { // They are owed money
-        creditors.add(entry);
-      } else if (entry.value < -0.01) { // They owe money
-        debtors.add(MapEntry(entry.key, -entry.value)); // Make positive
+    // Create mutable copies for the algorithm
+    final Map<String, double> mutableBalances = Map.from(balances);
+    
+    // Simplified debt algorithm: match largest creditors with largest debtors
+    while (true) {
+      // Find the largest creditor and debtor
+      String? largestCreditor;
+      double largestCredit = 0;
+      String? largestDebtor;
+      double largestDebt = 0;
+      
+      for (final entry in mutableBalances.entries) {
+        if (entry.value > 0.01 && entry.value > largestCredit) {
+          largestCreditor = entry.key;
+          largestCredit = entry.value;
+        } else if (entry.value < -0.01 && (-entry.value) > largestDebt) {
+          largestDebtor = entry.key;
+          largestDebt = -entry.value;
+        }
       }
-    }
-    
-    // Sort by amount (largest debts/credits first)
-    creditors.sort((a, b) => b.value.compareTo(a.value));
-    debtors.sort((a, b) => b.value.compareTo(a.value));
-    
-    int i = 0, j = 0;
-    while (i < creditors.length && j < debtors.length) {
-      final creditor = creditors[i];
-      final debtor = debtors[j];
       
-      final settleAmount = [creditor.value, debtor.value].reduce((a, b) => a < b ? a : b);
+      // If no more creditors or debtors, we're done
+      if (largestCreditor == null || largestDebtor == null) break;
       
-      if (settleAmount > 0.01) {
-        // Calculate total amount owed and paid between these two users
-        final totalOwed = totalAmounts[debtor.key]?[creditor.key] ?? 0.0;
-        final alreadyPaid = paidAmounts[debtor.key]?[creditor.key] ?? 0.0;
-        final remainingBalance = totalOwed - alreadyPaid;
+      // Calculate the settlement amount (minimum of what creditor is owed and debtor owes)
+      final settlementAmount = [largestCredit, largestDebt].reduce((a, b) => a < b ? a : b);
+      
+      if (settlementAmount > 0.01) {
+        // For simplified settlements, use the calculated settlement amount
+        final alreadyPaid = paidAmounts[largestDebtor]?[largestCreditor] ?? 0.0;
         
+        // Create settlement with simplified amount (not just relationship history)
         settlements.add(Settlement(
-          from: debtor.key,
-          to: creditor.key,
-          amount: totalOwed, // Total amount originally owed
-          fromUserId: nameToIdMap[debtor.key],
-          toUserId: nameToIdMap[creditor.key],
+          from: largestDebtor,
+          to: largestCreditor,
+          amount: settlementAmount, // Use the simplified settlement amount
+          fromUserId: nameToIdMap[largestDebtor],
+          toUserId: nameToIdMap[largestCreditor],
           paidAmount: alreadyPaid,
-          balanceAmount: remainingBalance,
+          balanceAmount: settlementAmount - alreadyPaid, // Balance based on settlement amount
         ));
+        
+        // Update balances for the algorithm
+        mutableBalances[largestCreditor] = mutableBalances[largestCreditor]! - settlementAmount;
+        mutableBalances[largestDebtor] = mutableBalances[largestDebtor]! + settlementAmount;
       }
-      
-      creditors[i] = MapEntry(creditor.key, creditor.value - settleAmount);
-      debtors[j] = MapEntry(debtor.key, debtor.value - settleAmount);
-      
-      if (creditors[i].value <= 0.01) i++;
-      if (debtors[j].value <= 0.01) j++;
     }
     
     return settlements;

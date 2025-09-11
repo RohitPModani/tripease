@@ -19,7 +19,9 @@ import '../repositories/booking_repository.dart';
 import '../repositories/expense_repository.dart';
 import '../repositories/document_repository.dart';
 import '../repositories/itinerary_repository.dart';
+import '../repositories/trip_member_repository.dart';
 import '../models/itinerary.dart';
+import '../models/trip_member.dart';
 
 class ExportService {
   static const String _appVersion = '1.0.0';
@@ -34,6 +36,7 @@ class ExportService {
     required ExpenseRepository expenseRepository,
     required DocumentRepository documentRepository,
     required ItineraryRepository itineraryRepository,
+    required TripMemberRepository tripMemberRepository,
     String? password,
     String? saveDirectory,
   }) async {
@@ -47,27 +50,30 @@ class ExportService {
       final allBookings = <Booking>[];
       final allExpenses = <Expense>[];
       final allItineraryActivities = <ItineraryActivity>[];
+      final allTripMembers = <TripMember>[];
       
-      // Collect todos, bookings, expenses, and itinerary activities for all trips
-      developer.log('Export: Loading todos, bookings, expenses, and itinerary activities...');
+      // Collect todos, bookings, expenses, itinerary activities, and trip members for all trips
+      developer.log('Export: Loading todos, bookings, expenses, itinerary activities, and trip members...');
       for (final trip in trips) {
         try {
           final todos = await todoRepository.getTodosByTripId(trip.id);
           final bookings = await bookingRepository.getBookingsByTripId(trip.id);
           final expenses = await expenseRepository.getExpensesByTripId(trip.id);
           final itineraryActivities = await itineraryRepository.getActivitiesByTripId(trip.id);
+          final tripMembers = await tripMemberRepository.getMembersByTripId(trip.id);
           
           allTodos.addAll(todos);
           allBookings.addAll(bookings);
           allExpenses.addAll(expenses);
           allItineraryActivities.addAll(itineraryActivities);
+          allTripMembers.addAll(tripMembers);
         } catch (e) {
           developer.log('Export: Error loading data for trip ${trip.id}: $e');
           // Continue with other trips
         }
       }
       
-      developer.log('Export: Found ${allTodos.length} todos, ${allBookings.length} bookings, ${allExpenses.length} expenses, ${allItineraryActivities.length} itinerary activities');
+      developer.log('Export: Found ${allTodos.length} todos, ${allBookings.length} bookings, ${allExpenses.length} expenses, ${allItineraryActivities.length} itinerary activities, ${allTripMembers.length} trip members');
       
       // Get all documents (personal + trip documents)
       developer.log('Export: Loading all documents...');
@@ -105,6 +111,7 @@ class ExportService {
         expenses: allExpenses,
         documents: allDocuments,
         itineraryActivities: allItineraryActivities,
+        tripMembers: allTripMembers,
         settings: settings,
       );
       

@@ -7,6 +7,7 @@ import 'expense.dart';
 import 'document.dart';
 import 'attachment.dart';
 import 'itinerary.dart';
+import 'trip_member.dart';
 import '../database/tables/itinerary_table.dart';
 
 class ExportData {
@@ -18,6 +19,7 @@ class ExportData {
   final List<Expense> expenses;
   final List<Document> documents;
   final List<ItineraryActivity> itineraryActivities;
+  final List<TripMember> tripMembers;
   final Map<String, dynamic> settings;
 
   ExportData({
@@ -29,6 +31,7 @@ class ExportData {
     required this.expenses,
     required this.documents,
     required this.itineraryActivities,
+    required this.tripMembers,
     required this.settings,
   });
 
@@ -44,6 +47,7 @@ class ExportData {
         'expenses': expenses.length,
         'documents': documents.length,
         'itineraryActivities': itineraryActivities.length,
+        'tripMembers': tripMembers.length,
       },
       'data': {
         'trips': trips.map((trip) => _tripToJson(trip)).toList(),
@@ -52,6 +56,7 @@ class ExportData {
         'expenses': expenses.map((expense) => _expenseToJson(expense)).toList(),
         'documents': documents.map((document) => _documentToJson(document)).toList(),
         'itineraryActivities': itineraryActivities.map((activity) => _itineraryActivityToJson(activity)).toList(),
+        'tripMembers': tripMembers.map((member) => _tripMemberToJson(member)).toList(),
       },
       'settings': settings,
     };
@@ -78,6 +83,9 @@ class ExportData {
           .toList(),
       itineraryActivities: (json['data']['itineraryActivities'] as List? ?? [])
           .map((activityJson) => _itineraryActivityFromJson(activityJson))
+          .toList(),
+      tripMembers: (json['data']['tripMembers'] as List? ?? [])
+          .map((memberJson) => _tripMemberFromJson(memberJson))
           .toList(),
       settings: json['settings'] as Map<String, dynamic>,
     );
@@ -329,6 +337,30 @@ class ExportData {
       date: DateTime.parse(json['date']),
       startTime: startTime,
       endTime: endTime,
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
+    );
+  }
+
+  static Map<String, dynamic> _tripMemberToJson(TripMember member) {
+    return {
+      'id': member.id,
+      'tripId': member.tripId,
+      'name': member.name,
+      'email': member.email,
+      'avatar': member.avatar,
+      'createdAt': member.createdAt.toIso8601String(),
+      'updatedAt': member.updatedAt.toIso8601String(),
+    };
+  }
+
+  static TripMember _tripMemberFromJson(Map<String, dynamic> json) {
+    return TripMember(
+      id: json['id'],
+      tripId: json['tripId'],
+      name: json['name'],
+      email: json['email'] ?? '',
+      avatar: json['avatar'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
     );

@@ -15,6 +15,7 @@ import '../repositories/booking_repository.dart';
 import '../repositories/expense_repository.dart';
 import '../repositories/document_repository.dart';
 import '../repositories/itinerary_repository.dart';
+import '../repositories/trip_member_repository.dart';
 
 class ImportService {
   static const String _fileExtension = '.voy';
@@ -27,6 +28,7 @@ class ImportService {
     required ExpenseRepository expenseRepository,
     required DocumentRepository documentRepository,
     required ItineraryRepository itineraryRepository,
+    required TripMemberRepository tripMemberRepository,
     String? password,
   }) async {
     try {
@@ -138,6 +140,7 @@ class ImportService {
       developer.log('  Bookings: ${exportData.bookings.length}');
       developer.log('  Expenses: ${exportData.expenses.length}');
       developer.log('  Documents: ${exportData.documents.length}');
+      developer.log('  Trip Members: ${exportData.tripMembers.length}');
       developer.log('  Settings: ${exportData.settings.length} items');
       
       // Extract document files first
@@ -154,6 +157,7 @@ class ImportService {
         expenses: exportData.expenses,
         documents: updatedDocuments,
         itineraryActivities: exportData.itineraryActivities,
+        tripMembers: exportData.tripMembers,
         settings: exportData.settings,
       );
       
@@ -166,6 +170,7 @@ class ImportService {
         expenseRepository,
         documentRepository,
         itineraryRepository,
+        tripMemberRepository,
       );
       
       // Import app settings
@@ -189,6 +194,7 @@ class ImportService {
     ExpenseRepository expenseRepository,
     DocumentRepository documentRepository,
     ItineraryRepository itineraryRepository,
+    TripMemberRepository tripMemberRepository,
   ) async {
     developer.log('Import: Starting database import...');
     
@@ -207,6 +213,24 @@ class ImportService {
       } catch (e) {
         developer.log('Import: Warning - Failed to import trip ${trip.id}: $e');
         // Continue with other trips
+      }
+    }
+    
+    // Import trip members with duplicate ID handling (right after trips)
+    developer.log('Import: Importing ${exportData.tripMembers.length} trip members...');
+    for (final member in exportData.tripMembers) {
+      try {
+        final existingMember = await tripMemberRepository.getMemberById(member.id);
+        if (existingMember != null) {
+          await tripMemberRepository.updateMember(member);
+          developer.log('Import: Updated existing member ${member.id}');
+        } else {
+          await tripMemberRepository.createMember(member);
+          developer.log('Import: Created new member ${member.id}');
+        }
+      } catch (e) {
+        developer.log('Import: Warning - Failed to import member ${member.id}: $e');
+        // Continue with other members
       }
     }
     
@@ -252,8 +276,10 @@ class ImportService {
       try {
         final existingExpense = await expenseRepository.getExpenseById(expense.id);
         if (existingExpense != null) {
-          await expenseRepository.updateExpense(expense);
-          developer.log('Import: Updated existing expense ${expense.id}');
+          // For import, always delete and recreate to ensure data integrity
+          await expenseRepository.deleteExpense(expense.id);
+          await expenseRepository.createExpense(expense);
+          developer.log('Import: Replaced existing expense ${expense.id}');
         } else {
           await expenseRepository.createExpense(expense);
           developer.log('Import: Created new expense ${expense.id}');

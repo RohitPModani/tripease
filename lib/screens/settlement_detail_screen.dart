@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../models/expense.dart';
 import '../themes/app_theme.dart';
 import '../providers/expense_provider.dart';
-import '../providers/trip_member_provider.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/currency_formatter.dart';
 import '../utils/snackbar.dart';
@@ -46,7 +45,6 @@ class _SettlementDetailScreenState extends State<SettlementDetailScreen> {
 
   void _loadSettlementData() {
     final expenseProvider = Provider.of<ExpenseProvider>(context, listen: false);
-    final memberProvider = Provider.of<TripMemberProvider>(context, listen: false);
     
     _relatedExpenses.clear();
     _unpaidSplits.clear();
@@ -54,19 +52,25 @@ class _SettlementDetailScreenState extends State<SettlementDetailScreen> {
     _totalOwed = 0.0;
     _totalPaid = 0.0;
 
+    // For simplified settlements, show ALL expenses where the fromUser has splits
+    // This gives a complete picture of what the debtor owes across all expenses
     for (final expense in expenseProvider.expenses) {
-      // Check if this expense was paid by the person who should receive money
-      if (expense.paidBy == widget.toUserName) {
-        for (final split in expense.splits) {
-          if (split.userId == widget.fromUserId) {
+      bool hasRelatedSplit = false;
+      
+      for (final split in expense.splits) {
+        if (split.userId == widget.fromUserId) {
+          // This person has a split in this expense
+          if (!hasRelatedSplit) {
             _relatedExpenses.add(expense);
-            if (!split.isPaid) {
-              _unpaidSplits.add(split);
-              _totalOwed += split.amount;
-            } else {
-              _paidSplits.add(split);
-              _totalPaid += split.amount;
-            }
+            hasRelatedSplit = true;
+          }
+          
+          if (!split.isPaid) {
+            _unpaidSplits.add(split);
+            _totalOwed += split.amount;
+          } else {
+            _paidSplits.add(split);
+            _totalPaid += split.amount;
           }
         }
       }
