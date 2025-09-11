@@ -67,10 +67,6 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
   late final TextEditingController titleController;
   late final TextEditingController descriptionController;
   late final TextEditingController locationController;
-  late final ScrollController _scrollController;
-  late final FocusNode _titleFocusNode;
-  late final FocusNode _descriptionFocusNode;
-  late final FocusNode _locationFocusNode;
   
   late ActivityType selectedType;
   late DateTime selectedActivityDate;
@@ -94,10 +90,6 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
     titleController = TextEditingController(text: widget.activity?.title ?? '');
     descriptionController = TextEditingController(text: widget.activity?.description ?? '');
     locationController = TextEditingController(text: widget.activity?.location ?? '');
-    _scrollController = ScrollController();
-    _titleFocusNode = FocusNode();
-    _descriptionFocusNode = FocusNode();
-    _locationFocusNode = FocusNode();
     
     selectedType = widget.activity?.type ?? ActivityType.sightseeing;
     
@@ -120,47 +112,14 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
     locationCharCount = locationController.text.length;
     descriptionCharCount = descriptionController.text.length;
 
-    // Add focus listeners for auto-scroll
-    _titleFocusNode.addListener(() {
-      if (_titleFocusNode.hasFocus) {
-        _scrollToField(0.0);
-      }
-    });
-    
-    _descriptionFocusNode.addListener(() {
-      if (_descriptionFocusNode.hasFocus) {
-        _scrollToField(200.0);
-      }
-    });
-
-    _locationFocusNode.addListener(() {
-      if (_locationFocusNode.hasFocus) {
-        _scrollToField(150.0);
-      }
-    });
   }
 
-  void _scrollToField(double offset) {
-    Future.delayed(const Duration(milliseconds: 300), () {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          offset,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-      }
-    });
-  }
 
   @override
   void dispose() {
     titleController.dispose();
     descriptionController.dispose();
     locationController.dispose();
-    _scrollController.dispose();
-    _titleFocusNode.dispose();
-    _descriptionFocusNode.dispose();
-    _locationFocusNode.dispose();
     super.dispose();
   }
 
@@ -198,7 +157,6 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                controller: _scrollController,
                 padding: const EdgeInsets.all(24),
                 child: Form(
                   key: _formKey,
@@ -231,7 +189,6 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                     const SizedBox(height: 24),
                     TextFormField(
                       controller: titleController,
-                      focusNode: _titleFocusNode,
                       maxLength: FormValidators.titleLimit,
                       onChanged: (value) {
                         setState(() {
@@ -318,7 +275,6 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: locationController,
-                      focusNode: _locationFocusNode,
                       maxLength: FormValidators.locationLimit,
                       onChanged: (value) {
                         setState(() {
@@ -570,7 +526,6 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: descriptionController,
-                      focusNode: _descriptionFocusNode,
                       maxLength: FormValidators.itineraryDescriptionLimit,
                       onChanged: (value) {
                         setState(() {
