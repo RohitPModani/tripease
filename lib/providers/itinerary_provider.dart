@@ -17,6 +17,7 @@ class ItineraryProvider extends ChangeNotifier {
   List<ItineraryActivity> get activities => _activities;
   bool get isLoading => _isLoading;
   String? get error => _error;
+  ItineraryRepository get repository => _repository;
 
   Future<void> loadActivities(String tripId) async {
     if (_currentTripId == tripId && _activities.isNotEmpty) {

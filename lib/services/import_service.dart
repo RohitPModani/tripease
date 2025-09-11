@@ -14,6 +14,7 @@ import '../repositories/todo_repository.dart';
 import '../repositories/booking_repository.dart';
 import '../repositories/expense_repository.dart';
 import '../repositories/document_repository.dart';
+import '../repositories/itinerary_repository.dart';
 
 class ImportService {
   static const String _fileExtension = '.voy';
@@ -25,6 +26,7 @@ class ImportService {
     required BookingRepository bookingRepository,
     required ExpenseRepository expenseRepository,
     required DocumentRepository documentRepository,
+    required ItineraryRepository itineraryRepository,
     String? password,
   }) async {
     try {
@@ -151,6 +153,7 @@ class ImportService {
         bookings: exportData.bookings,
         expenses: exportData.expenses,
         documents: updatedDocuments,
+        itineraryActivities: exportData.itineraryActivities,
         settings: exportData.settings,
       );
       
@@ -162,6 +165,7 @@ class ImportService {
         bookingRepository,
         expenseRepository,
         documentRepository,
+        itineraryRepository,
       );
       
       // Import app settings
@@ -184,6 +188,7 @@ class ImportService {
     BookingRepository bookingRepository,
     ExpenseRepository expenseRepository,
     DocumentRepository documentRepository,
+    ItineraryRepository itineraryRepository,
   ) async {
     developer.log('Import: Starting database import...');
     
@@ -277,6 +282,24 @@ class ImportService {
       } catch (e) {
         developer.log('Import: Warning - Failed to import document ${document.id}: $e');
         // Continue with other documents
+      }
+    }
+    
+    // Import itinerary activities with duplicate ID handling
+    developer.log('Import: Importing ${exportData.itineraryActivities.length} itinerary activities...');
+    for (final activity in exportData.itineraryActivities) {
+      try {
+        final existingActivity = await itineraryRepository.getActivityById(activity.id);
+        if (existingActivity != null) {
+          await itineraryRepository.updateActivity(activity);
+          developer.log('Import: Updated existing activity ${activity.id}');
+        } else {
+          await itineraryRepository.createActivity(activity);
+          developer.log('Import: Created new activity ${activity.id}');
+        }
+      } catch (e) {
+        developer.log('Import: Warning - Failed to import activity ${activity.id}: $e');
+        // Continue with other activities
       }
     }
     

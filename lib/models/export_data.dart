@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'trip.dart';
 import 'todo_item.dart';
 import 'booking.dart';
 import 'expense.dart';
 import 'document.dart';
 import 'attachment.dart';
+import 'itinerary.dart';
+import '../database/tables/itinerary_table.dart';
 
 class ExportData {
   final DateTime exportDate;
@@ -14,6 +17,7 @@ class ExportData {
   final List<Booking> bookings;
   final List<Expense> expenses;
   final List<Document> documents;
+  final List<ItineraryActivity> itineraryActivities;
   final Map<String, dynamic> settings;
 
   ExportData({
@@ -24,6 +28,7 @@ class ExportData {
     required this.bookings,
     required this.expenses,
     required this.documents,
+    required this.itineraryActivities,
     required this.settings,
   });
 
@@ -38,6 +43,7 @@ class ExportData {
         'bookings': bookings.length,
         'expenses': expenses.length,
         'documents': documents.length,
+        'itineraryActivities': itineraryActivities.length,
       },
       'data': {
         'trips': trips.map((trip) => _tripToJson(trip)).toList(),
@@ -45,6 +51,7 @@ class ExportData {
         'bookings': bookings.map((booking) => _bookingToJson(booking)).toList(),
         'expenses': expenses.map((expense) => _expenseToJson(expense)).toList(),
         'documents': documents.map((document) => _documentToJson(document)).toList(),
+        'itineraryActivities': itineraryActivities.map((activity) => _itineraryActivityToJson(activity)).toList(),
       },
       'settings': settings,
     };
@@ -68,6 +75,9 @@ class ExportData {
           .toList(),
       documents: (json['data']['documents'] as List)
           .map((documentJson) => _documentFromJson(documentJson))
+          .toList(),
+      itineraryActivities: (json['data']['itineraryActivities'] as List? ?? [])
+          .map((activityJson) => _itineraryActivityFromJson(activityJson))
           .toList(),
       settings: json['settings'] as Map<String, dynamic>,
     );
@@ -272,6 +282,53 @@ class ExportData {
       fileName: json['fileName'] ?? '',
       fileSize: json['fileSize'] ?? 0,
       isPersonal: json['isPersonal'] ?? false,
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
+    );
+  }
+
+  static Map<String, dynamic> _itineraryActivityToJson(ItineraryActivity activity) {
+    return {
+      'id': activity.id,
+      'tripId': activity.tripId,
+      'title': activity.title,
+      'type': activity.type.name,
+      'description': activity.description,
+      'location': activity.location,
+      'date': activity.date.toIso8601String(),
+      'startTimeHour': activity.startTime?.hour,
+      'startTimeMinute': activity.startTime?.minute,
+      'endTimeHour': activity.endTime?.hour,
+      'endTimeMinute': activity.endTime?.minute,
+      'createdAt': activity.createdAt.toIso8601String(),
+      'updatedAt': activity.updatedAt.toIso8601String(),
+    };
+  }
+  
+  static ItineraryActivity _itineraryActivityFromJson(Map<String, dynamic> json) {
+    TimeOfDay? startTime;
+    if (json['startTimeHour'] != null && json['startTimeMinute'] != null) {
+      startTime = TimeOfDay(hour: json['startTimeHour'], minute: json['startTimeMinute']);
+    }
+
+    TimeOfDay? endTime;
+    if (json['endTimeHour'] != null && json['endTimeMinute'] != null) {
+      endTime = TimeOfDay(hour: json['endTimeHour'], minute: json['endTimeMinute']);
+    }
+
+    return ItineraryActivity(
+      id: json['id'],
+      tripId: json['tripId'],
+      title: json['title'],
+      type: ActivityType.values.firstWhere(
+        (t) => t.name == json['type'],
+        orElse: () => ActivityType.other,
+      ),
+      description: json['description'] ?? '',
+      location: json['location'] ?? '',
+      date: DateTime.parse(json['date']),
+      startTime: startTime,
+      endTime: endTime,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
     );

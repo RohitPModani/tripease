@@ -18,6 +18,8 @@ import '../repositories/todo_repository.dart';
 import '../repositories/booking_repository.dart';
 import '../repositories/expense_repository.dart';
 import '../repositories/document_repository.dart';
+import '../repositories/itinerary_repository.dart';
+import '../models/itinerary.dart';
 
 class ExportService {
   static const String _appVersion = '1.0.0';
@@ -31,6 +33,7 @@ class ExportService {
     required BookingRepository bookingRepository,
     required ExpenseRepository expenseRepository,
     required DocumentRepository documentRepository,
+    required ItineraryRepository itineraryRepository,
     String? password,
     String? saveDirectory,
   }) async {
@@ -43,25 +46,28 @@ class ExportService {
       final allTodos = <TodoItem>[];
       final allBookings = <Booking>[];
       final allExpenses = <Expense>[];
+      final allItineraryActivities = <ItineraryActivity>[];
       
-      // Collect todos, bookings, and expenses for all trips
-      developer.log('Export: Loading todos, bookings, expenses...');
+      // Collect todos, bookings, expenses, and itinerary activities for all trips
+      developer.log('Export: Loading todos, bookings, expenses, and itinerary activities...');
       for (final trip in trips) {
         try {
           final todos = await todoRepository.getTodosByTripId(trip.id);
           final bookings = await bookingRepository.getBookingsByTripId(trip.id);
           final expenses = await expenseRepository.getExpensesByTripId(trip.id);
+          final itineraryActivities = await itineraryRepository.getActivitiesByTripId(trip.id);
           
           allTodos.addAll(todos);
           allBookings.addAll(bookings);
           allExpenses.addAll(expenses);
+          allItineraryActivities.addAll(itineraryActivities);
         } catch (e) {
           developer.log('Export: Error loading data for trip ${trip.id}: $e');
           // Continue with other trips
         }
       }
       
-      developer.log('Export: Found ${allTodos.length} todos, ${allBookings.length} bookings, ${allExpenses.length} expenses');
+      developer.log('Export: Found ${allTodos.length} todos, ${allBookings.length} bookings, ${allExpenses.length} expenses, ${allItineraryActivities.length} itinerary activities');
       
       // Get personal documents
       developer.log('Export: Loading personal documents...');
@@ -83,6 +89,7 @@ class ExportService {
         bookings: allBookings,
         expenses: allExpenses,
         documents: documents,
+        itineraryActivities: allItineraryActivities,
         settings: settings,
       );
       
