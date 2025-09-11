@@ -8,14 +8,14 @@ String buildPrivacyHtml(BuildContext context) {
 <h1>Voythrix Privacy Policy</h1>
 <p><em>Last updated: January 11, 2025</em></p>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Privacy-First Design</h2>
   <p>Voythrix is built with privacy as our fundamental principle. Your personal travel data never leaves your device. We do not operate servers that collect, store, or process your trip information. There is no automatic cloud synchronization, no user accounts, and no data transmission to external services.</p>
   
   <p>This privacy policy explains how Voythrix handles your data entirely on your device and what minimal information may be processed during your use of the app.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Information We Store Locally</h2>
   <p>All the following data is stored exclusively on your device in encrypted local databases and secure app directories:</p>
   
@@ -73,7 +73,7 @@ String buildPrivacyHtml(BuildContext context) {
   </ul>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Data Storage and Security</h2>
   <p><strong>Local Storage:</strong> All data is stored in the app's private, encrypted database on your device. File attachments are stored in the app's secure document directory, which is inaccessible to other applications.</p>
   
@@ -84,7 +84,7 @@ String buildPrivacyHtml(BuildContext context) {
   <p><strong>Data Isolation:</strong> Each installation of Voythrix maintains completely separate data. There is no cross-device synchronization or data sharing between installations.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Backup and Export</h2>
   <p><strong>User-Controlled Backups:</strong> You can create backup files (.voy format) that contain all your data. These backups are entirely under your control.</p>
   
@@ -95,7 +95,7 @@ String buildPrivacyHtml(BuildContext context) {
   <p><strong>Backup Contents:</strong> Backups include all trips, itineraries, tasks, bookings, expenses, documents, and app settings. File attachments are included and maintain their original quality and metadata.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Device Permissions</h2>
   <p>Voythrix may request the following permissions to provide its features:</p>
   
@@ -109,7 +109,7 @@ String buildPrivacyHtml(BuildContext context) {
   <p>These permissions are used exclusively for the features described and only when you actively use those features. No background access or data collection occurs.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Third-Party Services and Platform Integration</h2>
   <p><strong>Platform Services:</strong> Voythrix uses standard platform services provided by your device's operating system, including:</p>
   <ul>
@@ -127,7 +127,7 @@ String buildPrivacyHtml(BuildContext context) {
   <p><strong>No Advertising:</strong> Voythrix does not display advertisements and does not integrate with advertising networks or data brokers.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Data Sharing and Disclosure</h2>
   <p><strong>No Automatic Sharing:</strong> Voythrix never automatically shares your data with any third parties, including us (the developers). Your data remains on your device unless you explicitly choose to share it.</p>
   
@@ -141,7 +141,7 @@ String buildPrivacyHtml(BuildContext context) {
   <p><strong>Legal Requirements:</strong> Since your data is stored locally on your device and we have no access to it, we cannot be compelled to provide your personal information to law enforcement or other entities. Any such requests would need to be directed to you directly.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Data Retention and Deletion</h2>
   <p><strong>User Control:</strong> You have complete control over your data retention. Data remains on your device until you actively delete it.</p>
   
@@ -152,24 +152,24 @@ String buildPrivacyHtml(BuildContext context) {
   <p><strong>App Uninstallation:</strong> Uninstalling Voythrix removes all associated data from your device, including the app database and stored files.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Children's Privacy</h2>
   <p>Voythrix does not knowingly collect personal information from children under 13. Since all data is stored locally on the device and no information is transmitted to us, the app can be used by minors under appropriate parental supervision. Parents and guardians are responsible for monitoring their children's use of the app and the data they store within it.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>International Users</h2>
   <p>Voythrix is designed to work globally without transmitting data across borders. Since all data is stored locally on your device, international data transfer regulations do not apply to the app's normal operation. When you create backups, you control where those files are stored and whether they cross international boundaries.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Changes to This Privacy Policy</h2>
   <p>We may update this privacy policy to reflect changes in the app's functionality or legal requirements. When we make changes, we will update the "Last updated" date at the top of this policy. Continued use of Voythrix after changes take effect constitutes acceptance of the updated policy.</p>
   
   <p>Since Voythrix operates offline, you may not receive automatic notifications of policy changes. We recommend reviewing this policy periodically when you access it through the app settings.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Your Rights and Choices</h2>
   <p>Since your data is stored locally on your device, you have complete control over it:</p>
   
@@ -184,17 +184,17 @@ String buildPrivacyHtml(BuildContext context) {
   <p>These rights are built into the app's design and are available to you at all times without needing to contact us.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Contact Information</h2>
   <p>If you have questions about this privacy policy or Voythrix's privacy practices, please contact us at:</p>
   
-  <p><strong>Email:</strong> <a href=\"mailto:voythrix@gmail.com\">voythrix@gmail.com</a><br/>
+  <p><strong>Email:</strong> <a href='mailto:voythrix@gmail.com'>voythrix@gmail.com</a><br/>
   <strong>Subject:</strong> Privacy Policy Question</p>
   
   <p>Please note that since we do not have access to your app data, we cannot help with data recovery, password recovery, or accessing specific information stored in your app. For technical support with app functionality, please use our general support contact.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Commitment to Privacy</h2>
   <p>Your privacy is not just a policy for us—it's a core design principle. Voythrix was built specifically to give you complete control over your travel data while providing powerful organizational tools. We believe that your personal information should remain personal, and our app's architecture ensures that belief is reflected in every aspect of its operation.</p>
 </div>
@@ -205,12 +205,12 @@ String buildPrivacyHtml(BuildContext context) {
 <h1>Política de Privacidad de Voythrix</h1>
 <p><em>Última actualización: 2025-09-11</em></p>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Resumen</h2>
   <p>Voythrix está diseñado con la privacidad como prioridad. Tus datos se guardan localmente en tu dispositivo. No operamos servidores que reciban tus datos y no hay sincronización automática en la nube.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Datos que almacenamos</h2>
   <ul>
     <li>Viajes, tareas, reservas y gastos</li>
@@ -220,22 +220,22 @@ String buildPrivacyHtml(BuildContext context) {
   <p>Todo lo anterior se almacena localmente en la base de datos y carpetas de documentos de la app en tu dispositivo.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Copias de seguridad</h2>
   <p>Puedes exportar copias de seguridad como archivos <code>.voy</code>. Si estableces una contraseña, la copia se cifra (AES‑256) y solo puede descifrarse con esa contraseña. No podemos recuperar contraseñas perdidas.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Permisos</h2>
   <p>La app puede solicitar permisos (p. ej., acceso a Fotos/Archivos) para adjuntar, ver o guardar archivos. Estos permisos se usan únicamente para esas funciones.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Servicios de terceros</h2>
   <p>Servicios básicos del dispositivo (p. ej., selectores de archivos, apertura de URLs) se ejecutan localmente para soportar funciones como ver PDFs o compartir archivos. No envían tus datos a servidores de Voythrix.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Control de datos</h2>
   <ul>
     <li><strong>Exportar</strong>: Crea copias de seguridad (con o sin cifrado) bajo tu control.</li>
@@ -244,9 +244,9 @@ String buildPrivacyHtml(BuildContext context) {
   </ul>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Contacto</h2>
-  <p>¿Preguntas sobre esta política? Escribe a <a href=\"mailto:voythrix@gmail.com\">voythrix@gmail.com</a>.</p>
+  <p>¿Preguntas sobre esta política? Escribe a <a href='mailto:voythrix@gmail.com'>voythrix@gmail.com</a>.</p>
 </div>
 ''';
 
@@ -255,12 +255,12 @@ String buildPrivacyHtml(BuildContext context) {
 <h1>Politique de Confidentialité Voythrix</h1>
 <p><em>Dernière mise à jour : 2025-09-11</em></p>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Aperçu</h2>
   <p>Voythrix est conçu avec la confidentialité en priorité. Vos données sont stockées localement sur votre appareil. Nous n’exploitons pas de serveurs recevant vos données et il n’y a pas de synchronisation cloud automatique.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Données que nous stockons</h2>
   <ul>
     <li>Voyages, tâches, réservations, dépenses</li>
@@ -270,22 +270,22 @@ String buildPrivacyHtml(BuildContext context) {
   <p>Toutes ces données sont stockées localement dans la base de données de l’app et ses dossiers de documents sur votre appareil.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Sauvegardes</h2>
   <p>Vous pouvez exporter des sauvegardes au format <code>.voy</code>. Si vous définissez un mot de passe, la sauvegarde est chiffrée (AES‑256) et ne peut être déchiffrée qu’avec ce mot de passe. Nous ne pouvons pas récupérer un mot de passe perdu.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Autorisations</h2>
   <p>L’app peut demander des autorisations (ex. Photos/Fichiers) pour joindre, afficher ou enregistrer des fichiers. Ces autorisations sont utilisées uniquement pour ces fonctionnalités.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Services tiers</h2>
   <p>Des services locaux de la plateforme (ex. sélecteurs de fichiers, ouverture d’URL) s’exécutent sur votre appareil pour permettre l’affichage de PDF ou le partage de fichiers. Ils n’envoient pas vos données aux serveurs Voythrix.</p>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Contrôle des données</h2>
   <ul>
     <li><strong>Exporter</strong> : créez des sauvegardes chiffrées ou non que vous contrôlez.</li>
@@ -294,9 +294,9 @@ String buildPrivacyHtml(BuildContext context) {
   </ul>
 </div>
 
-<div class=\"section\">
+<div class='section'>
   <h2>Contact</h2>
-  <p>Des questions ? Écrivez‑nous à <a href=\"mailto:voythrix@gmail.com\">voythrix@gmail.com</a>.</p>
+  <p>Des questions ? Écrivez‑nous à <a href='mailto:voythrix@gmail.com'>voythrix@gmail.com</a>.</p>
 </div>
 ''';
 

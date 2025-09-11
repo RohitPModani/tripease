@@ -654,11 +654,12 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                                   endTime: selectedEndTime,
                                 );
 
+                                final navigator = Navigator.of(context);
                                 await itineraryProvider.addActivity(newActivity);
                                 
                                 if (mounted) {
                                   widget.onActivityAdded(newActivity, selectedActivityDate);
-                                  if (mounted) Navigator.pop(context);
+                                  navigator.pop();
                                 }
                               },
                               style: ElevatedButton.styleFrom(
