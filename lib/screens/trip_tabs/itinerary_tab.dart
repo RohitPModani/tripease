@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:timezone/timezone.dart' as tz;
 import '../../models/trip.dart';
@@ -33,6 +34,15 @@ class _ItineraryTabState extends State<ItineraryTab> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<ItineraryProvider>(context, listen: false).loadActivities(widget.trip.id);
     });
+  }
+
+  Future<void> _openLocationInMaps(ItineraryActivity activity) async {
+    final query = activity.location.trim();
+    if (query.isEmpty) return;
+    final uri = Uri.parse('https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent(query)}');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
   }
 
   void _generateDays() {
@@ -537,30 +547,22 @@ class _ItineraryTabState extends State<ItineraryTab> {
                 ],
                 if (activity.location.isNotEmpty) ...[
                   const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      Icon(
-                        Iconsax.location,
-                        size: 12,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? AppTheme.textSecondaryDark
-                            : AppTheme.textSecondary,
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          activity.location,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Theme.of(context).brightness == Brightness.dark
-                            ? AppTheme.textSecondaryDark
-                            : AppTheme.textSecondary,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton.icon(
+                      onPressed: () => _openLocationInMaps(activity),
+                      icon: const Icon(Iconsax.map, size: 16, color: AppTheme.primaryColor),
+                      label: const Text(
+                        'Open in Maps',
+                        style: TextStyle(
+                          color: AppTheme.primaryColor,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ],
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      ),
+                    ),
                   ),
                 ],
               ],

@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import '../models/location.dart';
 import '../services/location_search_service.dart';
 import '../themes/app_theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DestinationAutocomplete extends StatefulWidget {
   final TextEditingController controller;
@@ -155,6 +156,16 @@ class _DestinationAutocompleteState extends State<DestinationAutocomplete> {
       _selectedLocation = null;
     });
     widget.onLocationSelected?.call(null);
+  }
+
+  Future<void> _openInMaps(LocationSuggestion location) async {
+    if (location.latitude == null || location.longitude == null) return;
+    final lat = location.latitude!.toStringAsFixed(6);
+    final lon = location.longitude!.toStringAsFixed(6);
+    final uri = Uri.parse('https://www.google.com/maps/search/?api=1&query=$lat,$lon');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
   }
 
   @override
@@ -390,6 +401,21 @@ class _DestinationAutocompleteState extends State<DestinationAutocomplete> {
                     ],
                   ),
                 ),
+                if (_selectedLocation!.latitude != null && _selectedLocation!.longitude != null)
+                  TextButton.icon(
+                    onPressed: () => _openInMaps(_selectedLocation!),
+                    icon: const Icon(Iconsax.map, size: 16, color: AppTheme.primaryColor),
+                    label: const Text(
+                      'Open in Maps',
+                      style: TextStyle(
+                        color: AppTheme.primaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                    ),
+                  ),
               ],
             ),
           ),
