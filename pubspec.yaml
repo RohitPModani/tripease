@@ -79,6 +79,9 @@ dependencies:
   # Date Range Picker
   syncfusion_flutter_datepicker: ^28.1.35
   flutter_html: ^3.0.0
+  
+  # Calendar export
+  device_calendar: ^4.3.3
 
 dev_dependencies:
   flutter_test:

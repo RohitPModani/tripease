@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import '../themes/app_theme.dart';
 import '../l10n/app_localizations.dart';
+import '../utils/currency_formatter.dart';
 
 enum SplitType { equal, custom }
 
@@ -20,12 +21,14 @@ class SplitSelection {
 class SplitSelectionModal extends StatefulWidget {
   final List<String> availableMembers;
   final double totalAmount;
+  final String currency;
   final SplitSelection? currentSplit;
 
   const SplitSelectionModal({
     super.key,
     required this.availableMembers,
     required this.totalAmount,
+    required this.currency,
     this.currentSplit,
   });
 
@@ -33,6 +36,7 @@ class SplitSelectionModal extends StatefulWidget {
     BuildContext context, {
     required List<String> availableMembers,
     required double totalAmount,
+    required String currency,
     SplitSelection? currentSplit,
   }) {
     return showModalBottomSheet<SplitSelection>(
@@ -49,6 +53,7 @@ class SplitSelectionModal extends StatefulWidget {
         child: SplitSelectionModal(
           availableMembers: availableMembers,
           totalAmount: totalAmount,
+          currency: currency,
           currentSplit: currentSplit,
         ),
       ),
@@ -180,7 +185,7 @@ class _SplitSelectionModalState extends State<SplitSelectionModal> {
                             ),
                           ),
                           Text(
-                            'Total: \$${widget.totalAmount.toStringAsFixed(2)}',
+                            'Total: ${CurrencyFormatter.getCurrencySymbol(widget.currency)} ${widget.totalAmount.toStringAsFixed(2)}',
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: AppTheme.textSecondary,
                             ),
@@ -326,7 +331,6 @@ class _SplitSelectionModalState extends State<SplitSelectionModal> {
         });
       },
       child: Container(
-        height: 100, // Fixed height for consistency
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected 
@@ -340,7 +344,7 @@ class _SplitSelectionModalState extends State<SplitSelectionModal> {
           ),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
@@ -348,10 +352,10 @@ class _SplitSelectionModalState extends State<SplitSelectionModal> {
               color: isSelected ? AppTheme.primaryColor : AppTheme.textSecondary,
               size: 28,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(width: 8),
             Text(
               title,
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: isSelected ? AppTheme.primaryColor : null,
               ),
@@ -370,7 +374,6 @@ class _SplitSelectionModalState extends State<SplitSelectionModal> {
       return Padding(
         padding: const EdgeInsets.only(bottom: 8),
         child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
             side: BorderSide(
@@ -389,7 +392,7 @@ class _SplitSelectionModalState extends State<SplitSelectionModal> {
           ),
           title: Text(member),
           subtitle: isSelected 
-              ? Text('\$${equalSplitAmount.toStringAsFixed(2)}')
+              ? Text('${CurrencyFormatter.getCurrencySymbol(widget.currency)} ${equalSplitAmount.toStringAsFixed(2)}')
               : null,
           trailing: Checkbox(
             value: isSelected,
@@ -428,7 +431,7 @@ class _SplitSelectionModalState extends State<SplitSelectionModal> {
             Expanded(
               child: Text(
                 member,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
             SizedBox(
@@ -437,8 +440,7 @@ class _SplitSelectionModalState extends State<SplitSelectionModal> {
                 controller: amountControllers[member],
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
-                  hintText: '0.00',
-                  prefixText: '\$',
+                  prefixText: '${CurrencyFormatter.getCurrencySymbol(widget.currency)} ',
                   contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -477,7 +479,7 @@ class _SplitSelectionModalState extends State<SplitSelectionModal> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Total Amount:'),
-              Text('\$${widget.totalAmount.toStringAsFixed(2)}'),
+              Text('${CurrencyFormatter.getCurrencySymbol(widget.currency)} ${widget.totalAmount.toStringAsFixed(2)}'),
             ],
           ),
           const SizedBox(height: 4),
@@ -494,7 +496,7 @@ class _SplitSelectionModalState extends State<SplitSelectionModal> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Per Person:'),
-                Text('\$${equalSplitAmount.toStringAsFixed(2)}'),
+                Text('${CurrencyFormatter.getCurrencySymbol(widget.currency)} ${equalSplitAmount.toStringAsFixed(2)}'),
               ],
             ),
           ] else ...[
@@ -503,7 +505,7 @@ class _SplitSelectionModalState extends State<SplitSelectionModal> {
               children: [
                 Text('Custom Total:'),
                 Text(
-                  '\$${totalCustomAmount.toStringAsFixed(2)}',
+                  '${CurrencyFormatter.getCurrencySymbol(widget.currency)} ${totalCustomAmount.toStringAsFixed(2)}',
                   style: TextStyle(
                     color: isCustomSplitValid ? Colors.green : AppTheme.error,
                     fontWeight: FontWeight.w600,
@@ -514,7 +516,7 @@ class _SplitSelectionModalState extends State<SplitSelectionModal> {
             if (!isCustomSplitValid) ...[
               const SizedBox(height: 4),
               Text(
-                'Amounts must total \$${widget.totalAmount.toStringAsFixed(2)}',
+                'Amounts must total ${CurrencyFormatter.getCurrencySymbol(widget.currency)} ${widget.totalAmount.toStringAsFixed(2)}',
                 style: const TextStyle(
                   color: AppTheme.error,
                   fontSize: 12,

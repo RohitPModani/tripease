@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:device_calendar/device_calendar.dart';
+import 'package:timezone/timezone.dart' as tz;
 import '../../models/trip.dart';
 import '../../models/itinerary.dart';
 import '../../themes/app_theme.dart';
@@ -8,6 +10,7 @@ import '../../l10n/app_localizations.dart';
 import '../../widgets/itinerary_form_modal.dart';
 import '../../providers/itinerary_provider.dart';
 import '../../database/tables/itinerary_table.dart';
+import '../../utils/snackbar.dart';
 
 class ItineraryTab extends StatefulWidget {
   final Trip trip;
@@ -21,6 +24,7 @@ class ItineraryTab extends StatefulWidget {
 class _ItineraryTabState extends State<ItineraryTab> {
   List<ItineraryDay> days = [];
   int selectedDayIndex = 0;
+  final DeviceCalendarPlugin _deviceCalendarPlugin = DeviceCalendarPlugin();
 
   @override
   void initState() {
@@ -87,7 +91,23 @@ class _ItineraryTabState extends State<ItineraryTab> {
           );
         }
 
-        return Row(
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          floatingActionButton: Container(
+            decoration: AppTheme.glowingButtonDecoration,
+            child: FloatingActionButton.extended(
+              onPressed: () => _showAddActivityDialog(days[selectedDayIndex]),
+              icon: const Icon(Iconsax.add),
+              label: Text(
+                AppLocalizations.of(context)!.addActivity,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              backgroundColor: Colors.transparent,
+              foregroundColor: Colors.white,
+              elevation: 0,
+            ),
+          ),
+          body: Row(
       children: [
         // Day selector sidebar
         Container(
@@ -187,7 +207,8 @@ class _ItineraryTabState extends State<ItineraryTab> {
           child: _buildDayDetails(),
         ),
       ],
-    );
+    ),
+        );
       },
     );
   }
@@ -239,13 +260,20 @@ class _ItineraryTabState extends State<ItineraryTab> {
                 ),
               ),
               Container(
-                decoration: AppTheme.glowingButtonDecoration,
-                child: IconButton(
-                  onPressed: () => _showAddActivityDialog(selectedDay),
-                  icon: Icon(
-                    Iconsax.add,
-                    color: Colors.white,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: AppTheme.primaryColor.withValues(alpha: 0.3),
+                    width: 1,
                   ),
+                ),
+                child: IconButton(
+                  onPressed: _exportToCalendar,
+                  icon: Icon(
+                    Iconsax.calendar,
+                    color: AppTheme.primaryColor,
+                  ),
+                  tooltip: 'Export to Calendar',
                 ),
               ),
             ],
@@ -302,24 +330,6 @@ class _ItineraryTabState extends State<ItineraryTab> {
                     ? AppTheme.textSecondaryDark
                     : AppTheme.textSecondary,
                 height: 1.4,
-              ),
-            ),
-            const SizedBox(height: 24),
-            Container(
-              decoration: AppTheme.glowingButtonDecoration,
-              child: ElevatedButton.icon(
-                onPressed: () => _showAddActivityDialog(days[selectedDayIndex]),
-                icon: Icon(Iconsax.add),
-                label: Text(
-                  AppLocalizations.of(context)!.addActivity,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  elevation: 0,
-                ),
               ),
             ),
           ],
@@ -1004,6 +1014,213 @@ class _ItineraryTabState extends State<ItineraryTab> {
         ),
       ),
     );
+  }
+
+  // Calendar Export Functionality
+  Future<void> _exportToCalendar() async {
+    try {
+      final selectedDay = days[selectedDayIndex];
+      final activities = selectedDay.activities;
+      
+      if (activities.isEmpty) {
+        showAppSnackBar(
+          context,
+          'No activities to export for this day',
+          type: SnackBarType.info,
+        );
+        return;
+      }
+
+      // Request calendar permissions
+      var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
+      if (permissionsGranted.isSuccess && !permissionsGranted.data!) {
+        permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
+        if (!permissionsGranted.isSuccess || !permissionsGranted.data!) {
+          showAppSnackBar(
+            context,
+            'Calendar permissions are required to export events',
+            type: SnackBarType.error,
+          );
+          return;
+        }
+      }
+
+      // Get available calendars
+      final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
+      if (!calendarsResult.isSuccess || calendarsResult.data!.isEmpty) {
+        print('Calendar retrieval failed: ${calendarsResult.errors.join(', ')}');
+        showAppSnackBar(
+          context,
+          'No calendars found on device',
+          type: SnackBarType.error,
+        );
+        return;
+      }
+
+      print('Found ${calendarsResult.data!.length} calendars');
+      for (var cal in calendarsResult.data!) {
+        print('Calendar: ${cal.name} (ID: ${cal.id}, Default: ${cal.isDefault}, ReadOnly: ${cal.isReadOnly})');
+      }
+
+      // Find the primary calendar (usually the first one)
+      final calendar = calendarsResult.data!.firstWhere(
+        (cal) => cal.isDefault ?? false,
+        orElse: () => calendarsResult.data!.first,
+      );
+
+      if (calendar.isReadOnly == true) {
+        showAppSnackBar(
+          context,
+          'Selected calendar is read-only. Cannot add events.',
+          type: SnackBarType.error,
+        );
+        return;
+      }
+
+      print('Using calendar: ${calendar.name} (ID: ${calendar.id})');
+
+      // Show confirmation dialog
+      final shouldExport = await _showExportConfirmationDialog(activities.length);
+      if (!shouldExport) return;
+
+      // Export each activity as a calendar event
+      int exportedCount = 0;
+      for (final activity in activities) {
+        final success = await _exportActivityToCalendar(activity, calendar.id!);
+        if (success) exportedCount++;
+      }
+
+      if (exportedCount > 0) {
+        showAppSnackBar(
+          context,
+          'Successfully exported $exportedCount activities to calendar',
+          type: SnackBarType.success,
+        );
+      } else {
+        showAppSnackBar(
+          context,
+          'Failed to export activities to calendar',
+          type: SnackBarType.error,
+        );
+      }
+
+    } catch (e) {
+      showAppSnackBar(
+        context,
+        'Failed to export to calendar: ${e.toString()}',
+        type: SnackBarType.error,
+      );
+    }
+  }
+
+  Future<bool> _showExportConfirmationDialog(int activityCount) async {
+    return await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Iconsax.calendar, color: AppTheme.primaryColor),
+            SizedBox(width: 8),
+            Text('Export to Calendar'),
+          ],
+        ),
+        content: Text(
+          'This will create $activityCount calendar events for activities on this day. Continue?',
+          style: TextStyle(height: 1.4),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(
+              AppLocalizations.of(context)!.cancel,
+              style: TextStyle(color: AppTheme.textSecondary),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primaryColor,
+            ),
+            child: Text('Export'),
+          ),
+        ],
+      ),
+    ) ?? false;
+  }
+
+  Future<bool> _exportActivityToCalendar(ItineraryActivity activity, String calendarId) async {
+    try {
+      // Use local timezone - simpler and more reliable
+      final location = tz.local;
+      print('Using local timezone for calendar events');
+      
+      // Create DateTime objects for start and end times
+      DateTime startDateTime = activity.date;
+      DateTime endDateTime = activity.date;
+      
+      if (activity.startTime != null) {
+        startDateTime = DateTime(
+          activity.date.year,
+          activity.date.month,
+          activity.date.day,
+          activity.startTime!.hour,
+          activity.startTime!.minute,
+        );
+      }
+      
+      if (activity.endTime != null) {
+        endDateTime = DateTime(
+          activity.date.year,
+          activity.date.month,
+          activity.date.day,
+          activity.endTime!.hour,
+          activity.endTime!.minute,
+        );
+      } else {
+        // Default to 1 hour duration if no end time is specified
+        endDateTime = startDateTime.add(Duration(hours: 1));
+      }
+
+      // Create TZDateTime objects
+      final startTZ = tz.TZDateTime.from(startDateTime, location);
+      final endTZ = tz.TZDateTime.from(endDateTime, location);
+      
+      // Create the calendar event
+      final event = Event(
+        calendarId,
+        eventId: null,
+        title: activity.title,
+        description: activity.description.isNotEmpty 
+            ? '${activity.description}\n\n📍 Trip: ${widget.trip.title}'
+            : '📍 Trip: ${widget.trip.title}',
+        location: activity.location.isNotEmpty ? activity.location : null,
+        start: startTZ,
+        end: endTZ,
+        allDay: activity.startTime == null,
+      );
+
+      print('📅 Creating event: ${activity.title}');
+      print('   📍 Location: ${activity.location}');
+      print('   🕐 Start: ${startTZ}');
+      print('   🕐 End: ${endTZ}');
+      print('   📆 All Day: ${event.allDay}');
+      
+      // Add the event to calendar
+      final result = await _deviceCalendarPlugin.createOrUpdateEvent(event);
+      
+      if (result?.isSuccess == true) {
+        print('✅ Successfully created: ${activity.title}');
+        return true;
+      } else {
+        final errors = result?.errors?.join(', ') ?? 'Unknown error';
+        print('❌ Failed to create ${activity.title}: $errors');
+        return false;
+      }
+      
+    } catch (e) {
+      print('💥 Exception creating calendar event for ${activity.title}: $e');
+      return false;
+    }
   }
 }
 

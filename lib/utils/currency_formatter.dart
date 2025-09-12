@@ -4,13 +4,13 @@ class CurrencyFormatter {
   static String formatAmount(double amount, String currency) {
     final formatter = NumberFormat.currency(
       locale: _getLocaleForCurrency(currency),
-      symbol: _getCurrencySymbol(currency),
+      symbol: getCurrencySymbol(currency),
       decimalDigits: 2,
     );
     
     final formatted = formatter.format(amount);
     // Add space between symbol and amount if not already present
-    final symbol = _getCurrencySymbol(currency);
+    final symbol = getCurrencySymbol(currency);
     if (formatted.startsWith(symbol) && !formatted.startsWith('$symbol ')) {
       return formatted.replaceFirst(symbol, '$symbol ');
     }
@@ -80,7 +80,7 @@ class CurrencyFormatter {
     }
   }
   
-  static String _getCurrencySymbol(String currency) {
+  static String getCurrencySymbol(String currency) {
     switch (currency.toUpperCase()) {
       case 'USD':
         return '\$';
@@ -168,7 +168,7 @@ class CurrencyFormatter {
   
   // Get currency display name with symbol
   static String getCurrencyDisplayName(String currency) {
-    final symbol = _getCurrencySymbol(currency);
+    final symbol = getCurrencySymbol(currency);
     return '$currency ($symbol)';
   }
 }

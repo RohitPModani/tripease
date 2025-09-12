@@ -9,9 +9,9 @@ import '../providers/expense_provider.dart';
 import '../providers/trip_member_provider.dart';
 import '../utils/form_validators.dart';
 import '../l10n/app_localizations.dart';
-import '../utils/snackbar.dart';
 import 'split_selection_modal.dart';
 import 'form_error_display.dart';
+import '../utils/currency_formatter.dart';
 
 class ExpenseFormModal extends StatefulWidget {
   final String tripId;
@@ -905,7 +905,7 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
       final count = currentSplit!.participants.length;
       final amount = double.tryParse(amountController.text) ?? 0.0;
       final perPerson = count > 0 ? amount / count : 0.0;
-      return 'Split equally among $count people (\$${perPerson.toStringAsFixed(2)} each)';
+      return 'Split equally among $count people (${CurrencyFormatter.getCurrencySymbol(widget.defaultCurrency)}${perPerson.toStringAsFixed(2)} each)';
     } else {
       return 'Custom split among ${currentSplit!.participants.length} people';
     }
@@ -944,6 +944,7 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
       context,
       availableMembers: splitParticipants,
       totalAmount: totalAmount,
+      currency: widget.defaultCurrency,
       currentSplit: currentSplit,
     );
 
@@ -980,12 +981,15 @@ class _ExpenseFormModalState extends State<ExpenseFormModal> {
       );
       String userId = member.id;
 
+      // Automatically mark as paid if this person is the one who paid the expense
+      final isPaidForPayer = participantName == selectedPaidBy;
+
       splits.add(ExpenseSplit(
         id: const Uuid().v4(),
         expenseId: widget.expense?.id ?? const Uuid().v4(),
         userId: userId,
         amount: splitAmount,
-        isPaid: false,
+        isPaid: isPaidForPayer,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       ));

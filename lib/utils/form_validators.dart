@@ -5,7 +5,7 @@ import '../themes/app_theme.dart';
 /// Centralized form validation utilities for character limits and field validation
 class FormValidators {
   // Character limits as specified
-  static const int titleLimit = 20;
+  static const int titleLimit = 50;
   static const int descriptionLimit = 100;
   static const int vendorCompanyLimit = 50;
   static const int confirmationNumberLimit = 20;
