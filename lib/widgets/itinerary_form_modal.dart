@@ -9,6 +9,9 @@ import '../database/tables/itinerary_table.dart';
 import '../providers/itinerary_provider.dart';
 import '../utils/snackbar.dart';
 import 'form_error_display.dart';
+import 'destination_autocomplete.dart';
+import '../models/location.dart';
+import '../services/location_search_service.dart';
 
 class ItineraryFormModal extends StatefulWidget {
   final String tripId;
@@ -117,6 +120,22 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
     titleCharCount = titleController.text.length;
     locationCharCount = locationController.text.length;
     descriptionCharCount = descriptionController.text.length;
+
+    // Keep location validation in sync when using autocomplete widget
+    locationController.addListener(() {
+      setState(() {
+        locationCharCount = locationController.text.length;
+        locationError = FormValidators.validateLocation(locationController.text, context);
+        if (formError != null) {
+          formError = null;
+        }
+      });
+    });
+
+    // Seed popular locations for better initial suggestions
+    LocationSearchService().initializeWithCommonDestinations().catchError((e) {
+      // Non-fatal; online search still works
+    });
 
   }
 
@@ -284,53 +303,20 @@ class _ItineraryFormModalState extends State<ItineraryFormModal> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
+                    DestinationAutocomplete(
                       controller: locationController,
-                      maxLength: FormValidators.locationLimit,
-                      onChanged: (value) {
+                      labelText: AppLocalizations.of(context)!.location,
+                      hintText: 'Search locations...',
+                      errorText: locationError,
+                      onLocationSelected: (LocationSuggestion? location) {
+                        // When a suggestion is selected, the controller text is updated by the widget
+                        // We update error and char count to reflect selection
                         setState(() {
-                          locationCharCount = value.length;
-                          locationError = FormValidators.validateLocation(value, context);
-                          // Clear form error when user starts typing
-                          if (formError != null) {
-                            formError = null;
-                          }
+                          locationCharCount = locationController.text.length;
+                          locationError = FormValidators.validateLocation(locationController.text, context);
+                          if (formError != null) formError = null;
                         });
                       },
-                      decoration: FormValidators.createOptionalInputDecoration(
-                        labelText: AppLocalizations.of(context)!.location,
-                        maxLength: FormValidators.locationLimit,
-                        context: context,
-                      ).copyWith(
-                        labelStyle: TextStyle(color: AppTheme.textSecondary),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: AppTheme.textSecondary.withValues(alpha: 0.3)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppTheme.warning, width: 2),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppTheme.error, width: 2),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppTheme.error, width: 2),
-                        ),
-                        contentPadding: const EdgeInsets.all(16),
-                        counterText: '',
-                        suffixText: '$locationCharCount/${FormValidators.locationLimit}',
-                        suffixStyle: TextStyle(
-                          fontSize: 12,
-                          color: locationCharCount > FormValidators.locationLimit 
-                              ? AppTheme.error 
-                              : AppTheme.textSecondary,
-                        ),
-                        errorText: locationError,
-                      ),
-                      validator: (value) => FormValidators.validateLocation(value, context),
                     ),
                     const SizedBox(height: 16),
                     InkWell(

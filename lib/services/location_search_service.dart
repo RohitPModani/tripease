@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui' as ui;
 import 'package:http/http.dart' as http;
 import 'package:drift/drift.dart';
 
@@ -105,6 +106,10 @@ class LocationSearchService {
 
   /// Search OpenStreetMap Nominatim API
   Future<List<LocationSuggestion>> _searchOpenStreetMap(String query) async {
+    // Prefer device locale for result language, fallback to English
+    final locale = ui.PlatformDispatcher.instance.locale;
+    final acceptLanguage = locale.toLanguageTag().isNotEmpty ? locale.toLanguageTag() : 'en';
+
     final uri = Uri.parse(_nominatimBaseUrl).replace(queryParameters: {
       'format': 'json',
       'addressdetails': '1',
@@ -112,6 +117,7 @@ class LocationSearchService {
       'q': query,
       'extratags': '1',
       'namedetails': '1',
+      'accept-language': acceptLanguage,
     });
 
     final response = await http.get(
