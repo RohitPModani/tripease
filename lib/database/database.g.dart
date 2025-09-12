@@ -5058,6 +5058,813 @@ class ItineraryTableCompanion extends UpdateCompanion<ItineraryEntity> {
   }
 }
 
+class $LocationsTableTable extends LocationsTable
+    with TableInfo<$LocationsTableTable, LocationsTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocationsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _placeIdMeta = const VerificationMeta(
+    'placeId',
+  );
+  @override
+  late final GeneratedColumn<String> placeId = GeneratedColumn<String>(
+    'place_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _displayNameMeta = const VerificationMeta(
+    'displayName',
+  );
+  @override
+  late final GeneratedColumn<String> displayName = GeneratedColumn<String>(
+    'display_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _cityMeta = const VerificationMeta('city');
+  @override
+  late final GeneratedColumn<String> city = GeneratedColumn<String>(
+    'city',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _stateMeta = const VerificationMeta('state');
+  @override
+  late final GeneratedColumn<String> state = GeneratedColumn<String>(
+    'state',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _countryMeta = const VerificationMeta(
+    'country',
+  );
+  @override
+  late final GeneratedColumn<String> country = GeneratedColumn<String>(
+    'country',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _countryCodeMeta = const VerificationMeta(
+    'countryCode',
+  );
+  @override
+  late final GeneratedColumn<String> countryCode = GeneratedColumn<String>(
+    'country_code',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _latitudeMeta = const VerificationMeta(
+    'latitude',
+  );
+  @override
+  late final GeneratedColumn<double> latitude = GeneratedColumn<double>(
+    'latitude',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _longitudeMeta = const VerificationMeta(
+    'longitude',
+  );
+  @override
+  late final GeneratedColumn<double> longitude = GeneratedColumn<double>(
+    'longitude',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _searchTermsMeta = const VerificationMeta(
+    'searchTerms',
+  );
+  @override
+  late final GeneratedColumn<String> searchTerms = GeneratedColumn<String>(
+    'search_terms',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _searchCountMeta = const VerificationMeta(
+    'searchCount',
+  );
+  @override
+  late final GeneratedColumn<int> searchCount = GeneratedColumn<int>(
+    'search_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _lastUsedMeta = const VerificationMeta(
+    'lastUsed',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastUsed = GeneratedColumn<DateTime>(
+    'last_used',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    placeId,
+    displayName,
+    name,
+    city,
+    state,
+    country,
+    countryCode,
+    latitude,
+    longitude,
+    searchTerms,
+    searchCount,
+    createdAt,
+    lastUsed,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'locations';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocationsTableData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('place_id')) {
+      context.handle(
+        _placeIdMeta,
+        placeId.isAcceptableOrUnknown(data['place_id']!, _placeIdMeta),
+      );
+    }
+    if (data.containsKey('display_name')) {
+      context.handle(
+        _displayNameMeta,
+        displayName.isAcceptableOrUnknown(
+          data['display_name']!,
+          _displayNameMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_displayNameMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    }
+    if (data.containsKey('city')) {
+      context.handle(
+        _cityMeta,
+        city.isAcceptableOrUnknown(data['city']!, _cityMeta),
+      );
+    }
+    if (data.containsKey('state')) {
+      context.handle(
+        _stateMeta,
+        state.isAcceptableOrUnknown(data['state']!, _stateMeta),
+      );
+    }
+    if (data.containsKey('country')) {
+      context.handle(
+        _countryMeta,
+        country.isAcceptableOrUnknown(data['country']!, _countryMeta),
+      );
+    }
+    if (data.containsKey('country_code')) {
+      context.handle(
+        _countryCodeMeta,
+        countryCode.isAcceptableOrUnknown(
+          data['country_code']!,
+          _countryCodeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('latitude')) {
+      context.handle(
+        _latitudeMeta,
+        latitude.isAcceptableOrUnknown(data['latitude']!, _latitudeMeta),
+      );
+    }
+    if (data.containsKey('longitude')) {
+      context.handle(
+        _longitudeMeta,
+        longitude.isAcceptableOrUnknown(data['longitude']!, _longitudeMeta),
+      );
+    }
+    if (data.containsKey('search_terms')) {
+      context.handle(
+        _searchTermsMeta,
+        searchTerms.isAcceptableOrUnknown(
+          data['search_terms']!,
+          _searchTermsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_searchTermsMeta);
+    }
+    if (data.containsKey('search_count')) {
+      context.handle(
+        _searchCountMeta,
+        searchCount.isAcceptableOrUnknown(
+          data['search_count']!,
+          _searchCountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('last_used')) {
+      context.handle(
+        _lastUsedMeta,
+        lastUsed.isAcceptableOrUnknown(data['last_used']!, _lastUsedMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {displayName},
+  ];
+  @override
+  LocationsTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocationsTableData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      placeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}place_id'],
+      ),
+      displayName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}display_name'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      ),
+      city: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}city'],
+      ),
+      state: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}state'],
+      ),
+      country: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}country'],
+      ),
+      countryCode: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}country_code'],
+      ),
+      latitude: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}latitude'],
+      ),
+      longitude: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}longitude'],
+      ),
+      searchTerms: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}search_terms'],
+      )!,
+      searchCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}search_count'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      lastUsed: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_used'],
+      )!,
+    );
+  }
+
+  @override
+  $LocationsTableTable createAlias(String alias) {
+    return $LocationsTableTable(attachedDatabase, alias);
+  }
+}
+
+class LocationsTableData extends DataClass
+    implements Insertable<LocationsTableData> {
+  final int id;
+  final String? placeId;
+  final String displayName;
+  final String? name;
+  final String? city;
+  final String? state;
+  final String? country;
+  final String? countryCode;
+  final double? latitude;
+  final double? longitude;
+  final String searchTerms;
+  final int searchCount;
+  final DateTime createdAt;
+  final DateTime lastUsed;
+  const LocationsTableData({
+    required this.id,
+    this.placeId,
+    required this.displayName,
+    this.name,
+    this.city,
+    this.state,
+    this.country,
+    this.countryCode,
+    this.latitude,
+    this.longitude,
+    required this.searchTerms,
+    required this.searchCount,
+    required this.createdAt,
+    required this.lastUsed,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    if (!nullToAbsent || placeId != null) {
+      map['place_id'] = Variable<String>(placeId);
+    }
+    map['display_name'] = Variable<String>(displayName);
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    if (!nullToAbsent || city != null) {
+      map['city'] = Variable<String>(city);
+    }
+    if (!nullToAbsent || state != null) {
+      map['state'] = Variable<String>(state);
+    }
+    if (!nullToAbsent || country != null) {
+      map['country'] = Variable<String>(country);
+    }
+    if (!nullToAbsent || countryCode != null) {
+      map['country_code'] = Variable<String>(countryCode);
+    }
+    if (!nullToAbsent || latitude != null) {
+      map['latitude'] = Variable<double>(latitude);
+    }
+    if (!nullToAbsent || longitude != null) {
+      map['longitude'] = Variable<double>(longitude);
+    }
+    map['search_terms'] = Variable<String>(searchTerms);
+    map['search_count'] = Variable<int>(searchCount);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['last_used'] = Variable<DateTime>(lastUsed);
+    return map;
+  }
+
+  LocationsTableCompanion toCompanion(bool nullToAbsent) {
+    return LocationsTableCompanion(
+      id: Value(id),
+      placeId: placeId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(placeId),
+      displayName: Value(displayName),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      city: city == null && nullToAbsent ? const Value.absent() : Value(city),
+      state: state == null && nullToAbsent
+          ? const Value.absent()
+          : Value(state),
+      country: country == null && nullToAbsent
+          ? const Value.absent()
+          : Value(country),
+      countryCode: countryCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(countryCode),
+      latitude: latitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(latitude),
+      longitude: longitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(longitude),
+      searchTerms: Value(searchTerms),
+      searchCount: Value(searchCount),
+      createdAt: Value(createdAt),
+      lastUsed: Value(lastUsed),
+    );
+  }
+
+  factory LocationsTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocationsTableData(
+      id: serializer.fromJson<int>(json['id']),
+      placeId: serializer.fromJson<String?>(json['placeId']),
+      displayName: serializer.fromJson<String>(json['displayName']),
+      name: serializer.fromJson<String?>(json['name']),
+      city: serializer.fromJson<String?>(json['city']),
+      state: serializer.fromJson<String?>(json['state']),
+      country: serializer.fromJson<String?>(json['country']),
+      countryCode: serializer.fromJson<String?>(json['countryCode']),
+      latitude: serializer.fromJson<double?>(json['latitude']),
+      longitude: serializer.fromJson<double?>(json['longitude']),
+      searchTerms: serializer.fromJson<String>(json['searchTerms']),
+      searchCount: serializer.fromJson<int>(json['searchCount']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      lastUsed: serializer.fromJson<DateTime>(json['lastUsed']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'placeId': serializer.toJson<String?>(placeId),
+      'displayName': serializer.toJson<String>(displayName),
+      'name': serializer.toJson<String?>(name),
+      'city': serializer.toJson<String?>(city),
+      'state': serializer.toJson<String?>(state),
+      'country': serializer.toJson<String?>(country),
+      'countryCode': serializer.toJson<String?>(countryCode),
+      'latitude': serializer.toJson<double?>(latitude),
+      'longitude': serializer.toJson<double?>(longitude),
+      'searchTerms': serializer.toJson<String>(searchTerms),
+      'searchCount': serializer.toJson<int>(searchCount),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'lastUsed': serializer.toJson<DateTime>(lastUsed),
+    };
+  }
+
+  LocationsTableData copyWith({
+    int? id,
+    Value<String?> placeId = const Value.absent(),
+    String? displayName,
+    Value<String?> name = const Value.absent(),
+    Value<String?> city = const Value.absent(),
+    Value<String?> state = const Value.absent(),
+    Value<String?> country = const Value.absent(),
+    Value<String?> countryCode = const Value.absent(),
+    Value<double?> latitude = const Value.absent(),
+    Value<double?> longitude = const Value.absent(),
+    String? searchTerms,
+    int? searchCount,
+    DateTime? createdAt,
+    DateTime? lastUsed,
+  }) => LocationsTableData(
+    id: id ?? this.id,
+    placeId: placeId.present ? placeId.value : this.placeId,
+    displayName: displayName ?? this.displayName,
+    name: name.present ? name.value : this.name,
+    city: city.present ? city.value : this.city,
+    state: state.present ? state.value : this.state,
+    country: country.present ? country.value : this.country,
+    countryCode: countryCode.present ? countryCode.value : this.countryCode,
+    latitude: latitude.present ? latitude.value : this.latitude,
+    longitude: longitude.present ? longitude.value : this.longitude,
+    searchTerms: searchTerms ?? this.searchTerms,
+    searchCount: searchCount ?? this.searchCount,
+    createdAt: createdAt ?? this.createdAt,
+    lastUsed: lastUsed ?? this.lastUsed,
+  );
+  LocationsTableData copyWithCompanion(LocationsTableCompanion data) {
+    return LocationsTableData(
+      id: data.id.present ? data.id.value : this.id,
+      placeId: data.placeId.present ? data.placeId.value : this.placeId,
+      displayName: data.displayName.present
+          ? data.displayName.value
+          : this.displayName,
+      name: data.name.present ? data.name.value : this.name,
+      city: data.city.present ? data.city.value : this.city,
+      state: data.state.present ? data.state.value : this.state,
+      country: data.country.present ? data.country.value : this.country,
+      countryCode: data.countryCode.present
+          ? data.countryCode.value
+          : this.countryCode,
+      latitude: data.latitude.present ? data.latitude.value : this.latitude,
+      longitude: data.longitude.present ? data.longitude.value : this.longitude,
+      searchTerms: data.searchTerms.present
+          ? data.searchTerms.value
+          : this.searchTerms,
+      searchCount: data.searchCount.present
+          ? data.searchCount.value
+          : this.searchCount,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      lastUsed: data.lastUsed.present ? data.lastUsed.value : this.lastUsed,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocationsTableData(')
+          ..write('id: $id, ')
+          ..write('placeId: $placeId, ')
+          ..write('displayName: $displayName, ')
+          ..write('name: $name, ')
+          ..write('city: $city, ')
+          ..write('state: $state, ')
+          ..write('country: $country, ')
+          ..write('countryCode: $countryCode, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
+          ..write('searchTerms: $searchTerms, ')
+          ..write('searchCount: $searchCount, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('lastUsed: $lastUsed')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    placeId,
+    displayName,
+    name,
+    city,
+    state,
+    country,
+    countryCode,
+    latitude,
+    longitude,
+    searchTerms,
+    searchCount,
+    createdAt,
+    lastUsed,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocationsTableData &&
+          other.id == this.id &&
+          other.placeId == this.placeId &&
+          other.displayName == this.displayName &&
+          other.name == this.name &&
+          other.city == this.city &&
+          other.state == this.state &&
+          other.country == this.country &&
+          other.countryCode == this.countryCode &&
+          other.latitude == this.latitude &&
+          other.longitude == this.longitude &&
+          other.searchTerms == this.searchTerms &&
+          other.searchCount == this.searchCount &&
+          other.createdAt == this.createdAt &&
+          other.lastUsed == this.lastUsed);
+}
+
+class LocationsTableCompanion extends UpdateCompanion<LocationsTableData> {
+  final Value<int> id;
+  final Value<String?> placeId;
+  final Value<String> displayName;
+  final Value<String?> name;
+  final Value<String?> city;
+  final Value<String?> state;
+  final Value<String?> country;
+  final Value<String?> countryCode;
+  final Value<double?> latitude;
+  final Value<double?> longitude;
+  final Value<String> searchTerms;
+  final Value<int> searchCount;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> lastUsed;
+  const LocationsTableCompanion({
+    this.id = const Value.absent(),
+    this.placeId = const Value.absent(),
+    this.displayName = const Value.absent(),
+    this.name = const Value.absent(),
+    this.city = const Value.absent(),
+    this.state = const Value.absent(),
+    this.country = const Value.absent(),
+    this.countryCode = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
+    this.searchTerms = const Value.absent(),
+    this.searchCount = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.lastUsed = const Value.absent(),
+  });
+  LocationsTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.placeId = const Value.absent(),
+    required String displayName,
+    this.name = const Value.absent(),
+    this.city = const Value.absent(),
+    this.state = const Value.absent(),
+    this.country = const Value.absent(),
+    this.countryCode = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
+    required String searchTerms,
+    this.searchCount = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.lastUsed = const Value.absent(),
+  }) : displayName = Value(displayName),
+       searchTerms = Value(searchTerms);
+  static Insertable<LocationsTableData> custom({
+    Expression<int>? id,
+    Expression<String>? placeId,
+    Expression<String>? displayName,
+    Expression<String>? name,
+    Expression<String>? city,
+    Expression<String>? state,
+    Expression<String>? country,
+    Expression<String>? countryCode,
+    Expression<double>? latitude,
+    Expression<double>? longitude,
+    Expression<String>? searchTerms,
+    Expression<int>? searchCount,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? lastUsed,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (placeId != null) 'place_id': placeId,
+      if (displayName != null) 'display_name': displayName,
+      if (name != null) 'name': name,
+      if (city != null) 'city': city,
+      if (state != null) 'state': state,
+      if (country != null) 'country': country,
+      if (countryCode != null) 'country_code': countryCode,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
+      if (searchTerms != null) 'search_terms': searchTerms,
+      if (searchCount != null) 'search_count': searchCount,
+      if (createdAt != null) 'created_at': createdAt,
+      if (lastUsed != null) 'last_used': lastUsed,
+    });
+  }
+
+  LocationsTableCompanion copyWith({
+    Value<int>? id,
+    Value<String?>? placeId,
+    Value<String>? displayName,
+    Value<String?>? name,
+    Value<String?>? city,
+    Value<String?>? state,
+    Value<String?>? country,
+    Value<String?>? countryCode,
+    Value<double?>? latitude,
+    Value<double?>? longitude,
+    Value<String>? searchTerms,
+    Value<int>? searchCount,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? lastUsed,
+  }) {
+    return LocationsTableCompanion(
+      id: id ?? this.id,
+      placeId: placeId ?? this.placeId,
+      displayName: displayName ?? this.displayName,
+      name: name ?? this.name,
+      city: city ?? this.city,
+      state: state ?? this.state,
+      country: country ?? this.country,
+      countryCode: countryCode ?? this.countryCode,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      searchTerms: searchTerms ?? this.searchTerms,
+      searchCount: searchCount ?? this.searchCount,
+      createdAt: createdAt ?? this.createdAt,
+      lastUsed: lastUsed ?? this.lastUsed,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (placeId.present) {
+      map['place_id'] = Variable<String>(placeId.value);
+    }
+    if (displayName.present) {
+      map['display_name'] = Variable<String>(displayName.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (city.present) {
+      map['city'] = Variable<String>(city.value);
+    }
+    if (state.present) {
+      map['state'] = Variable<String>(state.value);
+    }
+    if (country.present) {
+      map['country'] = Variable<String>(country.value);
+    }
+    if (countryCode.present) {
+      map['country_code'] = Variable<String>(countryCode.value);
+    }
+    if (latitude.present) {
+      map['latitude'] = Variable<double>(latitude.value);
+    }
+    if (longitude.present) {
+      map['longitude'] = Variable<double>(longitude.value);
+    }
+    if (searchTerms.present) {
+      map['search_terms'] = Variable<String>(searchTerms.value);
+    }
+    if (searchCount.present) {
+      map['search_count'] = Variable<int>(searchCount.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (lastUsed.present) {
+      map['last_used'] = Variable<DateTime>(lastUsed.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocationsTableCompanion(')
+          ..write('id: $id, ')
+          ..write('placeId: $placeId, ')
+          ..write('displayName: $displayName, ')
+          ..write('name: $name, ')
+          ..write('city: $city, ')
+          ..write('state: $state, ')
+          ..write('country: $country, ')
+          ..write('countryCode: $countryCode, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
+          ..write('searchTerms: $searchTerms, ')
+          ..write('searchCount: $searchCount, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('lastUsed: $lastUsed')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -5072,6 +5879,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $ExpenseSplitsTableTable(this);
   late final $DocumentsTableTable documentsTable = $DocumentsTableTable(this);
   late final $ItineraryTableTable itineraryTable = $ItineraryTableTable(this);
+  late final $LocationsTableTable locationsTable = $LocationsTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -5085,6 +5893,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     expenseSplitsTable,
     documentsTable,
     itineraryTable,
+    locationsTable,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -8917,6 +9726,385 @@ typedef $$ItineraryTableTableProcessedTableManager =
       ItineraryEntity,
       PrefetchHooks Function()
     >;
+typedef $$LocationsTableTableCreateCompanionBuilder =
+    LocationsTableCompanion Function({
+      Value<int> id,
+      Value<String?> placeId,
+      required String displayName,
+      Value<String?> name,
+      Value<String?> city,
+      Value<String?> state,
+      Value<String?> country,
+      Value<String?> countryCode,
+      Value<double?> latitude,
+      Value<double?> longitude,
+      required String searchTerms,
+      Value<int> searchCount,
+      Value<DateTime> createdAt,
+      Value<DateTime> lastUsed,
+    });
+typedef $$LocationsTableTableUpdateCompanionBuilder =
+    LocationsTableCompanion Function({
+      Value<int> id,
+      Value<String?> placeId,
+      Value<String> displayName,
+      Value<String?> name,
+      Value<String?> city,
+      Value<String?> state,
+      Value<String?> country,
+      Value<String?> countryCode,
+      Value<double?> latitude,
+      Value<double?> longitude,
+      Value<String> searchTerms,
+      Value<int> searchCount,
+      Value<DateTime> createdAt,
+      Value<DateTime> lastUsed,
+    });
+
+class $$LocationsTableTableFilterComposer
+    extends Composer<_$AppDatabase, $LocationsTableTable> {
+  $$LocationsTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get placeId => $composableBuilder(
+    column: $table.placeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get displayName => $composableBuilder(
+    column: $table.displayName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get city => $composableBuilder(
+    column: $table.city,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get state => $composableBuilder(
+    column: $table.state,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get country => $composableBuilder(
+    column: $table.country,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get countryCode => $composableBuilder(
+    column: $table.countryCode,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get latitude => $composableBuilder(
+    column: $table.latitude,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get longitude => $composableBuilder(
+    column: $table.longitude,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get searchTerms => $composableBuilder(
+    column: $table.searchTerms,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get searchCount => $composableBuilder(
+    column: $table.searchCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastUsed => $composableBuilder(
+    column: $table.lastUsed,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocationsTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $LocationsTableTable> {
+  $$LocationsTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get placeId => $composableBuilder(
+    column: $table.placeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get displayName => $composableBuilder(
+    column: $table.displayName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get city => $composableBuilder(
+    column: $table.city,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get state => $composableBuilder(
+    column: $table.state,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get country => $composableBuilder(
+    column: $table.country,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get countryCode => $composableBuilder(
+    column: $table.countryCode,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get latitude => $composableBuilder(
+    column: $table.latitude,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get longitude => $composableBuilder(
+    column: $table.longitude,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get searchTerms => $composableBuilder(
+    column: $table.searchTerms,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get searchCount => $composableBuilder(
+    column: $table.searchCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastUsed => $composableBuilder(
+    column: $table.lastUsed,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocationsTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LocationsTableTable> {
+  $$LocationsTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get placeId =>
+      $composableBuilder(column: $table.placeId, builder: (column) => column);
+
+  GeneratedColumn<String> get displayName => $composableBuilder(
+    column: $table.displayName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get city =>
+      $composableBuilder(column: $table.city, builder: (column) => column);
+
+  GeneratedColumn<String> get state =>
+      $composableBuilder(column: $table.state, builder: (column) => column);
+
+  GeneratedColumn<String> get country =>
+      $composableBuilder(column: $table.country, builder: (column) => column);
+
+  GeneratedColumn<String> get countryCode => $composableBuilder(
+    column: $table.countryCode,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get latitude =>
+      $composableBuilder(column: $table.latitude, builder: (column) => column);
+
+  GeneratedColumn<double> get longitude =>
+      $composableBuilder(column: $table.longitude, builder: (column) => column);
+
+  GeneratedColumn<String> get searchTerms => $composableBuilder(
+    column: $table.searchTerms,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get searchCount => $composableBuilder(
+    column: $table.searchCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastUsed =>
+      $composableBuilder(column: $table.lastUsed, builder: (column) => column);
+}
+
+class $$LocationsTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $LocationsTableTable,
+          LocationsTableData,
+          $$LocationsTableTableFilterComposer,
+          $$LocationsTableTableOrderingComposer,
+          $$LocationsTableTableAnnotationComposer,
+          $$LocationsTableTableCreateCompanionBuilder,
+          $$LocationsTableTableUpdateCompanionBuilder,
+          (
+            LocationsTableData,
+            BaseReferences<
+              _$AppDatabase,
+              $LocationsTableTable,
+              LocationsTableData
+            >,
+          ),
+          LocationsTableData,
+          PrefetchHooks Function()
+        > {
+  $$LocationsTableTableTableManager(
+    _$AppDatabase db,
+    $LocationsTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocationsTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LocationsTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LocationsTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String?> placeId = const Value.absent(),
+                Value<String> displayName = const Value.absent(),
+                Value<String?> name = const Value.absent(),
+                Value<String?> city = const Value.absent(),
+                Value<String?> state = const Value.absent(),
+                Value<String?> country = const Value.absent(),
+                Value<String?> countryCode = const Value.absent(),
+                Value<double?> latitude = const Value.absent(),
+                Value<double?> longitude = const Value.absent(),
+                Value<String> searchTerms = const Value.absent(),
+                Value<int> searchCount = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> lastUsed = const Value.absent(),
+              }) => LocationsTableCompanion(
+                id: id,
+                placeId: placeId,
+                displayName: displayName,
+                name: name,
+                city: city,
+                state: state,
+                country: country,
+                countryCode: countryCode,
+                latitude: latitude,
+                longitude: longitude,
+                searchTerms: searchTerms,
+                searchCount: searchCount,
+                createdAt: createdAt,
+                lastUsed: lastUsed,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String?> placeId = const Value.absent(),
+                required String displayName,
+                Value<String?> name = const Value.absent(),
+                Value<String?> city = const Value.absent(),
+                Value<String?> state = const Value.absent(),
+                Value<String?> country = const Value.absent(),
+                Value<String?> countryCode = const Value.absent(),
+                Value<double?> latitude = const Value.absent(),
+                Value<double?> longitude = const Value.absent(),
+                required String searchTerms,
+                Value<int> searchCount = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> lastUsed = const Value.absent(),
+              }) => LocationsTableCompanion.insert(
+                id: id,
+                placeId: placeId,
+                displayName: displayName,
+                name: name,
+                city: city,
+                state: state,
+                country: country,
+                countryCode: countryCode,
+                latitude: latitude,
+                longitude: longitude,
+                searchTerms: searchTerms,
+                searchCount: searchCount,
+                createdAt: createdAt,
+                lastUsed: lastUsed,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocationsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $LocationsTableTable,
+      LocationsTableData,
+      $$LocationsTableTableFilterComposer,
+      $$LocationsTableTableOrderingComposer,
+      $$LocationsTableTableAnnotationComposer,
+      $$LocationsTableTableCreateCompanionBuilder,
+      $$LocationsTableTableUpdateCompanionBuilder,
+      (
+        LocationsTableData,
+        BaseReferences<_$AppDatabase, $LocationsTableTable, LocationsTableData>,
+      ),
+      LocationsTableData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -8937,4 +10125,6 @@ class $AppDatabaseManager {
       $$DocumentsTableTableTableManager(_db, _db.documentsTable);
   $$ItineraryTableTableTableManager get itineraryTable =>
       $$ItineraryTableTableTableManager(_db, _db.itineraryTable);
+  $$LocationsTableTableTableManager get locationsTable =>
+      $$LocationsTableTableTableManager(_db, _db.locationsTable);
 }

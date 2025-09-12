@@ -11,6 +11,9 @@ import '../utils/currency_formatter.dart';
 import '../utils/form_validators.dart';
 import '../utils/snackbar.dart';
 import '../widgets/form_error_display.dart';
+import '../widgets/destination_autocomplete.dart';
+import '../models/location.dart';
+import '../services/location_search_service.dart';
 
 class CreateTripScreen extends StatefulWidget {
   const CreateTripScreen({super.key});
@@ -45,6 +48,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   late final FocusNode _destinationFocusNode;
 
   final List<String> _destinations = [];
+  LocationSuggestion? _selectedLocation;
   DateTime? _startDate;
   DateTime? _endDate;
   final DateRangePickerController _dateRangeController = DateRangePickerController();
@@ -82,6 +86,9 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     titleCharCount = _titleController.text.length;
     descriptionCharCount = _descriptionController.text.length;
     destinationCharCount = _destinationController.text.length;
+    
+    // Initialize location service with common destinations
+    _initializeLocationService();
   }
 
   @override
@@ -96,8 +103,24 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     super.dispose();
   }
 
+  Future<void> _initializeLocationService() async {
+    try {
+      await LocationSearchService().initializeWithCommonDestinations();
+    } catch (e) {
+      print('Error initializing location service: $e');
+    }
+  }
+
   void _addDestination() {
-    final destination = _destinationController.text.trim();
+    String destination;
+    
+    // Use selected location if available, otherwise use text input
+    if (_selectedLocation != null) {
+      destination = _selectedLocation!.shortDisplayName;
+    } else {
+      destination = _destinationController.text.trim();
+    }
+
     if (destination.isNotEmpty && !_destinations.contains(destination)) {
       // Validate destination length
       if (destination.length > FormValidators.locationLimit) {
@@ -109,6 +132,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       setState(() {
         _destinations.add(destination);
         _destinationController.clear();
+        _selectedLocation = null;
         destinationCharCount = 0;
         // Clear form error when successful action
         if (formError != null) {
@@ -358,56 +382,24 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
         Row(
           children: [
             Expanded(
-              child: TextFormField(
+              child: DestinationAutocomplete(
                 controller: _destinationController,
-                focusNode: _destinationFocusNode,
-                maxLength: FormValidators.locationLimit,
-                onChanged: (value) {
+                labelText: AppLocalizations.of(context)!.destinations,
+                hintText: 'Search destinations...',
+                onLocationSelected: (location) {
                   setState(() {
-                    destinationCharCount = value.length;
-                    // Clear form error when user starts typing
+                    _selectedLocation = location;
+                    if (location != null) {
+                      destinationCharCount = location.shortDisplayName.length;
+                    } else {
+                      destinationCharCount = _destinationController.text.length;
+                    }
+                    // Clear form error when location selected
                     if (formError != null) {
                       formError = null;
                     }
                   });
                 },
-                decoration:
-                    FormValidators.createRequiredInputDecoration(
-                      labelText: AppLocalizations.of(context)!.destinations,
-                      maxLength: FormValidators.locationLimit,
-                      context: context,
-                    ).copyWith(
-                      labelStyle: TextStyle(color: AppTheme.textSecondary),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          color: AppTheme.textSecondary.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppTheme.primaryColor,
-                          width: 2,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.all(16),
-                      counterText: '',
-                      suffixText: '$destinationCharCount/${FormValidators.locationLimit}',
-                      suffixStyle: TextStyle(
-                        fontSize: 12,
-                        color: destinationCharCount > FormValidators.locationLimit
-                            ? AppTheme.error
-                            : AppTheme.textSecondary,
-                      ),
-                    ),
-                validator: (value) {
-                  if (value != null && value.trim().isNotEmpty) {
-                    return FormValidators.validateDestination(value, context);
-                  }
-                  return null;
-                },
-                onFieldSubmitted: (_) => _addDestination(),
               ),
             ),
             const SizedBox(width: 12),

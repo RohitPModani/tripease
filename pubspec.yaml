@@ -67,6 +67,9 @@ dependencies:
   uuid: ^4.5.1
   flutter_colorpicker: ^1.1.0
   
+  # HTTP requests
+  http: ^1.1.0
+  
   # Encryption & Compression
   encrypt: ^5.0.3
   archive: ^3.6.1

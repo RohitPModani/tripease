@@ -9,7 +9,8 @@ import '../l10n/app_localizations.dart';
 import '../utils/currency_formatter.dart';
 import '../utils/form_validators.dart';
 import '../utils/snackbar.dart';
-import '../widgets/form_error_display.dart';
+import '../widgets/destination_autocomplete.dart';
+import '../models/location.dart';
 
 class EditTripScreen extends StatefulWidget {
   final Trip trip;
@@ -46,6 +47,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
   late final FocusNode _destinationFocusNode;
 
   late List<String> _destinations;
+  LocationSuggestion? _selectedLocation;
   DateTime? _startDate;
   DateTime? _endDate;
   final DateRangePickerController _dateRangeController = DateRangePickerController();
@@ -129,11 +131,21 @@ class _EditTripScreenState extends State<EditTripScreen> {
         _destinations.add(destination);
         _destinationController.clear();
         destinationCharCount = 0;
+        _selectedLocation = null;
         // Clear form error when successful action
         if (formError != null) {
           formError = null;
         }
       });
+    }
+  }
+
+  void _onLocationSelected(LocationSuggestion? location) {
+    setState(() {
+      _selectedLocation = location;
+    });
+    if (location != null) {
+      _addDestination();
     }
   }
 
@@ -372,52 +384,10 @@ class _EditTripScreenState extends State<EditTripScreen> {
         Row(
           children: [
             Expanded(
-              child: TextFormField(
+              child: DestinationAutocomplete(
                 controller: _destinationController,
-                focusNode: _destinationFocusNode,
-                maxLength: FormValidators.locationLimit,
-                onChanged: (value) {
-                  setState(() {
-                    destinationCharCount = value.length;
-                  });
-                },
-                decoration:
-                    FormValidators.createOptionalInputDecoration(
-                      labelText: AppLocalizations.of(context)!.destinations,
-                      maxLength: FormValidators.locationLimit,
-                      context: context,
-                    ).copyWith(
-                      labelStyle: TextStyle(color: AppTheme.textSecondary),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          color: AppTheme.textSecondary.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppTheme.primaryColor,
-                          width: 2,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.all(16),
-                      counterText: '',
-                      suffixText: '$destinationCharCount/${FormValidators.locationLimit}',
-                      suffixStyle: TextStyle(
-                        fontSize: 12,
-                        color: destinationCharCount > FormValidators.locationLimit
-                            ? AppTheme.error
-                            : AppTheme.textSecondary,
-                      ),
-                    ),
-                validator: (value) {
-                  if (value != null && value.trim().isNotEmpty) {
-                    return FormValidators.validateDestination(value, context);
-                  }
-                  return null;
-                },
-                onFieldSubmitted: (_) => _addDestination(),
+                labelText: AppLocalizations.of(context)!.destinations,
+                onLocationSelected: _onLocationSelected,
               ),
             ),
             const SizedBox(width: 12),

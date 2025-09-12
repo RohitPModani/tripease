@@ -12,6 +12,7 @@ import 'tables/expenses_table.dart';
 import 'tables/expense_splits_table.dart';
 import 'tables/documents_table.dart';
 import 'tables/itinerary_table.dart';
+import 'tables/locations_table.dart';
 
 part 'database.g.dart';
 
@@ -24,12 +25,19 @@ part 'database.g.dart';
   ExpenseSplitsTable,
   DocumentsTable,
   ItineraryTable,
+  LocationsTable,
 ])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  static AppDatabase? _instance;
+  
+  AppDatabase._() : super(_openConnection());
+  
+  factory AppDatabase() {
+    return _instance ??= AppDatabase._();
+  }
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   /// Clear all data from the database (useful for development/testing)
   Future<void> clearDatabase() async {
@@ -41,6 +49,7 @@ class AppDatabase extends _$AppDatabase {
     await delete(expenseSplitsTable).go();
     await delete(documentsTable).go();
     await delete(itineraryTable).go();
+    await delete(locationsTable).go();
   }
 
   @override
@@ -66,6 +75,9 @@ class AppDatabase extends _$AppDatabase {
         }
         if (from <= 5) {
           await m.create(tripMemberTable);
+        }
+        if (from < 7) {
+          await m.create(locationsTable);
         }
       },
     );
