@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Internet permission required for location search (OpenStreetMap API) in release builds -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <!-- Media access: Request image access on Android 13+ (API 33+). -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <!-- Backwards compatibility: Allow read access on API <= 32 when required by plugins. -->

@@ -389,25 +389,17 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                 onLocationSelected: (location) {
                   setState(() {
                     _selectedLocation = location;
-                    if (location != null) {
-                      destinationCharCount = location.shortDisplayName.length;
-                    } else {
-                      destinationCharCount = _destinationController.text.length;
-                    }
-                    // Clear form error when location selected
-                    if (formError != null) {
-                      formError = null;
-                    }
+                    destinationCharCount = location != null
+                        ? location.shortDisplayName.length
+                        : _destinationController.text.length;
+                    // Clear form error when a location is selected
+                    if (formError != null) formError = null;
                   });
+                  // Immediately add destination on selection
+                  if (location != null) {
+                    _addDestination();
+                  }
                 },
-              ),
-            ),
-            const SizedBox(width: 12),
-            Container(
-              decoration: AppTheme.glowingButtonDecoration,
-              child: IconButton(
-                onPressed: _addDestination,
-                icon: const Icon(Iconsax.add, color: Colors.white, size: 20),
               ),
             ),
           ],

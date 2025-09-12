@@ -11,6 +11,7 @@ import '../utils/form_validators.dart';
 import '../utils/snackbar.dart';
 import '../widgets/destination_autocomplete.dart';
 import '../models/location.dart';
+import '../services/location_search_service.dart';
 
 class EditTripScreen extends StatefulWidget {
   final Trip trip;
@@ -81,6 +82,12 @@ class _EditTripScreenState extends State<EditTripScreen> {
     _descriptionFocusNode = FocusNode();
     _destinationFocusNode = FocusNode();
     _initializeFromTrip();
+
+    // Ensure popular destinations are pre-seeded for suggestions
+    LocationSearchService().initializeWithCommonDestinations().catchError((e) {
+      // Non-fatal; suggestions can still come from online search
+      debugPrint('Error initializing location service: $e');
+    });
 
     // Initialize character counts after setting text
     titleCharCount = _titleController.text.length;
@@ -388,14 +395,6 @@ class _EditTripScreenState extends State<EditTripScreen> {
                 controller: _destinationController,
                 labelText: AppLocalizations.of(context)!.destinations,
                 onLocationSelected: _onLocationSelected,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Container(
-              decoration: AppTheme.glowingButtonDecoration,
-              child: IconButton(
-                onPressed: _addDestination,
-                icon: const Icon(Iconsax.add, color: Colors.white, size: 20),
               ),
             ),
           ],

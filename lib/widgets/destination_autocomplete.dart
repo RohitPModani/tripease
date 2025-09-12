@@ -46,14 +46,27 @@ class _DestinationAutocompleteState extends State<DestinationAutocomplete> {
   void initState() {
     super.initState();
     _focusNode.addListener(_onFocusChange);
+    // Keep internal selection state in sync with external text changes
+    widget.controller.addListener(_onControllerChanged);
     _loadPopularDestinations();
   }
 
   @override
   void dispose() {
     _debounceTimer?.cancel();
+    widget.controller.removeListener(_onControllerChanged);
     _focusNode.dispose();
     super.dispose();
+  }
+
+  void _onControllerChanged() {
+    // If the parent clears the text, clear selection and suggestions
+    if (widget.controller.text.isEmpty && _selectedLocation != null) {
+      setState(() {
+        _selectedLocation = null;
+        _showSuggestions = false;
+      });
+    }
   }
 
   void _onFocusChange() {
