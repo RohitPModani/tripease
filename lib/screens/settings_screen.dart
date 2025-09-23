@@ -760,10 +760,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       );
 
-      // Clear database
+      // Clear database (do not close the singleton connection to avoid closed-isolate errors)
       final database = AppDatabase();
       await database.clearDatabase();
-      await database.close();
       
       // Clear SharedPreferences
       final prefs = await SharedPreferences.getInstance();

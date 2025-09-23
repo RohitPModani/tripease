@@ -79,7 +79,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
     final filtered = _getFilteredExpenses(expenses);
     final memberProvider = Provider.of<TripMemberProvider>(context, listen: false);
 
-    String _nameForUserId(String userId) {
+    String nameForUserId(String userId) {
       try {
         final m = memberProvider.members.firstWhere((e) => e.id == userId);
         return m.name;
@@ -92,7 +92,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
       if (expense.splits.isNotEmpty) {
         // Distribute according to splits
         for (final split in expense.splits) {
-          final name = _nameForUserId(split.userId);
+          final name = nameForUserId(split.userId);
           personTotals[name] = (personTotals[name] ?? 0) + split.amount;
         }
       } else {

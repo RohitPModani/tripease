@@ -14,6 +14,7 @@ class DestinationAutocomplete extends StatefulWidget {
   final Function(LocationSuggestion?)? onLocationSelected;
   final String? errorText;
   final bool enabled;
+  final List<String>? allowedCountryCodes;
 
   const DestinationAutocomplete({
     super.key,
@@ -23,6 +24,7 @@ class DestinationAutocomplete extends StatefulWidget {
     this.onLocationSelected,
     this.errorText,
     this.enabled = true,
+    this.allowedCountryCodes,
   });
 
   @override
@@ -122,7 +124,10 @@ class _DestinationAutocompleteState extends State<DestinationAutocomplete> {
     });
 
     try {
-      final results = await _locationService.searchLocations(query);
+      final results = await _locationService.searchLocations(
+        query,
+        countryCodes: widget.allowedCountryCodes,
+      );
       if (mounted) {
         setState(() {
           _suggestions = results;
@@ -134,6 +139,8 @@ class _DestinationAutocompleteState extends State<DestinationAutocomplete> {
       print('Error searching locations: $e');
       if (mounted) {
         setState(() {
+          _suggestions = [];
+          _showSuggestions = true;
           _isLoading = false;
         });
       }
@@ -148,6 +155,28 @@ class _DestinationAutocompleteState extends State<DestinationAutocomplete> {
     
     widget.controller.text = location.shortDisplayName;
     widget.onLocationSelected?.call(location);
+    _focusNode.unfocus();
+  }
+
+  void _selectManualEntry() {
+    final inputText = widget.controller.text.trim();
+    if (inputText.isEmpty) return;
+    
+    final manualLocation = LocationSuggestion(
+      displayName: inputText,
+      name: inputText,
+      searchTerms: inputText.toLowerCase(),
+      searchCount: 1,
+      createdAt: DateTime.now(),
+      lastUsed: DateTime.now(),
+    );
+    
+    setState(() {
+      _selectedLocation = manualLocation;
+      _showSuggestions = false;
+    });
+    
+    widget.onLocationSelected?.call(manualLocation);
     _focusNode.unfocus();
   }
 
@@ -218,8 +247,8 @@ class _DestinationAutocompleteState extends State<DestinationAutocomplete> {
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
                 color: _selectedLocation != null 
-                    ? AppTheme.primaryColor.withOpacity(0.5)
-                    : AppTheme.textSecondary.withOpacity(0.3),
+                    ? AppTheme.primaryColor.withValues(alpha: 0.5)
+                    : AppTheme.textSecondary.withValues(alpha: 0.3),
               ),
             ),
             focusedBorder: OutlineInputBorder(
@@ -244,7 +273,10 @@ class _DestinationAutocompleteState extends State<DestinationAutocomplete> {
         ),
 
         // Suggestions dropdown
-        if (_showSuggestions && _suggestions.isNotEmpty && widget.enabled)
+        if (_showSuggestions && widget.enabled && (
+          _suggestions.isNotEmpty || 
+          (widget.controller.text.trim().isNotEmpty && widget.controller.text.trim().length >= _minSearchLength)
+        ))
           Container(
             margin: const EdgeInsets.only(top: 4),
             decoration: BoxDecoration(
@@ -254,7 +286,7 @@ class _DestinationAutocompleteState extends State<DestinationAutocomplete> {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -291,18 +323,68 @@ class _DestinationAutocompleteState extends State<DestinationAutocomplete> {
                 ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _suggestions.length,
+                  itemCount: _suggestions.isNotEmpty 
+                      ? _suggestions.length + (widget.controller.text.trim().isNotEmpty && widget.controller.text.trim().length >= _minSearchLength ? 1 : 0)
+                      : (widget.controller.text.trim().isNotEmpty && widget.controller.text.trim().length >= _minSearchLength ? 1 : 0),
                   separatorBuilder: (context, index) => Divider(
                     height: 1,
-                    color: AppTheme.textSecondary.withOpacity(0.1),
+                    color: AppTheme.textSecondary.withValues(alpha: 0.1),
                   ),
                   itemBuilder: (context, index) {
+                    final hasManualOption = widget.controller.text.trim().isNotEmpty && widget.controller.text.trim().length >= _minSearchLength;
+                    final isManualEntry = hasManualOption && (
+                      (_suggestions.isEmpty && index == 0) || 
+                      (_suggestions.isNotEmpty && index == _suggestions.length)
+                    );
+                    
+                    // Show manual entry option
+                    if (isManualEntry) {
+                      return ListTile(
+                        leading: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Icon(
+                            Iconsax.edit,
+                            size: 16,
+                            color: AppTheme.primaryColor,
+                          ),
+                        ),
+                        title: Text(
+                          'Add "${widget.controller.text.trim()}" manually',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        subtitle: Text(
+                          'Enter location manually (offline mode)',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppTheme.textSecondary,
+                          ),
+                        ),
+                        trailing: Icon(
+                          Iconsax.add_circle,
+                          size: 20,
+                          color: AppTheme.primaryColor,
+                        ),
+                        onTap: _selectManualEntry,
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
+                      );
+                    }
+                    
+                    // Show regular suggestions
                     final suggestion = _suggestions[index];
                     return ListTile(
                       leading: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: AppTheme.primaryColor.withOpacity(0.1),
+                          color: AppTheme.primaryColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
@@ -335,7 +417,7 @@ class _DestinationAutocompleteState extends State<DestinationAutocomplete> {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: AppTheme.primaryColor.withOpacity(0.1),
+                                color: AppTheme.primaryColor.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
@@ -366,10 +448,10 @@ class _DestinationAutocompleteState extends State<DestinationAutocomplete> {
             margin: const EdgeInsets.only(top: 8),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: AppTheme.primaryColor.withOpacity(0.1),
+              color: AppTheme.primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: AppTheme.primaryColor.withOpacity(0.3),
+                color: AppTheme.primaryColor.withValues(alpha: 0.3),
               ),
             ),
             child: Row(

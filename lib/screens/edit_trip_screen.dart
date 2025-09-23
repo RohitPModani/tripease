@@ -48,6 +48,8 @@ class _EditTripScreenState extends State<EditTripScreen> {
   late final FocusNode _destinationFocusNode;
 
   late List<String> _destinations;
+  // Track country codes for selected destinations during this edit session
+  final List<String?> _destinationCountryCodes = [];
   LocationSuggestion? _selectedLocation;
   DateTime? _startDate;
   DateTime? _endDate;
@@ -136,6 +138,8 @@ class _EditTripScreenState extends State<EditTripScreen> {
       }
       setState(() {
         _destinations.add(destination);
+        // Track country code for search restriction when selected from suggestions
+        _destinationCountryCodes.add(_selectedLocation?.countryCode);
         _destinationController.clear();
         destinationCharCount = 0;
         _selectedLocation = null;
@@ -158,7 +162,13 @@ class _EditTripScreenState extends State<EditTripScreen> {
 
   void _removeDestination(String destination) {
     setState(() {
-      _destinations.remove(destination);
+      final idx = _destinations.indexOf(destination);
+      if (idx >= 0) {
+        _destinations.removeAt(idx);
+        if (idx < _destinationCountryCodes.length) {
+          _destinationCountryCodes.removeAt(idx);
+        }
+      }
     });
   }
 
@@ -385,6 +395,13 @@ class _EditTripScreenState extends State<EditTripScreen> {
   }
 
   Widget _buildDestinationsField() {
+    // Derive allowed country codes from already selected destinations during this session
+    final allowedCodes = _destinationCountryCodes
+        .whereType<String>()
+        .map((c) => c.toLowerCase())
+        .toSet()
+        .toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -394,6 +411,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
               child: DestinationAutocomplete(
                 controller: _destinationController,
                 labelText: AppLocalizations.of(context)!.destinations,
+                allowedCountryCodes: allowedCodes.isEmpty ? null : allowedCodes,
                 onLocationSelected: _onLocationSelected,
               ),
             ),

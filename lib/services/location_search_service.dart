@@ -22,7 +22,7 @@ class LocationSearchService {
   /// 1. Search local database first
   /// 2. If insufficient results, fetch from OpenStreetMap
   /// 3. Save new results to database
-  Future<List<LocationSuggestion>> searchLocations(String query) async {
+  Future<List<LocationSuggestion>> searchLocations(String query, {List<String>? countryCodes}) async {
     if (query.length < _minQueryLength) {
       return [];
     }
@@ -31,7 +31,7 @@ class LocationSearchService {
     
     try {
       // Step 1: Search local database
-      final localResults = await _searchLocalDatabase(normalizedQuery);
+      final localResults = await _searchLocalDatabase(normalizedQuery, countryCodes: countryCodes);
       
       // If we have enough local results, return them
       if (localResults.length >= 5) {
@@ -42,7 +42,7 @@ class LocationSearchService {
 
       // Step 2: Search online if we need more results
       print('🌐 Searching online for "$query" (local: ${localResults.length})');
-      final onlineResults = await _searchOpenStreetMap(query);
+      final onlineResults = await _searchOpenStreetMap(query, countryCodes: countryCodes);
       
       // Step 3: Save new results to database
       final newResults = <LocationSuggestion>[];
@@ -75,12 +75,12 @@ class LocationSearchService {
   }
 
   /// Search local database using fuzzy matching
-  Future<List<LocationSuggestion>> _searchLocalDatabase(String query) async {
+  Future<List<LocationSuggestion>> _searchLocalDatabase(String query, {List<String>? countryCodes}) async {
     try {
       final db = _database;
       
       // Search by display name and search terms
-      final results = await (db.select(db.locationsTable)
+      final resultsQuery = (db.select(db.locationsTable)
             ..where((table) => 
               table.displayName.lower().contains(query) |
               table.searchTerms.contains(query) |
@@ -93,8 +93,14 @@ class LocationSearchService {
               (table) => OrderingTerm.desc(table.searchCount),
               (table) => OrderingTerm.desc(table.lastUsed),
             ])
-            ..limit(_maxResults))
-          .get();
+            ..limit(_maxResults));
+
+      if (countryCodes != null && countryCodes.isNotEmpty) {
+        final codesLower = countryCodes.map((c) => c.toLowerCase()).toList();
+        resultsQuery.where((t) => t.countryCode.lower().isIn(codesLower));
+      }
+
+      final results = await resultsQuery.get();
 
       return results.map((entity) => LocationSuggestion.fromEntity(entity)).toList();
     } catch (e) {
@@ -105,12 +111,12 @@ class LocationSearchService {
   }
 
   /// Search OpenStreetMap Nominatim API
-  Future<List<LocationSuggestion>> _searchOpenStreetMap(String query) async {
+  Future<List<LocationSuggestion>> _searchOpenStreetMap(String query, {List<String>? countryCodes}) async {
     // Prefer device locale for result language, fallback to English
     final locale = ui.PlatformDispatcher.instance.locale;
     final acceptLanguage = locale.toLanguageTag().isNotEmpty ? locale.toLanguageTag() : 'en';
 
-    final uri = Uri.parse(_nominatimBaseUrl).replace(queryParameters: {
+    final params = <String, String>{
       'format': 'json',
       'addressdetails': '1',
       'limit': _maxResults.toString(),
@@ -118,7 +124,13 @@ class LocationSearchService {
       'extratags': '1',
       'namedetails': '1',
       'accept-language': acceptLanguage,
-    });
+    };
+
+    if (countryCodes != null && countryCodes.isNotEmpty) {
+      params['countrycodes'] = countryCodes.map((c) => c.toLowerCase()).join(',');
+    }
+
+    final uri = Uri.parse(_nominatimBaseUrl).replace(queryParameters: params);
 
     final response = await http.get(
       uri,

@@ -48,6 +48,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   late final FocusNode _destinationFocusNode;
 
   final List<String> _destinations = [];
+  final List<String?> _destinationCountryCodes = [];
   LocationSuggestion? _selectedLocation;
   DateTime? _startDate;
   DateTime? _endDate;
@@ -87,6 +88,13 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
     descriptionCharCount = _descriptionController.text.length;
     destinationCharCount = _destinationController.text.length;
     
+    // Listen to destination text changes for manual entry button
+    _destinationController.addListener(() {
+      setState(() {
+        destinationCharCount = _destinationController.text.length;
+      });
+    });
+    
     // Initialize location service with common destinations
     _initializeLocationService();
   }
@@ -114,11 +122,22 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   void _addDestination() {
     String destination;
     
-    // Use selected location if available, otherwise use text input
+    // Use selected location if available, otherwise use text input as manual entry
     if (_selectedLocation != null) {
       destination = _selectedLocation!.shortDisplayName;
     } else {
       destination = _destinationController.text.trim();
+      // Create a manual location if user typed but didn't select
+      if (destination.isNotEmpty) {
+        _selectedLocation = LocationSuggestion(
+          displayName: destination,
+          name: destination,
+          searchTerms: destination.toLowerCase(),
+          searchCount: 1,
+          createdAt: DateTime.now(),
+          lastUsed: DateTime.now(),
+        );
+      }
     }
 
     if (destination.isNotEmpty && !_destinations.contains(destination)) {
@@ -131,6 +150,8 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
       }
       setState(() {
         _destinations.add(destination);
+        // Track country code for search restriction
+        _destinationCountryCodes.add(_selectedLocation?.countryCode);
         _destinationController.clear();
         _selectedLocation = null;
         destinationCharCount = 0;
@@ -144,7 +165,13 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
 
   void _removeDestination(String destination) {
     setState(() {
-      _destinations.remove(destination);
+      final idx = _destinations.indexOf(destination);
+      if (idx >= 0) {
+        _destinations.removeAt(idx);
+        if (idx < _destinationCountryCodes.length) {
+          _destinationCountryCodes.removeAt(idx);
+        }
+      }
     });
   }
 
@@ -376,6 +403,13 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
   }
 
   Widget _buildDestinationsField() {
+    // Derive allowed country codes from already selected destinations
+    final allowedCodes = _destinationCountryCodes
+        .whereType<String>()
+        .map((c) => c.toLowerCase())
+        .toSet()
+        .toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -386,6 +420,7 @@ class _CreateTripScreenState extends State<CreateTripScreen> {
                 controller: _destinationController,
                 labelText: AppLocalizations.of(context)!.destinations,
                 hintText: 'Search destinations...',
+                allowedCountryCodes: allowedCodes.isEmpty ? null : allowedCodes,
                 onLocationSelected: (location) {
                   setState(() {
                     _selectedLocation = location;
